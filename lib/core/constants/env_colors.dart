@@ -18,6 +18,7 @@ class EnvColors {
   static Color appBackgroundColor = const Color.fromARGB(255, 255, 237, 232);
   static Color darkBackgroundColor = const Color.fromARGB(255, 0, 0, 0);
   static Color darkColor = const Color.fromARGB(255, 0, 0, 0);
+  static Color mildLightColor = Color.fromARGB(255, 214, 214, 214);
   static const MaterialColor errorColor = MaterialColor(
     _errorColorValue,
     <int, Color>{
@@ -35,7 +36,7 @@ class EnvColors {
   );
 
   static Color lightColor = const Color(0xffffffff);
-  static const Color mildGrey = Color(0xfff7f7f7);
+  static const Color mildGrey = Color.fromARGB(255, 51, 50, 50);
   static const MaterialColor primaryColor =
       MaterialColor(_primaryColorValue, <int, Color>{
     50: Color(0xFFFFF3E0),

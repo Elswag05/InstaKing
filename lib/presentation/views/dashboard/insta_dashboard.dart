@@ -15,13 +15,13 @@ class InstaDashBoard extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final dashboardVM = ref.watch(dashBoardControllerProvider);
     return Scaffold(
-      backgroundColor: EnvColors.appBackgroundColor,
+      backgroundColor: EnvColors.lightColor,
       bottomNavigationBar: BottomNavigationBar(
         elevation: 10.h,
         showUnselectedLabels: true,
         currentIndex: dashboardVM.page,
         type: BottomNavigationBarType.fixed,
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        backgroundColor: EnvColors.lightColor,
         selectedFontSize: 12.sp,
         selectedLabelStyle: const TextStyle(
           fontFamily: 'Montserrat',
