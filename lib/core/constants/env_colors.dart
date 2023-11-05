@@ -16,6 +16,13 @@ class EnvColors {
   EnvColors._();
 
   static Color appBackgroundColor = const Color.fromARGB(255, 255, 237, 232);
+  static List<Color> containerGradient = const [
+    Color.fromARGB(100, 255, 153, 0),
+    Color.fromARGB(120, 255, 172, 64),
+    Color.fromARGB(140, 255, 172, 64),
+    Color.fromARGB(120, 244, 67, 54),
+    //add more colors for gradient
+  ];
   static Color darkBackgroundColor = const Color.fromARGB(255, 0, 0, 0);
   static Color darkColor = const Color.fromARGB(255, 0, 0, 0);
   static Color mildLightColor = Color.fromARGB(255, 214, 214, 214);

@@ -6,9 +6,11 @@ class InstaProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: EnvColors.appBackgroundColor,
-      body: const Center(child: Text('Profile Page')),
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: EnvColors.appBackgroundColor,
+        body: const Center(child: Text('Profile Page')),
+      ),
     );
   }
 }

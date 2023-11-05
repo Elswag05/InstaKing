@@ -74,8 +74,7 @@ class ShortcutsTheWidget extends StatelessWidget {
                   shortcutText: 'Bill Payment',
                 ),
               ],
-            ).afmPadding(
-                EdgeInsets.only(top: 20.sp, left: 25.sp, right: 25.sp)),
+            ).afmPadding(EdgeInsets.only(top: 20.sp, right: 25.sp)),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -94,8 +93,7 @@ class ShortcutsTheWidget extends StatelessWidget {
                   height: 40.sp,
                 ),
               ],
-            ).afmPadding(
-                EdgeInsets.only(top: 20.sp, left: 25.sp, right: 25.sp)),
+            ).afmPadding(EdgeInsets.only(top: 20.sp, right: 25.sp)),
           ],
         )
       ],

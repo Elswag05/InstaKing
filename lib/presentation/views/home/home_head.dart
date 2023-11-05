@@ -39,7 +39,7 @@ class HomeHeaderWidget extends StatelessWidget {
                     color: EnvColors.darkColor,
                     fontWeight: FontWeight.bold,
                   ),
-                ).afmPadding(EdgeInsets.only(bottom: 6.h)),
+                ),
                 Text(
                   'Welcome Back',
                   style: TextStyle(
