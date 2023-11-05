@@ -124,7 +124,7 @@ class HomeCardList extends StatelessWidget {
               child: Container(
                 color: Colors.transparent,
                 height: 150.h,
-                child: Center(child: Text('sn')),
+                child: const Center(child: Text('sn')),
               ),
             ),
           )

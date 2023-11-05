@@ -25,7 +25,7 @@ class EnvColors {
   ];
   static Color darkBackgroundColor = const Color.fromARGB(255, 0, 0, 0);
   static Color darkColor = const Color.fromARGB(255, 0, 0, 0);
-  static Color mildLightColor = Color.fromARGB(255, 214, 214, 214);
+  static Color mildLightColor = const Color.fromARGB(255, 214, 214, 214);
   static const MaterialColor errorColor = MaterialColor(
     _errorColorValue,
     <int, Color>{
