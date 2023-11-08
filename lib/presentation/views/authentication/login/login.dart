@@ -3,7 +3,6 @@ import 'package:insta_king/presentation/views/authentication/auth_shared/base_au
 import 'package:insta_king/presentation/views/authentication/auth_shared/text_form.dart';
 import 'package:insta_king/presentation/views/authentication/signup/sign_up.dart';
 import 'package:insta_king/presentation/views/dashboard/insta_dashboard.dart';
-import 'package:insta_king/presentation/views/home/insta_home.dart';
 
 class InstaLogin extends StatelessWidget {
   const InstaLogin({Key? key}) : super(key: key);
