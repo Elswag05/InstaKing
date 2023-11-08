@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:insta_king/presentation/views/authentication/auth_shared/base_auth_view.dart';
 import 'package:insta_king/presentation/views/authentication/auth_shared/text_form.dart';
 import 'package:insta_king/presentation/views/authentication/signup/sign_up.dart';
+import 'package:insta_king/presentation/views/dashboard/insta_dashboard.dart';
+import 'package:insta_king/presentation/views/home/insta_home.dart';
 
 class InstaLogin extends StatelessWidget {
   const InstaLogin({Key? key}) : super(key: key);
@@ -19,6 +21,11 @@ class InstaLogin extends StatelessWidget {
       toGoToInversePage: () {
         Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => const SignUp(),
+        ));
+      },
+      toSignOrLogin: () {
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => const InstaDashBoard(),
         ));
       },
       anyWidget: const AuthTextField(

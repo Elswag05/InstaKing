@@ -121,10 +121,82 @@ class HomeCardList extends StatelessWidget {
                 sigmaX: 1,
                 sigmaY: 1,
               ),
-              child: Container(
-                color: Colors.transparent,
-                height: 150.h,
-                child: const Center(child: Text('sn')),
+              child: Center(
+                child: Container(
+                  color: Colors.transparent,
+                  height: 150.h,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Text(
+                        'Refer & Earn',
+                        style: TextStyle(
+                          color: EnvColors.mildGrey,
+                          fontFamily: 'Montesserat',
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        'Invite your friends and earn a commission for all their transactions on InstaKing.',
+                        style: TextStyle(
+                          color: EnvColors.mildGrey,
+                          fontFamily: 'Montesserat',
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      Stack(
+                        children: [
+                          Container(
+                            width: double.infinity - 20.w,
+                            height: 30.h,
+                            decoration: BoxDecoration(
+                              color: EnvColors.mildGrey,
+                              borderRadius: BorderRadius.circular(25.r),
+                            ),
+                          ),
+                          Container(
+                            width: 240.w,
+                            height: 30.h,
+                            decoration: BoxDecoration(
+                              color: EnvColors.lightColor,
+                            ),
+                            child: TextFormField(
+                              style: TextStyle(
+                                fontSize: 13.sp,
+                              ),
+                              decoration: InputDecoration(
+                                contentPadding:
+                                    EdgeInsets.only(bottom: 5.h, left: 12.w),
+                                hintText:
+                                    'www.affiliate.instaking.store/affiliate',
+                                hintStyle: TextStyle(
+                                  fontFamily: 'Montesserat',
+                                  fontSize: 13.sp,
+                                  color: EnvColors.mildGrey,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          ).afmBorderRadius(BorderRadius.only(
+                              bottomLeft: Radius.circular(25.r),
+                              topLeft: Radius.circular(25.r))),
+                          Positioned(
+                            top: 7.h,
+                            right: 13.w,
+                            child: Icon(
+                              Icons.content_copy_outlined,
+                              size: 20.sp,
+                              color: EnvColors.lightColor,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ).afmPadding(EdgeInsets.all(20.sp)),
+                ),
               ),
             ),
           )

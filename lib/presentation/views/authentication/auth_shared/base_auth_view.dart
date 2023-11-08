@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insta_king/core/constants/env_colors.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
+import 'package:insta_king/presentation/views/shared_widgets/cta_button.dart';
 
 class BaseAuthView extends StatelessWidget {
   final String pageName;
@@ -137,27 +138,9 @@ class BaseAuthView extends StatelessWidget {
           // SizedBox(
           //   height: 40.h,
           // ),
-          GestureDetector(
-            onTap: toSignOrLogin,
-            child: Container(
-              height: 45.h,
-              width: MediaQuery.of(context).size.width - 40.w,
-              decoration: BoxDecoration(
-                color: EnvColors.primaryColor[900],
-                borderRadius: BorderRadius.circular(10.r),
-              ),
-              child: Text(
-                pageCTA,
-                style: TextStyle(
-                  fontFamily: 'Montesserat',
-                  color: EnvColors.lightColor,
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w600,
-                ),
-              ).afmCenter,
-            ).afmBorderRadius(
-              BorderRadius.circular(10.r),
-            ),
+          CustomButton(
+            pageCTA: pageCTA,
+            toSignOrLogin: toSignOrLogin,
           ),
           SizedBox(
             height: 10.h,
