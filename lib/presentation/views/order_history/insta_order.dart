@@ -45,12 +45,14 @@ class _InstaOrderHistoryState extends State<InstaOrderHistory>
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: EnvColors.appBackgroundColor,
-        body: Column(
+    return Scaffold(
+      backgroundColor: EnvColors.appBackgroundColor,
+      body: SafeArea(
+        child: Column(
           children: [
-            const OrderAppBar().afmPadding(
+            const OrderAppBar(
+              text: 'Orders',
+            ).afmPadding(
               EdgeInsets.only(left: 20.sp, right: 20.sp, bottom: 20.sp),
             ),
             Container(

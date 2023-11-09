@@ -37,3 +37,57 @@ class RecurringAppBar extends StatelessWidget {
     );
   }
 }
+
+class SharedDropDown extends StatelessWidget {
+  final String text;
+  final String hintText;
+  const SharedDropDown({super.key, required this.text, required this.hintText});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          text,
+          style: TextStyle(
+            fontFamily: 'Montesserat',
+            fontSize: 16.sp,
+            color: EnvColors.darkColor,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        Container(
+          height: 40.h,
+          decoration: BoxDecoration(
+            color: EnvColors.lightColor,
+            border: Border.all(
+              color: EnvColors.darkColor.withOpacity(0.5),
+              width: 1.sp,
+            ),
+            borderRadius: BorderRadius.circular(10.r),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                hintText,
+                style: TextStyle(
+                  fontFamily: 'Montesserat',
+                  fontSize: 13.sp,
+                  color: EnvColors.darkColor.withOpacity(0.5),
+                  fontWeight: FontWeight.w500,
+                ),
+              ).afmPadding(EdgeInsets.only(left: 10.w)),
+              Icon(
+                Icons.keyboard_arrow_down_rounded,
+                size: 20.sp,
+                color: EnvColors.darkColor.withOpacity(0.5),
+              ).afmPadding(EdgeInsets.only(right: 6.h)),
+            ],
+          ),
+        ).afmPadding(EdgeInsets.only(top: 10.sp, bottom: 10.sp)),
+      ],
+    );
+  }
+}

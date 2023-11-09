@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insta_king/core/constants/env_assets.dart';
 import 'package:insta_king/core/constants/env_colors.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
+import 'package:insta_king/presentation/views/order_history/place_order.dart';
 
 class HomeColumn extends StatelessWidget {
   final String shortcutIcon;
@@ -21,8 +22,13 @@ class HomeColumn extends StatelessWidget {
       onTap: onTap,
       child: Column(
         children: [
-          Image.asset(EnvAssets.getIconPath(shortcutIcon),
-              width: 40.w, height: 40.h, color: EnvColors.primaryColor),
+          ImageIcon(
+            AssetImage(
+              EnvAssets.getIconPath(shortcutIcon),
+            ),
+            size: 40.sp,
+            color: EnvColors.primaryColor,
+          ),
           Text(
             shortcutText,
             style: TextStyle(
@@ -56,20 +62,29 @@ class ShortcutsTheWidget extends StatelessWidget {
         ),
         Column(
           children: [
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 HomeColumn(
-                  shortcutIcon: 'buy',
+                  shortcutIcon: 'trolley',
                   shortcutText: 'New Order',
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const PlaceOrder(),
+                      ),
+                    );
+                  },
                 ),
                 HomeColumn(
                   shortcutIcon: 'piggybank',
                   shortcutText: 'Fund Wallet',
+                  onTap: () {},
                 ),
                 HomeColumn(
                   shortcutIcon: 'save-money',
                   shortcutText: 'Bill Payment',
+                  onTap: () {},
                 ),
               ],
             ).afmPadding(EdgeInsets.only(top: 20.sp, right: 25.sp)),
@@ -82,7 +97,7 @@ class ShortcutsTheWidget extends StatelessWidget {
                   onTap: () {},
                 ),
                 HomeColumn(
-                  shortcutIcon: 'referral',
+                  shortcutIcon: 'giftbox',
                   shortcutText: 'Refer And Earn',
                   onTap: () {},
                 ),

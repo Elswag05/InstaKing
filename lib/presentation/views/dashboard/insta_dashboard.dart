@@ -64,7 +64,7 @@ class InstaDashboard extends HookConsumerWidget {
           ),
           buildBottomNavigationBarItem(
             ref,
-            iconPath: 'user (1)',
+            iconPath: 'user',
             label: 'Profile',
             index: 3,
           ),

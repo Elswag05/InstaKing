@@ -4,7 +4,8 @@ import 'package:insta_king/core/constants/env_assets.dart';
 import 'package:insta_king/core/constants/env_colors.dart';
 
 class OrderAppBar extends StatelessWidget {
-  const OrderAppBar({super.key});
+  final String text;
+  const OrderAppBar({super.key, required this.text});
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +13,7 @@ class OrderAppBar extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          'Orders',
+          text,
           style: TextStyle(
             fontFamily: 'Montesserat',
             fontSize: 20.sp,
