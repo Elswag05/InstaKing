@@ -4,6 +4,7 @@ import 'package:insta_king/core/constants/env_assets.dart';
 import 'package:insta_king/core/constants/env_colors.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
 import 'package:insta_king/presentation/views/order_history/place_order.dart';
+import 'package:insta_king/presentation/views/wallet/add_funds/insta_add_funds.dart';
 
 class HomeColumn extends StatelessWidget {
   final String shortcutIcon;
@@ -79,7 +80,13 @@ class ShortcutsTheWidget extends StatelessWidget {
                 HomeColumn(
                   shortcutIcon: 'piggybank',
                   shortcutText: 'Fund Wallet',
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const AddFunds(),
+                      ),
+                    );
+                  },
                 ),
                 HomeColumn(
                   shortcutIcon: 'save-money',

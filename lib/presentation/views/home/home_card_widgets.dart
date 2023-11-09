@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insta_king/core/constants/env_colors.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
 import 'package:insta_king/presentation/views/home/home_container_widget.dart';
+import 'package:insta_king/presentation/views/shared_widgets/small_cta.dart';
 
 class HomeCardBalance extends StatelessWidget {
   final String balanceString;
@@ -82,21 +83,8 @@ class HomeCardList extends StatelessWidget {
                       )
                     ],
                   ),
-                  Container(
-                    height: 25.h,
-                    width: 90.w,
-                    color: EnvColors.primaryColor,
-                    child: Center(
-                      child: Text(
-                        'Fund Wallet',
-                        style: TextStyle(
-                          color: EnvColors.lightColor,
-                          fontFamily: 'Montesserat',
-                          fontSize: 11.sp,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
+                  const SmallCTA(
+                    text: 'Fund Wallet',
                   )
                       .afmBorderRadius(BorderRadius.circular(6.r))
                       .afmPadding(EdgeInsets.only(top: 23.h)),

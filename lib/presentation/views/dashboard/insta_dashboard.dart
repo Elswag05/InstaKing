@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:insta_king/core/constants/constants.dart';
 import 'package:insta_king/presentation/controllers/insta_dashboard_controller.dart';
-import 'package:insta_king/presentation/views/add_funds/add_insta_funds.dart';
+import 'package:insta_king/presentation/views/wallet/insta_wallet.dart';
 import 'package:insta_king/presentation/views/dashboard/bottom_navigation_bar_item.dart';
 import 'package:insta_king/presentation/views/home/insta_home.dart';
 import 'package:insta_king/presentation/views/order_history/insta_order.dart';

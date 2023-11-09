@@ -42,7 +42,7 @@ class EnvColors {
     },
   );
 
-  static Color lightColor = const Color(0xffffffff);
+  static const Color lightColor = Color(0xffffffff);
   static const Color mildGrey = Color.fromARGB(255, 51, 50, 50);
   static const MaterialColor primaryColor =
       MaterialColor(_primaryColorValue, <int, Color>{
