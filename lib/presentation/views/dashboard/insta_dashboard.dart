@@ -4,22 +4,25 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:insta_king/core/constants/constants.dart';
 import 'package:insta_king/presentation/controllers/insta_dashboard_controller.dart';
 import 'package:insta_king/presentation/views/add_funds/add_insta_funds.dart';
+import 'package:insta_king/presentation/views/dashboard/bottom_navigation_bar_item.dart';
 import 'package:insta_king/presentation/views/home/insta_home.dart';
 import 'package:insta_king/presentation/views/order_history/insta_order.dart';
 import 'package:insta_king/presentation/views/profile/insta_profile.dart';
 
-class InstaDashBoard extends HookConsumerWidget {
-  const InstaDashBoard({Key? key}) : super(key: key);
+class InstaDashboard extends HookConsumerWidget {
+  const InstaDashboard({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final dashboardVM = ref.watch(dashBoardControllerProvider);
+    final dashboardController = ref.watch(dashBoardControllerProvider);
+    final selectedPageIndex = dashboardController.page;
+
     return Scaffold(
       backgroundColor: EnvColors.lightColor,
       bottomNavigationBar: BottomNavigationBar(
         elevation: 10.h,
         showUnselectedLabels: true,
-        currentIndex: dashboardVM.page,
+        currentIndex: selectedPageIndex,
         type: BottomNavigationBarType.fixed,
         backgroundColor: EnvColors.lightColor,
         selectedFontSize: 12.sp,
@@ -37,30 +40,33 @@ class InstaDashBoard extends HookConsumerWidget {
           size: 30.sp,
           color: EnvColors.primaryColor, // Color for selected icons
         ),
-        onTap: (value) =>
-            ref.read(dashBoardControllerProvider.notifier).switchPage(value),
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home_rounded),
-            // Image.asset(
-            //   EnvAssets.getIconPath('house'),
-            //   width: 30.w,
-            //   height: 30.h,
-            //   color: EnvColors.darkColor, // Color for unselected icons
-            // ),
+        onTap: (value) {
+          ref.read(dashBoardControllerProvider.notifier).switchPage(value);
+        },
+        items: [
+          buildBottomNavigationBarItem(
+            ref,
+            iconPath: 'home',
             label: 'Home',
+            index: 0,
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.storefront_outlined),
+          buildBottomNavigationBarItem(
+            ref,
+            iconPath: 'bag',
             label: 'Order History',
+            index: 1,
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.wallet),
+          buildBottomNavigationBarItem(
+            ref,
+            iconPath: 'wallet',
             label: 'Wallet',
+            index: 2,
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
+          buildBottomNavigationBarItem(
+            ref,
+            iconPath: 'user (1)',
             label: 'Profile',
+            index: 3,
           ),
         ],
       ),
@@ -69,7 +75,7 @@ class InstaDashBoard extends HookConsumerWidget {
         const InstaOrderHistory(),
         const InstaWallet(),
         const InstaProfile(),
-      ][dashboardVM.page],
+      ][selectedPageIndex],
     );
   }
 }

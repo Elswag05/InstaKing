@@ -24,7 +24,7 @@ class InstaLogin extends StatelessWidget {
       },
       toSignOrLogin: () {
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => const InstaDashBoard(),
+          builder: (context) => const InstaDashboard(),
         ));
       },
       anyWidget: const AuthTextField(

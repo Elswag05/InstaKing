@@ -154,7 +154,7 @@ class HomeCardList extends StatelessWidget {
                             height: 30.h,
                             decoration: BoxDecoration(
                               color: EnvColors.mildGrey,
-                              borderRadius: BorderRadius.circular(25.r),
+                              borderRadius: BorderRadius.circular(15.r),
                             ),
                           ),
                           Container(
@@ -163,26 +163,19 @@ class HomeCardList extends StatelessWidget {
                             decoration: BoxDecoration(
                               color: EnvColors.lightColor,
                             ),
-                            child: TextFormField(
-                              style: TextStyle(
-                                fontSize: 13.sp,
-                              ),
-                              decoration: InputDecoration(
-                                contentPadding:
-                                    EdgeInsets.only(bottom: 5.h, left: 12.w),
-                                hintText:
-                                    'www.affiliate.instaking.store/affiliate',
-                                hintStyle: TextStyle(
-                                  fontFamily: 'Montesserat',
-                                  fontSize: 13.sp,
-                                  color: EnvColors.mildGrey,
-                                  fontWeight: FontWeight.w500,
+                            child: Center(
+                              child: Text(
+                                'www.affiliate.instaking.store/affiliate',
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 15.sp,
+                                  fontWeight: FontWeight.w400,
                                 ),
                               ),
-                            ),
+                            ).afmPadding(EdgeInsets.only(left: 5.w)),
                           ).afmBorderRadius(BorderRadius.only(
-                              bottomLeft: Radius.circular(25.r),
-                              topLeft: Radius.circular(25.r))),
+                              bottomLeft: Radius.circular(15.r),
+                              topLeft: Radius.circular(15.r))),
                           Positioned(
                             top: 7.h,
                             right: 13.w,

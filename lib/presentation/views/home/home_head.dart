@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:insta_king/core/constants/env_assets.dart';
 import 'package:insta_king/core/constants/env_colors.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
 
@@ -55,9 +56,11 @@ class HomeHeaderWidget extends StatelessWidget {
         ),
         GestureDetector(
           onTap: onNotificationsTap,
-          child: Icon(
-            Icons.notification_important_outlined,
-            size: 30.sp,
+          child: Image.asset(
+            EnvAssets.getIconPath('bell'),
+            width: 30.w,
+            height: 30.h,
+            color: EnvColors.darkColor,
           ).afmPadding(EdgeInsets.only(right: 6.h)),
         ),
       ],

@@ -8,17 +8,17 @@ class OrderChips extends StatelessWidget {
   final void Function(bool)? onSelected;
   final String label;
   const OrderChips(
-      {super.key,
+      {Key? key,
       required this.isSelected,
       this.onSelected,
-      required this.label});
+      required this.label})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return FilterChip(
       selected: isSelected,
       onSelected: onSelected,
-
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.r),
       ),

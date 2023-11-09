@@ -20,7 +20,10 @@ class _InstaOrderHistoryState extends State<InstaOrderHistory>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   late int _selectedIndex = 0;
-  bool _isSelected = false;
+  bool _isAllSelected = false;
+  bool _isPendingSelected = false;
+  bool _isRunningSelected = false;
+  bool _isInProgressSelected = false;
 
   @override
   void initState() {
@@ -111,33 +114,34 @@ class _InstaOrderHistoryState extends State<InstaOrderHistory>
                   Row(
                     children: [
                       OrderChips(
-                        isSelected: _isSelected,
-                        onSelected: (_) {
-                          _isSelected = _;
+                        key: Key('one'),
+                        isSelected: _isAllSelected,
+                        onSelected: (_one) {
+                          _isAllSelected = _one;
                           setState(() {});
                         },
                         label: 'All',
                       ),
                       OrderChips(
-                        isSelected: _isSelected,
+                        isSelected: _isPendingSelected,
                         onSelected: (_) {
-                          _isSelected = _;
+                          _isPendingSelected = _;
                           setState(() {});
                         },
                         label: 'Pending',
                       ),
                       OrderChips(
-                        isSelected: _isSelected,
+                        isSelected: _isRunningSelected,
                         onSelected: (_) {
-                          _isSelected = _;
+                          _isRunningSelected = _;
                           setState(() {});
                         },
                         label: 'Running',
                       ),
                       OrderChips(
-                        isSelected: _isSelected,
+                        isSelected: _isInProgressSelected,
                         onSelected: (_) {
-                          _isSelected = _;
+                          _isInProgressSelected = _;
                           setState(() {});
                         },
                         label: 'In Progress',

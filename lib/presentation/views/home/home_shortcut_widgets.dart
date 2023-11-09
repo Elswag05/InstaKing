@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:insta_king/core/constants/env_assets.dart';
 import 'package:insta_king/core/constants/env_colors.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
 
 class HomeColumn extends StatelessWidget {
-  final IconData shortcutIcon;
+  final String shortcutIcon;
   final String shortcutText;
   final void Function()? onTap;
   const HomeColumn({
@@ -20,11 +21,8 @@ class HomeColumn extends StatelessWidget {
       onTap: onTap,
       child: Column(
         children: [
-          Icon(
-            shortcutIcon,
-            size: 40.sp,
-            color: EnvColors.primaryColor,
-          ),
+          Image.asset(EnvAssets.getIconPath(shortcutIcon),
+              width: 40.w, height: 40.h, color: EnvColors.primaryColor),
           Text(
             shortcutText,
             style: TextStyle(
@@ -62,15 +60,15 @@ class ShortcutsTheWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 HomeColumn(
-                  shortcutIcon: Icons.shopping_bag_rounded,
+                  shortcutIcon: 'buy',
                   shortcutText: 'New Order',
                 ),
                 HomeColumn(
-                  shortcutIcon: Icons.wallet_giftcard,
+                  shortcutIcon: 'piggybank',
                   shortcutText: 'Fund Wallet',
                 ),
                 HomeColumn(
-                  shortcutIcon: Icons.wifi,
+                  shortcutIcon: 'save-money',
                   shortcutText: 'Bill Payment',
                 ),
               ],
@@ -79,12 +77,12 @@ class ShortcutsTheWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 HomeColumn(
-                  shortcutIcon: Icons.transform,
+                  shortcutIcon: 'money-transfer',
                   shortcutText: 'Transactions',
                   onTap: () {},
                 ),
                 HomeColumn(
-                  shortcutIcon: Icons.contact_emergency,
+                  shortcutIcon: 'referral',
                   shortcutText: 'Refer And Earn',
                   onTap: () {},
                 ),
