@@ -6,7 +6,6 @@ import 'package:insta_king/presentation/views/order_history/order_appBar.dart';
 import 'package:insta_king/presentation/views/order_history/order_tabs/drip_feed.dart';
 import 'package:insta_king/presentation/views/order_history/order_tabs/main_order_tabs.dart';
 import 'package:insta_king/presentation/views/order_history/order_tabs/my_orders_view.dart';
-import 'package:insta_king/presentation/views/order_history/order_tabs/order_widgets.dart';
 import 'package:insta_king/presentation/views/order_history/order_tabs/subscriptions.dart';
 
 class InstaOrderHistory extends StatefulWidget {
@@ -19,11 +18,14 @@ class InstaOrderHistory extends StatefulWidget {
 class _InstaOrderHistoryState extends State<InstaOrderHistory>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  late int _selectedIndex = 0;
+  // late int _selectedIndex = 0;
   bool _isAllSelected = false;
   bool _isPendingSelected = false;
   bool _isRunningSelected = false;
   bool _isInProgressSelected = false;
+  bool _isCompletedSelected = false;
+  bool _isPartialDoneSelected = false;
+  bool _isCancelledSelected = false;
 
   @override
   void initState() {
@@ -31,7 +33,7 @@ class _InstaOrderHistoryState extends State<InstaOrderHistory>
     _tabController = TabController(length: 3, vsync: this);
     _tabController.addListener(() {
       setState(() {
-        _selectedIndex = _tabController.index;
+        // _selectedIndex = _tabController.index;
       });
       print("Selected Index: " + _tabController.index.toString());
     });
@@ -53,60 +55,8 @@ class _InstaOrderHistoryState extends State<InstaOrderHistory>
             const OrderAppBar(
               text: 'Orders',
             ).afmPadding(
-              EdgeInsets.only(left: 20.sp, right: 20.sp, bottom: 20.sp),
+              EdgeInsets.only(left: 20.sp, right: 20.sp),
             ),
-            Container(
-              color: EnvColors.lightColor,
-              child: TabBar(
-                isScrollable: true,
-                padding: EdgeInsets.all(8.sp),
-                indicator: CustomTabIndicator(),
-                controller: _tabController,
-                tabs: [
-                  Tab(
-                    child: Text(
-                      'My Orders',
-                      style: TextStyle(
-                        fontFamily: 'Montesserat',
-                        fontSize: 13.sp,
-                        color: _selectedIndex == 0
-                            ? EnvColors.lightColor
-                            : EnvColors.darkColor,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  Tab(
-                    child: Text(
-                      'Drip Feed',
-                      style: TextStyle(
-                        fontFamily: 'Montesserat',
-                        fontSize: 13.sp,
-                        color: _selectedIndex == 1
-                            ? EnvColors.lightColor
-                            : EnvColors.darkColor,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  Tab(
-                    child: Text(
-                      'Subscriptions',
-                      style: TextStyle(
-                        fontFamily: 'Montesserat',
-                        fontSize: 13.sp,
-                        color: _selectedIndex == 2
-                            ? EnvColors.lightColor
-                            : EnvColors.darkColor,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            )
-                .afmBorderRadius(BorderRadius.circular(10.r))
-                .afmPadding(EdgeInsets.symmetric(horizontal: 20.sp)),
             SizedBox(
               height: 50.h,
               width: double.infinity,
@@ -116,37 +66,68 @@ class _InstaOrderHistoryState extends State<InstaOrderHistory>
                   Row(
                     children: [
                       OrderChips(
-                        key: Key('one'),
+                        key: const Key('one'),
+                        icon: Icons.filter_alt,
                         isSelected: _isAllSelected,
-                        onSelected: (_one) {
-                          _isAllSelected = _one;
+                        onSelected: (one) {
+                          _isAllSelected = one;
                           setState(() {});
                         },
-                        label: 'All',
+                        label: 'All Orders',
                       ),
                       OrderChips(
+                        icon: Icons.file_open_rounded,
                         isSelected: _isPendingSelected,
                         onSelected: (_) {
                           _isPendingSelected = _;
                           setState(() {});
                         },
-                        label: 'Pending',
+                        label: 'Order Received',
                       ),
                       OrderChips(
+                        icon: Icons.change_circle_outlined,
                         isSelected: _isRunningSelected,
                         onSelected: (_) {
                           _isRunningSelected = _;
                           setState(() {});
                         },
-                        label: 'Running',
+                        label: 'In Progress',
                       ),
                       OrderChips(
+                        icon: Icons.done,
+                        isSelected: _isCompletedSelected,
+                        onSelected: (_) {
+                          _isCompletedSelected = _;
+                          setState(() {});
+                        },
+                        label: 'Completed',
+                      ),
+                      OrderChips(
+                        icon: Icons.timelapse_rounded,
+                        isSelected: _isPartialDoneSelected,
+                        onSelected: (_) {
+                          _isPartialDoneSelected = _;
+                          setState(() {});
+                        },
+                        label: 'Partially Completed',
+                      ),
+                      OrderChips(
+                        icon: Icons.download,
                         isSelected: _isInProgressSelected,
                         onSelected: (_) {
                           _isInProgressSelected = _;
                           setState(() {});
                         },
-                        label: 'In Progress',
+                        label: 'Processing',
+                      ),
+                      OrderChips(
+                        icon: Icons.cancel,
+                        isSelected: _isCancelledSelected,
+                        onSelected: (_) {
+                          _isCancelledSelected = _;
+                          setState(() {});
+                        },
+                        label: 'Cancelled',
                       ),
                     ],
                   ).afmPadding(
@@ -154,24 +135,78 @@ class _InstaOrderHistoryState extends State<InstaOrderHistory>
                 ],
               ),
             ),
-            SizedBox(
-              width: double.infinity,
-              height: 500.h,
-              child: TabBarView(
-                controller: _tabController,
-                children: const [
-                  MyOrder(),
-                  DripFeed(),
-                  Subscriptions(),
-                ],
-              ),
-            )
-                .afmPadding(
-                    EdgeInsets.only(top: 20.sp, left: 20.sp, right: 20.sp))
-                .afmNeverScroll,
+            // SizedBox(
+            //   width: double.infinity,
+            //   height: 500.h,
+            //   child: TabBarView(
+            //     controller: _tabController,
+            //     children: const [
+            //       // MyOrder(),
+            //       // DripFeed(),
+            //       Subscriptions(),
+            //     ],
+            //   ),
+            // )
+            //     .afmPadding(
+            //         EdgeInsets.only(top: 20.sp, left: 20.sp, right: 20.sp))
+            //     .afmNeverScroll,
           ],
         ).afmNeverScroll,
       ),
     );
   }
 }
+
+
+  // Container(
+  //             color: EnvColors.lightColor,
+  //             child: TabBar(
+  //               isScrollable: true,
+  //               padding: EdgeInsets.all(8.sp),
+  //               indicator: CustomTabIndicator(),
+  //               controller: _tabController,
+  //               tabs: [
+  //                 Tab(
+  //                   child: Text(
+  //                     'My Orders',
+  //                     style: TextStyle(
+  //                       fontFamily: 'Montesserat',
+  //                       fontSize: 13.sp,
+  //                       color: _selectedIndex == 0
+  //                           ? EnvColors.lightColor
+  //                           : EnvColors.darkColor,
+  //                       fontWeight: FontWeight.bold,
+  //                     ),
+  //                   ),
+  //                 ),
+  //                 Tab(
+  //                   child: Text(
+  //                     'Drip Feed',
+  //                     style: TextStyle(
+  //                       fontFamily: 'Montesserat',
+  //                       fontSize: 13.sp,
+  //                       color: _selectedIndex == 1
+  //                           ? EnvColors.lightColor
+  //                           : EnvColors.darkColor,
+  //                       fontWeight: FontWeight.bold,
+  //                     ),
+  //                   ),
+  //                 ),
+  //                 Tab(
+  //                   child: Text(
+  //                     'Subscriptions',
+  //                     style: TextStyle(
+  //                       fontFamily: 'Montesserat',
+  //                       fontSize: 13.sp,
+  //                       color: _selectedIndex == 2
+  //                           ? EnvColors.lightColor
+  //                           : EnvColors.darkColor,
+  //                       fontWeight: FontWeight.bold,
+  //                     ),
+  //                   ),
+  //                 ),
+  //               ],
+  //             ),
+  //           )
+  //               .afmBorderRadius(BorderRadius.circular(10.r))
+  //               .afmPadding(EdgeInsets.symmetric(horizontal: 20.sp)),

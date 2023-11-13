@@ -54,15 +54,15 @@ class HomeHeaderWidget extends StatelessWidget {
             ).afmPadding(EdgeInsets.only(left: 6.h)),
           ],
         ),
-        GestureDetector(
-          onTap: onNotificationsTap,
-          child: Image.asset(
-            EnvAssets.getIconPath('bell'),
-            width: 30.w,
-            height: 30.h,
-            color: EnvColors.darkColor,
-          ).afmPadding(EdgeInsets.only(right: 6.h)),
-        ),
+        // GestureDetector(
+        //   onTap: onNotificationsTap,
+        //   child: Image.asset(
+        //     EnvAssets.getIconPath('bell'),
+        //     width: 30.w,
+        //     height: 30.h,
+        //     color: EnvColors.darkColor,
+        //   ).afmPadding(EdgeInsets.only(right: 6.h)),
+        // ),
       ],
     );
   }

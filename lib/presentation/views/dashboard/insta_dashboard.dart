@@ -46,25 +46,25 @@ class InstaDashboard extends HookConsumerWidget {
         items: [
           buildBottomNavigationBarItem(
             ref,
-            iconPath: 'home',
+            iconPath: 'Home',
             label: 'Home',
             index: 0,
           ),
           buildBottomNavigationBarItem(
             ref,
-            iconPath: 'bag',
+            iconPath: 'Order-History',
             label: 'Order History',
             index: 1,
           ),
           buildBottomNavigationBarItem(
             ref,
-            iconPath: 'wallet',
+            iconPath: 'Wallet (1)',
             label: 'Wallet',
             index: 2,
           ),
           buildBottomNavigationBarItem(
             ref,
-            iconPath: 'user',
+            iconPath: 'Profile',
             label: 'Profile',
             index: 3,
           ),

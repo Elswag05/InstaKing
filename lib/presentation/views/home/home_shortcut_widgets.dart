@@ -1,20 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:insta_king/core/constants/env_assets.dart';
 import 'package:insta_king/core/constants/env_colors.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
+import 'package:insta_king/presentation/controllers/insta_dashboard_controller.dart';
 import 'package:insta_king/presentation/views/order_history/place_order.dart';
-import 'package:insta_king/presentation/views/wallet/add_funds/insta_add_funds.dart';
+import 'package:insta_king/presentation/views/profile/sub_profile_views.dart/refer_and_earn/refer_and_earn.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class HomeColumn extends StatelessWidget {
   final String shortcutIcon;
   final String shortcutText;
+  final bool services;
   final void Function()? onTap;
   const HomeColumn({
     super.key,
     required this.shortcutIcon,
     required this.shortcutText,
     this.onTap,
+    this.services = false,
   });
 
   @override
@@ -23,13 +28,24 @@ class HomeColumn extends StatelessWidget {
       onTap: onTap,
       child: Column(
         children: [
-          ImageIcon(
-            AssetImage(
-              EnvAssets.getIconPath(shortcutIcon),
-            ),
-            size: 40.sp,
-            color: EnvColors.primaryColor,
-          ),
+          !services
+              ? SvgPicture.asset(
+                  EnvAssets.getSvgPath(shortcutIcon),
+                  width: 40.w,
+                  height: 40.h,
+                  color: EnvColors.primaryColor,
+                  semanticsLabel: shortcutText,
+                )
+              : Padding(
+                  padding: EdgeInsets.only(right: 1.sp),
+                  child: Icon(
+                    Icons.menu,
+                    size: 40.h,
+                    color: EnvColors.primaryColor,
+                  ),
+                ),
+          // ImageIcon(
+
           Text(
             shortcutText,
             style: TextStyle(
@@ -44,11 +60,17 @@ class HomeColumn extends StatelessWidget {
   }
 }
 
-class ShortcutsTheWidget extends StatelessWidget {
-  const ShortcutsTheWidget({super.key});
+class ShortcutsTheWidget extends ConsumerWidget {
+  const ShortcutsTheWidget({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    void setPageIndexToTwo() {
+      final value = ref.watch(dashBoardControllerProvider);
+      value.switchPage(2);
+      //value.dispose();
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -65,10 +87,11 @@ class ShortcutsTheWidget extends StatelessWidget {
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisSize: MainAxisSize.max,
               children: [
                 HomeColumn(
-                  shortcutIcon: 'trolley',
-                  shortcutText: 'New Order',
+                  shortcutIcon: 'Place Order',
+                  shortcutText: 'Place Order',
                   onTap: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
@@ -78,18 +101,20 @@ class ShortcutsTheWidget extends StatelessWidget {
                   },
                 ),
                 HomeColumn(
-                  shortcutIcon: 'piggybank',
+                  shortcutIcon: 'wallet',
                   shortcutText: 'Fund Wallet',
                   onTap: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => const AddFunds(),
-                      ),
-                    );
+                    setPageIndexToTwo();
+                    // Navigator.of(context).push(
+                    //   MaterialPageRoute(
+                    //     builder: (context) => const InstaWallet(),
+                    //   ),
+                    // );
+                    print('this is tapped');
                   },
                 ),
                 HomeColumn(
-                  shortcutIcon: 'save-money',
+                  shortcutIcon: 'wifi',
                   shortcutText: 'Bill Payment',
                   onTap: () {},
                 ),
@@ -97,20 +122,29 @@ class ShortcutsTheWidget extends StatelessWidget {
             ).afmPadding(EdgeInsets.only(top: 20.sp, right: 25.sp)),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisSize: MainAxisSize.max,
               children: [
                 HomeColumn(
-                  shortcutIcon: 'money-transfer',
+                  shortcutIcon: 'Transactioons',
                   shortcutText: 'Transactions',
                   onTap: () {},
                 ),
                 HomeColumn(
-                  shortcutIcon: 'giftbox',
-                  shortcutText: 'Refer And Earn',
-                  onTap: () {},
+                  shortcutIcon: 'Refer&Earn',
+                  shortcutText: 'Refer & Earn',
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const ReferAndEarn(),
+                      ),
+                    );
+                  },
                 ),
-                SizedBox(
-                  width: 80.sp,
-                  height: 40.sp,
+                HomeColumn(
+                  shortcutIcon: 'Services',
+                  shortcutText: 'Services',
+                  services: true,
+                  onTap: () {},
                 ),
               ],
             ).afmPadding(EdgeInsets.only(top: 20.sp, right: 25.sp)),

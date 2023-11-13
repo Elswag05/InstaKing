@@ -8,7 +8,7 @@
 class EnvAssets {
   static const String _baseSvg = "assets/svgs/";
 
-  static String _getSvgPath(String pathName) {
+  static String getSvgPath(String pathName) {
     pathName = "$pathName.svg";
     return _baseSvg + pathName;
   }

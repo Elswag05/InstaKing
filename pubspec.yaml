@@ -48,6 +48,7 @@ dependencies:
   flutter_secure_storage: ^9.0.0
   dio: ^5.3.3
   hooks_riverpod: ^2.4.5
+  flutter_svg: ^2.0.9
 
 dev_dependencies:
   flutter_test:
@@ -66,7 +67,7 @@ flutter:
     - assets/images/
     - assets/icons/
     - assets/animation/
-    - assets/
+    - assets/svgs/
     - assets/language/
 
 

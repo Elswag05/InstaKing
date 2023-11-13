@@ -5,13 +5,15 @@ import 'package:insta_king/core/extensions/widget_extension.dart';
 
 class OrderChips extends StatelessWidget {
   final bool isSelected;
+  final IconData icon;
   final void Function(bool)? onSelected;
   final String label;
   const OrderChips(
       {Key? key,
       required this.isSelected,
       this.onSelected,
-      required this.label})
+      required this.label,
+      required this.icon})
       : super(key: key);
 
   @override
@@ -19,17 +21,28 @@ class OrderChips extends StatelessWidget {
     return FilterChip(
       selected: isSelected,
       onSelected: onSelected,
+      selectedColor: EnvColors.primaryColor,
+      showCheckmark: false,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.r),
       ),
       padding: EdgeInsets.all(8.sp),
       backgroundColor: EnvColors.mildGrey,
-      label: Text(
-        label,
-        style: TextStyle(
-          fontSize: 15.sp,
-          color: EnvColors.lightColor,
-        ),
+      label: Row(
+        children: [
+          Icon(
+            icon,
+            color: EnvColors.lightColor,
+          ),
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: 13.sp,
+              color: EnvColors.lightColor,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+        ],
       ), //Text
     ).afmPadding(EdgeInsets.only(right: 10.w));
   }

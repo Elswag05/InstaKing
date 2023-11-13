@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:insta_king/core/constants/env_assets.dart';
 import 'package:insta_king/core/constants/env_colors.dart';
 
@@ -24,11 +25,12 @@ class OrderAppBar extends StatelessWidget {
         IconButton(
           splashColor: EnvColors.darkColor,
           splashRadius: 25.r,
-          icon: Image.asset(
-            EnvAssets.getIconPath('loupe'),
-            width: 25.w,
-            height: 25.h,
+          icon: SvgPicture.asset(
+            EnvAssets.getSvgPath('Search'),
+            width: 20.w,
+            height: 20.h,
             color: EnvColors.darkColor,
+            semanticsLabel: 'Search',
           ),
           onPressed: () {
             print('INFO: You just prompted search');
