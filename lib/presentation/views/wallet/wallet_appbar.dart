@@ -24,6 +24,7 @@ class WalletAppBar extends StatelessWidget {
         ),
         GestureDetector(
           onTap: () {
+            // ignore: avoid_print
             print('INFO: You just prompted search');
             Navigator.of(context).push(
               MaterialPageRoute(
@@ -42,6 +43,7 @@ class WalletAppBar extends StatelessWidget {
                 EnvAssets.getSvgPath('arrow-right'),
                 width: 20.w,
                 height: 20.h,
+                // ignore: deprecated_member_use
                 color: EnvColors.mildGrey,
                 semanticsLabel: 'Search',
               ),

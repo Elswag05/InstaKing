@@ -52,9 +52,16 @@ extension WidgetExtension on Widget {
     );
   }
 
+  Widget afmPositionCentered([context]) {
+    return Positioned(
+      right: MediaQuery.of(context).size.width / 2.5,
+      child: this,
+    );
+  }
+
   Widget get afmWrapUp => Container(
         padding: EdgeInsets.all(3.sp),
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           shape: BoxShape.circle,
           color: EnvColors.primaryColor,
         ),

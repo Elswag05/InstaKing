@@ -95,10 +95,10 @@ class PlaceOrder extends StatelessWidget {
                 ).afmPadding(EdgeInsets.only(
                   bottom: 10.h, /*left: 15.w*/
                 )),
-                OrderViews(),
-                OrderViews(),
-                OrderViews(),
-                OrderViews(),
+                const OrderViews(),
+                const OrderViews(),
+                const OrderViews(),
+                const OrderViews(),
               ],
             ),
           )

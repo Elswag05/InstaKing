@@ -54,7 +54,7 @@ class AddFunds extends StatelessWidget {
                       bottom: 20.sp,
                     ),
                   ),
-                  AccountDetails(),
+                  const AccountDetails(),
                 ],
               ),
             ).afmBorderRadius(BorderRadius.circular(20.r)).afmPadding(

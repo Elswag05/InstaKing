@@ -12,6 +12,7 @@ class CustomButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
+        // ignore: avoid_print
         print('INFO: $pageCTA button has been pressed');
         toSignOrLogin!();
       },

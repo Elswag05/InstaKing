@@ -20,6 +20,7 @@ BottomNavigationBarItem buildBottomNavigationBarItem(
       EnvAssets.getSvgPath(iconPath),
       width: 25.w,
       height: 25.h,
+      // ignore: deprecated_member_use
       color: selectedPageIndex == index
           ? EnvColors.primaryColor
           : EnvColors.darkColor,

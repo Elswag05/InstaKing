@@ -4,10 +4,7 @@ import 'package:insta_king/core/constants/constants.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
 import 'package:insta_king/presentation/views/order_history/order_appBar.dart';
 import 'package:insta_king/presentation/views/order_history/order_chips.dart';
-import 'package:insta_king/presentation/views/order_history/order_tabs/drip_feed.dart';
 import 'package:insta_king/presentation/views/order_history/order_tabs/main_order_tabs.dart';
-import 'package:insta_king/presentation/views/order_history/order_tabs/my_orders_view.dart';
-import 'package:insta_king/presentation/views/order_history/order_tabs/subscriptions.dart';
 
 class InstaOrderHistory extends StatefulWidget {
   const InstaOrderHistory({super.key});
@@ -36,7 +33,8 @@ class _InstaOrderHistoryState extends State<InstaOrderHistory>
       setState(() {
         // _selectedIndex = _tabController.index;
       });
-      print("Selected Index: " + _tabController.index.toString());
+      // ignore: avoid_print
+      print("Selected Index: ${_tabController.index}");
     });
   }
 

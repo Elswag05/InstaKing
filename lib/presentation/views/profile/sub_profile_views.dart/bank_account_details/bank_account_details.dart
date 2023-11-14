@@ -21,48 +21,9 @@ class BankAccountLink extends StatelessWidget {
             color: EnvColors.lightColor,
             child: Column(
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Bank Name',
-                      style: TextStyle(
-                        fontFamily: 'Montesserat',
-                        fontSize: 16.sp,
-                        color: EnvColors.darkColor,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    Container(
-                      height: 40.h,
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: EnvColors.darkColor.withOpacity(0.5),
-                          width: 1.sp,
-                        ),
-                        borderRadius: BorderRadius.circular(10.r),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Select Bank',
-                            style: TextStyle(
-                              fontFamily: 'Montesserat',
-                              fontSize: 13.sp,
-                              color: EnvColors.darkColor.withOpacity(0.5),
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ).afmPadding(EdgeInsets.only(left: 10.w)),
-                          Icon(
-                            Icons.keyboard_arrow_down_rounded,
-                            size: 20.sp,
-                            color: EnvColors.darkColor.withOpacity(0.5),
-                          ).afmPadding(EdgeInsets.only(right: 6.h)),
-                        ],
-                      ),
-                    ).afmPadding(EdgeInsets.only(top: 10.sp, bottom: 10.sp)),
-                  ],
+                const ChooseContainerFromDropDown(
+                  headerText: 'Bank Name',
+                  hintText: 'Select Bank',
                 ),
                 const CollectPersonalDetailModel(
                   leadTitle: "Account Number",
@@ -87,9 +48,67 @@ class BankAccountLink extends StatelessWidget {
                 EdgeInsets.symmetric(
                   horizontal: 20.sp,
                 ),
-              ),
+              )
         ],
       ),
+    );
+  }
+}
+
+class ChooseContainerFromDropDown extends StatelessWidget {
+  final String headerText;
+  final String hintText;
+  final IconData displayIcon;
+  const ChooseContainerFromDropDown(
+      {super.key,
+      required this.headerText,
+      required this.hintText,
+      this.displayIcon = Icons.keyboard_arrow_down_rounded});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          headerText,
+          style: TextStyle(
+            fontFamily: 'Montesserat',
+            fontSize: 16.sp,
+            color: EnvColors.darkColor,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        Container(
+          height: 40.h,
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: EnvColors.darkColor.withOpacity(0.5),
+              width: 1.sp,
+            ),
+            borderRadius: BorderRadius.circular(10.r),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                hintText,
+                style: TextStyle(
+                  fontFamily: 'Montesserat',
+                  fontSize: 13.sp,
+                  color: EnvColors.darkColor.withOpacity(0.5),
+                  fontWeight: FontWeight.w500,
+                ),
+              ).afmPadding(EdgeInsets.only(left: 10.w)),
+              Icon(
+                displayIcon,
+                size: 20.sp,
+                color: EnvColors.darkColor.withOpacity(0.5),
+              ).afmPadding(EdgeInsets.only(right: 6.h)),
+            ],
+          ),
+        ).afmPadding(EdgeInsets.only(top: 10.sp, bottom: 10.sp)),
+      ],
     );
   }
 }

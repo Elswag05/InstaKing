@@ -29,10 +29,12 @@ class OrderAppBar extends StatelessWidget {
             EnvAssets.getSvgPath('Search'),
             width: 20.w,
             height: 20.h,
+            // ignore: deprecated_member_use
             color: EnvColors.darkColor,
             semanticsLabel: 'Search',
           ),
           onPressed: () {
+            // ignore: avoid_print
             print('INFO: You just prompted search');
           },
           tooltip: 'search',

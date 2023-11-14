@@ -8,6 +8,7 @@ import 'package:insta_king/presentation/controllers/insta_dashboard_controller.d
 import 'package:insta_king/presentation/views/order_history/place_order.dart';
 import 'package:insta_king/presentation/views/profile/sub_profile_views.dart/refer_and_earn/refer_and_earn.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:insta_king/presentation/views/services/insta_services.dart';
 
 class HomeColumn extends StatelessWidget {
   final String shortcutIcon;
@@ -34,11 +35,12 @@ class HomeColumn extends StatelessWidget {
                   EnvAssets.getSvgPath(shortcutIcon),
                   width: 40.w,
                   height: 40.h,
+                  // ignore: deprecated_member_use
                   color: EnvColors.primaryColor,
                   semanticsLabel: shortcutText,
                 )
               : Icon(
-                  Icons.menu,
+                  Icons.storage_sharp,
                   size: 40.h,
                   color: EnvColors.primaryColor,
                 ),
@@ -106,6 +108,7 @@ class ShortcutsTheWidget extends ConsumerWidget {
                     //     builder: (context) => const InstaWallet(),
                     //   ),
                     // );
+                    // ignore: avoid_print
                     print('this is tapped');
                   },
                 ),
@@ -140,7 +143,13 @@ class ShortcutsTheWidget extends ConsumerWidget {
                   shortcutIcon: 'Services',
                   shortcutText: 'Services',
                   services: true,
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const InstaServices(),
+                      ),
+                    );
+                  },
                 ).afmPadding(EdgeInsets.only(left: 20.sp)),
               ],
             ).afmPadding(EdgeInsets.only(top: 20.sp, right: 35.sp)),

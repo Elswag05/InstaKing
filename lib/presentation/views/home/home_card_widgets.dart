@@ -148,7 +148,7 @@ class HomeCardList extends StatelessWidget {
                           Container(
                             width: 240.w,
                             height: 30.h,
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               color: EnvColors.lightColor,
                             ),
                             child: Center(

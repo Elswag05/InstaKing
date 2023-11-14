@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
-import 'package:insta_king/presentation/views/profile/sub_profile_views.dart/refer_and_earn/refer_and_earn.dart';
-import 'package:insta_king/presentation/views/profile/sub_profile_views.dart/refer_and_earn/referral_widgets1.dart';
-import 'package:insta_king/presentation/views/profile/sub_profile_views.dart/refer_and_earn/referral_widgets2.dart';
-import 'package:insta_king/presentation/views/profile/sub_profile_views.dart/refer_and_earn/referral_widgets3.dart';
 import 'package:insta_king/presentation/views/wallet/recent_deposits.dart';
 import 'package:insta_king/presentation/views/wallet/select_payment_options.dart';
 import 'package:insta_king/presentation/views/wallet/wallet_appbar.dart';
