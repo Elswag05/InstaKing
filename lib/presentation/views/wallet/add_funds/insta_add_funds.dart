@@ -4,6 +4,7 @@ import 'package:insta_king/core/constants/constants.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
 import 'package:insta_king/presentation/views/shared_widgets/recurring_appbar.dart';
 import 'package:insta_king/presentation/views/shared_widgets/small_cta.dart';
+import 'package:insta_king/presentation/views/wallet/add_funds/account_details.dart';
 
 class AddFunds extends StatelessWidget {
   const AddFunds({super.key});
@@ -53,125 +54,7 @@ class AddFunds extends StatelessWidget {
                       bottom: 20.sp,
                     ),
                   ),
-                  Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                'Bank Name',
-                                style: TextStyle(
-                                  color: EnvColors.mildGrey,
-                                  fontFamily: 'Montesserat',
-                                  fontSize: 13.sp,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              Text(
-                                'Wema Bank',
-                                style: TextStyle(
-                                  color: EnvColors.darkColor,
-                                  fontFamily: 'Montesserat',
-                                  fontSize: 15.sp,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              )
-                            ],
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                'Account Name',
-                                style: TextStyle(
-                                  color: EnvColors.mildGrey,
-                                  fontFamily: 'Montesserat',
-                                  fontSize: 13.sp,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              Text(
-                                'InstaKing-Ayo',
-                                style: TextStyle(
-                                  color: EnvColors.darkColor,
-                                  fontFamily: 'Montesserat',
-                                  fontSize: 15.sp,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      Stack(
-                        children: [
-                          Container(
-                            height: 40.h,
-                            decoration: BoxDecoration(
-                              color: EnvColors.lightColor,
-                              border: Border.all(
-                                color: EnvColors.darkColor.withOpacity(0.5),
-                                width: 1.sp,
-                              ),
-                              borderRadius: BorderRadius.circular(10.r),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  '9207669559',
-                                  style: TextStyle(
-                                    fontFamily: 'Montesserat',
-                                    fontSize: 15.sp,
-                                    color: EnvColors.darkColor,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ).afmPadding(EdgeInsets.only(left: 10.w)),
-                                const SizedBox(),
-                              ],
-                            ),
-                          ).afmPadding(
-                              EdgeInsets.only(top: 10.sp, bottom: 10.sp)),
-                          Positioned(
-                            right: 0,
-                            child: Container(
-                              height: 40.h,
-                              width: MediaQuery.of(context).size.width / 2.5,
-                              decoration: BoxDecoration(
-                                color: EnvColors.primaryColor,
-                                border: Border.all(
-                                  color: EnvColors.darkColor.withOpacity(0.5),
-                                  width: 1.sp,
-                                ),
-                                borderRadius: BorderRadius.only(
-                                  topRight: Radius.circular(10.r),
-                                  bottomRight: Radius.circular(10.r),
-                                ),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  'Copy Account',
-                                  style: TextStyle(
-                                    fontFamily: 'Montesserat',
-                                    fontSize: 15.sp,
-                                    color: EnvColors.lightColor,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ).afmPadding(
-                                    EdgeInsets.only(right: 10.w, bottom: 3.h)),
-                              ),
-                            ).afmPadding(
-                                EdgeInsets.only(top: 10.sp, bottom: 10.sp)),
-                          ),
-                        ],
-                      ).afmPadding(
-                        EdgeInsets.only(bottom: 30.sp),
-                      ),
-                    ],
-                  )
+                  AccountDetails(),
                 ],
               ),
             ).afmBorderRadius(BorderRadius.circular(20.r)).afmPadding(

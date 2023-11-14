@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insta_king/core/constants/constants.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
 import 'package:insta_king/presentation/views/order_history/order_appBar.dart';
+import 'package:insta_king/presentation/views/order_history/order_chips.dart';
 import 'package:insta_king/presentation/views/order_history/order_tabs/drip_feed.dart';
 import 'package:insta_king/presentation/views/order_history/order_tabs/main_order_tabs.dart';
 import 'package:insta_king/presentation/views/order_history/order_tabs/my_orders_view.dart';
@@ -19,7 +20,7 @@ class _InstaOrderHistoryState extends State<InstaOrderHistory>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   // late int _selectedIndex = 0;
-  bool _isAllSelected = false;
+  bool _isAllSelected = true;
   bool _isPendingSelected = false;
   bool _isRunningSelected = false;
   bool _isInProgressSelected = false;
@@ -150,6 +151,32 @@ class _InstaOrderHistoryState extends State<InstaOrderHistory>
             //     .afmPadding(
             //         EdgeInsets.only(top: 20.sp, left: 20.sp, right: 20.sp))
             //     .afmNeverScroll,
+            const OrderViews().afmPadding(EdgeInsets.only(
+              top: 20.sp,
+              left: 20.w,
+              right: 20.w,
+            )),
+            const OrderViews().afmPadding(EdgeInsets.only(
+              top: 20.sp,
+              left: 20.w,
+              right: 20.w,
+            )),
+            const OrderViews().afmPadding(EdgeInsets.only(
+              top: 20.sp,
+              left: 20.w,
+              right: 20.w,
+            )),
+            const OrderViews().afmPadding(EdgeInsets.only(
+              top: 20.sp,
+              left: 20.w,
+              right: 20.w,
+            )),
+            const OrderViews().afmPadding(EdgeInsets.only(
+              top: 20.sp,
+              left: 20.w,
+              right: 20.w,
+              bottom: 20.h,
+            )),
           ],
         ).afmNeverScroll,
       ),

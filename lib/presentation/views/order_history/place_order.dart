@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insta_king/core/constants/constants.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
+import 'package:insta_king/presentation/views/order_history/order_chips.dart';
 import 'package:insta_king/presentation/views/shared_widgets/mini_tags.dart';
-import 'package:insta_king/presentation/views/shared_widgets/personal_detail_model_structure.dart';
+import 'package:insta_king/presentation/views/shared_widgets/input_data_viewmodel.dart';
 import 'package:insta_king/presentation/views/shared_widgets/cta_button.dart';
 import 'package:insta_king/presentation/views/shared_widgets/recurring_appbar.dart';
 
@@ -31,12 +32,12 @@ class PlaceOrder extends StatelessWidget {
                   text: 'Service',
                   hintText: 'Choose a service',
                 ),
-                const PersonalDetailModel(
+                const CollectPersonalDetailModel(
                   leadTitle: "Link",
                   hintT: 'https://',
                   isPasswordT: true,
                 ),
-                const PersonalDetailModel(
+                const CollectPersonalDetailModel(
                   leadTitle: "Quantity",
                   hintT: '1',
                   isPasswordT: true,
@@ -50,7 +51,7 @@ class PlaceOrder extends StatelessWidget {
                 SizedBox(
                   height: 20.h,
                 ),
-                const PersonalDetailModel(
+                const CollectPersonalDetailModel(
                   leadTitle: "Description",
                   hintT: '',
                   isPasswordT: true,
@@ -94,67 +95,10 @@ class PlaceOrder extends StatelessWidget {
                 ).afmPadding(EdgeInsets.only(
                   bottom: 10.h, /*left: 15.w*/
                 )),
-                Container(
-                  color:
-                      EnvColors.appBackgroundColor.withBlue(2).withOpacity(0.5),
-                  padding: EdgeInsets.all(15.sp),
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.star_rate_rounded,
-                            size: 25.sp,
-                            color: EnvColors.lightColor,
-                          ).afmWrapUp.afmPadding(EdgeInsets.only(right: 10.w)),
-                          SizedBox(
-                            width: 150.w,
-                            child: Text(
-                              'Instagram Service Activated',
-                              softWrap: true,
-                              style: TextStyle(
-                                overflow: TextOverflow.clip,
-                                fontFamily: 'Montesserat',
-                                fontSize: 14.sp,
-                                color: EnvColors.darkColor,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ).afmPadding(EdgeInsets.only(bottom: 10.h)),
-                      Text(
-                        'Instagram Service Activated, Thanks for staying with us.',
-                        style: TextStyle(
-                          fontFamily: 'Montesserat',
-                          fontSize: 14.sp,
-                          color: EnvColors.darkColor,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ).afmPadding(EdgeInsets.only(bottom: 15.w)),
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.calendar_month_rounded,
-                            size: 10.sp,
-                            color: EnvColors.darkColor,
-                          ).afmPadding(EdgeInsets.only(right: 5.w)),
-                          Text(
-                            '04.10.2023',
-                            style: TextStyle(
-                              fontFamily: 'Montesserat',
-                              fontSize: 10.sp,
-                              color: EnvColors.darkColor,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ).afmBorderRadius(
-                  BorderRadius.circular(10.r),
-                )
+                OrderViews(),
+                OrderViews(),
+                OrderViews(),
+                OrderViews(),
               ],
             ),
           )

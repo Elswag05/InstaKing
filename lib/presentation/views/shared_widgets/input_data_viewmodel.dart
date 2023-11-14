@@ -3,12 +3,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insta_king/core/constants/env_colors.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
 
-class PersonalDetailModel extends StatelessWidget {
+class CollectPersonalDetailModel extends StatelessWidget {
   final String leadTitle;
   final String hintT;
   final bool isPasswordT;
   final bool isDesciptionT;
-  const PersonalDetailModel(
+  const CollectPersonalDetailModel(
       {super.key,
       required this.leadTitle,
       required this.hintT,

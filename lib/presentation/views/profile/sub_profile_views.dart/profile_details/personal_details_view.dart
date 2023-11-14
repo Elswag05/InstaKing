@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insta_king/core/constants/constants.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
-import 'package:insta_king/presentation/views/shared_widgets/personal_detail_model_structure.dart';
+import 'package:insta_king/presentation/views/shared_widgets/input_data_viewmodel.dart';
 import 'package:insta_king/presentation/views/shared_widgets/cta_button.dart';
 import 'package:insta_king/presentation/views/shared_widgets/recurring_appbar.dart';
 
@@ -23,28 +23,28 @@ class PersonalDetails extends StatelessWidget {
               color: EnvColors.lightColor,
               child: Column(
                 children: [
-                  const PersonalDetailModel(
+                  const CollectPersonalDetailModel(
                     leadTitle: "First Name",
                     hintT: 'John',
                   ),
-                  const PersonalDetailModel(
+                  const CollectPersonalDetailModel(
                     leadTitle: "Last Name",
                     hintT: 'Doe',
                   ),
-                  const PersonalDetailModel(
+                  const CollectPersonalDetailModel(
                     leadTitle: "E-mail",
                     hintT: 'Johndoe@gmail.com',
                   ),
-                  const PersonalDetailModel(
+                  const CollectPersonalDetailModel(
                     leadTitle: "Time Zone",
                     hintT: '',
                   ),
-                  const PersonalDetailModel(
+                  const CollectPersonalDetailModel(
                     leadTitle: "Password",
                     hintT: '',
                     isPasswordT: true,
                   ),
-                  const PersonalDetailModel(
+                  const CollectPersonalDetailModel(
                     leadTitle: "Confirm Password",
                     hintT: '',
                     isPasswordT: true,

@@ -27,6 +27,7 @@ class HomeColumn extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           !services
               ? SvgPicture.asset(
@@ -36,16 +37,11 @@ class HomeColumn extends StatelessWidget {
                   color: EnvColors.primaryColor,
                   semanticsLabel: shortcutText,
                 )
-              : Padding(
-                  padding: EdgeInsets.only(right: 1.sp),
-                  child: Icon(
-                    Icons.menu,
-                    size: 40.h,
-                    color: EnvColors.primaryColor,
-                  ),
+              : Icon(
+                  Icons.menu,
+                  size: 40.h,
+                  color: EnvColors.primaryColor,
                 ),
-          // ImageIcon(
-
           Text(
             shortcutText,
             style: TextStyle(
@@ -145,9 +141,9 @@ class ShortcutsTheWidget extends ConsumerWidget {
                   shortcutText: 'Services',
                   services: true,
                   onTap: () {},
-                ),
+                ).afmPadding(EdgeInsets.only(left: 20.sp)),
               ],
-            ).afmPadding(EdgeInsets.only(top: 20.sp, right: 25.sp)),
+            ).afmPadding(EdgeInsets.only(top: 20.sp, right: 35.sp)),
           ],
         )
       ],
