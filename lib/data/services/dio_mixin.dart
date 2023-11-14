@@ -12,11 +12,13 @@ import 'package:insta_king/utils/locator.dart';
 mixin DioMixin {
   Dio connect() {
     BaseOptions options = BaseOptions(
-      baseUrl: 'https://www.affiliate.instaking.store/user-api',
-      connectTimeout: const Duration(seconds: 30),
-      receiveTimeout: const Duration(seconds: 30),
-      responseType: ResponseType.plain,
-    );
+        baseUrl: 'https://www.affiliate.instaking.store/user-api',
+        connectTimeout: const Duration(seconds: 30),
+        receiveTimeout: const Duration(seconds: 30),
+        responseType: ResponseType.json,
+        headers: {
+          'Accept': 'application/json',
+        });
 
     Dio dio = Dio(options);
 
