@@ -8,7 +8,7 @@ final ErrorService errorService = locator<ErrorService>();
 
 class ErrorService {
   String timeoutMessage = 'Timeout. Please, try again.';
-  String defaultErrorMessage = 'There is something wrong. Please try again.';
+  String defaultErrorMessage = 'Something went wrong! please try again later';
 
   static void handleErrors(dynamic e) {
     String message = '';
@@ -18,7 +18,6 @@ class ErrorService {
     } else if (e is Map) {
       // Handle map error messages
       if (e['errors'] != null) {
-        //TODO: this might need modification based on the backend
         message = e['errors'][0]['message'];
       } else if (e['message'] != null) {
         message = e['message'];

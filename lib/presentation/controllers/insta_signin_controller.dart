@@ -6,57 +6,39 @@ import 'package:insta_king/core/constants/env_strings.dart';
 import 'package:insta_king/data/local/secure_storage_service.dart';
 import 'package:insta_king/data/local/toast_service.dart';
 import 'package:insta_king/data/services/error_service.dart';
-import 'package:insta_king/data/services/login_service.dart';
+import 'package:insta_king/data/services/signup_service.dart';
 import 'package:insta_king/presentation/controllers/base_controller.dart';
-import 'package:insta_king/presentation/model/insta_login_model.dart';
+import 'package:insta_king/presentation/model/insta_signup_model.dart';
 import 'package:insta_king/utils/locator.dart';
 
-final instaLoginController =
-    ChangeNotifierProvider<LoginController>((ref) => LoginController());
+final instaSignUpController =
+    ChangeNotifierProvider<SignUpController>((ref) => SignUpController());
 
-class LoginController extends BaseChangeNotifier {
-  final loginService = LoginService();
-  final logOutService = SignOutService();
+class SignUpController extends BaseChangeNotifier {
+  final signUpService = SignUpService();
   final SecureStorageService secureStorageService =
       SecureStorageService(secureStorage: const FlutterSecureStorage());
-
-  Future<bool> signIn(String email, password) async {
+  Future<bool> signUp(String firstName, lastName, email, userName, passWord,
+      phone, referralCode) async {
     loadingState = LoadingState.loading;
     try {
-      final res = await loginService.signIn(email: email, password: password);
+      final res = await signUpService.signUp(
+          email: email,
+          firstName: firstName,
+          lastName: lastName,
+          userName: userName,
+          phone: phone,
+          password: passWord,
+          referralID: referralCode);
       if (res.statusCode == 200) {
-        final data = InstaLoginModel.fromJson(res.data);
+        final data = InstaSignUpModel.fromJson(res.data);
         await locator<SecureStorageService>().write(
           key: EnvStrings.token,
           value: data.token ?? '',
         );
         loadingState = LoadingState.idle;
         locator<ToastService>().showSuccessToast(
-          'Successfully logged you in',
-        );
-        return true;
-      } else {
-        throw Error();
-      }
-    } on DioException catch (e) {
-      loadingState = LoadingState.error;
-      ErrorService.handleErrors(e);
-    } catch (e) {
-      loadingState = LoadingState.error;
-      ErrorService.handleErrors(e);
-    }
-    return false;
-  }
-
-  Future<bool> signOut() async {
-    loadingState = LoadingState.loading;
-    try {
-      final res = await logOutService.logOut();
-      if (res.statusCode == 200) {
-        await locator<SecureStorageService>().deleteAll();
-        loadingState = LoadingState.idle;
-        locator<ToastService>().showSuccessToast(
-          'You have been successfully logged out',
+          'You are signed in',
         );
         return true;
       } else {

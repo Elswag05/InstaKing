@@ -8,6 +8,7 @@ class AuthTextField extends StatefulWidget {
   final String hintT;
   final bool hasSuffix;
   final IconData suffixIcon;
+  final TextEditingController? controller;
 
   const AuthTextField({
     Key? key,
@@ -15,6 +16,7 @@ class AuthTextField extends StatefulWidget {
     required this.hintT,
     this.hasSuffix = false, // Set the default value to false
     this.suffixIcon = Icons.remove_red_eye_outlined,
+    this.controller,
   }) : super(key: key);
 
   @override
@@ -26,6 +28,7 @@ class _AuthTextFieldState extends State<AuthTextField> {
   Widget build(BuildContext context) {
     setState(() {});
     return TextFormField(
+      controller: widget.controller,
       style: TextStyle(
         fontSize: 13.sp,
       ),

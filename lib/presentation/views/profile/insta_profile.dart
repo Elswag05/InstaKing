@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insta_king/core/constants/constants.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
+import 'package:insta_king/presentation/controllers/insta_login_controller.dart';
 import 'package:insta_king/presentation/views/authentication/login/login.dart';
 import 'package:insta_king/presentation/views/profile/account_profile_card.dart';
 import 'package:insta_king/presentation/views/profile/profile_view_model.dart';
@@ -16,10 +18,11 @@ class InstaProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-          backgroundColor: EnvColors.appBackgroundColor,
-          body: Column(
+    return Scaffold(
+      backgroundColor: EnvColors.appBackgroundColor,
+      body: Consumer(builder: ((context, ref, child) {
+        return SafeArea(
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
@@ -121,11 +124,13 @@ class InstaProfile extends StatelessWidget {
                   .afmBorderRadius(BorderRadius.circular(10.r)),
               GestureDetector(
                 onTap: () {
-                  Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(
-                        builder: (context) => const InstaLogin(),
-                      ),
-                      (route) => false);
+                  ref.read(instaLoginController.notifier).signOut().then(
+                        (value) => Navigator.of(context).pushAndRemoveUntil(
+                            MaterialPageRoute(
+                              builder: (context) => const InstaLogin(),
+                            ),
+                            (route) => false),
+                      );
                 },
                 child: Container(
                   color: EnvColors.lightColor,
@@ -137,7 +142,9 @@ class InstaProfile extends StatelessWidget {
                     .afmPadding(EdgeInsets.only(top: 20.h)),
               ),
             ],
-          ).afmPadding(EdgeInsets.only(left: 20.w, right: 20.w))),
+          ).afmPadding(EdgeInsets.only(left: 20.w, right: 20.w)),
+        );
+      })),
     );
   }
 }

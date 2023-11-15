@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:insta_king/core/extensions/widget_extension.dart';
 import 'package:insta_king/presentation/controllers/insta_login_controller.dart';
 import 'package:insta_king/presentation/views/authentication/auth_shared/base_auth_view.dart';
 import 'package:insta_king/presentation/views/authentication/auth_shared/text_form.dart';
@@ -11,6 +12,8 @@ class InstaLogin extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final TextEditingController usernameController = TextEditingController();
+    final TextEditingController passwordController = TextEditingController();
     return Consumer(
       builder: (context, ref, child) {
         return BaseAuthView(
@@ -27,9 +30,13 @@ class InstaLogin extends StatelessWidget {
             ));
           },
           toSignOrLogin: () {
+            print('INFO: To login with email:' +
+                usernameController.text +
+                'and password: ' +
+                passwordController.text);
             ref
                 .read(instaLoginController.notifier)
-                .signIn('immadominion@gmail.com', '1234567890')
+                .signIn(usernameController.text, passwordController.text)
                 .then((value) {
               if (value) {
                 Navigator.of(context).push(MaterialPageRoute(
@@ -38,15 +45,17 @@ class InstaLogin extends StatelessWidget {
               }
             });
           },
-          anyWidget: const AuthTextField(
+          anyWidget: AuthTextField(
             icon: Icons.person_2_outlined,
-            hintT: 'First Name',
+            hintT: 'Email',
             hasSuffix: false,
+            controller: usernameController,
           ),
-          anyWidget1: const AuthTextField(
+          anyWidget1: AuthTextField(
             icon: Icons.lock_outline_rounded,
             hintT: 'Password',
             hasSuffix: true,
+            controller: passwordController,
           ),
         );
       },
