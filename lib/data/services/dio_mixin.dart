@@ -2,7 +2,6 @@
 
 import 'dart:async';
 import 'dart:developer';
-import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:insta_king/core/constants/env_strings.dart';
@@ -25,7 +24,7 @@ mixin DioMixin {
         onRequest: (options, handler) async {
           String? value =
               await locator<SecureStorageService>().read(key: EnvStrings.token);
-          if (value != null) {
+          if (value != 'token' && value != '') {
             options.headers['Authorization'] = "Bearer $value";
           }
           if (customHeaders != null) {
@@ -51,15 +50,11 @@ mixin DioMixin {
     } on DioError catch (e) {
       // Handle Dio errors (e.g., network issues, non-200 status codes)
       log('Dio Error: $e', error: e);
-      log('Dio Error: $e', error: e.response);
-      log('Dio Error: $e', error: e.type);
-      log('Dio Error: $e', error: e.message);
 
       rethrow;
     } catch (e) {
       // Handle other errors
       log('Dio Error: $e', error: e);
-      log('Dio Error: $e', error: e.toString());
 
       rethrow;
     }

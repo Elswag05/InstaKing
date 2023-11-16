@@ -1,10 +1,12 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'package:insta_king/core/constants/env_colors.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
 import 'package:insta_king/presentation/views/shared_widgets/cta_button.dart';
 
-class BaseAuthView extends StatelessWidget {
+class BaseAuthView extends StatefulWidget {
   final String pageName;
   final String pageCTA;
   final String inversePageName;
@@ -12,6 +14,8 @@ class BaseAuthView extends StatelessWidget {
   final String callToActionFooterText;
   final String checkBoxText;
   final bool isLogin;
+  final bool checked;
+  final void Function(bool?)? onChanged;
   final void Function()? toGoToInversePage;
   final Widget? anyWidget;
   final Widget? anyWidget1;
@@ -25,10 +29,14 @@ class BaseAuthView extends StatelessWidget {
   const BaseAuthView({
     Key? key,
     required this.pageName,
+    required this.pageCTA,
+    required this.inversePageName,
     required this.callToActionText,
     required this.callToActionFooterText,
     required this.checkBoxText,
-    required this.inversePageName,
+    required this.isLogin,
+    this.checked = false,
+    required this.toGoToInversePage,
     this.anyWidget = const SizedBox(),
     this.anyWidget1 = const SizedBox(),
     this.anyWidget2 = const SizedBox(),
@@ -36,145 +44,149 @@ class BaseAuthView extends StatelessWidget {
     this.anyWidget4 = const SizedBox(),
     this.anyWidget5 = const SizedBox(),
     this.anyWidget6 = const SizedBox(),
-    required this.pageCTA,
-    required this.isLogin,
-    required this.toGoToInversePage,
     this.toSignOrLogin,
+    this.onChanged,
   }) : super(key: key);
 
+  @override
+  State<BaseAuthView> createState() => _BaseAuthViewState();
+}
+
+class _BaseAuthViewState extends State<BaseAuthView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Column(
+          child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Column(
+            children: [
+              SizedBox(
+                height: 40.h,
+              ),
+              Text(
+                widget.pageName,
+                style: TextStyle(
+                  fontFamily: 'Montesserat',
+                  fontSize: 25.sp,
+                  fontWeight: FontWeight.bold,
+                ),
+              ).afmCenter,
+              SizedBox(
+                height: 20.h,
+              ),
+              widget.anyWidget == null ? const SizedBox() : widget.anyWidget!,
+              widget.anyWidget1 == null ? const SizedBox() : widget.anyWidget1!,
+              widget.anyWidget2 == null ? const SizedBox() : widget.anyWidget2!,
+              widget.anyWidget3 == null ? const SizedBox() : widget.anyWidget3!,
+              widget.anyWidget4 == null ? const SizedBox() : widget.anyWidget4!,
+              widget.anyWidget5 == null ? const SizedBox() : widget.anyWidget5!,
+              widget.anyWidget6 == null ? const SizedBox() : widget.anyWidget6!,
+            ],
+          ),
+          Padding(
+            padding: EdgeInsets.only(left: 15.sp, right: 25.sp),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                SizedBox(
-                  height: 80.h,
+                Row(
+                  children: [
+                    Checkbox(
+                      value: widget.checked,
+                      onChanged: widget.onChanged,
+                      activeColor: EnvColors.mildGrey,
+                    ),
+                    Text(
+                      widget.checkBoxText,
+                      style: TextStyle(
+                        fontFamily: 'Montesserat',
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
                 ),
-                Text(
-                  pageName,
-                  style: TextStyle(
-                    fontFamily: 'Montesserat',
-                    fontSize: 25.sp,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ).afmCenter,
-                SizedBox(
-                  height: 20.h,
-                ),
-                anyWidget == null ? const SizedBox() : anyWidget!,
-                anyWidget1 == null ? const SizedBox() : anyWidget1!,
-                anyWidget2 == null ? const SizedBox() : anyWidget2!,
-                anyWidget3 == null ? const SizedBox() : anyWidget3!,
-                anyWidget4 == null ? const SizedBox() : anyWidget4!,
-                anyWidget5 == null ? const SizedBox() : anyWidget5!,
-                anyWidget6 == null ? const SizedBox() : anyWidget6!,
-              ],
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 15.sp, right: 25.sp),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  GestureDetector(
-                    child: Row(
-                      children: [
-                        Checkbox(
-                          value: false,
-                          onChanged: (checkbox) {},
-                        ),
-                        Text(
-                          checkBoxText,
+                widget.isLogin
+                    ? GestureDetector(
+                        child: Text(
+                          widget.callToActionText,
                           style: TextStyle(
                             fontFamily: 'Montesserat',
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
-                      ],
-                    ),
+                      )
+                    : const SizedBox(),
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 20.h,
+          ),
+          // GestureDetector(
+          //   child: Column(
+          //     children: [
+          //       Image.asset(
+          //         EnvAssets.getIconPath('fingerprint'),
+          //         width: 60.w,
+          //         height: 60.h,
+          //       ),
+          //       SizedBox(
+          //         height: 5.h,
+          //       ),
+          //       Text(
+          //         'Login with fingerprint',
+          //         style: TextStyle(
+          //           fontFamily: 'Montesserat',
+          //           fontSize: 12.sp,
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // ),
+          // SizedBox(
+          //   height: 40.h,
+          // ),
+          CustomButton(
+            pageCTA: widget.pageCTA,
+            toSignOrLogin: widget.toSignOrLogin,
+            agreeTC: widget.isLogin ? false : !widget.checked,
+          ),
+          SizedBox(
+            height: 10.h,
+          ),
+          GestureDetector(
+            onTap: widget.toGoToInversePage,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  widget.callToActionFooterText,
+                  style: TextStyle(
+                    fontFamily: 'Montesserat',
+                    fontSize: 14.sp,
+                    color: EnvColors.darkColor,
+                    fontWeight: FontWeight.w500,
                   ),
-                  isLogin
-                      ? GestureDetector(
-                          child: Text(
-                            callToActionText,
-                            style: TextStyle(
-                              fontFamily: 'Montesserat',
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        )
-                      : const SizedBox(),
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 20.h,
-            ),
-            // GestureDetector(
-            //   child: Column(
-            //     children: [
-            //       Image.asset(
-            //         EnvAssets.getIconPath('fingerprint'),
-            //         width: 60.w,
-            //         height: 60.h,
-            //       ),
-            //       SizedBox(
-            //         height: 5.h,
-            //       ),
-            //       Text(
-            //         'Login with fingerprint',
-            //         style: TextStyle(
-            //           fontFamily: 'Montesserat',
-            //           fontSize: 12.sp,
-            //         ),
-            //       ),
-            //     ],
-            //   ),
-            // ),
-            // SizedBox(
-            //   height: 40.h,
-            // ),
-            CustomButton(
-              pageCTA: pageCTA,
-              toSignOrLogin: toSignOrLogin,
-            ),
-            SizedBox(
-              height: 10.h,
-            ),
-            GestureDetector(
-              onTap: toGoToInversePage,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    callToActionFooterText,
-                    style: TextStyle(
-                      fontFamily: 'Montesserat',
-                      fontSize: 14.sp,
-                      color: EnvColors.darkColor,
-                      fontWeight: FontWeight.w500,
-                    ),
+                ),
+                Text(
+                  widget.inversePageName,
+                  style: TextStyle(
+                    fontFamily: 'Montesserat',
+                    color: EnvColors.primaryColor[700],
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w500,
                   ),
-                  Text(
-                    inversePageName,
-                    style: TextStyle(
-                      fontFamily: 'Montesserat',
-                      color: EnvColors.primaryColor[700],
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
+            ).afmPadding(
+              EdgeInsets.only(bottom: 20.h),
             ),
-          ],
-        ).afmNeverScroll,
-      ),
+          ),
+        ],
+      ).afmNeverScroll),
     );
   }
 }

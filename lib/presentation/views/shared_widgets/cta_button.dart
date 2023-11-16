@@ -4,9 +4,15 @@ import 'package:insta_king/core/constants/env_colors.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
 
 class CustomButton extends StatelessWidget {
+  final bool agreeTC;
   final void Function()? toSignOrLogin;
   final String pageCTA;
-  const CustomButton({super.key, required this.pageCTA, this.toSignOrLogin});
+  const CustomButton({
+    super.key,
+    required this.pageCTA,
+    this.toSignOrLogin,
+    this.agreeTC = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +26,9 @@ class CustomButton extends StatelessWidget {
         height: 45.h,
         width: MediaQuery.of(context).size.width - 40.w,
         decoration: BoxDecoration(
-          color: EnvColors.primaryColor[900],
+          color: agreeTC
+              ? EnvColors.primaryColor[200]
+              : EnvColors.primaryColor[900],
           borderRadius: BorderRadius.circular(10.r),
         ),
         child: Text(

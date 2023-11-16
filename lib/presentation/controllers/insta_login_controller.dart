@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -15,8 +17,18 @@ final instaLoginController =
     ChangeNotifierProvider<LoginController>((ref) => LoginController());
 
 class LoginController extends BaseChangeNotifier {
+  late bool rememberMe = false;
+  bool get isBoxChecked => rememberMe;
+
+  void toCheckBox(value) {
+    rememberMe = !rememberMe;
+    print(rememberMe.toString());
+    notifyListeners();
+  }
+
   final loginService = LoginService();
   final logOutService = SignOutService();
+
   final SecureStorageService secureStorageService =
       SecureStorageService(secureStorage: const FlutterSecureStorage());
 
@@ -26,15 +38,21 @@ class LoginController extends BaseChangeNotifier {
       final res = await loginService.signIn(email: email, password: password);
       if (res.statusCode == 200) {
         final data = InstaLoginModel.fromJson(res.data);
+        //print(data);
         await locator<SecureStorageService>().write(
           key: EnvStrings.token,
           value: data.token ?? '',
         );
+        // if ( rememberMe) {
+        //   await locator<SecureStorageService>().write(key: EnvStrings.us, value: value)
+        // }
         loadingState = LoadingState.idle;
         locator<ToastService>().showSuccessToast(
           'Successfully logged you in',
         );
-        return true;
+        if (data.status == 'success') {
+          return true;
+        }
       } else {
         throw Error();
       }
@@ -58,6 +76,7 @@ class LoginController extends BaseChangeNotifier {
         locator<ToastService>().showSuccessToast(
           'You have been successfully logged out',
         );
+
         return true;
       } else {
         throw Error();

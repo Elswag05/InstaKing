@@ -1,54 +1,38 @@
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:insta_king/core/constants/enum.dart';
-import 'package:insta_king/core/constants/env_strings.dart';
 import 'package:insta_king/data/local/secure_storage_service.dart';
 import 'package:insta_king/data/local/toast_service.dart';
+import 'package:insta_king/data/services/edit_details_service.dart';
 import 'package:insta_king/data/services/error_service.dart';
-import 'package:insta_king/data/services/signup_service.dart';
 import 'package:insta_king/presentation/controllers/base_controller.dart';
-import 'package:insta_king/presentation/model/insta_signup_model.dart';
 import 'package:insta_king/utils/locator.dart';
 
-final instaSignUpController =
-    ChangeNotifierProvider<SignUpController>((ref) => SignUpController());
+final instaProfileController =
+    ChangeNotifierProvider<ProfileController>((ref) => ProfileController());
 
-class SignUpController extends BaseChangeNotifier {
-  late bool checkedBox = false;
-  bool get isBoxChecked => checkedBox;
-
-  void toCheckBox(value) {
-    checkedBox = !checkedBox;
-    print(checkedBox.toString());
-    notifyListeners();
-  }
-
-  final signUpService = SignUpService();
+class ProfileController extends BaseChangeNotifier {
+  final EditDetailService editDetailService = EditDetailService();
   final SecureStorageService secureStorageService =
       SecureStorageService(secureStorage: const FlutterSecureStorage());
 
-  Future<bool> signUp(String firstName, lastName, email, userName, passWord,
-      phone, referralCode) async {
+  Future<bool> editPersonalDetails(
+      String fname, lname, address, phone, country) async {
     loadingState = LoadingState.loading;
     try {
-      final res = await signUpService.signUp(
-          email: email,
-          firstName: firstName,
-          lastName: lastName,
-          userName: userName,
+      final res = await editDetailService.editDetails(
+          fname: fname,
+          lname: lname,
+          address: address,
           phone: phone,
-          password: passWord,
-          referralID: referralCode);
+          country: country);
       if (res.statusCode == 200) {
-        final data = InstaSignUpModel.fromJson(res.data);
-        await locator<SecureStorageService>().write(
-          key: EnvStrings.token,
-          value: data.token ?? '',
-        );
         loadingState = LoadingState.idle;
         locator<ToastService>().showSuccessToast(
-          'You are signed in',
+          'Successful Operation',
         );
         return true;
       } else {

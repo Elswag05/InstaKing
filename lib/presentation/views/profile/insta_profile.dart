@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insta_king/core/constants/constants.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
+import 'package:insta_king/presentation/controllers/insta_dashboard_controller.dart';
 import 'package:insta_king/presentation/controllers/insta_login_controller.dart';
 import 'package:insta_king/presentation/views/authentication/login/login.dart';
 import 'package:insta_king/presentation/views/profile/account_profile_card.dart';
@@ -125,12 +128,17 @@ class InstaProfile extends StatelessWidget {
               GestureDetector(
                 onTap: () {
                   ref.read(instaLoginController.notifier).signOut().then(
-                        (value) => Navigator.of(context).pushAndRemoveUntil(
-                            MaterialPageRoute(
-                              builder: (context) => const InstaLogin(),
-                            ),
-                            (route) => false),
+                    (value) {
+                      ref
+                          .read(dashBoardControllerProvider.notifier)
+                          .resetPage();
+                      Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(
+                          builder: (context) => const InstaLogin(),
+                        ),
                       );
+                    },
+                  );
                 },
                 child: Container(
                   color: EnvColors.lightColor,

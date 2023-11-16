@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:dio/dio.dart' show Response;
+import 'package:dio/dio.dart' show Options, Response;
 
 import 'dio_mixin.dart';
 
@@ -14,12 +14,9 @@ class SignUpService with DioMixin {
     required String password,
     required String referralID,
   }) async {
-    final customHeaders = {
-      'Accept': 'application/json',
-    };
-    final response = await connect(customHeaders: customHeaders).post(
+    final response = await connect().post(
       '/auth/signup',
-      data: json.encode({
+      data: {
         'first_name': firstName,
         'last_name': lastName,
         'email': email,
@@ -27,7 +24,14 @@ class SignUpService with DioMixin {
         'password': password,
         'phone': phone,
         'referral_code': referralID,
-      }),
+      },
+      options: Options(
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Connection': 'keep-alive',
+        },
+      ),
     );
     return response;
   }

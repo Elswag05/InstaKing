@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart' show Response;
 
 import 'dio_mixin.dart';
@@ -15,14 +13,12 @@ class LoginService with DioMixin {
       'Connection': 'keep-alive',
     };
     // Use the configured Dio instance from the mixin
-    final response = await connect(customHeaders: customHeaders).post(
-      '/auth/login',
-      data: json.encode({
-        'email': email,
-        'password': password,
-      }),
-    );
-
+    final response =
+        await connect(customHeaders: customHeaders).post('/auth/login', data: {
+      'email': email,
+      'password': password,
+    });
+    print(response.data);
     return response;
   }
 }
