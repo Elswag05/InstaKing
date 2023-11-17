@@ -9,13 +9,15 @@ class CollectPersonalDetailModel extends StatefulWidget {
   final bool isPasswordT;
   final bool isDesciptionT;
   final TextEditingController? controller;
+  final String? Function(String?)? validator;
   const CollectPersonalDetailModel(
       {super.key,
       required this.leadTitle,
       required this.hintT,
       this.isPasswordT = false,
       this.isDesciptionT = false,
-      this.controller});
+      this.controller,
+      this.validator});
 
   @override
   State<CollectPersonalDetailModel> createState() =>
@@ -93,6 +95,9 @@ class _CollectPersonalDetailModelState
               )
             : TextFormField(
                 obscureText: widget.isPasswordT,
+                controller: widget.controller,
+                validator: widget.validator,
+                autovalidateMode: AutovalidateMode.always,
                 style: TextStyle(
                   fontSize: 13.sp,
                 ),

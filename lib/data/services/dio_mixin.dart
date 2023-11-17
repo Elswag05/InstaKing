@@ -24,7 +24,7 @@ mixin DioMixin {
         onRequest: (options, handler) async {
           String? value =
               await locator<SecureStorageService>().read(key: EnvStrings.token);
-          if (value != 'token' && value != '') {
+          if (value != 'token' && value != null) {
             options.headers['Authorization'] = "Bearer $value";
           }
           if (customHeaders != null) {
@@ -33,7 +33,7 @@ mixin DioMixin {
           return handler.next(options);
         },
         onError: (DioError e, handler) {
-          log('Dio Error: $e', error: e);
+          log('Dio Error: ${e.response}', error: e);
           return handler.next(e);
         },
       ),
@@ -46,6 +46,7 @@ mixin DioMixin {
       Future<Response<dynamic>> Function() request) async {
     try {
       final response = await request();
+      print('Info: work is at ${response.data}');
       return response;
     } on DioError catch (e) {
       // Handle Dio errors (e.g., network issues, non-200 status codes)

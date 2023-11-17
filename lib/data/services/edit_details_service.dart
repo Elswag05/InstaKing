@@ -1,4 +1,6 @@
-import 'package:dio/dio.dart' show Response;
+import 'dart:convert';
+
+import 'package:dio/dio.dart' show Options, Response;
 
 import 'dio_mixin.dart';
 
@@ -14,18 +16,26 @@ class EditDetailService with DioMixin {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
     };
-
-    final response = await connect(customHeaders: customHeaders).put(
-      '/user/profile',
-      data: {
-        "fname": fname,
-        "lname": lname,
-        "address": address,
-        "phone": phone,
-        "country": country
-      },
-    );
-    print(response.data);
+    print({
+      "fname": fname,
+      "lname": lname,
+      "address": address,
+      "phone": phone,
+      "country": country,
+    });
+    final response =
+        await connect(customHeaders: customHeaders).put('/user/profile',
+            data: {
+              "fname": fname,
+              "lname": lname,
+              "address": address,
+              "phone": phone,
+              "country": country,
+            },
+            options: Options(
+              method: 'PUT',
+            ));
+    print('Info: Service has ${response.data}');
     return response;
   }
 }

@@ -4,6 +4,7 @@ import 'package:insta_king/core/utils/my_strings.dart';
 import 'package:insta_king/presentation/controllers/insta_login_controller.dart';
 import 'package:insta_king/presentation/views/authentication/auth_shared/base_auth_view.dart';
 import 'package:insta_king/presentation/views/authentication/auth_shared/text_form.dart';
+import 'package:insta_king/presentation/views/authentication/login/forgot_password.dart';
 import 'package:insta_king/presentation/views/authentication/signup/sign_up.dart';
 import 'package:insta_king/presentation/views/dashboard/insta_dashboard.dart';
 
@@ -53,6 +54,11 @@ class _InstaLoginState extends State<InstaLogin> {
           toGoToInversePage: () {
             Navigator.of(context).push(MaterialPageRoute(
               builder: (context) => const SignUp(),
+            ));
+          },
+          onForgotPassword: () {
+            Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => const ChangeInstaPassword(),
             ));
           },
           toSignOrLogin: () {

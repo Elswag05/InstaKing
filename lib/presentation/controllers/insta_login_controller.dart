@@ -28,6 +28,8 @@ class LoginController extends BaseChangeNotifier {
 
   final loginService = LoginService();
   final logOutService = SignOutService();
+  final changePasswordService = ChangePasswordService();
+  final resetPasswordService = ResetPasswordService();
 
   final SecureStorageService secureStorageService =
       SecureStorageService(secureStorage: const FlutterSecureStorage());
@@ -37,8 +39,9 @@ class LoginController extends BaseChangeNotifier {
     try {
       final res = await loginService.signIn(email: email, password: password);
       if (res.statusCode == 200) {
+        // print("INFO: Bearer ${res..data}");
         final data = InstaLoginModel.fromJson(res.data);
-        //print(data);
+
         await locator<SecureStorageService>().write(
           key: EnvStrings.token,
           value: data.token ?? '',
@@ -46,10 +49,12 @@ class LoginController extends BaseChangeNotifier {
         // if ( rememberMe) {
         //   await locator<SecureStorageService>().write(key: EnvStrings.us, value: value)
         // }
+
         loadingState = LoadingState.idle;
         locator<ToastService>().showSuccessToast(
           'Successfully logged you in',
         );
+        //print("INFO: Success converting data to model");
         if (data.status == 'success') {
           return true;
         }
@@ -77,6 +82,58 @@ class LoginController extends BaseChangeNotifier {
           'You have been successfully logged out',
         );
 
+        return true;
+      } else {
+        throw Error();
+      }
+    } on DioException catch (e) {
+      loadingState = LoadingState.error;
+      ErrorService.handleErrors(e);
+    } catch (e) {
+      loadingState = LoadingState.error;
+      ErrorService.handleErrors(e);
+    }
+    return false;
+  }
+
+  Future<bool> changePassword(String oldPassword, String newPassword) async {
+    loadingState = LoadingState.loading;
+    try {
+      final res = await changePasswordService.changePassword(
+        old_password: oldPassword,
+        new_password: newPassword,
+      );
+      if (res.statusCode == 200) {
+        loadingState = LoadingState.idle;
+        locator<ToastService>().showSuccessToast(
+          'Your Password Has Been Changed',
+        );
+        return true;
+      } else {
+        throw Error();
+      }
+    } on DioException catch (e) {
+      loadingState = LoadingState.error;
+      ErrorService.handleErrors(e);
+    } catch (e) {
+      loadingState = LoadingState.error;
+      ErrorService.handleErrors(e);
+    }
+    return false;
+  }
+
+  Future<bool> resetPassword(String email, String userName) async {
+    loadingState = LoadingState.loading;
+    try {
+      final res = await resetPasswordService.resetPassword(
+        email: email,
+        username: userName,
+      );
+      if (res.statusCode == 200) {
+        loadingState = LoadingState.idle;
+        locator<ToastService>().showSuccessToast(
+          'Check your mail to reset password!',
+        );
         return true;
       } else {
         throw Error();

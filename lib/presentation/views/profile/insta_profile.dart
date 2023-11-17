@@ -12,6 +12,7 @@ import 'package:insta_king/presentation/views/profile/account_profile_card.dart'
 import 'package:insta_king/presentation/views/profile/profile_view_model.dart';
 import 'package:insta_king/presentation/views/profile/sub_profile_views.dart/api_key.dart';
 import 'package:insta_king/presentation/views/profile/sub_profile_views.dart/bank_account_details/bank_account_details.dart';
+import 'package:insta_king/presentation/views/profile/sub_profile_views.dart/change_password.dart';
 import 'package:insta_king/presentation/views/profile/sub_profile_views.dart/more_information.dart';
 import 'package:insta_king/presentation/views/profile/sub_profile_views.dart/profile_details/personal_details_view.dart';
 import 'package:insta_king/presentation/views/profile/sub_profile_views.dart/refer_and_earn/refer_and_earn.dart';
@@ -90,6 +91,16 @@ class InstaProfile extends StatelessWidget {
                               Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (context) => const ApiKeyPage(),
+                                ),
+                              );
+                            },
+                          ).afmPadding(),
+                          ProfileViewModel(
+                            modelText: 'Change Password',
+                            onTap: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => const ChangePassword(),
                                 ),
                               );
                             },

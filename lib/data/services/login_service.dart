@@ -13,11 +13,13 @@ class LoginService with DioMixin {
       'Connection': 'keep-alive',
     };
     // Use the configured Dio instance from the mixin
-    final response =
-        await connect(customHeaders: customHeaders).post('/auth/login', data: {
-      'email': email,
-      'password': password,
-    });
+    final response = await connect(customHeaders: customHeaders).post(
+      '/auth/login',
+      data: {
+        'email': email,
+        'password': password,
+      },
+    );
     print(response.data);
     return response;
   }
@@ -33,31 +35,46 @@ class SignOutService with DioMixin {
   }
 }
 
-// class LoginApi extends StatelessWidget {
-//   const LoginApi({super.key});
+class ChangePasswordService with DioMixin {
+  Future<Response<dynamic>> changePassword({
+    required old_password,
+    required new_password,
+  }) async {
+    final header = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Connection': 'keep-alive',
+    };
+    final response = await connect(customHeaders: header).put(
+      '/user/update-password',
+      data: {
+        "old_password": old_password,
+        "new_password": new_password,
+      },
+    );
 
-//   Future<List<dynamic>> fetchApi() async {
-//     Dio dio = Dio();
-//     var response = await dio.post(
-//       'https://www.affiliate.instaking.store/user-api/auth/login',
-//       data: json.encode({
-//         'email': 'immadominion@gmail.com',
-//         'password': '1234567890',
-//       }),
-//       options: Options(
-//         headers: {
-//           'Accept': 'application/json',
-//           'Content-Type': 'application/json',
-//           'Connection': 'keep-alive',
-//         },
-//       ),
-//     );
-//     print(response.data.toString());
-//     return response.data;
-//   }
+    return response;
+  }
+}
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container();
-//   }
-// }
+class ResetPasswordService with DioMixin {
+  Future<Response<dynamic>> resetPassword({
+    required email,
+    required username,
+  }) async {
+    final header = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Connection': 'keep-alive',
+    };
+    final response = await connect(customHeaders: header).post(
+      '/auth/reset-password',
+      data: {
+        "email": email,
+        "username": username,
+      },
+    );
+
+    return response;
+  }
+}

@@ -307,6 +307,7 @@ class MyStrings {
   static const String kFirstNameNullError = "Enter first name";
   static const String kLastNameNullError = "Enter last name";
   static const String passVerification = 'Password Verification';
+  static const String wrongPass = 'Wrong password';
 
   static const String successfullyCodeResend = 'Resend the code successfully';
   static const String resendCodeFail = 'Failed to resend code';

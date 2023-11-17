@@ -15,6 +15,8 @@ class BaseAuthView extends StatefulWidget {
   final String checkBoxText;
   final bool isLogin;
   final bool checked;
+  final bool isForgotPassword;
+  final Function()? onForgotPassword;
   final void Function(bool?)? onChanged;
   final void Function()? toGoToInversePage;
   final Widget? anyWidget;
@@ -46,6 +48,8 @@ class BaseAuthView extends StatefulWidget {
     this.anyWidget6 = const SizedBox(),
     this.toSignOrLogin,
     this.onChanged,
+    this.onForgotPassword,
+    this.isForgotPassword = false,
   }) : super(key: key);
 
   @override
@@ -92,11 +96,13 @@ class _BaseAuthViewState extends State<BaseAuthView> {
               children: [
                 Row(
                   children: [
-                    Checkbox(
-                      value: widget.checked,
-                      onChanged: widget.onChanged,
-                      activeColor: EnvColors.mildGrey,
-                    ),
+                    widget.isForgotPassword
+                        ? const SizedBox()
+                        : Checkbox(
+                            value: widget.checked,
+                            onChanged: widget.onChanged,
+                            activeColor: EnvColors.mildGrey,
+                          ),
                     Text(
                       widget.checkBoxText,
                       style: TextStyle(
@@ -109,6 +115,7 @@ class _BaseAuthViewState extends State<BaseAuthView> {
                 ),
                 widget.isLogin
                     ? GestureDetector(
+                        onTap: widget.onForgotPassword,
                         child: Text(
                           widget.callToActionText,
                           style: TextStyle(
