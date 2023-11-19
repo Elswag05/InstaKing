@@ -6,14 +6,11 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:insta_king/core/constants/enum.dart';
 import 'package:insta_king/data/local/secure_storage_service.dart';
 import 'package:insta_king/data/local/toast_service.dart';
-import 'package:insta_king/data/services/categories_services.dart';
 import 'package:insta_king/data/services/error_service.dart';
 import 'package:insta_king/data/services/order_services.dart';
 import 'package:insta_king/presentation/controllers/base_controller.dart';
 import 'package:insta_king/presentation/model/get_all_order_model.dart';
 import 'package:insta_king/presentation/model/get_order_details_model.dart';
-import 'package:insta_king/presentation/model/insta_get_category_model.dart';
-import 'package:insta_king/presentation/model/insta_get_one_service_detail_model.dart';
 import 'package:insta_king/presentation/model/place_order_model.dart';
 import 'package:insta_king/utils/locator.dart';
 
