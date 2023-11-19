@@ -58,7 +58,7 @@ class _ChangeInstaPasswordState extends State<ChangeInstaPassword> {
               (value) {
                 Navigator.pop(context);
                 Timer(
-                  const Duration(seconds: 2),
+                  const Duration(seconds: 5),
                   () {
                     locator<ToastService>().showSuccessToast(
                       'Try loggin in again!',

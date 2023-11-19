@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart' show Options, Response;
 
 import 'dio_mixin.dart';

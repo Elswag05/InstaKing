@@ -26,8 +26,8 @@ class ProfileController extends BaseChangeNotifier {
     loadingState = LoadingState.loading;
     try {
       final res = await getProfileService.getProfileDetails();
-      print(res.data);
       final data = ProfileModel.fromJson(res.data);
+      print(data.message);
       if (res.statusCode == 200) {
         loadingState = LoadingState.idle;
         locator<ToastService>().showSuccessToast(
