@@ -59,6 +59,7 @@ class _InstaHomeState extends State<InstaHome> {
             child: Column(
               children: [
                 HomeHeaderWidget(
+                  imageFile: ref.watch(instaProfileController.notifier).image!,
                   username: apiData.user?.username ?? 'User',
                   onNotificationsTap: () {},
                   onProfileTap: () {

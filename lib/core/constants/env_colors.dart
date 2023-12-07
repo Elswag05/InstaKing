@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:insta_king/presentation/controllers/theme_controller.dart';
 
 /// Color Guide Notice (Primary ORANGE, INFO COLOR)
 /// Ranging from (50-900)

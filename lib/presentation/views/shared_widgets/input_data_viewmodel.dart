@@ -56,8 +56,8 @@ class _CollectPersonalDetailModelState
                       fontFamily: 'Montesserat',
                       fontSize: 13.sp,
                     ),
-                    fillColor: InstaColors.mildLightColor,
-                    filled: true,
+                    // fillColor: InstaColors.mildLightColor,
+                    // filled: true,
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.r),
                       borderSide: BorderSide(
@@ -107,10 +107,9 @@ class _CollectPersonalDetailModelState
                   hintStyle: TextStyle(
                     fontFamily: 'Montesserat',
                     fontSize: 13.sp,
-                    color: InstaColors.darkColor.withOpacity(0.5),
                   ),
-                  fillColor: InstaColors.lightColor,
-                  filled: true,
+                  // fillColor: InstaColors.lightColor,
+                  // filled: true,
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.r),
                     borderSide: BorderSide(

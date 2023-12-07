@@ -24,12 +24,12 @@ class ThemeController extends BaseChangeNotifier {
     notifyListeners();
   }
 
-  void setDeviceTheme(Brightness deviceBrightness) {
-    if (deviceBrightness == Brightness.light) {
-      currentTheme = EnvThemeManager.lightTheme;
-    } else if (deviceBrightness == Brightness.dark) {
-      currentTheme = EnvThemeManager.darkTheme;
-    }
-    notifyListeners();
-  }
+  // void setDeviceTheme(Brightness deviceBrightness) {
+  //   if (deviceBrightness == Brightness.light) {
+  //     currentTheme = EnvThemeManager.lightTheme;
+  //   } else if (deviceBrightness == Brightness.dark) {
+  //     currentTheme = EnvThemeManager.darkTheme;
+  //   }
+  //   notifyListeners();
+  // }
 }

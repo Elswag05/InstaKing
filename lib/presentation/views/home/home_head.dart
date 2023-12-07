@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insta_king/core/constants/env_colors.dart';
@@ -7,11 +9,13 @@ class HomeHeaderWidget extends StatefulWidget {
   final String? username;
   final void Function()? onNotificationsTap;
   final void Function()? onProfileTap;
+  final File imageFile;
   const HomeHeaderWidget({
     Key? key,
     required this.username,
     this.onNotificationsTap,
     this.onProfileTap,
+    required this.imageFile,
   });
 
   @override
@@ -30,6 +34,8 @@ class _HomeHeaderWidgetState extends State<HomeHeaderWidget> {
               onTap: widget.onProfileTap,
               child: CircleAvatar(
                 radius: 25.r,
+                foregroundImage: FileImage(widget.imageFile),
+                backgroundColor: InstaColors.primaryColor,
                 child: const Icon(Icons.person_add_alt_sharp),
               ),
             ),

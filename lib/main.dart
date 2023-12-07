@@ -4,6 +4,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insta_king/core/theme/env_theme_manager.dart';
+import 'package:insta_king/presentation/controllers/insta_dashboard_controller.dart';
+import 'package:insta_king/presentation/controllers/theme_controller.dart';
+import 'package:insta_king/presentation/views/dashboard/insta_dashboard.dart';
 import 'package:oktoast/oktoast.dart';
 
 import 'package:insta_king/firebase_options.dart';
@@ -19,7 +22,7 @@ Future<void> main() async {
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
       overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom]).then(
     (_) => runApp(
-      ProviderScope(
+      const ProviderScope(
         child: InstaKing(),
       ),
     ),
@@ -27,12 +30,27 @@ Future<void> main() async {
 }
 
 class InstaKing extends ConsumerWidget {
-  InstaKing({Key? key}) : super(key: key);
-
-  Widget initialScreen = InstaLogin();
+  const InstaKing({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    Widget initialScreen = const InstaLogin();
+    final screenController = ref.read(dashBoardControllerProvider.notifier);
+    final themeController = ref.watch(themeControllerProvider.notifier);
+
+    void getEmail() async {
+      String emailDey = await screenController.getEmail();
+      emailDey == '' || emailDey == 'null' || emailDey.isEmpty
+          ? debugPrint('${emailDey}is your email')
+          : debugPrint('Info: Email not found');
+
+      if (emailDey.isNotEmpty && emailDey != 'null') {
+        initialScreen = const InstaDashboard();
+      }
+    }
+
+    getEmail();
+
     return OKToast(
       child: ScreenUtilInit(
         designSize: ScreenUtil.defaultSize,
@@ -42,11 +60,11 @@ class InstaKing extends ConsumerWidget {
           return MaterialApp(
             title: 'Insta King',
             themeMode: ThemeMode.system,
-            theme: EnvThemeManager.lightTheme,
+            theme: themeController.currentTheme,
             darkTheme: EnvThemeManager.darkTheme,
             debugShowCheckedModeBanner: false,
             home: const Scaffold(
-              body: InstaLogin(),
+              body: InstaDashboard(),
             ),
           );
         },

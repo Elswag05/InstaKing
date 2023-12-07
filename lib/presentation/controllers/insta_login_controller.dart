@@ -83,7 +83,6 @@ class LoginController extends BaseChangeNotifier {
     try {
       final res = await logOutService.logOut();
       if (res.statusCode == 200) {
-        await locator<SecureStorageService>().deleteAll();
         loadingState = LoadingState.idle;
         locator<ToastService>().showSuccessToast(
           'You have been successfully logged out',

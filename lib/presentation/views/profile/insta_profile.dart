@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insta_king/core/constants/constants.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
+import 'package:insta_king/data/local/secure_storage_service.dart';
 import 'package:insta_king/presentation/controllers/insta_dashboard_controller.dart';
 import 'package:insta_king/presentation/controllers/insta_login_controller.dart';
 import 'package:insta_king/presentation/controllers/theme_controller.dart';
@@ -15,6 +16,7 @@ import 'package:insta_king/presentation/views/profile/sub_profile_views.dart/cha
 import 'package:insta_king/presentation/views/profile/sub_profile_views.dart/more_information.dart';
 import 'package:insta_king/presentation/views/profile/sub_profile_views.dart/profile_details/personal_details_view.dart';
 import 'package:insta_king/presentation/views/profile/sub_profile_views.dart/refer_and_earn/refer_and_earn.dart';
+import 'package:insta_king/utils/locator.dart';
 
 class InstaProfile extends StatefulWidget {
   const InstaProfile({super.key});
@@ -25,12 +27,15 @@ class InstaProfile extends StatefulWidget {
 
 class _InstaProfileState extends State<InstaProfile> {
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Consumer(
       builder: ((context, ref, child) {
         final themeController = ref.watch(themeControllerProvider);
-        themeController
-            .setDeviceTheme(MediaQuery.of(context).platformBrightness);
         bool isChangeBool = themeController.isDarkTheme;
         return Scaffold(
           body: SafeArea(
@@ -56,7 +61,9 @@ class _InstaProfileState extends State<InstaProfile> {
                       ),
                     );
                   },
-                  onProfileIconTap: () {},
+                  onProfileIconTap: () {
+                    setState(() {});
+                  },
                 ),
                 Container(
                         color: Theme.of(context).cardColor,
@@ -129,7 +136,6 @@ class _InstaProfileState extends State<InstaProfile> {
                                 GestureDetector(
                                   onTap: () {
                                     isChangeBool = themeController.isDarkTheme;
-                                    themeController.toggleTheme();
                                   },
                                   child: Switch(
                                     // thumb color (round icon)
@@ -144,7 +150,9 @@ class _InstaProfileState extends State<InstaProfile> {
                                     value: isChangeBool,
                                     // changes the state of the switch
                                     onChanged: (value) {
-                                      themeController.toggleTheme();
+                                      setState(() {
+                                        themeController.toggleTheme();
+                                      });
                                     },
                                   ),
                                 ),
@@ -167,6 +175,7 @@ class _InstaProfileState extends State<InstaProfile> {
                             builder: (context) => const InstaLogin(),
                           ),
                         );
+                        locator<SecureStorageService>().deleteAll();
                       },
                     );
                   },

@@ -6,6 +6,10 @@
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
 	<string>Insta King</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Allow Insta King to access you images.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Allow Insta King to access you camser.</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>

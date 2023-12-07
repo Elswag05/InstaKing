@@ -27,7 +27,13 @@ class DashBoardController extends BaseChangeNotifier {
 
   Future<String> getEmail() async {
     String? email = await secureStorageService.read(key: "email");
-    return email as String;
+    if (email == null) {
+      return '';
+    } else if (email.isEmpty) {
+      return '';
+    } else {
+      return email;
+    }
   }
 
   Future<String> getId() async {
