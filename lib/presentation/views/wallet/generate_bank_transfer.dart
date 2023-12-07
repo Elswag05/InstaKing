@@ -25,7 +25,7 @@ class _WalletCard1State extends State<WalletCard1> {
   Widget build(BuildContext context) {
     return onGenerate
         ? Container(
-            color: EnvColors.lightColor,
+            color: Theme.of(context).cardColor,
             // width: MediaQuery.of(context).size.width - 40.sp,
             height: 480.h,
             child: Column(
@@ -36,7 +36,6 @@ class _WalletCard1State extends State<WalletCard1> {
                   style: TextStyle(
                     fontFamily: 'Montesserat',
                     fontSize: 15.sp,
-                    color: EnvColors.mildGrey,
                     fontWeight: FontWeight.bold,
                   ),
                 ).afmPadding(
@@ -52,7 +51,6 @@ class _WalletCard1State extends State<WalletCard1> {
                         style: TextStyle(
                           fontFamily: 'Montesserat',
                           fontSize: 15.sp,
-                          color: EnvColors.mildGrey,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -83,7 +81,7 @@ class _WalletCard1State extends State<WalletCard1> {
               EdgeInsets.only(bottom: 20.sp, left: 20.sp, right: 20.sp),
             )
         : Container(
-            color: EnvColors.lightColor,
+            color: Theme.of(context).cardColor,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -92,7 +90,6 @@ class _WalletCard1State extends State<WalletCard1> {
                   style: TextStyle(
                     fontFamily: 'Montesserat',
                     fontSize: 15.sp,
-                    color: EnvColors.mildGrey,
                     fontWeight: FontWeight.bold,
                   ),
                 ).afmPadding(

@@ -12,7 +12,7 @@ class AddFunds extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: EnvColors.appBackgroundColor,
+      backgroundColor: InstaColors.appBackgroundColor,
       body: SafeArea(
         child: Column(
           children: [
@@ -22,14 +22,14 @@ class AddFunds extends StatelessWidget {
             ).afmPadding(EdgeInsets.only(bottom: 10.h)),
             Container(
               padding: EdgeInsets.symmetric(horizontal: 25.sp),
-              color: EnvColors.primaryColor.withBlue(2).withOpacity(0.2),
+              color: InstaColors.primaryColor.withBlue(2).withOpacity(0.2),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SmallCTA(
                     text: 'Bank Transfer',
-                    backgroundColor: EnvColors.mildGrey,
-                    textColor: EnvColors.lightColor,
+                    backgroundColor: InstaColors.mildGrey,
+                    textColor: InstaColors.lightColor,
                   )
                       .afmBorderRadius(BorderRadius.circular(6.r))
                       .afmPadding(EdgeInsets.only(top: 23.h)),
@@ -44,7 +44,7 @@ class AddFunds extends StatelessWidget {
                   Text(
                     'Make payment into the account number below to fund your wallet automatically',
                     style: TextStyle(
-                      color: EnvColors.mildGrey,
+                      color: InstaColors.mildGrey,
                       fontFamily: 'Montesserat',
                       fontSize: 16.sp,
                       fontWeight: FontWeight.w500,
@@ -66,14 +66,14 @@ class AddFunds extends StatelessWidget {
                 ),
             Container(
               padding: EdgeInsets.symmetric(horizontal: 25.sp),
-              color: EnvColors.lightColor,
+              color: InstaColors.lightColor,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SmallCTA(
                     text: 'Flutterwave',
-                    backgroundColor: EnvColors.mildGrey,
-                    textColor: EnvColors.lightColor,
+                    backgroundColor: InstaColors.mildGrey,
+                    textColor: InstaColors.lightColor,
                   )
                       .afmBorderRadius(BorderRadius.circular(6.r))
                       .afmPadding(EdgeInsets.only(top: 23.h)),
@@ -92,7 +92,7 @@ class AddFunds extends StatelessWidget {
                         style: TextStyle(
                           fontFamily: 'Montesserat',
                           fontSize: 20.sp,
-                          color: EnvColors.mildGrey,
+                          color: InstaColors.mildGrey,
                           fontWeight: FontWeight.w500,
                         ),
                         children: const <TextSpan>[
@@ -108,7 +108,7 @@ class AddFunds extends StatelessWidget {
                     child: Text(
                       'You can deposit funds with Flutterwave. They will be automatically added into your account!',
                       style: TextStyle(
-                        color: EnvColors.mildGrey,
+                        color: InstaColors.mildGrey,
                         fontFamily: 'Montesserat',
                         fontSize: 11.sp,
                         fontWeight: FontWeight.w500,

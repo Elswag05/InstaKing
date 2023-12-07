@@ -4,10 +4,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insta_king/core/theme/env_theme_manager.dart';
+import 'package:oktoast/oktoast.dart';
+
 import 'package:insta_king/firebase_options.dart';
 import 'package:insta_king/presentation/views/authentication/login/login.dart';
 import 'package:insta_king/utils/locator.dart';
-import 'package:oktoast/oktoast.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,20 +19,20 @@ Future<void> main() async {
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
       overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom]).then(
     (_) => runApp(
-      const ProviderScope(
+      ProviderScope(
         child: InstaKing(),
       ),
     ),
   );
 }
 
-class InstaKing extends StatelessWidget {
-  const InstaKing({super.key});
+class InstaKing extends ConsumerWidget {
+  InstaKing({Key? key}) : super(key: key);
+
+  Widget initialScreen = InstaLogin();
 
   @override
-  Widget build(BuildContext context) {
-    // Use MediaQuery to get the system's default theme mode
-    final brightness = MediaQuery.of(context).platformBrightness;
+  Widget build(BuildContext context, WidgetRef ref) {
     return OKToast(
       child: ScreenUtilInit(
         designSize: ScreenUtil.defaultSize,
@@ -40,10 +41,9 @@ class InstaKing extends StatelessWidget {
         builder: (_, __) {
           return MaterialApp(
             title: 'Insta King',
-            themeMode: ThemeMode.light,
-            theme: brightness == Brightness.dark
-                ? EnvThemeManager.darkTheme
-                : EnvThemeManager.lightTheme,
+            themeMode: ThemeMode.system,
+            theme: EnvThemeManager.lightTheme,
+            darkTheme: EnvThemeManager.darkTheme,
             debugShowCheckedModeBanner: false,
             home: const Scaffold(
               body: InstaLogin(),

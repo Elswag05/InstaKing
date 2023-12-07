@@ -9,7 +9,7 @@ class OrderViews extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: EnvColors.lightColor,
+      color: Theme.of(context).cardColor,
       padding: EdgeInsets.all(15.sp),
       child: Column(
         children: [
@@ -18,7 +18,6 @@ class OrderViews extends StatelessWidget {
               Icon(
                 Icons.star_rate_rounded,
                 size: 25.sp,
-                color: EnvColors.lightColor,
               ).afmWrapUp.afmPadding(EdgeInsets.only(right: 10.w)),
               SizedBox(
                 width: 150.w,
@@ -29,7 +28,6 @@ class OrderViews extends StatelessWidget {
                     overflow: TextOverflow.clip,
                     fontFamily: 'Montesserat',
                     fontSize: 14.sp,
-                    color: EnvColors.darkColor,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -41,7 +39,6 @@ class OrderViews extends StatelessWidget {
             style: TextStyle(
               fontFamily: 'Montesserat',
               fontSize: 14.sp,
-              color: EnvColors.darkColor,
               fontWeight: FontWeight.w500,
             ),
           ).afmPadding(EdgeInsets.only(bottom: 15.w)),
@@ -50,14 +47,12 @@ class OrderViews extends StatelessWidget {
               Icon(
                 Icons.calendar_month_rounded,
                 size: 10.sp,
-                color: EnvColors.darkColor,
               ).afmPadding(EdgeInsets.only(right: 5.w)),
               Text(
                 '04.10.2023',
                 style: TextStyle(
                   fontFamily: 'Montesserat',
                   fontSize: 10.sp,
-                  color: EnvColors.darkColor,
                   fontWeight: FontWeight.w600,
                 ),
               ),

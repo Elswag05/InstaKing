@@ -9,7 +9,7 @@ class ReferralCard3 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: EnvColors.lightColor,
+      color: Theme.of(context).cardColor,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -18,7 +18,6 @@ class ReferralCard3 extends StatelessWidget {
             style: TextStyle(
               fontFamily: 'Montesserat',
               fontSize: 16.sp,
-              color: EnvColors.darkColor,
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -38,7 +37,6 @@ class ReferralCard3 extends StatelessWidget {
                 style: TextStyle(
                   fontFamily: 'Montesserat',
                   fontSize: 10.sp,
-                  color: EnvColors.darkColor,
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -47,7 +45,6 @@ class ReferralCard3 extends StatelessWidget {
                 style: TextStyle(
                   fontFamily: 'Montesserat',
                   fontSize: 10.sp,
-                  color: EnvColors.darkColor,
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -56,7 +53,6 @@ class ReferralCard3 extends StatelessWidget {
                 style: TextStyle(
                   fontFamily: 'Montesserat',
                   fontSize: 10.sp,
-                  color: EnvColors.darkColor,
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -65,7 +61,6 @@ class ReferralCard3 extends StatelessWidget {
                 style: TextStyle(
                   fontFamily: 'Montesserat',
                   fontSize: 10.sp,
-                  color: EnvColors.darkColor,
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -74,7 +69,6 @@ class ReferralCard3 extends StatelessWidget {
                 style: TextStyle(
                   fontFamily: 'Montesserat',
                   fontSize: 10.sp,
-                  color: EnvColors.darkColor,
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -83,7 +77,6 @@ class ReferralCard3 extends StatelessWidget {
                 style: TextStyle(
                   fontFamily: 'Montesserat',
                   fontSize: 10.sp,
-                  color: EnvColors.darkColor,
                   fontWeight: FontWeight.w500,
                 ),
               ),

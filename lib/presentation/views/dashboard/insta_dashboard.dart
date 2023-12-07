@@ -18,27 +18,30 @@ class InstaDashboard extends HookConsumerWidget {
     final selectedPageIndex = dashboardController.page;
 
     return Scaffold(
-      backgroundColor: EnvColors.lightColor,
       bottomNavigationBar: BottomNavigationBar(
-        elevation: 10.h,
+        elevation: 10.sp,
         showUnselectedLabels: true,
         currentIndex: selectedPageIndex,
         type: BottomNavigationBarType.fixed,
-        backgroundColor: EnvColors.lightColor,
         selectedFontSize: 12.sp,
-        selectedLabelStyle: const TextStyle(
+        selectedItemColor: InstaColors.primaryColor,
+        selectedLabelStyle: TextStyle(
+          color: Theme.of(context).primaryColor,
           fontFamily: 'Montserrat',
           fontWeight: FontWeight.w600,
         ),
         unselectedFontSize: 11.sp,
-        unselectedLabelStyle: TextStyle(
-          color: EnvColors.darkColor,
+        unselectedLabelStyle: const TextStyle(
           fontFamily: 'Montserrat',
           fontWeight: FontWeight.w600,
         ),
         selectedIconTheme: IconThemeData(
           size: 30.sp,
-          color: EnvColors.primaryColor, // Color for selected icons
+          color: InstaColors.primaryColor, // Color for selected icons
+        ),
+        unselectedIconTheme: IconThemeData(
+          size: 30.sp,
+          color: Theme.of(context).dialogBackgroundColor,
         ),
         onTap: (value) {
           ref.read(dashBoardControllerProvider.notifier).switchPage(value);
@@ -46,24 +49,28 @@ class InstaDashboard extends HookConsumerWidget {
         items: [
           buildBottomNavigationBarItem(
             ref,
+            context,
             iconPath: 'Home',
             label: 'Home',
             index: 0,
           ),
           buildBottomNavigationBarItem(
             ref,
+            context,
             iconPath: 'Order-History',
             label: 'Order History',
             index: 1,
           ),
           buildBottomNavigationBarItem(
             ref,
+            context,
             iconPath: 'Wallet (1)',
             label: 'Wallet',
             index: 2,
           ),
           buildBottomNavigationBarItem(
             ref,
+            context,
             iconPath: 'Profile',
             label: 'Profile',
             index: 3,

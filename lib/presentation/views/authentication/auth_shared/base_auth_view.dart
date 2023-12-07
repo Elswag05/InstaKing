@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:insta_king/core/constants/env_assets.dart';
 
 import 'package:insta_king/core/constants/env_colors.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
@@ -101,7 +102,7 @@ class _BaseAuthViewState extends State<BaseAuthView> {
                         : Checkbox(
                             value: widget.checked,
                             onChanged: widget.onChanged,
-                            activeColor: EnvColors.mildGrey,
+                            activeColor: InstaColors.mildGrey,
                           ),
                     Text(
                       widget.checkBoxText,
@@ -129,33 +130,38 @@ class _BaseAuthViewState extends State<BaseAuthView> {
               ],
             ),
           ),
+          widget.isLogin
+              ? GestureDetector(
+                  child: Column(
+                    children: [
+                      Image.asset(
+                        EnvAssets.getImagePath('fingerprint-scan'),
+                        width: 50.w,
+                        height: 50.h,
+                        // ignore: deprecated_member_use
+                        color: Theme.of(context).unselectedWidgetColor,
+                        semanticLabel: 'Use Fingerprint To Login',
+                      ),
+                      SizedBox(
+                        height: 5.h,
+                      ),
+                      Text(
+                        'Login with fingerprint',
+                        style: TextStyle(
+                          fontFamily: 'Montesserat',
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                ).afmPadding(
+                  EdgeInsets.only(top: 80.h),
+                )
+              : const SizedBox(),
           SizedBox(
-            height: 20.h,
+            height: 40.h,
           ),
-          // GestureDetector(
-          //   child: Column(
-          //     children: [
-          //       Image.asset(
-          //         EnvAssets.getIconPath('fingerprint'),
-          //         width: 60.w,
-          //         height: 60.h,
-          //       ),
-          //       SizedBox(
-          //         height: 5.h,
-          //       ),
-          //       Text(
-          //         'Login with fingerprint',
-          //         style: TextStyle(
-          //           fontFamily: 'Montesserat',
-          //           fontSize: 12.sp,
-          //         ),
-          //       ),
-          //     ],
-          //   ),
-          // ),
-          // SizedBox(
-          //   height: 40.h,
-          // ),
           CustomButton(
             pageCTA: widget.pageCTA,
             toSignOrLogin: widget.toSignOrLogin,
@@ -174,7 +180,6 @@ class _BaseAuthViewState extends State<BaseAuthView> {
                   style: TextStyle(
                     fontFamily: 'Montesserat',
                     fontSize: 14.sp,
-                    color: EnvColors.darkColor,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -182,7 +187,7 @@ class _BaseAuthViewState extends State<BaseAuthView> {
                   widget.inversePageName,
                   style: TextStyle(
                     fontFamily: 'Montesserat',
-                    color: EnvColors.primaryColor[700],
+                    color: InstaColors.primaryColor[700],
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w500,
                   ),

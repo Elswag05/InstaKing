@@ -13,7 +13,6 @@ class ReferAndEarn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: EnvColors.appBackgroundColor,
       body: Column(
         children: [
           const RecurringAppBar(appBarTitle: "Refer And Earn")

@@ -7,7 +7,8 @@ import 'package:insta_king/core/constants/env_colors.dart';
 import 'package:insta_king/presentation/controllers/insta_dashboard_controller.dart';
 
 BottomNavigationBarItem buildBottomNavigationBarItem(
-  WidgetRef ref, {
+  WidgetRef ref,
+  BuildContext context, {
   required String iconPath,
   required String label,
   required int index,
@@ -22,16 +23,16 @@ BottomNavigationBarItem buildBottomNavigationBarItem(
       height: 25.h,
       // ignore: deprecated_member_use
       color: selectedPageIndex == index
-          ? EnvColors.primaryColor
-          : EnvColors.darkColor,
+          ? InstaColors.primaryColor
+          : Theme.of(context).unselectedWidgetColor,
       semanticsLabel: label,
     ),
     // icon: Image.asset(
-    //   EnvAssets.getIconPath(iconPath),
+    //   InstaAssets.getIconPath(iconPath),
     //   width: 25.w,
     //   height: 25.h,
     //   color: selectedPageIndex == index
-    //       ? EnvColors.primaryColor
+    //       ? InstaColors.primaryColor
     //       : EnvColors.darkColor,
     // ),
     label: label,

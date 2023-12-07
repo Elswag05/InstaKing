@@ -41,7 +41,7 @@ class _AuthTextFieldState extends State<AuthTextField> {
         onTap: toShowPassword,
         child: showPassword
             ? Icon(widget.suffixIcon).afmPadding()
-            : Icon(Icons.visibility_off_outlined).afmPadding());
+            : const Icon(Icons.visibility_off_outlined).afmPadding());
   }
 
   @override
@@ -57,51 +57,45 @@ class _AuthTextFieldState extends State<AuthTextField> {
       decoration: InputDecoration(
         contentPadding: EdgeInsets.symmetric(vertical: 12.h),
         prefixIcon: Icon(
-          color: EnvColors.darkColor.withOpacity(0.7),
           widget.icon,
         ),
         hintText: widget.hintT,
         hintStyle: TextStyle(
           fontFamily: 'Montesserat',
           fontSize: 13.sp,
-          color: EnvColors.darkColor,
         ),
         suffixIcon: (widget.hasSuffix) ? eyeToHidePassword() : const SizedBox(),
-        fillColor: EnvColors.lightColor,
         filled: true,
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.r),
           borderSide: BorderSide(
             width: 1.sp,
-            color: EnvColors.mildGrey,
           ),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.r),
           borderSide: BorderSide(
             width: 1.sp,
-            color: EnvColors.darkColor,
           ),
         ),
         disabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.r),
           borderSide: BorderSide(
             width: 1.sp,
-            color: EnvColors.mildGrey,
           ),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.r),
           borderSide: BorderSide(
             width: 1.sp,
-            color: EnvColors.errorColor,
+            color: InstaColors.errorColor,
           ),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.r),
           borderSide: BorderSide(
             width: 1.sp,
-            color: EnvColors.errorColor,
+            color: InstaColors.errorColor,
           ),
         ),
       ),

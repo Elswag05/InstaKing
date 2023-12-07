@@ -14,7 +14,6 @@ class PlaceOrder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: EnvColors.appBackgroundColor,
       body: SafeArea(
           child: Column(
         children: [
@@ -69,7 +68,7 @@ class PlaceOrder extends StatelessWidget {
             ),
           ),
           Container(
-            color: EnvColors.lightColor,
+            color: Theme.of(context).cardColor,
             padding: EdgeInsets.all(15.sp),
             child: Column(
               children: [
@@ -80,14 +79,12 @@ class PlaceOrder extends StatelessWidget {
                         EnvAssets.getIconPath('bell'),
                       ),
                       size: 25.sp,
-                      color: EnvColors.lightColor,
                     ).afmWrapUp.afmPadding(EdgeInsets.only(right: 10.w)),
                     Text(
                       'Announcements',
                       style: TextStyle(
                         fontFamily: 'Montesserat',
                         fontSize: 16.sp,
-                        color: EnvColors.darkColor,
                         fontWeight: FontWeight.w500,
                       ),
                     ),

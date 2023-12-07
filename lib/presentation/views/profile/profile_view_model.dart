@@ -20,14 +20,12 @@ class ProfileViewModel extends StatelessWidget {
             style: TextStyle(
               fontFamily: 'Montesserat',
               fontSize: 14.sp,
-              color: EnvColors.darkColor,
               fontWeight: FontWeight.bold,
             ),
           ),
           Icon(
             Icons.arrow_forward_ios_rounded,
             size: 20.sp,
-            color: EnvColors.mildGrey,
           ).afmPadding(EdgeInsets.only(right: 6.h)),
         ],
       ),

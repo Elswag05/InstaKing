@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:insta_king/core/constants/env_colors.dart';
+
 import 'package:insta_king/core/extensions/widget_extension.dart';
-import 'package:insta_king/presentation/views/shared_widgets/input_data_viewmodel.dart';
 import 'package:insta_king/presentation/views/shared_widgets/cta_button.dart';
+import 'package:insta_king/presentation/views/shared_widgets/input_data_viewmodel.dart';
 import 'package:insta_king/presentation/views/shared_widgets/recurring_appbar.dart';
 
 class BankAccountLink extends StatelessWidget {
@@ -12,13 +12,12 @@ class BankAccountLink extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: EnvColors.appBackgroundColor,
       body: Column(
         children: [
           const RecurringAppBar(appBarTitle: "Bank Account Details")
               .afmPadding(EdgeInsets.only(bottom: 10.h)),
           Container(
-            color: EnvColors.lightColor,
+            color: Theme.of(context).cardColor,
             child: Column(
               children: [
                 const ChooseContainerFromDropDown(
@@ -75,7 +74,6 @@ class ChooseContainerFromDropDown extends StatelessWidget {
           style: TextStyle(
             fontFamily: 'Montesserat',
             fontSize: 16.sp,
-            color: EnvColors.darkColor,
             fontWeight: FontWeight.w500,
           ),
         ),
@@ -83,8 +81,8 @@ class ChooseContainerFromDropDown extends StatelessWidget {
           height: 40.h,
           decoration: BoxDecoration(
             border: Border.all(
-              color: EnvColors.darkColor.withOpacity(0.5),
               width: 1.sp,
+              color: Theme.of(context).unselectedWidgetColor,
             ),
             borderRadius: BorderRadius.circular(10.r),
           ),
@@ -96,14 +94,12 @@ class ChooseContainerFromDropDown extends StatelessWidget {
                 style: TextStyle(
                   fontFamily: 'Montesserat',
                   fontSize: 13.sp,
-                  color: EnvColors.darkColor.withOpacity(0.5),
                   fontWeight: FontWeight.w500,
                 ),
               ).afmPadding(EdgeInsets.only(left: 10.w)),
               Icon(
                 displayIcon,
                 size: 20.sp,
-                color: EnvColors.darkColor.withOpacity(0.5),
               ).afmPadding(EdgeInsets.only(right: 6.h)),
             ],
           ),

@@ -36,7 +36,6 @@ class _CollectPersonalDetailModelState
           style: TextStyle(
             fontFamily: 'Montesserat',
             fontSize: 16.sp,
-            color: EnvColors.darkColor,
             fontWeight: FontWeight.w500,
           ),
         ),
@@ -56,36 +55,35 @@ class _CollectPersonalDetailModelState
                     hintStyle: TextStyle(
                       fontFamily: 'Montesserat',
                       fontSize: 13.sp,
-                      color: EnvColors.darkColor.withOpacity(0.5),
                     ),
-                    fillColor: EnvColors.mildLightColor,
+                    fillColor: InstaColors.mildLightColor,
                     filled: true,
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.r),
                       borderSide: BorderSide(
                         width: 1.sp,
-                        color: EnvColors.darkColor.withOpacity(0.3),
+                        color: InstaColors.darkColor.withOpacity(0.3),
                       ),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.r),
                       borderSide: BorderSide(
                         width: 1.sp,
-                        color: EnvColors.darkColor,
+                        color: InstaColors.darkColor,
                       ),
                     ),
                     disabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.r),
                       borderSide: BorderSide(
                         width: 1.sp,
-                        color: EnvColors.darkColor.withOpacity(0.5),
+                        color: InstaColors.darkColor.withOpacity(0.5),
                       ),
                     ),
                     errorBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.r),
                       borderSide: BorderSide(
                         width: 1.sp,
-                        color: EnvColors.errorColor,
+                        color: InstaColors.errorColor,
                       ),
                     ),
                   ),
@@ -100,6 +98,7 @@ class _CollectPersonalDetailModelState
                 autovalidateMode: AutovalidateMode.always,
                 style: TextStyle(
                   fontSize: 13.sp,
+                  color: Theme.of(context).cardColor,
                 ),
                 decoration: InputDecoration(
                   contentPadding:
@@ -108,36 +107,36 @@ class _CollectPersonalDetailModelState
                   hintStyle: TextStyle(
                     fontFamily: 'Montesserat',
                     fontSize: 13.sp,
-                    color: EnvColors.darkColor.withOpacity(0.5),
+                    color: InstaColors.darkColor.withOpacity(0.5),
                   ),
-                  fillColor: EnvColors.lightColor,
+                  fillColor: InstaColors.lightColor,
                   filled: true,
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.r),
                     borderSide: BorderSide(
                       width: 1.sp,
-                      color: EnvColors.darkColor.withOpacity(0.3),
+                      color: InstaColors.darkColor.withOpacity(0.3),
                     ),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.r),
                     borderSide: BorderSide(
                       width: 1.sp,
-                      color: EnvColors.darkColor,
+                      color: InstaColors.darkColor,
                     ),
                   ),
                   disabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.r),
                     borderSide: BorderSide(
                       width: 1.sp,
-                      color: EnvColors.darkColor.withOpacity(0.5),
+                      color: InstaColors.darkColor.withOpacity(0.5),
                     ),
                   ),
                   errorBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.r),
                     borderSide: BorderSide(
                       width: 1.sp,
-                      color: EnvColors.errorColor,
+                      color: InstaColors.errorColor,
                     ),
                   ),
                 ),

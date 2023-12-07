@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -18,22 +20,25 @@ final instaProfileController =
 
 class ProfileController extends BaseChangeNotifier {
   final EditDetailService editDetailService = EditDetailService();
-  final GetProfileService getProfileService = GetProfileService();
+  final GetProfileService _getProfileService = GetProfileService();
+  late ProfileModel model = ProfileModel();
   final SecureStorageService secureStorageService =
       SecureStorageService(secureStorage: const FlutterSecureStorage());
 
-  Future<bool> getProfileDetails() async {
+  Future<ProfileModel> getProfileDetails() async {
     loadingState = LoadingState.loading;
     try {
-      final res = await getProfileService.getProfileDetails();
-      final data = ProfileModel.fromJson(res.data);
-      print(data.message);
+      final res = await _getProfileService.getProfileDetails();
+
       if (res.statusCode == 200) {
         loadingState = LoadingState.idle;
-        locator<ToastService>().showSuccessToast(
-          'Gotten Profile Details',
-        );
-        return true;
+        // locator<ToastService>().showSuccessToast(
+        //   'Gotten Profile Details',
+        // );
+        model = ProfileModel.fromJson(res.data);
+        notifyListeners();
+        log('model: ${model.message}');
+        return model;
       } else {
         throw Error();
       }
@@ -44,7 +49,7 @@ class ProfileController extends BaseChangeNotifier {
       loadingState = LoadingState.error;
       ErrorService.handleErrors(e);
     }
-    return false;
+    return model;
   }
 
   Future<bool> editPersonalDetails(

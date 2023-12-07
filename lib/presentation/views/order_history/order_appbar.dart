@@ -18,19 +18,18 @@ class OrderAppBar extends StatelessWidget {
           style: TextStyle(
             fontFamily: 'Montesserat',
             fontSize: 20.sp,
-            color: EnvColors.darkColor,
             fontWeight: FontWeight.bold,
           ),
         ),
         IconButton(
-          splashColor: EnvColors.darkColor,
+          splashColor: InstaColors.darkColor,
           splashRadius: 25.r,
           icon: SvgPicture.asset(
             EnvAssets.getSvgPath('Search'),
             width: 20.w,
             height: 20.h,
             // ignore: deprecated_member_use
-            color: EnvColors.darkColor,
+            color: Theme.of(context).unselectedWidgetColor,
             semanticsLabel: 'Search',
           ),
           onPressed: () {
@@ -38,8 +37,7 @@ class OrderAppBar extends StatelessWidget {
             print('INFO: You just prompted search');
           },
           tooltip: 'search',
-          highlightColor: EnvColors.primaryColor,
-          color: EnvColors.mildGrey,
+          highlightColor: InstaColors.primaryColor,
         ), //.afmPadding(EdgeInsets.only(left: 10.w)),
       ],
     );

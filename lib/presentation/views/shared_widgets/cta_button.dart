@@ -27,15 +27,15 @@ class CustomButton extends StatelessWidget {
         width: MediaQuery.of(context).size.width - 40.w,
         decoration: BoxDecoration(
           color: agreeTC
-              ? EnvColors.primaryColor[200]
-              : EnvColors.primaryColor[900],
+              ? InstaColors.primaryColor[200]
+              : InstaColors.primaryColor[900],
           borderRadius: BorderRadius.circular(10.r),
         ),
         child: Text(
           pageCTA,
           style: TextStyle(
             fontFamily: 'Montesserat',
-            color: EnvColors.lightColor,
+            color: InstaColors.lightColor,
             fontSize: 14.sp,
             fontWeight: FontWeight.w600,
           ),

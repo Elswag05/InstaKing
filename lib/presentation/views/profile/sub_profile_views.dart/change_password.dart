@@ -43,13 +43,12 @@ class _ChangePasswordState extends State<ChangePassword> {
     return Consumer(
       builder: (context, ref, child) {
         return Scaffold(
-          backgroundColor: EnvColors.appBackgroundColor,
           body: Column(
             children: [
               const RecurringAppBar(appBarTitle: "Change Password")
                   .afmPadding(EdgeInsets.only(bottom: 10.h)),
               Container(
-                color: EnvColors.lightColor,
+                color: Theme.of(context).cardColor,
                 child: Column(
                   children: [
                     CollectPersonalDetailModel(

@@ -18,7 +18,6 @@ class WalletAppBar extends StatelessWidget {
           style: TextStyle(
             fontFamily: 'Montesserat',
             fontSize: 20.sp,
-            color: EnvColors.mildGrey,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -37,14 +36,13 @@ class WalletAppBar extends StatelessWidget {
               Icon(
                 Icons.history,
                 size: 30.sp,
-                color: EnvColors.mildGrey,
               ),
               SvgPicture.asset(
                 EnvAssets.getSvgPath('arrow-right'),
                 width: 20.w,
                 height: 20.h,
                 // ignore: deprecated_member_use
-                color: EnvColors.mildGrey,
+                color: Theme.of(context).unselectedWidgetColor,
                 semanticsLabel: 'Search',
               ),
             ],

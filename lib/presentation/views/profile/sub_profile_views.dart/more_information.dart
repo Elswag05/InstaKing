@@ -12,13 +12,12 @@ class MoreInformation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: EnvColors.appBackgroundColor,
       body: Column(
         children: [
           const RecurringAppBar(appBarTitle: "More Information")
               .afmPadding(EdgeInsets.only(bottom: 10.h)),
           Container(
-            color: EnvColors.lightColor,
+            color: Theme.of(context).cardColor,
             child: Column(
               children: [
                 const CollectPersonalDetailModel(
@@ -61,7 +60,7 @@ class MoreInformation extends StatelessWidget {
                 ),
               ),
         ],
-      ),
+      ).afmNeverScroll,
     );
   }
 }

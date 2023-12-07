@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:insta_king/core/utils/my_strings.dart';
+import 'package:insta_king/presentation/controllers/insta_profile_controller.dart';
 import 'package:insta_king/presentation/controllers/insta_signin_controller.dart';
 import 'package:insta_king/presentation/views/authentication/auth_shared/base_auth_view.dart';
 import 'package:insta_king/presentation/views/authentication/auth_shared/text_form.dart';
@@ -42,7 +43,7 @@ class _SignUpState extends State<SignUp> {
         return BaseAuthView(
           pageName: "Create Account",
           callToActionFooterText: "Do you have an account?",
-          inversePageName: "Sign in",
+          inversePageName: " Sign in",
           callToActionText: '',
           checkBoxText: "I agree to the terms and policy",
           pageCTA: "Create Account",
@@ -151,6 +152,7 @@ class _SignUpState extends State<SignUp> {
                 .then(
               (value) {
                 if (value) {
+                  ref.read(instaProfileController.notifier).getProfileDetails();
                   Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => const InstaDashboard(),
                   ));

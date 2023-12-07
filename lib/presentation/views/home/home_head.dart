@@ -3,17 +3,22 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insta_king/core/constants/env_colors.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
 
-class HomeHeaderWidget extends StatelessWidget {
-  final String username;
+class HomeHeaderWidget extends StatefulWidget {
+  final String? username;
   final void Function()? onNotificationsTap;
   final void Function()? onProfileTap;
   const HomeHeaderWidget({
-    super.key,
+    Key? key,
     required this.username,
     this.onNotificationsTap,
     this.onProfileTap,
   });
 
+  @override
+  State<HomeHeaderWidget> createState() => _HomeHeaderWidgetState();
+}
+
+class _HomeHeaderWidgetState extends State<HomeHeaderWidget> {
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -22,7 +27,7 @@ class HomeHeaderWidget extends StatelessWidget {
         Row(
           children: [
             GestureDetector(
-              onTap: onProfileTap,
+              onTap: widget.onProfileTap,
               child: CircleAvatar(
                 radius: 25.r,
                 child: const Icon(Icons.person_add_alt_sharp),
@@ -32,11 +37,12 @@ class HomeHeaderWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Hi, $username.',
+                  widget.username == null
+                      ? 'Hi, User'
+                      : 'Hi, ${widget.username}',
                   style: TextStyle(
                     fontFamily: 'Montesserat',
                     fontSize: 14.sp,
-                    color: EnvColors.darkColor,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -45,7 +51,6 @@ class HomeHeaderWidget extends StatelessWidget {
                   style: TextStyle(
                     fontFamily: 'Montesserat',
                     fontSize: 14.sp,
-                    color: EnvColors.darkColor,
                     fontWeight: FontWeight.w500,
                   ),
                 ),

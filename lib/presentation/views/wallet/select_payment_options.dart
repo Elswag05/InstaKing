@@ -11,7 +11,7 @@ class SelectPaymentOptions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: EnvColors.lightColor,
+      color: Theme.of(context).cardColor,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -20,7 +20,6 @@ class SelectPaymentOptions extends StatelessWidget {
             style: TextStyle(
               fontFamily: 'Montesserat',
               fontSize: 15.sp,
-              color: EnvColors.mildGrey,
               fontWeight: FontWeight.bold,
             ),
           ).afmPadding(

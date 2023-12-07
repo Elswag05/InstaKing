@@ -9,8 +9,8 @@ class SmallCTA extends StatelessWidget {
   const SmallCTA({
     super.key,
     required this.text,
-    this.backgroundColor = EnvColors.primaryColor,
-    this.textColor = EnvColors.lightColor,
+    this.backgroundColor = InstaColors.primaryColor,
+    this.textColor = InstaColors.lightColor,
   });
 
   @override

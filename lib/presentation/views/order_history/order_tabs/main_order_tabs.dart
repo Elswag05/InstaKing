@@ -21,24 +21,22 @@ class OrderChips extends StatelessWidget {
     return FilterChip(
       selected: isSelected,
       onSelected: onSelected,
-      selectedColor: EnvColors.primaryColor,
+      selectedColor: InstaColors.primaryColor,
       showCheckmark: false,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.r),
       ),
       padding: EdgeInsets.all(8.sp),
-      backgroundColor: EnvColors.mildGrey,
+
       label: Row(
         children: [
           Icon(
             icon,
-            color: EnvColors.lightColor,
           ),
           Text(
             label,
             style: TextStyle(
               fontSize: 13.sp,
-              color: EnvColors.lightColor,
               fontWeight: FontWeight.w400,
             ),
           ),

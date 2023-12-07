@@ -9,7 +9,7 @@ class RecentDeposits extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: EnvColors.lightColor,
+      color: Theme.of(context).cardColor,
       width: MediaQuery.of(context).size.width - 40.sp,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -19,7 +19,6 @@ class RecentDeposits extends StatelessWidget {
             style: TextStyle(
               fontFamily: 'Montesserat',
               fontSize: 15.sp,
-              color: EnvColors.mildGrey,
               fontWeight: FontWeight.bold,
             ),
           ).afmPadding(

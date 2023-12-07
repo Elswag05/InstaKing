@@ -6,10 +6,11 @@ import 'package:insta_king/core/constants/env_colors.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
 import 'package:insta_king/presentation/views/home/home_container_widget.dart';
 import 'package:insta_king/presentation/views/shared_widgets/small_cta.dart';
+import 'package:intl/intl.dart';
 
-class HomeCardBalance extends StatelessWidget {
+class HomeCardBalance extends StatefulWidget {
   final String balanceString;
-  final double balance;
+  final String? balance;
   final void Function()? toHideBalance;
   const HomeCardBalance(
       {super.key,
@@ -18,14 +19,18 @@ class HomeCardBalance extends StatelessWidget {
       this.toHideBalance});
 
   @override
+  State<HomeCardBalance> createState() => _HomeCardBalanceState();
+}
+
+class _HomeCardBalanceState extends State<HomeCardBalance> {
+  @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          balanceString,
+          widget.balanceString,
           style: TextStyle(
-            color: EnvColors.lightColor,
             fontFamily: 'Montesserat',
             fontSize: 12.sp,
             fontWeight: FontWeight.w500,
@@ -35,9 +40,8 @@ class HomeCardBalance extends StatelessWidget {
           height: 5.h,
         ),
         Text(
-          '#$balance',
+          '${widget.balance}',
           style: TextStyle(
-            color: EnvColors.lightColor,
             fontFamily: 'Montesserat',
             fontSize: 20.sp,
             fontWeight: FontWeight.w600,
@@ -48,9 +52,38 @@ class HomeCardBalance extends StatelessWidget {
   }
 }
 
-class HomeCardList extends StatelessWidget {
-  const HomeCardList({super.key});
+String formatBalance(String balance) {
+  // Convert the balance string to a double
+  final balanceValue = double.tryParse(balance);
 
+  if (balanceValue != null) {
+    // Create a NumberFormat instance with the desired formatting
+    final formatter = NumberFormat.currency(
+      symbol: '₦', // Set the currency symbol if needed (e.g., '$')
+      decimalDigits: 2, // Set the number of decimal places
+    );
+
+    // Format the balance value
+    final formattedBalance = formatter.format(balanceValue);
+
+    return formattedBalance;
+  }
+
+  // Return the original balance string if it couldn't be parsed as a double
+  return balance;
+}
+
+class HomeCardList extends StatefulWidget {
+  final String totalBalance;
+  final String totalBonus;
+  const HomeCardList(
+      {super.key, this.totalBalance = '0.0', this.totalBonus = '0.0'});
+
+  @override
+  State<HomeCardList> createState() => _HomeCardListState();
+}
+
+class _HomeCardListState extends State<HomeCardList> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -60,7 +93,6 @@ class HomeCardList extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         children: [
           HomeContainer(
-            backgroundColor: EnvColors.mildGrey,
             child: Padding(
               padding: EdgeInsets.only(left: 18.sp, top: 3.sp, right: 18.w),
               child: Row(
@@ -73,12 +105,12 @@ class HomeCardList extends StatelessWidget {
                     children: [
                       HomeCardBalance(
                         balanceString: 'Total Balance',
-                        balance: 0.00,
+                        balance: formatBalance(widget.totalBalance),
                         toHideBalance: () {},
                       ),
                       HomeCardBalance(
                         balanceString: 'Affiliate Balance',
-                        balance: 0.00,
+                        balance: formatBalance(widget.totalBonus),
                         toHideBalance: () {},
                       )
                     ],
@@ -99,7 +131,7 @@ class HomeCardList extends StatelessWidget {
             width: MediaQuery.of(context).size.width - 40.sp,
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                  colors: EnvColors.containerGradient,
+                  colors: InstaColors.containerGradient,
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   stops: const [0, 0.2, 0.5, 0.8]),
@@ -120,7 +152,6 @@ class HomeCardList extends StatelessWidget {
                       Text(
                         'Refer & Earn',
                         style: TextStyle(
-                          color: EnvColors.mildGrey,
                           fontFamily: 'Montesserat',
                           fontSize: 16.sp,
                           fontWeight: FontWeight.bold,
@@ -129,7 +160,6 @@ class HomeCardList extends StatelessWidget {
                       Text(
                         'Invite your friends and earn a commission for all their transactions on InstaKing.',
                         style: TextStyle(
-                          color: EnvColors.mildGrey,
                           fontFamily: 'Montesserat',
                           fontSize: 14.sp,
                           fontWeight: FontWeight.w500,
@@ -141,15 +171,15 @@ class HomeCardList extends StatelessWidget {
                             width: double.infinity - 20.w,
                             height: 30.h,
                             decoration: BoxDecoration(
-                              color: EnvColors.mildGrey,
+                              color: Theme.of(context).splashColor,
                               borderRadius: BorderRadius.circular(15.r),
                             ),
                           ),
                           Container(
                             width: 240.w,
                             height: 30.h,
-                            decoration: const BoxDecoration(
-                              color: EnvColors.lightColor,
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).canvasColor,
                             ),
                             child: Center(
                               child: Text(
@@ -159,8 +189,8 @@ class HomeCardList extends StatelessWidget {
                                   fontSize: 15.sp,
                                   fontWeight: FontWeight.w400,
                                 ),
-                              ),
-                            ).afmPadding(EdgeInsets.only(left: 5.w)),
+                              ).afmPadding(EdgeInsets.only(left: 5.w)),
+                            ),
                           ).afmBorderRadius(BorderRadius.only(
                               bottomLeft: Radius.circular(15.r),
                               topLeft: Radius.circular(15.r))),
@@ -170,7 +200,7 @@ class HomeCardList extends StatelessWidget {
                             child: Icon(
                               Icons.content_copy_outlined,
                               size: 20.sp,
-                              color: EnvColors.lightColor,
+                              color: InstaColors.lightColor,
                             ),
                           ),
                         ],

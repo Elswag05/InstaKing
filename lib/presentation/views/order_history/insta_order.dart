@@ -47,7 +47,6 @@ class _InstaOrderHistoryState extends State<InstaOrderHistory>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: EnvColors.appBackgroundColor,
       body: SafeArea(
         child: Column(
           children: [
@@ -184,7 +183,7 @@ class _InstaOrderHistoryState extends State<InstaOrderHistory>
 
 
   // Container(
-  //             color: EnvColors.lightColor,
+  //             color: InstaColors.lightColor,
   //             child: TabBar(
   //               isScrollable: true,
   //               padding: EdgeInsets.all(8.sp),
@@ -198,8 +197,8 @@ class _InstaOrderHistoryState extends State<InstaOrderHistory>
   //                       fontFamily: 'Montesserat',
   //                       fontSize: 13.sp,
   //                       color: _selectedIndex == 0
-  //                           ? EnvColors.lightColor
-  //                           : EnvColors.darkColor,
+  //                           ? InstaColors.lightColor
+  //                           : InstaColors.darkColor,
   //                       fontWeight: FontWeight.bold,
   //                     ),
   //                   ),
@@ -211,8 +210,8 @@ class _InstaOrderHistoryState extends State<InstaOrderHistory>
   //                       fontFamily: 'Montesserat',
   //                       fontSize: 13.sp,
   //                       color: _selectedIndex == 1
-  //                           ? EnvColors.lightColor
-  //                           : EnvColors.darkColor,
+  //                           ? InstaColors.lightColor
+  //                           : InstaColors.darkColor,
   //                       fontWeight: FontWeight.bold,
   //                     ),
   //                   ),
@@ -224,8 +223,8 @@ class _InstaOrderHistoryState extends State<InstaOrderHistory>
   //                       fontFamily: 'Montesserat',
   //                       fontSize: 13.sp,
   //                       color: _selectedIndex == 2
-  //                           ? EnvColors.lightColor
-  //                           : EnvColors.darkColor,
+  //                           ? InstaColors.lightColor
+  //                           : InstaColors.darkColor,
   //                       fontWeight: FontWeight.bold,
   //                     ),
   //                   ),

@@ -63,7 +63,7 @@ extension WidgetExtension on Widget {
         padding: EdgeInsets.all(3.sp),
         decoration: const BoxDecoration(
           shape: BoxShape.circle,
-          color: EnvColors.primaryColor,
+          color: InstaColors.primaryColor,
         ),
         child: this,
       );

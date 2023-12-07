@@ -49,26 +49,26 @@ class InstaLoginModel {
 
 class User {
   int? id;
-  dynamic refId;
+  String? refId;
   String? userRole;
   String? fname;
   String? lname;
   String? username;
   String? email;
   String? phone;
-  dynamic country;
+  String? country;
   String? balance;
   String? bonus;
   String? apiToken;
   dynamic image;
   String? address;
-  String? virtualRef;
-  List<VirtualBank>? virtualBanks;
-  String? bankName;
-  String? accName;
-  String? accNumber;
+  dynamic virtualRef;
+  dynamic virtualBanks;
+  dynamic bankName;
+  dynamic accName;
+  dynamic accNumber;
   String? status;
-  dynamic emailVerifiedAt;
+  DateTime? emailVerifiedAt;
   DateTime? createdAt;
   DateTime? updatedAt;
   String? firstName;
@@ -106,26 +106,26 @@ class User {
 
   User copyWith({
     int? id,
-    dynamic refId,
+    String? refId,
     String? userRole,
     String? fname,
     String? lname,
     String? username,
     String? email,
     String? phone,
-    dynamic country,
+    String? country,
     String? balance,
     String? bonus,
     String? apiToken,
     dynamic image,
     String? address,
-    String? virtualRef,
-    List<VirtualBank>? virtualBanks,
-    String? bankName,
-    String? accName,
-    String? accNumber,
+    dynamic virtualRef,
+    dynamic virtualBanks,
+    dynamic bankName,
+    dynamic accName,
+    dynamic accNumber,
     String? status,
-    dynamic emailVerifiedAt,
+    DateTime? emailVerifiedAt,
     DateTime? createdAt,
     DateTime? updatedAt,
     String? firstName,
@@ -181,15 +181,14 @@ class User {
         image: json["image"],
         address: json["address"],
         virtualRef: json["virtual_ref"],
-        virtualBanks: json["virtual_banks"] == null
-            ? []
-            : List<VirtualBank>.from(
-                json["virtual_banks"]!.map((x) => VirtualBank.fromJson(x))),
+        virtualBanks: json["virtual_banks"],
         bankName: json["bank_name"],
         accName: json["acc_name"],
         accNumber: json["acc_number"],
         status: json["status"],
-        emailVerifiedAt: json["email_verified_at"],
+        emailVerifiedAt: json["email_verified_at"] == null
+            ? null
+            : DateTime.parse(json["email_verified_at"]),
         createdAt: json["created_at"] == null
             ? null
             : DateTime.parse(json["created_at"]),
@@ -217,64 +216,16 @@ class User {
         "image": image,
         "address": address,
         "virtual_ref": virtualRef,
-        "virtual_banks": virtualBanks == null
-            ? []
-            : List<dynamic>.from(virtualBanks!.map((x) => x.toJson())),
+        "virtual_banks": virtualBanks,
         "bank_name": bankName,
         "acc_name": accName,
         "acc_number": accNumber,
         "status": status,
-        "email_verified_at": emailVerifiedAt,
+        "email_verified_at": emailVerifiedAt?.toIso8601String(),
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),
         "first_name": firstName,
         "last_name": lastName,
         "fullname": fullname,
-      };
-}
-
-class VirtualBank {
-  String? bankCode;
-  String? bankName;
-  String? accountNumber;
-  String? accountName;
-
-  VirtualBank({
-    this.bankCode,
-    this.bankName,
-    this.accountNumber,
-    this.accountName,
-  });
-
-  VirtualBank copyWith({
-    String? bankCode,
-    String? bankName,
-    String? accountNumber,
-    String? accountName,
-  }) =>
-      VirtualBank(
-        bankCode: bankCode ?? this.bankCode,
-        bankName: bankName ?? this.bankName,
-        accountNumber: accountNumber ?? this.accountNumber,
-        accountName: accountName ?? this.accountName,
-      );
-
-  factory VirtualBank.fromRawJson(String str) =>
-      VirtualBank.fromJson(json.decode(str));
-
-  String toRawJson() => json.encode(toJson());
-
-  factory VirtualBank.fromJson(Map<String, dynamic> json) => VirtualBank(
-        bankCode: json["bankCode"],
-        bankName: json["bankName"],
-        accountNumber: json["accountNumber"],
-        accountName: json["accountName"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "bankCode": bankCode,
-        "bankName": bankName,
-        "accountNumber": accountNumber,
-        "accountName": accountName,
       };
 }

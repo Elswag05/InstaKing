@@ -18,8 +18,8 @@ class AccountDetails extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         border: Border.all(
-          color: EnvColors.mildGrey,
           width: 1.0,
+          color: Theme.of(context).unselectedWidgetColor,
         ),
         borderRadius: BorderRadius.circular(10.r),
       ),
@@ -36,7 +36,6 @@ class AccountDetails extends StatelessWidget {
                   Text(
                     'Bank Name',
                     style: TextStyle(
-                      color: EnvColors.mildGrey,
                       fontFamily: 'Montesserat',
                       fontSize: 13.sp,
                       fontWeight: FontWeight.w500,
@@ -45,7 +44,6 @@ class AccountDetails extends StatelessWidget {
                   Text(
                     'Wema Bank',
                     style: TextStyle(
-                      color: EnvColors.darkColor,
                       fontFamily: 'Montesserat',
                       fontSize: 15.sp,
                       fontWeight: FontWeight.bold,
@@ -60,7 +58,6 @@ class AccountDetails extends StatelessWidget {
                   Text(
                     'Account Name',
                     style: TextStyle(
-                      color: EnvColors.mildGrey,
                       fontFamily: 'Montesserat',
                       fontSize: 13.sp,
                       fontWeight: FontWeight.w500,
@@ -69,7 +66,6 @@ class AccountDetails extends StatelessWidget {
                   Text(
                     'InstaKing-Ayo',
                     style: TextStyle(
-                      color: EnvColors.darkColor,
                       fontFamily: 'Montesserat',
                       fontSize: 15.sp,
                       fontWeight: FontWeight.bold,
@@ -84,9 +80,9 @@ class AccountDetails extends StatelessWidget {
               Container(
                 height: 40.h,
                 decoration: BoxDecoration(
-                  color: EnvColors.lightColor,
+                  color: Theme.of(context).cardColor,
                   border: Border.all(
-                    color: EnvColors.darkColor.withOpacity(0.5),
+                    color: InstaColors.darkColor.withOpacity(0.5),
                     width: 1.sp,
                   ),
                   borderRadius: BorderRadius.circular(10.r),
@@ -99,7 +95,6 @@ class AccountDetails extends StatelessWidget {
                       style: TextStyle(
                         fontFamily: 'Montesserat',
                         fontSize: 15.sp,
-                        color: EnvColors.darkColor,
                         fontWeight: FontWeight.w600,
                       ),
                     ).afmPadding(EdgeInsets.only(left: 10.w)),
@@ -113,9 +108,9 @@ class AccountDetails extends StatelessWidget {
                   height: 40.h,
                   width: MediaQuery.of(context).size.width / 2.5,
                   decoration: BoxDecoration(
-                    color: EnvColors.primaryColor,
+                    color: InstaColors.primaryColor,
                     border: Border.all(
-                      color: EnvColors.darkColor.withOpacity(0.5),
+                      color: InstaColors.darkColor.withOpacity(0.5),
                       width: 1.sp,
                     ),
                     borderRadius: BorderRadius.only(
@@ -129,7 +124,6 @@ class AccountDetails extends StatelessWidget {
                       style: TextStyle(
                         fontFamily: 'Montesserat',
                         fontSize: 15.sp,
-                        color: EnvColors.lightColor,
                         fontWeight: FontWeight.w600,
                       ),
                     ).afmPadding(EdgeInsets.only(right: 10.w, bottom: 3.h)),

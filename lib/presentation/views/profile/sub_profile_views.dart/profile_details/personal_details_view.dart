@@ -45,7 +45,6 @@ class _PersonalDetailsState extends State<PersonalDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: EnvColors.appBackgroundColor,
       body: Consumer(builder: ((context, ref, child) {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -54,7 +53,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                 .afmPadding(EdgeInsets.only(bottom: 10.h)),
             Container(
                 width: MediaQuery.of(context).size.width - 40.sp,
-                color: EnvColors.lightColor,
+                color: Theme.of(context).cardColor,
                 child: Column(
                   children: [
                     CollectPersonalDetailModel(

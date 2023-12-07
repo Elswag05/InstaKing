@@ -1,7 +1,10 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:insta_king/core/utils/my_strings.dart';
 import 'package:insta_king/presentation/controllers/insta_login_controller.dart';
+import 'package:insta_king/presentation/controllers/insta_profile_controller.dart';
 import 'package:insta_king/presentation/views/authentication/auth_shared/base_auth_view.dart';
 import 'package:insta_king/presentation/views/authentication/auth_shared/text_form.dart';
 import 'package:insta_king/presentation/views/authentication/login/forgot_password.dart';
@@ -38,7 +41,7 @@ class _InstaLoginState extends State<InstaLogin> {
     return Consumer(
       builder: (context, ref, child) {
         return BaseAuthView(
-          pageName: 'Sign In',
+          pageName: ' Sign In',
           pageCTA: 'Log in',
           isLogin: true,
           callToActionText: 'Forgot Password',
@@ -49,6 +52,7 @@ class _InstaLoginState extends State<InstaLogin> {
           onChanged: (value) {
             setState(() {
               ref.watch(instaLoginController.notifier).toCheckBox(value);
+              print('Checkbox Value: $value');
             });
           },
           toGoToInversePage: () {
@@ -62,10 +66,7 @@ class _InstaLoginState extends State<InstaLogin> {
             ));
           },
           toSignOrLogin: () {
-            print('INFO: To login with email:' +
-                usernameController.text +
-                'and password: ' +
-                passwordController.text);
+            log('INFO: To login with email:${usernameController.text}and password: ${passwordController.text}');
             ref
                 .read(instaLoginController.notifier)
                 .signIn(usernameController.text, passwordController.text)

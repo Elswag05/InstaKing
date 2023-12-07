@@ -15,7 +15,7 @@ class MiniTags extends StatelessWidget {
       padding: EdgeInsets.all(5.sp),
       decoration: BoxDecoration(
         border: Border.all(
-          color: EnvColors.primaryColor,
+          color: InstaColors.primaryColor,
           width: 1.sp,
         ),
         borderRadius: BorderRadius.circular(5.r),
@@ -24,7 +24,7 @@ class MiniTags extends StatelessWidget {
         child: Text(
           textOnTag,
           style: TextStyle(
-            color: EnvColors.primaryColor,
+            color: InstaColors.primaryColor,
             fontSize: 12.sp,
             letterSpacing: 0.5.w,
             fontWeight: FontWeight.w500,

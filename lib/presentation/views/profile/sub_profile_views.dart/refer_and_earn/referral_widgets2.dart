@@ -9,7 +9,7 @@ class ReferralCard2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: EnvColors.lightColor,
+      color: Theme.of(context).cardColor,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -18,7 +18,6 @@ class ReferralCard2 extends StatelessWidget {
             style: TextStyle(
               fontFamily: 'Montesserat',
               fontSize: 16.sp,
-              color: EnvColors.darkColor,
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -36,7 +35,7 @@ class ReferralCard2 extends StatelessWidget {
               style: TextStyle(
                 fontFamily: 'Montesserat',
                 fontSize: 13.sp,
-                color: EnvColors.primaryColor,
+                color: InstaColors.primaryColor,
                 fontWeight: FontWeight.w500,
               ),
               children: const <TextSpan>[

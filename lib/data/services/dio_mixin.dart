@@ -22,8 +22,8 @@ mixin DioMixin {
     dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) async {
-          String? value =
-              await locator<SecureStorageService>().read(key: EnvStrings.token);
+          String? value = await locator<SecureStorageService>()
+              .read(key: InstaStrings.token);
           if (value != 'token' && value != null) {
             options.headers['Authorization'] = "Bearer $value";
           }

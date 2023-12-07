@@ -6,7 +6,12 @@ import 'package:insta_king/core/extensions/widget_extension.dart';
 class ProfileCard extends StatelessWidget {
   final void Function()? onTap;
   final void Function()? onProfileIconTap;
-  const ProfileCard({super.key, this.onTap, this.onProfileIconTap});
+
+  const ProfileCard({
+    super.key,
+    this.onTap,
+    this.onProfileIconTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +19,7 @@ class ProfileCard extends StatelessWidget {
       onTap: onTap,
       child: Container(
         padding: EdgeInsets.all(13.sp),
-        color: EnvColors.lightColor,
+        color: Theme.of(context).cardColor,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -38,7 +43,6 @@ class ProfileCard extends StatelessWidget {
                           style: TextStyle(
                             fontFamily: 'Montesserat',
                             fontSize: 14.sp,
-                            color: EnvColors.darkColor,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -54,7 +58,6 @@ class ProfileCard extends StatelessWidget {
                       style: TextStyle(
                         fontFamily: 'Montesserat',
                         fontSize: 14.sp,
-                        color: EnvColors.darkColor,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -65,7 +68,6 @@ class ProfileCard extends StatelessWidget {
             Icon(
               Icons.arrow_forward_ios_rounded,
               size: 20.sp,
-              color: EnvColors.mildGrey,
             ).afmPadding(EdgeInsets.only(right: 16.h)),
           ],
         ),

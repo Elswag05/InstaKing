@@ -49,6 +49,7 @@ dependencies:
   dio: ^5.3.3
   hooks_riverpod: ^2.4.5
   flutter_svg: ^2.0.9
+  theme_manager: ^2.0.2
 
 dev_dependencies:
   flutter_test:

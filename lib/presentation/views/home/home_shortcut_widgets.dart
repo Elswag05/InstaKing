@@ -36,18 +36,17 @@ class HomeColumn extends StatelessWidget {
                   width: 40.w,
                   height: 40.h,
                   // ignore: deprecated_member_use
-                  color: EnvColors.primaryColor,
+                  color: InstaColors.primaryColor,
                   semanticsLabel: shortcutText,
                 )
               : Icon(
                   Icons.storage_sharp,
                   size: 40.h,
-                  color: EnvColors.primaryColor,
+                  color: InstaColors.primaryColor,
                 ),
           Text(
             shortcutText,
             style: TextStyle(
-                color: EnvColors.darkColor,
                 fontFamily: 'Montesserat',
                 fontSize: 10.sp,
                 fontWeight: FontWeight.w600),
@@ -75,7 +74,6 @@ class ShortcutsTheWidget extends ConsumerWidget {
         Text(
           'Shortcuts',
           style: TextStyle(
-            color: EnvColors.darkColor,
             fontFamily: 'Montesserat',
             fontSize: 15.sp,
             fontWeight: FontWeight.bold,

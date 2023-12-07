@@ -20,7 +20,7 @@ class _InstaServicesState extends State<InstaServices> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: EnvColors.appBackgroundColor,
+      backgroundColor: InstaColors.appBackgroundColor,
       body: SafeArea(
         child: Column(
           children: [
@@ -106,7 +106,7 @@ class _InstaServicesState extends State<InstaServices> {
               width: MediaQuery.of(context).size.width - 40.sp,
               padding: EdgeInsets.all(15.sp),
               decoration: BoxDecoration(
-                color: EnvColors.primaryColor,
+                color: InstaColors.primaryColor,
                 borderRadius: BorderRadius.circular(10.r),
               ),
               child: Text(
@@ -114,7 +114,7 @@ class _InstaServicesState extends State<InstaServices> {
                 style: TextStyle(
                   fontFamily: 'Montesserat',
                   fontWeight: FontWeight.w500,
-                  color: EnvColors.lightColor,
+                  color: InstaColors.lightColor,
                   fontSize: 14.sp,
                 ),
               ),
@@ -142,7 +142,7 @@ class ServicesDemoWidget extends StatelessWidget {
       height: 140.h,
       padding: EdgeInsets.all(15.sp),
       decoration: BoxDecoration(
-        color: EnvColors.lightColor,
+        color: InstaColors.lightColor,
         borderRadius: BorderRadius.circular(10.r),
       ),
       child: Stack(
@@ -192,7 +192,7 @@ Text lightText(String lightText) {
     style: TextStyle(
       fontFamily: 'Montesserat',
       fontWeight: FontWeight.w500,
-      color: EnvColors.mildGrey.withOpacity(0.7),
+      color: InstaColors.mildGrey.withOpacity(0.7),
       fontSize: 14.sp,
     ),
   );
@@ -204,7 +204,7 @@ Text darkText(String darkText) {
     style: TextStyle(
       fontFamily: 'Montesserat',
       fontWeight: FontWeight.w500,
-      color: EnvColors.darkColor,
+      color: InstaColors.darkColor,
       fontSize: 14.sp,
     ),
   );
@@ -233,14 +233,15 @@ class ServicesIconTabs extends StatelessWidget {
             width: 50.w,
             height: 45.h,
             decoration: BoxDecoration(
-              color: EnvColors.containerGradient.elementAt(2).withOpacity(0.2),
+              color:
+                  InstaColors.containerGradient.elementAt(2).withOpacity(0.2),
               borderRadius: BorderRadius.circular(5.r),
             ),
             child: Image.asset(
               EnvAssets.getIconPath(imageIconPath),
               // width: 15.w,
               // height: 15.h,
-              color: isTapped ? null : EnvColors.mildGrey,
+              color: isTapped ? null : InstaColors.mildGrey,
             ),
           ),
           Text(
@@ -263,9 +264,9 @@ class ServicesSearchBar extends StatelessWidget {
     return Container(
       height: 40.h,
       decoration: BoxDecoration(
-        color: EnvColors.lightColor,
+        color: InstaColors.lightColor,
         border: Border.all(
-          color: EnvColors.darkColor.withOpacity(0.5),
+          color: InstaColors.darkColor.withOpacity(0.5),
           width: 1.sp,
         ),
         borderRadius: BorderRadius.circular(10.r),
@@ -278,14 +279,14 @@ class ServicesSearchBar extends StatelessWidget {
             style: TextStyle(
               fontFamily: 'Montesserat',
               fontSize: 13.sp,
-              color: EnvColors.darkColor.withOpacity(0.5),
+              color: InstaColors.darkColor.withOpacity(0.5),
               fontWeight: FontWeight.w500,
             ),
           ).afmPadding(EdgeInsets.only(left: 10.w)),
           Icon(
             Icons.search,
             size: 20.sp,
-            color: EnvColors.darkColor.withOpacity(0.5),
+            color: InstaColors.darkColor.withOpacity(0.5),
           ).afmPadding(EdgeInsets.only(right: 6.h)),
         ],
       ),

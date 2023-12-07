@@ -12,7 +12,7 @@ class ReferralCopyCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: EnvColors.lightColor,
+      color: Theme.of(context).cardColor,
       child: Column(
         children: [
           Row(
@@ -31,8 +31,6 @@ class ReferralCopyCard extends StatelessWidget {
                     style: TextStyle(
                       fontFamily: 'Montesserat',
                       fontSize: 18.sp,
-                      color: EnvColors.darkColor,
-                      fontWeight: FontWeight.bold,
                     ),
                   ),
                   Text(
@@ -40,7 +38,6 @@ class ReferralCopyCard extends StatelessWidget {
                     style: TextStyle(
                       fontFamily: 'Montesserat',
                       fontSize: 13.sp,
-                      color: EnvColors.darkColor,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -61,7 +58,6 @@ class ReferralCopyCard extends StatelessWidget {
             style: TextStyle(
               fontFamily: 'Montesserat',
               fontSize: 13.sp,
-              color: EnvColors.mildGrey,
               fontWeight: FontWeight.w500,
             ),
           ).afmPadding(

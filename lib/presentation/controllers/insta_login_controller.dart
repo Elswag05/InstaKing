@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -22,7 +23,7 @@ class LoginController extends BaseChangeNotifier {
 
   void toCheckBox(value) {
     rememberMe = !rememberMe;
-    print(rememberMe.toString());
+    log(rememberMe.toString());
     notifyListeners();
   }
 
@@ -30,6 +31,7 @@ class LoginController extends BaseChangeNotifier {
   final logOutService = SignOutService();
   final changePasswordService = ChangePasswordService();
   final resetPasswordService = ResetPasswordService();
+  late final InstaLoginModel data;
 
   final SecureStorageService secureStorageService =
       SecureStorageService(secureStorage: const FlutterSecureStorage());
@@ -39,16 +41,21 @@ class LoginController extends BaseChangeNotifier {
     try {
       final res = await loginService.signIn(email: email, password: password);
       if (res.statusCode == 200) {
-        // print("INFO: Bearer ${res..data}");
-        final data = InstaLoginModel.fromJson(res.data);
+        //print("INFO: Bearer ${res..data}");
+        data = InstaLoginModel.fromJson(res.data);
 
         await locator<SecureStorageService>().write(
-          key: EnvStrings.token,
+          key: InstaStrings.token,
           value: data.token ?? '',
         );
-        // if ( rememberMe) {
-        //   await locator<SecureStorageService>().write(key: EnvStrings.us, value: value)
-        // }
+
+        if (rememberMe) {
+          print(rememberMe.toString());
+          await locator<SecureStorageService>().write(
+            key: InstaStrings.email,
+            value: data.user?.email ?? '',
+          );
+        }
 
         loadingState = LoadingState.idle;
         locator<ToastService>().showSuccessToast(

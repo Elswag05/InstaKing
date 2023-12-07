@@ -43,7 +43,7 @@ class SignUpController extends BaseChangeNotifier {
       if (res.statusCode == 200) {
         final data = InstaSignUpModel.fromJson(res.data);
         await locator<SecureStorageService>().write(
-          key: EnvStrings.token,
+          key: InstaStrings.token,
           value: data.token ?? '',
         );
         loadingState = LoadingState.idle;

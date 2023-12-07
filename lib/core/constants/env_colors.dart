@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:insta_king/presentation/controllers/theme_controller.dart';
 
 /// Color Guide Notice (Primary ORANGE, INFO COLOR)
 /// Ranging from (50-900)
@@ -12,8 +14,15 @@ import 'package:flutter/material.dart';
 /// 300 = Dark, 400 = Dark :hover, 500 = Dark :active,
 /// 600 = Darker, 700 = Dark :hover, 800 = Dark :active, 800 = Darker
 
-class EnvColors {
-  EnvColors._();
+class InstaColors {
+  // static final ProviderContainer container = ProviderContainer();
+
+  // static bool get isDarkTheme =>
+  //     container.read(themeControllerProvider.notifier).isDarkTheme;
+
+  // static void dispose() {
+  //   container.dispose();
+  // }
 
   static Color appBackgroundColor = const Color.fromARGB(255, 255, 237, 232);
   static List<Color> containerGradient = const [
@@ -23,7 +32,7 @@ class EnvColors {
     Color.fromARGB(120, 244, 67, 54),
     //add more colors for gradient
   ];
-  static Color darkBackgroundColor = const Color.fromARGB(255, 0, 0, 0);
+  static Color darkBackgroundColor = Color.fromARGB(255, 34, 34, 34);
   static Color darkColor = const Color.fromARGB(255, 0, 0, 0);
   static Color mildLightColor = const Color.fromARGB(255, 214, 214, 214);
   static const MaterialColor errorColor = MaterialColor(
@@ -62,4 +71,18 @@ class EnvColors {
 
   static const int _errorColorValue = 0xFFB42318;
   static const int _primaryColorValue = 0xFFE65100;
+
+  // static Color getAppbarBgColor() {
+  //   return isDarkTheme
+  //       ? InstaColors.darkBackgroundColor
+  //       : InstaColors.appBackgroundColor;
+  // }
+
+  // static Color getTextColor() {
+  //   return isDarkTheme ? InstaColors.darkColor : InstaColors.lightColor;
+  // }
+
+  // static Color getContainerColor() {
+  //   return isDarkTheme ? InstaColors.mildGrey : InstaColors.lightColor;
+  // }
 }
