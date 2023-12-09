@@ -1,14 +1,12 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:insta_king/core/constants/env_colors.dart';
+import 'package:insta_king/core/constants/constants.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
-import 'package:insta_king/data/local/toast_service.dart';
+import 'package:insta_king/core/theme/env_theme_manager.dart';
 import 'package:insta_king/presentation/views/home/home_container_widget.dart';
 import 'package:insta_king/presentation/views/shared_widgets/small_cta.dart';
-import 'package:insta_king/utils/locator.dart';
 import 'package:intl/intl.dart';
 
 class HomeCardBalance extends StatefulWidget {
@@ -39,7 +37,7 @@ class _HomeCardBalanceState extends State<HomeCardBalance> {
             fontFamily: 'Montesserat',
             fontSize: 12.sp,
             fontWeight: FontWeight.w500,
-            color: Theme.of(context).colorScheme.onInverseSurface,
+            color: Theme.of(context).colorScheme.onSurfaceVariant,
           ),
         ),
         SizedBox(
@@ -51,9 +49,9 @@ class _HomeCardBalanceState extends State<HomeCardBalance> {
             fontFamily: 'Montesserat',
             fontSize: 20.sp,
             fontWeight: FontWeight.w600,
-            color: Theme.of(context).colorScheme.onInverseSurface,
+            color: Theme.of(context).colorScheme.onSurfaceVariant,
           ),
-        ).afmGetFuture(widget.future, 1),
+        ).afmGetFuture(widget.future),
       ],
     );
   }
@@ -107,7 +105,7 @@ class _HomeCardListState extends State<HomeCardList> {
         scrollDirection: Axis.horizontal,
         children: [
           HomeContainer(
-            color: Theme.of(context).colorScheme.onSurfaceVariant,
+            color: InstaColors.mildGrey,
             child: Padding(
               padding: EdgeInsets.only(left: 18.sp, top: 3.sp, right: 18.w),
               child: Row(

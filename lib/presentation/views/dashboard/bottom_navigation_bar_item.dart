@@ -24,7 +24,7 @@ BottomNavigationBarItem buildBottomNavigationBarItem(
       // ignore: deprecated_member_use
       color: selectedPageIndex == index
           ? InstaColors.primaryColor
-          : Theme.of(context).unselectedWidgetColor,
+          : Theme.of(context).colorScheme.onSurface,
       semanticsLabel: label,
     ),
     // icon: Image.asset(

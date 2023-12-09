@@ -19,8 +19,9 @@ Future<void> main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
-      overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom]).then(
+
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky,
+      overlays: [SystemUiOverlay.bottom]).then(
     (_) => runApp(
       const ProviderScope(
         child: InstaKingGuide(),
@@ -63,20 +64,22 @@ class _InstaKing extends ConsumerState<InstaKingGuide> {
             darkTheme: EnvThemeManager.darkTheme,
             debugShowCheckedModeBanner: false,
             home: Scaffold(
-              body: FutureBuilder<String?>(
-                future: getEmailFuture,
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.done) {
-                    String? email = snapshot.data;
-                    if (email == null || email.isEmpty) {
-                      return const InstaLogin();
+              body: SafeArea(
+                child: FutureBuilder<String?>(
+                  future: getEmailFuture,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      String? email = snapshot.data;
+                      if (email == null || email.isEmpty) {
+                        return const InstaLogin();
+                      } else {
+                        return const InstaDashboard();
+                      }
                     } else {
-                      return const InstaDashboard();
+                      return const Center(child: CircularProgressIndicator());
                     }
-                  } else {
-                    return const Center(child: CircularProgressIndicator());
-                  }
-                },
+                  },
+                ),
               ),
             ),
           );

@@ -9,12 +9,14 @@ class HomeHeaderWidget extends StatefulWidget {
   final String? username;
   final void Function()? onNotificationsTap;
   final void Function()? onProfileTap;
+  final Future<Object?>? future;
   //File imageFile;
   const HomeHeaderWidget({
     Key? key,
     required this.username,
     this.onNotificationsTap,
     this.onProfileTap,
+    this.future,
     // this.imageFile = null,
   });
 
@@ -54,7 +56,7 @@ class _HomeHeaderWidgetState extends State<HomeHeaderWidget> {
                     fontSize: 14.sp,
                     fontWeight: FontWeight.bold,
                   ),
-                ),
+                ).afmGetFuture(widget.future),
                 Text(
                   'Welcome Back',
                   style: TextStyle(

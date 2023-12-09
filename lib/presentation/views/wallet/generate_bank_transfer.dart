@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:insta_king/core/constants/env_colors.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
 import 'package:insta_king/presentation/controllers/insta_wallet_controller.dart';
 import 'package:insta_king/presentation/views/shared_widgets/cta_button.dart';
@@ -145,8 +146,37 @@ class _WalletCard1State extends State<WalletCard1> {
                         bottom: 20.sp,
                       ),
                     ),
+                    SizedBox(
+                      height: 30.h,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            width: 5.w,
+                          ),
+                          Icon(
+                            Icons.warning_amber_outlined,
+                            color: InstaColors.errorColor,
+                            size: 13.sp,
+                          ),
+                          SizedBox(
+                            height: 30.h,
+                            width: MediaQuery.of(context).size.width - 100.w,
+                            child: Text(
+                              'You have not been assigned an account yet!',
+                              style: TextStyle(
+                                fontFamily: 'Montesserat',
+                                fontSize: 13.sp,
+                                fontWeight: FontWeight.w500,
+                                overflow: TextOverflow.clip,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
                     CustomButton(
-                      pageCTA: 'Generate',
+                      pageCTA: 'Generate Accounts',
                       toSignOrLogin: () {
                         general.generateAccountDetails();
                         setState(() {

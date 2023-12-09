@@ -46,61 +46,65 @@ class _AuthTextFieldState extends State<AuthTextField> {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      controller: widget.controller,
-      autovalidateMode: AutovalidateMode.onUserInteraction,
-      style: TextStyle(
-        fontSize: 13.sp,
-      ),
-      obscureText: widget.isPassword ? showPassword : false,
-      validator: widget.validator,
-      decoration: InputDecoration(
-        contentPadding: EdgeInsets.symmetric(vertical: 12.h),
-        prefixIcon: Icon(
-          widget.icon,
-        ),
-        hintText: widget.hintT,
-        hintStyle: TextStyle(
-          fontFamily: 'Montesserat',
+    return SizedBox(
+      height: 60.h,
+      child: TextFormField(
+        controller: widget.controller,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        style: TextStyle(
           fontSize: 13.sp,
         ),
-        suffixIcon: (widget.hasSuffix) ? eyeToHidePassword() : const SizedBox(),
-        filled: true,
-        fillColor: InstaColors.lightColor,
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.r),
-          borderSide: BorderSide(
-            width: 0.5.sp,
+        obscureText: widget.isPassword ? showPassword : false,
+        validator: widget.validator,
+        decoration: InputDecoration(
+          contentPadding: EdgeInsets.symmetric(vertical: 12.h),
+          prefixIcon: Icon(
+            widget.icon,
+          ),
+          hintText: widget.hintT,
+          hintStyle: TextStyle(
+            fontFamily: 'Montesserat',
+            fontSize: 13.sp,
+          ),
+          suffixIcon:
+              (widget.hasSuffix) ? eyeToHidePassword() : const SizedBox(),
+          filled: true,
+          fillColor: InstaColors.lightColor,
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10.r),
+            borderSide: BorderSide(
+              width: 0.5.sp,
+            ),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10.r),
+            borderSide: BorderSide(
+              width: 0.5.sp,
+            ),
+          ),
+          disabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10.r),
+            borderSide: BorderSide(
+              width: 0.5.sp,
+            ),
+          ),
+          errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10.r),
+            borderSide: BorderSide(
+              width: 0.5.sp,
+              color: InstaColors.errorColor,
+            ),
+          ),
+          focusedErrorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10.r),
+            borderSide: BorderSide(
+              width: 0.5.sp,
+              color: InstaColors.errorColor,
+            ),
           ),
         ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.r),
-          borderSide: BorderSide(
-            width: 0.5.sp,
-          ),
-        ),
-        disabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.r),
-          borderSide: BorderSide(
-            width: 0.5.sp,
-          ),
-        ),
-        errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.r),
-          borderSide: BorderSide(
-            width: 0.5.sp,
-            color: InstaColors.errorColor,
-          ),
-        ),
-        focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.r),
-          borderSide: BorderSide(
-            width: 0.5.sp,
-            color: InstaColors.errorColor,
-          ),
-        ),
-      ),
-    ).afmPadding(
-        EdgeInsets.only(left: 20.w, right: 20.w, top: 10.sp, bottom: 10.sp));
+      ).afmPadding(
+          EdgeInsets.only(left: 20.w, right: 20.w, top: 10.sp, bottom: 10.sp)),
+    );
   }
 }

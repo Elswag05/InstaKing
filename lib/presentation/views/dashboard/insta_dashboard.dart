@@ -24,14 +24,14 @@ class InstaDashboard extends HookConsumerWidget {
         showUnselectedLabels: true,
         currentIndex: selectedPageIndex,
         type: BottomNavigationBarType.fixed,
-        selectedFontSize: 12.sp,
+        selectedFontSize: 11.3.sp,
+        unselectedFontSize: 11.sp,
         selectedItemColor: InstaColors.primaryColor,
         selectedLabelStyle: TextStyle(
           color: Theme.of(context).primaryColor,
           fontFamily: 'Montserrat',
           fontWeight: FontWeight.w600,
         ),
-        unselectedFontSize: 11.sp,
         unselectedLabelStyle: const TextStyle(
           fontFamily: 'Montserrat',
           fontWeight: FontWeight.w600,
@@ -43,7 +43,7 @@ class InstaDashboard extends HookConsumerWidget {
         ),
         unselectedIconTheme: IconThemeData(
           size: 30.sp,
-          color: Theme.of(context).dialogBackgroundColor,
+          color: Theme.of(context).colorScheme.onSurface,
         ),
         onTap: (value) {
           ref.read(dashBoardControllerProvider.notifier).switchPage(value);

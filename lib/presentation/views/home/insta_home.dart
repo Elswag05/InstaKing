@@ -66,6 +66,7 @@ class _InstaHomeState extends State<InstaHome> with TickerProviderStateMixin {
                   //imageFile: ref.watch(instaProfileController.notifier).image!,
                   username: apiData.user?.username ?? 'User',
                   onNotificationsTap: () {},
+                  future: homie.whenComplete(() => null),
                   onProfileTap: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
@@ -80,7 +81,7 @@ class _InstaHomeState extends State<InstaHome> with TickerProviderStateMixin {
                   totalBonus: apiData.user?.bonus ?? '',
                   affiliateLink:
                       'https://instaking.ng/signup?ref=${apiData.user?.username ?? "waiting..."}',
-                  future: homie,
+                  future: homie.whenComplete(() => null),
                 ),
                 HomeContainer(
                   color: Theme.of(context).cardColor,

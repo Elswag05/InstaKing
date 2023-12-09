@@ -153,7 +153,7 @@ class _SignUpState extends State<SignUp> {
               (value) {
                 if (value) {
                   ref.read(instaProfileController.notifier).getProfileDetails();
-                  Navigator.of(context).push(MaterialPageRoute(
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(
                     builder: (context) => const InstaDashboard(),
                   ));
                 }

@@ -10,15 +10,13 @@ class InstaWallet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Column(
+    return SafeArea(
+      child: Scaffold(
+        body: Column(
           children: [
-            const WalletAppBar()
-                .afmPadding(
-                  EdgeInsets.only(left: 20.sp, right: 20.sp),
-                )
-                .afmPadding(EdgeInsets.only(bottom: 10.h)),
+            const WalletAppBar().afmPadding(
+              EdgeInsets.only(left: 20.sp, right: 20.sp, bottom: 20.h),
+            ),
             const WalletCard1(),
             //const ReferralCopyCard(),
             //const SelectPaymentOptions(),

@@ -25,7 +25,7 @@ extension WidgetExtension on Widget {
         child: this,
       );
 
-  Widget afmGetFuture(Future<Object?>? future, int? itemCount) => FutureBuilder(
+  Widget afmGetFuture(Future<Object?>? future) => FutureBuilder(
         future: future,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
