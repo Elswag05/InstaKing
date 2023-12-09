@@ -19,6 +19,7 @@ class InstaDashboard extends HookConsumerWidget {
 
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Theme.of(context).colorScheme.onInverseSurface,
         elevation: 10.sp,
         showUnselectedLabels: true,
         currentIndex: selectedPageIndex,

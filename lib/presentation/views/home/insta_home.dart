@@ -10,6 +10,7 @@ import 'package:insta_king/presentation/views/home/home_container_widget.dart';
 import 'package:insta_king/presentation/views/home/home_head.dart';
 import 'package:insta_king/presentation/views/home/home_shortcut_widgets.dart';
 import 'package:insta_king/presentation/views/profile/insta_profile.dart';
+import 'package:lottie/lottie.dart';
 
 class InstaHome extends StatefulWidget {
   const InstaHome({
@@ -20,7 +21,8 @@ class InstaHome extends StatefulWidget {
   State<InstaHome> createState() => _InstaHomeState();
 }
 
-class _InstaHomeState extends State<InstaHome> {
+class _InstaHomeState extends State<InstaHome> with TickerProviderStateMixin {
+  late final AnimationController _controller;
   late ProfileModel apiData;
   bool hasFetchedDetails = false;
 
@@ -28,9 +30,11 @@ class _InstaHomeState extends State<InstaHome> {
   void initState() {
     apiData = ProfileModel();
     super.initState();
+    _controller = AnimationController(vsync: this);
   }
 
   void dispose() {
+    _controller.dispose();
     super.dispose();
   }
 
@@ -76,7 +80,7 @@ class _InstaHomeState extends State<InstaHome> {
                   totalBalance: apiData.user?.balance ?? '',
                   totalBonus: apiData.user?.bonus ?? '',
                   affiliateLink:
-                      'https://instaking.ng/signup?ref=${apiData.user!.username}',
+                      'https://instaking.ng/signup?ref=${apiData.user?.username ?? "waiting..."}',
                 ),
                 HomeContainer(
                   color: Theme.of(context).cardColor,
@@ -96,7 +100,38 @@ class _InstaHomeState extends State<InstaHome> {
                       stops: const [0, 0.2, 0.5, 0.8],
                     ),
                   ),
-                  child: Row(),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SizedBox(
+                        height: 50.h,
+                        width: 150.w,
+                        child: Text(
+                          'Refer people and earn up to 10% off all their transactions',
+                          style: TextStyle(
+                            fontSize: 13.sp,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ).afmPadding(
+                        EdgeInsets.only(
+                          top: 20.h,
+                          left: 20.w,
+                        ),
+                      ),
+                      SizedBox(
+                        child: Lottie.asset(
+                          "assets/animation/insta_refer.json",
+                          controller: _controller,
+                          onLoaded: (composition) {
+                            _controller
+                              ..duration = composition.duration
+                              ..forward();
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
                 )
                     .afmBorderRadius(BorderRadius.circular(24.r))
                     .afmPadding(EdgeInsets.only(bottom: 25.h)),

@@ -16,7 +16,7 @@ final instaWalletController = ChangeNotifierProvider<InstaWalletController>(
 class InstaWalletController extends BaseChangeNotifier {
   final GenerateAccountsService generateAccountsService =
       GenerateAccountsService();
-  late final GenerateAccountModel model;
+  late GenerateAccountModel model = GenerateAccountModel();
   final SecureStorageService secureStorageService =
       SecureStorageService(secureStorage: const FlutterSecureStorage());
 

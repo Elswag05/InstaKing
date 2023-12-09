@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart' show Response;
+import 'package:flutter/foundation.dart';
 
 import 'dio_mixin.dart';
 
@@ -20,7 +21,7 @@ class LoginService with DioMixin {
         'password': password,
       },
     );
-    print(response.data);
+    debugPrint(response.data);
     return response;
   }
 }

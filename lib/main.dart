@@ -23,41 +23,33 @@ Future<void> main() async {
       overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom]).then(
     (_) => runApp(
       const ProviderScope(
-        child: InstaKing(),
+        child: InstaKingGuide(),
       ),
     ),
   );
 }
 
-class InstaKing extends ConsumerWidget {
-  const InstaKing({Key? key}) : super(key: key);
+class InstaKingGuide extends ConsumerStatefulWidget {
+  const InstaKingGuide({super.key});
+  @override
+  ConsumerState<InstaKingGuide> createState() => _InstaKing();
+}
+
+class _InstaKing extends ConsumerState<InstaKingGuide> {
+  late final DashBoardController screenController =
+      ref.read(dashBoardControllerProvider.notifier);
+  late final ThemeController themeController =
+      ref.watch(themeControllerProvider.notifier);
+  late Future<String> getEmailFuture;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    Widget initialScreen = const InstaLogin();
-    final screenController = ref.read(dashBoardControllerProvider.notifier);
-    final themeController = ref.watch(themeControllerProvider.notifier);
+  void initState() {
+    getEmailFuture = screenController.getEmail();
+    super.initState();
+  }
 
-    bool setTheme() {
-      return MediaQuery.of(context).platformBrightness == Brightness.dark
-          ? true
-          : false;
-    }
-
-    void getEmail() async {
-      String emailDey = await screenController.getEmail();
-      emailDey == '' || emailDey == 'null' || emailDey.isEmpty
-          ? debugPrint('Info: Email not found')
-          : debugPrint('${emailDey}is your email');
-
-      if (emailDey.isNotEmpty && emailDey != 'null') {
-        initialScreen = const InstaDashboard();
-      }
-    }
-
-    themeController.setDeviceTheme(MediaQuery.of(context).platformBrightness);
-    getEmail();
-
+  @override
+  Widget build(BuildContext context) {
     return OKToast(
       child: ScreenUtilInit(
         designSize: ScreenUtil.defaultSize,
@@ -71,7 +63,21 @@ class InstaKing extends ConsumerWidget {
             darkTheme: EnvThemeManager.darkTheme,
             debugShowCheckedModeBanner: false,
             home: Scaffold(
-              body: initialScreen,
+              body: FutureBuilder<String?>(
+                future: getEmailFuture,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    String? email = snapshot.data;
+                    if (email == null || email.isEmpty) {
+                      return const InstaLogin();
+                    } else {
+                      return const InstaDashboard();
+                    }
+                  } else {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                },
+              ),
             ),
           );
         },

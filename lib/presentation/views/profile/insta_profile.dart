@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:insta_king/core/constants/constants.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
 import 'package:insta_king/data/local/secure_storage_service.dart';
 import 'package:insta_king/presentation/controllers/insta_dashboard_controller.dart';
@@ -10,7 +9,6 @@ import 'package:insta_king/presentation/controllers/theme_controller.dart';
 import 'package:insta_king/presentation/views/authentication/login/login.dart';
 import 'package:insta_king/presentation/views/profile/account_profile_card.dart';
 import 'package:insta_king/presentation/views/profile/profile_view_model.dart';
-import 'package:insta_king/presentation/views/profile/sub_profile_views.dart/api_key.dart';
 import 'package:insta_king/presentation/views/profile/sub_profile_views.dart/bank_account_details/bank_account_details.dart';
 import 'package:insta_king/presentation/views/profile/sub_profile_views.dart/change_password.dart';
 import 'package:insta_king/presentation/views/profile/sub_profile_views.dart/more_information.dart';
@@ -122,42 +120,42 @@ class _InstaProfileState extends State<InstaProfile> {
                                 );
                               },
                             ).afmPadding(),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Dark Mode',
-                                  style: TextStyle(
-                                    fontFamily: 'Montesserat',
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    isChangeBool = themeController.isDarkTheme;
-                                  },
-                                  child: Switch(
-                                    // thumb color (round icon)
-                                    activeColor: InstaColors.primaryColor,
-                                    activeTrackColor:
-                                        InstaColors.mildLightColor,
-                                    inactiveThumbColor: InstaColors.mildGrey,
-                                    inactiveTrackColor:
-                                        InstaColors.mildLightColor,
-                                    splashRadius: 70.0,
-                                    // boolean variable value
-                                    value: isChangeBool,
-                                    // changes the state of the switch
-                                    onChanged: (value) {
-                                      setState(() {
-                                        themeController.toggleTheme();
-                                      });
-                                    },
-                                  ),
-                                ),
-                              ],
-                            ).afmPadding(),
+                            // Row(
+                            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            //   children: [
+                            //     Text(
+                            //       'Dark Mode',
+                            //       style: TextStyle(
+                            //         fontFamily: 'Montesserat',
+                            //         fontSize: 14.sp,
+                            //         fontWeight: FontWeight.bold,
+                            //       ),
+                            //     ),
+                            //     GestureDetector(
+                            //       onTap: () {
+                            //         isChangeBool = themeController.isDarkTheme;
+                            //       },
+                            //       child: Switch(
+                            //         // thumb color (round icon)
+                            //         activeColor: InstaColors.primaryColor,
+                            //         activeTrackColor:
+                            //             InstaColors.mildLightColor,
+                            //         inactiveThumbColor: InstaColors.mildGrey,
+                            //         inactiveTrackColor:
+                            //             InstaColors.mildLightColor,
+                            //         splashRadius: 70.0,
+                            //         // boolean variable value
+                            //         value: isChangeBool,
+                            //         // changes the state of the switch
+                            //         onChanged: (value) {
+                            //           setState(() {
+                            //             themeController.toggleTheme();
+                            //           });
+                            //         },
+                            //       ),
+                            //     ),
+                            //   ],
+                            // ).afmPadding(),
                             const ProfileViewModel(modelText: 'Support')
                                 .afmPadding(),
                           ],

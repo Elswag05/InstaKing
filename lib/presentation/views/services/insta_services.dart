@@ -22,6 +22,10 @@ class _InstaServicesState extends State<InstaServices> {
   bool hasYoutubeBeenTapped = false;
   bool hasSpotifyBeenTapped = false;
   bool hasSnapchatBeenTapped = false;
+  bool hasTelegramBeenTapped = false;
+  bool hasAudiomackBeenTapped = false;
+  bool hasTiktokBeenTapped = false;
+  bool hasDeezerBeenTapped = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,61 +51,8 @@ class _InstaServicesState extends State<InstaServices> {
                     //     fontWeight: FontWeight.w500,
                     //   ),
                     // ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        ServicesIconTabs(
-                          imageIconPath: 'instagram',
-                          text: 'Instagram',
-                          isTapped: hasInstagramBeenTapped,
-                          onTap: () {
-                            setState(() {
-                              hasInstagramBeenTapped = !hasInstagramBeenTapped;
-                            });
-                          },
-                        ),
-                        ServicesIconTabs(
-                          imageIconPath: 'facebook (1)',
-                          text: 'Facebook',
-                          isTapped: hasFacebookBeenTapped,
-                          onTap: () {
-                            setState(() {
-                              hasFacebookBeenTapped = !hasFacebookBeenTapped;
-                            });
-                          },
-                        ),
-                        ServicesIconTabs(
-                          imageIconPath: 'play',
-                          text: 'Youtube',
-                          isTapped: hasYoutubeBeenTapped,
-                          onTap: () {
-                            setState(() {
-                              hasYoutubeBeenTapped = !hasYoutubeBeenTapped;
-                            });
-                          },
-                        ),
-                        ServicesIconTabs(
-                          imageIconPath: 'spotify',
-                          text: 'Spotify',
-                          isTapped: hasSpotifyBeenTapped,
-                          onTap: () {
-                            setState(() {
-                              hasSpotifyBeenTapped = !hasSpotifyBeenTapped;
-                            });
-                          },
-                        ),
-                        ServicesIconTabs(
-                          imageIconPath: 'snapchat (1)',
-                          text: 'Snapchat',
-                          isTapped: hasSnapchatBeenTapped,
-                          onTap: () {
-                            setState(() {
-                              hasSnapchatBeenTapped = !hasSnapchatBeenTapped;
-                            });
-                          },
-                        ),
-                      ],
-                    ).afmPadding(EdgeInsets.symmetric(vertical: 10.sp)),
+                    rows1().afmPadding(EdgeInsets.symmetric(vertical: 10.sp)),
+                    rows2().afmPadding(EdgeInsets.symmetric(vertical: 10.sp)),
                   ],
                 ).afmPadding(
                   EdgeInsets.only(
@@ -146,6 +97,116 @@ class _InstaServicesState extends State<InstaServices> {
           }),
         ),
       ),
+    );
+  }
+
+  Row rows1() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        ServicesIconTabs(
+          imageIconPath: 'instagram',
+          text: 'Instagram',
+          isTapped: hasInstagramBeenTapped,
+          onTap: () {
+            setState(() {
+              hasInstagramBeenTapped = !hasInstagramBeenTapped;
+            });
+          },
+        ),
+        ServicesIconTabs(
+          imageIconPath: 'facebook (1)',
+          text: 'Facebook',
+          isTapped: hasFacebookBeenTapped,
+          onTap: () {
+            setState(() {
+              hasFacebookBeenTapped = !hasFacebookBeenTapped;
+            });
+          },
+        ),
+        ServicesIconTabs(
+          imageIconPath: 'play',
+          text: 'Youtube',
+          isTapped: hasYoutubeBeenTapped,
+          onTap: () {
+            setState(() {
+              hasYoutubeBeenTapped = !hasYoutubeBeenTapped;
+            });
+          },
+        ),
+        ServicesIconTabs(
+          imageIconPath: 'spotify',
+          text: 'Spotify',
+          isTapped: hasSpotifyBeenTapped,
+          onTap: () {
+            setState(() {
+              hasSpotifyBeenTapped = !hasSpotifyBeenTapped;
+            });
+          },
+        ),
+        ServicesIconTabs(
+          imageIconPath: 'snapchat (1)',
+          text: 'Snapchat',
+          isTapped: hasSnapchatBeenTapped,
+          onTap: () {
+            setState(() {
+              hasSnapchatBeenTapped = !hasSnapchatBeenTapped;
+            });
+          },
+        ),
+      ],
+    );
+  }
+
+  Row rows2() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        ServicesIconTabs(
+          imageIconPath: 'instagram',
+          text: 'Telegram',
+          isTapped: hasTelegramBeenTapped,
+          onTap: () {
+            setState(() {
+              hasTelegramBeenTapped = !hasTelegramBeenTapped;
+            });
+          },
+        ),
+        ServicesIconTabs(
+          imageIconPath: 'facebook (1)',
+          text: 'Audiomack',
+          isTapped: hasAudiomackBeenTapped,
+          onTap: () {
+            setState(() {
+              hasAudiomackBeenTapped = !hasAudiomackBeenTapped;
+            });
+          },
+        ),
+        ServicesIconTabs(
+          imageIconPath: 'play',
+          text: 'TikTok',
+          isTapped: hasTiktokBeenTapped,
+          onTap: () {
+            setState(() {
+              hasTiktokBeenTapped = !hasTiktokBeenTapped;
+            });
+          },
+        ),
+        ServicesIconTabs(
+          imageIconPath: 'spotify',
+          text: 'Deezer',
+          isTapped: hasDeezerBeenTapped,
+          onTap: () {
+            setState(() {
+              hasDeezerBeenTapped = !hasDeezerBeenTapped;
+            });
+          },
+        ),
+        SizedBox(
+          width: 50.w,
+          height: 45.h,
+        ),
+      ],
     );
   }
 }

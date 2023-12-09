@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insta_king/core/constants/constants.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
+import 'package:insta_king/data/local/toast_service.dart';
+import 'package:insta_king/utils/locator.dart';
 
 class AccountDetails extends StatelessWidget {
   final String accountName;
@@ -94,8 +97,9 @@ class AccountDetails extends StatelessWidget {
                       accountNumber,
                       style: TextStyle(
                         fontFamily: 'Montesserat',
-                        fontSize: 15.sp,
-                        fontWeight: FontWeight.w600,
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 3.w,
                       ),
                     ).afmPadding(EdgeInsets.only(left: 10.w)),
                     const SizedBox(),
@@ -104,31 +108,48 @@ class AccountDetails extends StatelessWidget {
               ).afmPadding(EdgeInsets.only(top: 10.sp, bottom: 10.sp)),
               Positioned(
                 right: 0,
-                child: Container(
-                  height: 40.h,
-                  width: MediaQuery.of(context).size.width / 2.5,
-                  decoration: BoxDecoration(
-                    color: InstaColors.primaryColor,
-                    border: Border.all(
-                      color: InstaColors.darkColor.withOpacity(0.5),
-                      width: 1.sp,
-                    ),
-                    borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(10.r),
-                      bottomRight: Radius.circular(10.r),
-                    ),
-                  ),
-                  child: Center(
-                    child: Text(
-                      'Copy Account',
-                      style: TextStyle(
-                        fontFamily: 'Montesserat',
-                        fontSize: 15.sp,
-                        fontWeight: FontWeight.w600,
+                child: GestureDetector(
+                  onTap: () {
+                    Clipboard.setData(
+                      ClipboardData(text: accountNumber),
+                    ).then(
+                      (value) {
+                        debugPrint('data copied successfully $accountNumber');
+                        locator<ToastService>().showSuccessToast(
+                          'You have the account number to your clip board',
+                        );
+                      },
+                    );
+                  },
+                  child: Container(
+                    height: 40.h,
+                    width: MediaQuery.of(context).size.width / 5.5,
+                    decoration: BoxDecoration(
+                      color: InstaColors.primaryColor,
+                      border: Border.all(
+                        color: InstaColors.darkColor.withOpacity(0.5),
+                        width: 1.sp,
                       ),
-                    ).afmPadding(EdgeInsets.only(right: 10.w, bottom: 3.h)),
-                  ),
-                ).afmPadding(EdgeInsets.only(top: 10.sp, bottom: 10.sp)),
+                      borderRadius: BorderRadius.circular(10.r),
+                    ),
+                    child: Center(
+                      child: Icon(
+                        Icons.copy,
+                        size: 10.sp,
+                        color: Theme.of(context).colorScheme.onInverseSurface,
+                      ),
+
+                      // Text(
+                      //   'Copy',
+                      //   style: TextStyle(
+                      //     fontFamily: 'Montesserat',
+                      //     fontSize: 15.sp,
+                      //     fontWeight: FontWeight.w600,
+                      //   ),
+                      // ).afmPadding(EdgeInsets.only(right: 10.w, bottom: 3.h)),
+                    ),
+                  ).afmPadding(EdgeInsets.only(top: 10.sp, bottom: 10.sp)),
+                ),
               ),
             ],
           )
