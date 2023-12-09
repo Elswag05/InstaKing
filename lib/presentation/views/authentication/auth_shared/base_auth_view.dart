@@ -1,8 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:insta_king/core/constants/env_assets.dart';
 
+import 'package:insta_king/core/constants/env_assets.dart';
 import 'package:insta_king/core/constants/env_colors.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
 import 'package:insta_king/presentation/views/shared_widgets/cta_button.dart';
@@ -15,6 +15,7 @@ class BaseAuthView extends StatefulWidget {
   final String callToActionFooterText;
   final String checkBoxText;
   final bool isLogin;
+  final bool isLoginWithFingerPrint;
   final bool checked;
   final bool isForgotPassword;
   final Function()? onForgotPassword;
@@ -38,7 +39,11 @@ class BaseAuthView extends StatefulWidget {
     required this.callToActionFooterText,
     required this.checkBoxText,
     required this.isLogin,
+    this.isLoginWithFingerPrint = false,
     this.checked = false,
+    this.isForgotPassword = false,
+    this.onForgotPassword,
+    this.onChanged,
     required this.toGoToInversePage,
     this.anyWidget = const SizedBox(),
     this.anyWidget1 = const SizedBox(),
@@ -48,9 +53,6 @@ class BaseAuthView extends StatefulWidget {
     this.anyWidget5 = const SizedBox(),
     this.anyWidget6 = const SizedBox(),
     this.toSignOrLogin,
-    this.onChanged,
-    this.onForgotPassword,
-    this.isForgotPassword = false,
   }) : super(key: key);
 
   @override
@@ -130,7 +132,7 @@ class _BaseAuthViewState extends State<BaseAuthView> {
               ],
             ),
           ),
-          widget.isLogin
+          widget.isLoginWithFingerPrint
               ? GestureDetector(
                   child: Column(
                     children: [

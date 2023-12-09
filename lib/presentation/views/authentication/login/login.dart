@@ -65,6 +65,7 @@ class _InstaLoginState extends State<InstaLogin> {
               builder: (context) => const ChangeInstaPassword(),
             ));
           },
+          isLoginWithFingerPrint: true,
           toSignOrLogin: () {
             log('INFO: To login with email:${usernameController.text}and password: ${passwordController.text}');
             ref

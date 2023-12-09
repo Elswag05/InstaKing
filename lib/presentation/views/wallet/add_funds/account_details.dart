@@ -42,7 +42,7 @@ class AccountDetails extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    'Wema Bank',
+                    bankName,
                     style: TextStyle(
                       fontFamily: 'Montesserat',
                       fontSize: 15.sp,
@@ -64,7 +64,7 @@ class AccountDetails extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    'InstaKing-Ayo',
+                    accountName,
                     style: TextStyle(
                       fontFamily: 'Montesserat',
                       fontSize: 15.sp,
@@ -91,7 +91,7 @@ class AccountDetails extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      '9207669559',
+                      accountNumber,
                       style: TextStyle(
                         fontFamily: 'Montesserat',
                         fontSize: 15.sp,

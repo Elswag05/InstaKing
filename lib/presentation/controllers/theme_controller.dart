@@ -15,6 +15,11 @@ final SecureStorageService secureStorageService =
 class ThemeController extends BaseChangeNotifier {
   ThemeData currentTheme = EnvThemeManager.lightTheme;
   bool get isDarkTheme => currentTheme.brightness == Brightness.dark;
+  set isDarkTheme(bool isDarkTheme) {
+    currentTheme =
+        isDarkTheme ? EnvThemeManager.darkTheme : EnvThemeManager.lightTheme;
+    notifyListeners();
+  }
 
   void toggleTheme() {
     currentTheme =
@@ -24,12 +29,12 @@ class ThemeController extends BaseChangeNotifier {
     notifyListeners();
   }
 
-  // void setDeviceTheme(Brightness deviceBrightness) {
-  //   if (deviceBrightness == Brightness.light) {
-  //     currentTheme = EnvThemeManager.lightTheme;
-  //   } else if (deviceBrightness == Brightness.dark) {
-  //     currentTheme = EnvThemeManager.darkTheme;
-  //   }
-  //   notifyListeners();
-  // }
+  void setDeviceTheme(Brightness deviceBrightness) {
+    if (deviceBrightness == Brightness.light) {
+      currentTheme = EnvThemeManager.lightTheme;
+    } else if (deviceBrightness == Brightness.dark) {
+      currentTheme = EnvThemeManager.darkTheme;
+    }
+    notifyListeners();
+  }
 }

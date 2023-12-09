@@ -38,17 +38,24 @@ class InstaKing extends ConsumerWidget {
     final screenController = ref.read(dashBoardControllerProvider.notifier);
     final themeController = ref.watch(themeControllerProvider.notifier);
 
+    bool setTheme() {
+      return MediaQuery.of(context).platformBrightness == Brightness.dark
+          ? true
+          : false;
+    }
+
     void getEmail() async {
       String emailDey = await screenController.getEmail();
       emailDey == '' || emailDey == 'null' || emailDey.isEmpty
-          ? debugPrint('${emailDey}is your email')
-          : debugPrint('Info: Email not found');
+          ? debugPrint('Info: Email not found')
+          : debugPrint('${emailDey}is your email');
 
       if (emailDey.isNotEmpty && emailDey != 'null') {
         initialScreen = const InstaDashboard();
       }
     }
 
+    themeController.setDeviceTheme(MediaQuery.of(context).platformBrightness);
     getEmail();
 
     return OKToast(
@@ -60,11 +67,11 @@ class InstaKing extends ConsumerWidget {
           return MaterialApp(
             title: 'Insta King',
             themeMode: ThemeMode.system,
-            theme: themeController.currentTheme,
+            theme: EnvThemeManager.lightTheme,
             darkTheme: EnvThemeManager.darkTheme,
             debugShowCheckedModeBanner: false,
-            home: const Scaffold(
-              body: InstaDashboard(),
+            home: Scaffold(
+              body: initialScreen,
             ),
           );
         },

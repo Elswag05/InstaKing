@@ -34,6 +34,7 @@ class ToastService {
       clipBehavior: Clip.none,
       children: [
         Container(
+          width: double.maxFinite,
           margin: EdgeInsets.symmetric(horizontal: 30.w),
           padding: const EdgeInsets.symmetric(),
           decoration: BoxDecoration(
@@ -48,9 +49,9 @@ class ToastService {
             ],
             gradient: LinearGradient(
               colors: [
-                Colors.black87.withAlpha(80),
-                Colors.black87.withAlpha(60),
-                Colors.black87.withAlpha(55),
+                Colors.black87,
+                Colors.black87,
+                Colors.black87,
               ],
               stops: const [0.0, 0.4, 0.8],
               begin: Alignment.topLeft,

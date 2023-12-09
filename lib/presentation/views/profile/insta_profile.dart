@@ -101,16 +101,16 @@ class _InstaProfileState extends State<InstaProfile> {
                                 );
                               },
                             ).afmPadding(),
-                            ProfileViewModel(
-                              modelText: 'Api Key',
-                              onTap: () {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) => const ApiKeyPage(),
-                                  ),
-                                );
-                              },
-                            ).afmPadding(),
+                            // ProfileViewModel(
+                            //   modelText: 'Api Key',
+                            //   onTap: () {
+                            //     Navigator.of(context).push(
+                            //       MaterialPageRoute(
+                            //         builder: (context) => const ApiKeyPage(),
+                            //       ),
+                            //     );
+                            //   },
+                            // ).afmPadding(),
                             ProfileViewModel(
                               modelText: 'Change Password',
                               onTap: () {

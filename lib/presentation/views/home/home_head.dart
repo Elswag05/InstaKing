@@ -9,13 +9,13 @@ class HomeHeaderWidget extends StatefulWidget {
   final String? username;
   final void Function()? onNotificationsTap;
   final void Function()? onProfileTap;
-  final File imageFile;
+  //File imageFile;
   const HomeHeaderWidget({
     Key? key,
     required this.username,
     this.onNotificationsTap,
     this.onProfileTap,
-    required this.imageFile,
+    // this.imageFile = null,
   });
 
   @override
@@ -33,10 +33,13 @@ class _HomeHeaderWidgetState extends State<HomeHeaderWidget> {
             GestureDetector(
               onTap: widget.onProfileTap,
               child: CircleAvatar(
-                radius: 25.r,
-                foregroundImage: FileImage(widget.imageFile),
+                radius: 20.r,
+                //foregroundImage: FileImage(widget.imageFile),
                 backgroundColor: InstaColors.primaryColor,
-                child: const Icon(Icons.person_add_alt_sharp),
+                child: Icon(
+                  Icons.person_add_alt_sharp,
+                  color: Theme.of(context).colorScheme.onInverseSurface,
+                ),
               ),
             ),
             Column(

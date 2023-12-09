@@ -33,15 +33,15 @@ class HomeColumn extends StatelessWidget {
           !services
               ? SvgPicture.asset(
                   EnvAssets.getSvgPath(shortcutIcon),
-                  width: 40.w,
-                  height: 40.h,
+                  width: 30.w,
+                  height: 30.h,
                   // ignore: deprecated_member_use
                   color: InstaColors.primaryColor,
                   semanticsLabel: shortcutText,
                 )
               : Icon(
                   Icons.storage_sharp,
-                  size: 40.h,
+                  size: 30.h,
                   color: InstaColors.primaryColor,
                 ),
           Text(

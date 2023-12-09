@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-class GetFilteredOrderModel {
+class GetAllOrderModel {
   int? id;
   int? userId;
   int? categoryId;
@@ -31,7 +31,7 @@ class GetFilteredOrderModel {
   DateTime? createdAt;
   DateTime? updatedAt;
 
-  GetFilteredOrderModel({
+  GetAllOrderModel({
     this.id,
     this.userId,
     this.categoryId,
@@ -63,7 +63,7 @@ class GetFilteredOrderModel {
     this.updatedAt,
   });
 
-  GetFilteredOrderModel copyWith({
+  GetAllOrderModel copyWith({
     int? id,
     int? userId,
     int? categoryId,
@@ -94,7 +94,7 @@ class GetFilteredOrderModel {
     DateTime? createdAt,
     DateTime? updatedAt,
   }) =>
-      GetFilteredOrderModel(
+      GetAllOrderModel(
         id: id ?? this.id,
         userId: userId ?? this.userId,
         categoryId: categoryId ?? this.categoryId,
@@ -126,13 +126,13 @@ class GetFilteredOrderModel {
         updatedAt: updatedAt ?? this.updatedAt,
       );
 
-  factory GetFilteredOrderModel.fromRawJson(String str) =>
-      GetFilteredOrderModel.fromJson(json.decode(str));
+  factory GetAllOrderModel.fromRawJson(String str) =>
+      GetAllOrderModel.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory GetFilteredOrderModel.fromJson(Map<String, dynamic> json) =>
-      GetFilteredOrderModel(
+  factory GetAllOrderModel.fromJson(Map<String, dynamic> json) =>
+      GetAllOrderModel(
         id: json["id"],
         userId: json["user_id"],
         categoryId: json["category_id"],

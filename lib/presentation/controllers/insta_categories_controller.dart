@@ -11,6 +11,7 @@ import 'package:insta_king/data/services/error_service.dart';
 import 'package:insta_king/presentation/controllers/base_controller.dart';
 import 'package:insta_king/presentation/model/insta_get_category_model.dart';
 import 'package:insta_king/presentation/model/insta_get_one_service_detail_model.dart';
+import 'package:insta_king/presentation/model/insta_get_service_details_model.dart';
 import 'package:insta_king/utils/locator.dart';
 
 final instaCategoriesController = ChangeNotifierProvider<CategoriesController>(
@@ -21,6 +22,10 @@ class CategoriesController extends BaseChangeNotifier {
   final GetCategoriesService getCategoriesService = GetCategoriesService();
   final GetAllServiceDetails getAllServiceDetails = GetAllServiceDetails();
   final GetOneServiceDetails getOneServiceDetails = GetOneServiceDetails();
+  late GetAllServicesModel getAllServicesModel = GetAllServicesModel();
+
+  @override
+  LoadingState loadingState = LoadingState.idle;
 
   final SecureStorageService secureStorageService =
       SecureStorageService(secureStorage: const FlutterSecureStorage());
@@ -89,9 +94,9 @@ class CategoriesController extends BaseChangeNotifier {
     try {
       final res = await getAllServiceDetails.getAllServicesDetails();
       if (res.statusCode == 200) {
-        final data = GetCategoriesModel.fromJson(res.data);
+        getAllServicesModel = GetAllServicesModel.fromJson(res.data);
         loadingState = LoadingState.idle;
-        if (data.status == 'success') {
+        if (getAllServicesModel.status == 'success') {
           return true;
         }
       } else {

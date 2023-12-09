@@ -1,7 +1,12 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insta_king/core/constants/constants.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
+import 'package:insta_king/presentation/controllers/insta_categories_controller.dart';
+import 'package:insta_king/presentation/model/insta_get_service_details_model.dart';
 import 'package:insta_king/presentation/views/shared_widgets/recurring_appbar.dart';
 
 class InstaServices extends StatefulWidget {
@@ -20,191 +25,265 @@ class _InstaServicesState extends State<InstaServices> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: InstaColors.appBackgroundColor,
       body: SafeArea(
-        child: Column(
-          children: [
-            const RecurringAppBar(appBarTitle: "Services")
-                .afmPadding(EdgeInsets.only(bottom: 5.h)),
-            const ServicesSearchBar(),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: Consumer(
+          builder: ((context, ref, child) {
+            final service = ref
+                .read(instaCategoriesController.notifier)
+                .getAllServicesModel;
+            return Column(
               children: [
-                const Text(
-                  'See all',
-                  style: TextStyle(
-                    fontFamily: 'Montesserat',
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                Row(
+                const RecurringAppBar(appBarTitle: "Services")
+                    .afmPadding(EdgeInsets.only(bottom: 5.h)),
+                const ServicesSearchBar(),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    ServicesIconTabs(
-                      imageIconPath: 'instagram',
-                      text: 'Instagram',
-                      isTapped: hasInstagramBeenTapped,
-                      onTap: () {
-                        setState(() {
-                          hasInstagramBeenTapped = !hasInstagramBeenTapped;
-                        });
-                      },
-                    ),
-                    ServicesIconTabs(
-                      imageIconPath: 'facebook (1)',
-                      text: 'Facebook',
-                      isTapped: hasFacebookBeenTapped,
-                      onTap: () {
-                        setState(() {
-                          hasFacebookBeenTapped = !hasFacebookBeenTapped;
-                        });
-                      },
-                    ),
-                    ServicesIconTabs(
-                      imageIconPath: 'play',
-                      text: 'Youtube',
-                      isTapped: hasYoutubeBeenTapped,
-                      onTap: () {
-                        setState(() {
-                          hasYoutubeBeenTapped = !hasYoutubeBeenTapped;
-                        });
-                      },
-                    ),
-                    ServicesIconTabs(
-                      imageIconPath: 'spotify',
-                      text: 'Spotify',
-                      isTapped: hasSpotifyBeenTapped,
-                      onTap: () {
-                        setState(() {
-                          hasSpotifyBeenTapped = !hasSpotifyBeenTapped;
-                        });
-                      },
-                    ),
-                    ServicesIconTabs(
-                      imageIconPath: 'snapchat (1)',
-                      text: 'Snapchat',
-                      isTapped: hasSnapchatBeenTapped,
-                      onTap: () {
-                        setState(() {
-                          hasSnapchatBeenTapped = !hasSnapchatBeenTapped;
-                        });
-                      },
-                    ),
+                    // const Text(
+                    //   'See all',
+                    //   style: TextStyle(
+                    //     fontFamily: 'Montesserat',
+                    //     fontWeight: FontWeight.w500,
+                    //   ),
+                    // ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        ServicesIconTabs(
+                          imageIconPath: 'instagram',
+                          text: 'Instagram',
+                          isTapped: hasInstagramBeenTapped,
+                          onTap: () {
+                            setState(() {
+                              hasInstagramBeenTapped = !hasInstagramBeenTapped;
+                            });
+                          },
+                        ),
+                        ServicesIconTabs(
+                          imageIconPath: 'facebook (1)',
+                          text: 'Facebook',
+                          isTapped: hasFacebookBeenTapped,
+                          onTap: () {
+                            setState(() {
+                              hasFacebookBeenTapped = !hasFacebookBeenTapped;
+                            });
+                          },
+                        ),
+                        ServicesIconTabs(
+                          imageIconPath: 'play',
+                          text: 'Youtube',
+                          isTapped: hasYoutubeBeenTapped,
+                          onTap: () {
+                            setState(() {
+                              hasYoutubeBeenTapped = !hasYoutubeBeenTapped;
+                            });
+                          },
+                        ),
+                        ServicesIconTabs(
+                          imageIconPath: 'spotify',
+                          text: 'Spotify',
+                          isTapped: hasSpotifyBeenTapped,
+                          onTap: () {
+                            setState(() {
+                              hasSpotifyBeenTapped = !hasSpotifyBeenTapped;
+                            });
+                          },
+                        ),
+                        ServicesIconTabs(
+                          imageIconPath: 'snapchat (1)',
+                          text: 'Snapchat',
+                          isTapped: hasSnapchatBeenTapped,
+                          onTap: () {
+                            setState(() {
+                              hasSnapchatBeenTapped = !hasSnapchatBeenTapped;
+                            });
+                          },
+                        ),
+                      ],
+                    ).afmPadding(EdgeInsets.symmetric(vertical: 10.sp)),
                   ],
-                ).afmPadding(EdgeInsets.symmetric(vertical: 10.sp)),
-              ],
-            ).afmPadding(
-              EdgeInsets.only(
-                left: 20.sp,
-                right: 20.sp,
-                top: 20.sp,
-                bottom: 10.sp,
-              ),
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width - 40.sp,
-              padding: EdgeInsets.all(15.sp),
-              decoration: BoxDecoration(
-                color: InstaColors.primaryColor,
-                borderRadius: BorderRadius.circular(10.r),
-              ),
-              child: Text(
-                'Instagram - Autolikes / Autoviews \n[For New & Old Posts]',
-                style: TextStyle(
-                  fontFamily: 'Montesserat',
-                  fontWeight: FontWeight.w500,
-                  color: InstaColors.lightColor,
-                  fontSize: 14.sp,
+                ).afmPadding(
+                  EdgeInsets.only(
+                    left: 20.sp,
+                    right: 20.sp,
+                    top: 20.sp,
+                    bottom: 10.sp,
+                  ),
                 ),
-              ),
-            ).afmPadding(EdgeInsets.only(bottom: 20.sp)),
-            const ServicesDemoWidget()
-                .afmPadding(EdgeInsets.only(bottom: 20.sp)),
-            const ServicesDemoWidget()
-                .afmPadding(EdgeInsets.only(bottom: 20.sp)),
-            const ServicesDemoWidget()
-                .afmPadding(EdgeInsets.only(bottom: 20.sp)),
-          ],
-        ).afmNeverScroll,
+                Container(
+                  width: MediaQuery.of(context).size.width - 40.sp,
+                  padding: EdgeInsets.all(15.sp),
+                  decoration: BoxDecoration(
+                    color: InstaColors.primaryColor,
+                    borderRadius: BorderRadius.circular(10.r),
+                  ),
+                  child: Text(
+                    'All Services',
+                    style: TextStyle(
+                      fontFamily: 'Montesserat',
+                      fontWeight: FontWeight.w500,
+                      color: InstaColors.lightColor,
+                      fontSize: 14.sp,
+                    ),
+                  ),
+                ).afmPadding(EdgeInsets.only(bottom: 20.sp)),
+                SizedBox(
+                  height: 340.h,
+                  width: MediaQuery.of(context).size.width - 40.sp,
+                  child: ListView.builder(
+                    itemCount: service.data?.length,
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      return ServicesDemoWidget(index: index).afmPadding(
+                        EdgeInsets.only(bottom: 20.h),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ).afmNeverScroll;
+          }),
+        ),
       ),
     );
   }
 }
 
-class ServicesDemoWidget extends StatelessWidget {
-  const ServicesDemoWidget({super.key});
+class ServicesDemoWidget extends StatefulWidget {
+  final int index;
+  const ServicesDemoWidget({super.key, required this.index});
+
+  @override
+  State<ServicesDemoWidget> createState() => _ServicesDemoWidgetState();
+}
+
+class _ServicesDemoWidgetState extends State<ServicesDemoWidget> {
+  @override
+  Widget build(BuildContext context) {
+    return Consumer(
+      builder: (context, ref, child) {
+        final getService = ref.read(instaCategoriesController.notifier);
+        getService.toGetAllServiceDetail();
+        final service =
+            ref.read(instaCategoriesController.notifier).getAllServicesModel;
+        log(service.data.toString());
+        return Container(
+          width: MediaQuery.of(context).size.width - 40.sp,
+          height: 140.h,
+          padding: EdgeInsets.all(15.sp),
+          decoration: BoxDecoration(
+            color: Theme.of(context).cardColor,
+            borderRadius: BorderRadius.circular(10.r),
+          ),
+          child: ServiceWidgetModel(
+            IDtext: service.data?[widget.index].id.toString() ?? '',
+            name: service.data?[widget.index].name.toString() ?? '',
+            price: service.data?[widget.index].price
+                    .toString()
+                    .roundUpToDecimalPlaces(2) ??
+                '',
+            min: service.data?[widget.index].min.toString() ?? '',
+            max: service.data?[widget.index].max.toString() ?? '',
+          ),
+        );
+      },
+    );
+  }
+}
+
+extension StringExtension on String {
+  String roundUpToDecimalPlaces(int decimalPlaces) {
+    double number = double.parse(this);
+    final mod = 1 / (10 * decimalPlaces);
+    double roundedNumber = ((number / mod).ceil() * mod);
+    return roundedNumber.toStringAsFixed(decimalPlaces);
+  }
+}
+
+class ServiceWidgetModel extends StatelessWidget {
+  final String IDtext;
+  final String min;
+  final String max;
+  final String name;
+  final String price;
+
+  const ServiceWidgetModel({
+    super.key,
+    required this.IDtext,
+    required this.min,
+    required this.max,
+    required this.price,
+    required this.name,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width - 40.sp,
-      height: 140.h,
-      padding: EdgeInsets.all(15.sp),
-      decoration: BoxDecoration(
-        color: InstaColors.lightColor,
-        borderRadius: BorderRadius.circular(10.r),
-      ),
-      child: Stack(
-        children: [
-          lightText('ID'),
-          Positioned(
-            right: MediaQuery.of(context).size.width / 3,
-            child: darkText('9065'),
+    return Stack(
+      children: [
+        lightText('ID', context),
+        Positioned(
+          left: MediaQuery.of(context).size.width / 2.5.w,
+          child: darkText(IDtext, context),
+        ),
+        Positioned(
+          top: 20.h,
+          child: lightText('NAME', context),
+        ),
+        Positioned(
+          left: MediaQuery.of(context).size.width / 2.5.w,
+          top: 20.h,
+          child: Container(
+            height: 50.h,
+            width: 175,
+            child: darkText('$name', context),
           ),
-          Positioned(
-            top: 20.h,
-            child: lightText('NAME'),
+        ),
+        Positioned(
+          top: 75.h,
+          child: lightText('PRICE PER 1000', context),
+        ),
+        Positioned(
+          left: MediaQuery.of(context).size.width / 2.5.w,
+          top: 75.h,
+          child: SizedBox(
+            height: 50.h,
+            width: 80.w,
+            child: darkText('₦$price', context),
           ),
-          Positioned(
-            right: MediaQuery.of(context).size.width / 150,
-            top: 20.h,
-            child: darkText(
-                'Instagram - Autolikes \n/ Autoviews [For New \n& Old Posts]'),
-          ),
-          Positioned(
-            top: 75.h,
-            child: lightText('PRICE PER 1000'),
-          ),
-          Positioned(
-            right: MediaQuery.of(context).size.width / 3.9,
-            top: 75.h,
-            child: darkText('#1,890.60'),
-          ),
-          Positioned(
-            top: 95.h,
-            child: lightText('MIN - MAX'),
-          ),
-          Positioned(
-            right: MediaQuery.of(context).size.width / 5,
-            top: 95.h,
-            child: darkText('100 - 30,000'),
-          ),
-        ],
-      ),
+        ),
+        Positioned(
+          top: 95.h,
+          child: lightText('MIN - MAX', context),
+        ),
+        Positioned(
+          left: MediaQuery.of(context).size.width / 2.5.w,
+          top: 95.h,
+          child: darkText('$min - $max', context),
+        ),
+      ],
     );
   }
 }
 
-Text lightText(String lightText) {
+Text lightText(String lightText, BuildContext context) {
   return Text(
     lightText,
     style: TextStyle(
       fontFamily: 'Montesserat',
       fontWeight: FontWeight.w500,
-      color: InstaColors.mildGrey.withOpacity(0.7),
       fontSize: 14.sp,
+      color: Theme.of(context).unselectedWidgetColor,
     ),
   );
 }
 
-Text darkText(String darkText) {
+Text darkText(String darkText, BuildContext context) {
   return Text(
     darkText,
     style: TextStyle(
       fontFamily: 'Montesserat',
       fontWeight: FontWeight.w500,
-      color: InstaColors.darkColor,
       fontSize: 14.sp,
     ),
   );
@@ -264,9 +343,8 @@ class ServicesSearchBar extends StatelessWidget {
     return Container(
       height: 40.h,
       decoration: BoxDecoration(
-        color: InstaColors.lightColor,
+        color: Theme.of(context).canvasColor,
         border: Border.all(
-          color: InstaColors.darkColor.withOpacity(0.5),
           width: 1.sp,
         ),
         borderRadius: BorderRadius.circular(10.r),
@@ -279,14 +357,12 @@ class ServicesSearchBar extends StatelessWidget {
             style: TextStyle(
               fontFamily: 'Montesserat',
               fontSize: 13.sp,
-              color: InstaColors.darkColor.withOpacity(0.5),
               fontWeight: FontWeight.w500,
             ),
           ).afmPadding(EdgeInsets.only(left: 10.w)),
           Icon(
             Icons.search,
             size: 20.sp,
-            color: InstaColors.darkColor.withOpacity(0.5),
           ).afmPadding(EdgeInsets.only(right: 6.h)),
         ],
       ),

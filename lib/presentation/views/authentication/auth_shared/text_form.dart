@@ -66,35 +66,36 @@ class _AuthTextFieldState extends State<AuthTextField> {
         ),
         suffixIcon: (widget.hasSuffix) ? eyeToHidePassword() : const SizedBox(),
         filled: true,
+        fillColor: InstaColors.lightColor,
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.r),
           borderSide: BorderSide(
-            width: 1.sp,
+            width: 0.5.sp,
           ),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.r),
           borderSide: BorderSide(
-            width: 1.sp,
+            width: 0.5.sp,
           ),
         ),
         disabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.r),
           borderSide: BorderSide(
-            width: 1.sp,
+            width: 0.5.sp,
           ),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.r),
           borderSide: BorderSide(
-            width: 1.sp,
+            width: 0.5.sp,
             color: InstaColors.errorColor,
           ),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.r),
           borderSide: BorderSide(
-            width: 1.sp,
+            width: 0.5.sp,
             color: InstaColors.errorColor,
           ),
         ),

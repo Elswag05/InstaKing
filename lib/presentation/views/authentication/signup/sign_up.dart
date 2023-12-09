@@ -101,27 +101,27 @@ class _SignUpState extends State<SignUp> {
             hasSuffix: true,
             isPassword: true,
             controller: passwordController,
-            validator: (value) {
-              RegExp oneUppercase = RegExp(r'^(?=.*?[A-Z])');
-              RegExp oneDigit = RegExp(r'^(?=.*?[0-9])');
-              RegExp oneSpecialChar = RegExp(r'^(?=.*?[!@#\$&*~])');
-              RegExp atLeastEight = RegExp(r'^.{8,}');
-              if (value!.isEmpty) {
-                return MyStrings.enterYourPassword_;
-              } else {
-                if (!oneUppercase.hasMatch(value)) {
-                  return MyStrings.upperCaseMsg;
-                } else if (!oneSpecialChar.hasMatch(value)) {
-                  return MyStrings.oneSpecialCharMsg;
-                } else if (!oneDigit.hasMatch(value)) {
-                  return MyStrings.oneDigitMsg;
-                } else if (!atLeastEight.hasMatch(value)) {
-                  return MyStrings.lessThanEightMsg;
-                } else {
-                  return null;
-                }
-              }
-            },
+            // validator: (value) {
+            //   RegExp oneUppercase = RegExp(r'^(?=.*?[A-Z])');
+            //   RegExp oneDigit = RegExp(r'^(?=.*?[0-9])');
+            //   RegExp oneSpecialChar = RegExp(r'^(?=.*?[!@#\$&*~])');
+            //   RegExp atLeastEight = RegExp(r'^.{8,}');
+            //   if (value!.isEmpty) {
+            //     return MyStrings.enterYourPassword_;
+            //   } else {
+            //     if (!oneUppercase.hasMatch(value)) {
+            //       return MyStrings.upperCaseMsg;
+            //     } else if (!oneSpecialChar.hasMatch(value)) {
+            //       return MyStrings.oneSpecialCharMsg;
+            //     } else if (!oneDigit.hasMatch(value)) {
+            //       return MyStrings.oneDigitMsg;
+            //     } else if (!atLeastEight.hasMatch(value)) {
+            //       return MyStrings.lessThanEightMsg;
+            //     } else {
+            //       return null;
+            //     }
+            //   }
+            // },
           ),
           anyWidget6: AuthTextField(
             icon: Icons.person_2_outlined,

@@ -1,34 +1,34 @@
 import 'dart:convert';
 
-class GetServiceDetails {
+class GetAllServicesModel {
   String? status;
   String? message;
   List<Datum>? data;
 
-  GetServiceDetails({
+  GetAllServicesModel({
     this.status,
     this.message,
     this.data,
   });
 
-  GetServiceDetails copyWith({
+  GetAllServicesModel copyWith({
     String? status,
     String? message,
     List<Datum>? data,
   }) =>
-      GetServiceDetails(
+      GetAllServicesModel(
         status: status ?? this.status,
         message: message ?? this.message,
         data: data ?? this.data,
       );
 
-  factory GetServiceDetails.fromRawJson(String str) =>
-      GetServiceDetails.fromJson(json.decode(str));
+  factory GetAllServicesModel.fromRawJson(String str) =>
+      GetAllServicesModel.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory GetServiceDetails.fromJson(Map<String, dynamic> json) =>
-      GetServiceDetails(
+  factory GetAllServicesModel.fromJson(Map<String, dynamic> json) =>
+      GetAllServicesModel(
         status: json["status"],
         message: json["message"],
         data: json["data"] == null

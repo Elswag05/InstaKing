@@ -75,13 +75,13 @@ class _ChangeInstaPasswordState extends State<ChangeInstaPassword> {
             controller: emailController,
             isPassword: false,
           ),
-          anyWidget1: AuthTextField(
-            icon: Icons.lock_outline_rounded,
-            isPassword: false,
-            hintT: 'Enter Your username',
-            hasSuffix: false,
-            controller: userNameController,
-          ),
+          // anyWidget1: AuthTextField(
+          //   icon: Icons.lock_outline_rounded,
+          //   isPassword: false,
+          //   hintT: 'Enter Your username',
+          //   hasSuffix: false,
+          //   controller: userNameController,
+          // ),
         );
       },
     );

@@ -21,6 +21,7 @@ class OrderController extends BaseChangeNotifier {
   final PlaceOrder placeOrder = PlaceOrder();
   final GetOrders getOrder = GetOrders();
   final GetOrderDetails getOrderDetails = GetOrderDetails();
+  late GetAllOrderModel getAllOrderModel = GetAllOrderModel();
 
   final SecureStorageService secureStorageService =
       SecureStorageService(secureStorage: const FlutterSecureStorage());
@@ -65,7 +66,7 @@ class OrderController extends BaseChangeNotifier {
       final res = await getOrder.getAllOrders();
       if (res.statusCode == 200) {
         // print("INFO: Bearer ${res..data}");
-        final data = GetFilteredOrderModel.fromJson(res.data);
+        getAllOrderModel = GetAllOrderModel.fromJson(res.data);
 
         // if ( rememberMe) {
         //   await locator<SecureStorageService>().write(key: EnvStrings.us, value: value)
@@ -76,7 +77,7 @@ class OrderController extends BaseChangeNotifier {
           'Order loaded successfully',
         );
         //print("INFO: Success converting data to model");
-        if (data.status == 'success') {
+        if (getAllOrderModel.status == 'success') {
           return true;
         }
       } else {

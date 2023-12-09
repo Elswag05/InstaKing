@@ -19,8 +19,8 @@ BottomNavigationBarItem buildBottomNavigationBarItem(
   return BottomNavigationBarItem(
     icon: SvgPicture.asset(
       EnvAssets.getSvgPath(iconPath),
-      width: 25.w,
-      height: 25.h,
+      width: 20.w,
+      height: 20.h,
       // ignore: deprecated_member_use
       color: selectedPageIndex == index
           ? InstaColors.primaryColor

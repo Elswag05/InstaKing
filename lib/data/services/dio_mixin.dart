@@ -11,7 +11,7 @@ import 'package:insta_king/utils/locator.dart';
 mixin DioMixin {
   Dio connect({Map<String, dynamic>? customHeaders}) {
     BaseOptions options = BaseOptions(
-      baseUrl: 'https://www.affiliate.instaking.store/user-api',
+      baseUrl: 'https://www.instaking.ng/user-api',
       connectTimeout: const Duration(seconds: 30),
       receiveTimeout: const Duration(seconds: 30),
       responseType: ResponseType.json,

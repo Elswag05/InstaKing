@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:insta_king/core/constants/env_colors.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
+import 'package:insta_king/presentation/controllers/insta_wallet_controller.dart';
 import 'package:insta_king/presentation/views/shared_widgets/cta_button.dart';
 import 'package:insta_king/presentation/views/wallet/add_funds/account_details.dart';
 
@@ -24,97 +26,120 @@ class _WalletCard1State extends State<WalletCard1> {
   @override
   Widget build(BuildContext context) {
     return onGenerate
-        ? Container(
-            color: Theme.of(context).cardColor,
-            // width: MediaQuery.of(context).size.width - 40.sp,
-            height: 480.h,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Bank Transfer',
-                  style: TextStyle(
-                    fontFamily: 'Montesserat',
-                    fontSize: 15.sp,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ).afmPadding(
-                  EdgeInsets.only(
-                    bottom: 20.sp,
-                  ),
-                ),
-                Expanded(
-                  child: Column(
-                    children: [
-                      Text(
-                        'Make transfer into the account number below to fund your wallet automatically',
-                        style: TextStyle(
-                          fontFamily: 'Montesserat',
-                          fontSize: 15.sp,
-                          fontWeight: FontWeight.w500,
-                        ),
+        ? Consumer(
+            builder: (context, ref, child) {
+              final generatedAccounts =
+                  ref.read(instaWalletController.notifier).model;
+              return Container(
+                color: Theme.of(context).cardColor,
+                // width: MediaQuery.of(context).size.width - 40.sp,
+                height: 480.h,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Bank Transfer',
+                      style: TextStyle(
+                        fontFamily: 'Montesserat',
+                        fontSize: 15.sp,
+                        fontWeight: FontWeight.bold,
                       ),
-                      // Add the bank account details widgets here
-                    ],
-                  ),
-                ),
-                const AccountDetails(
-                  accountName: 'John Doe',
-                ),
-                const AccountDetails(
-                  accountName: 'John Doe',
-                  bankName: 'Sterling Bank',
-                ),
-                const AccountDetails(
-                  accountName: 'John Doe',
-                  bankName: 'Moniepoint MFB',
-                ),
-              ],
-            ).afmPadding(
-              EdgeInsets.all(20.sp),
-            ),
-          )
-            .afmBorderRadius(
-              BorderRadius.circular(10.r),
-            )
-            .afmPadding(
-              EdgeInsets.only(bottom: 20.sp, left: 20.sp, right: 20.sp),
-            )
-        : Container(
-            color: Theme.of(context).cardColor,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Bank Transfer',
-                  style: TextStyle(
-                    fontFamily: 'Montesserat',
-                    fontSize: 15.sp,
-                    fontWeight: FontWeight.bold,
-                  ),
+                    ).afmPadding(
+                      EdgeInsets.only(
+                        bottom: 20.sp,
+                      ),
+                    ),
+                    Expanded(
+                      child: Column(
+                        children: [
+                          Text(
+                            'Make transfer into the account number below to fund your wallet automatically',
+                            style: TextStyle(
+                              fontFamily: 'Montesserat',
+                              fontSize: 15.sp,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          // Add the bank account details widgets here
+                        ],
+                      ),
+                    ),
+                    //TODO: Implement Backend here
+                    // SizedBox(
+                    //   height: 340.h,
+                    //   width: double.maxFinite,
+                    //   child: ListView.builder(
+                    //     itemCount: generatedAccounts.data!.length,
+                    //     itemBuilder: (((context, index) {
+                    //       return AccountDetails();
+                    //     })),
+                    //   ),
+                    // ),
+                    const AccountDetails(
+                      accountName: 'John Doe',
+                    ),
+                    const AccountDetails(
+                      accountName: 'John Doe',
+                      bankName: 'Sterling Bank',
+                    ),
+                    const AccountDetails(
+                      accountName: 'John Doe',
+                      bankName: 'Moniepoint MFB',
+                    ),
+                  ],
                 ).afmPadding(
-                  EdgeInsets.only(
-                    bottom: 20.sp,
-                  ),
+                  EdgeInsets.all(20.sp),
                 ),
-                CustomButton(
-                  pageCTA: 'Generate',
-                  toSignOrLogin: () {
-                    setState(() {
-                      onGenerate = true;
-                    });
-                  },
-                )
-              ],
-            ).afmPadding(
-              EdgeInsets.all(20.sp),
-            ),
+              )
+                  .afmBorderRadius(
+                    BorderRadius.circular(10.r),
+                  )
+                  .afmPadding(
+                    EdgeInsets.only(bottom: 20.sp, left: 20.sp, right: 20.sp),
+                  );
+            },
           )
-            .afmBorderRadius(
-              BorderRadius.circular(10.r),
-            )
-            .afmPadding(
-              EdgeInsets.only(bottom: 20.sp, left: 20.sp, right: 20.sp),
-            );
+        : Consumer(
+            builder: ((context, ref, child) {
+              final general = ref.read(instaWalletController.notifier);
+              return Container(
+                color: Theme.of(context).cardColor,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Bank Transfer',
+                      style: TextStyle(
+                        fontFamily: 'Montesserat',
+                        fontSize: 15.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ).afmPadding(
+                      EdgeInsets.only(
+                        bottom: 20.sp,
+                      ),
+                    ),
+                    CustomButton(
+                      pageCTA: 'Generate',
+                      toSignOrLogin: () {
+                        general.generateAccountDetails();
+                        setState(() {
+                          onGenerate = true;
+                        });
+                      },
+                    )
+                  ],
+                ).afmPadding(
+                  EdgeInsets.all(20.sp),
+                ),
+              )
+                  .afmBorderRadius(
+                    BorderRadius.circular(10.r),
+                  )
+                  .afmPadding(
+                    EdgeInsets.only(bottom: 20.sp, left: 20.sp, right: 20.sp),
+                  );
+            }),
+          );
   }
 }
