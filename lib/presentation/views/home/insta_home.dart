@@ -43,13 +43,12 @@ class _InstaHomeState extends State<InstaHome> with TickerProviderStateMixin {
     return Scaffold(
       body: SafeArea(
         child: Consumer(builder: (context, ref, child) {
+          final homie =
+              ref.read(instaProfileController.notifier).getProfileDetails();
           if (!hasFetchedDetails) {
             // Fetch details only if they haven't been fetched yet
             Future(() async {
-              await ref
-                  .read(instaProfileController.notifier)
-                  .getProfileDetails()
-                  .then((value) {
+              await homie.then((value) {
                 setState(() {});
                 apiData = ref.watch(instaProfileController.notifier).model;
                 hasFetchedDetails = true; // Set the flag after fetching details
@@ -81,6 +80,7 @@ class _InstaHomeState extends State<InstaHome> with TickerProviderStateMixin {
                   totalBonus: apiData.user?.bonus ?? '',
                   affiliateLink:
                       'https://instaking.ng/signup?ref=${apiData.user?.username ?? "waiting..."}',
+                  future: homie,
                 ),
                 HomeContainer(
                   color: Theme.of(context).cardColor,

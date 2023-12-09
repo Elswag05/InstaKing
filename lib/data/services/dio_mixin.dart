@@ -28,7 +28,7 @@ mixin DioMixin {
             options.headers['Authorization'] = "Bearer $value";
           }
           if (customHeaders != null) {
-            options.headers.addAll(customHeaders);
+            options.headers.addAll(Map<String, dynamic>.from(customHeaders));
           }
           return handler.next(options);
         },

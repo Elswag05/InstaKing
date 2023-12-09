@@ -36,6 +36,7 @@ class InstaDashboard extends HookConsumerWidget {
           fontFamily: 'Montserrat',
           fontWeight: FontWeight.w600,
         ),
+        unselectedItemColor: Theme.of(context).colorScheme.onSurface,
         selectedIconTheme: IconThemeData(
           size: 30.sp,
           color: InstaColors.primaryColor, // Color for selected icons

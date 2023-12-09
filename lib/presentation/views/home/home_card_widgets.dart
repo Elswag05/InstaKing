@@ -15,11 +15,13 @@ class HomeCardBalance extends StatefulWidget {
   final String balanceString;
   final String? balance;
   final void Function()? toHideBalance;
+  final Future<Object?>? future;
   const HomeCardBalance(
       {super.key,
       required this.balanceString,
       required this.balance,
-      this.toHideBalance});
+      this.toHideBalance,
+      this.future});
 
   @override
   State<HomeCardBalance> createState() => _HomeCardBalanceState();
@@ -51,7 +53,7 @@ class _HomeCardBalanceState extends State<HomeCardBalance> {
             fontWeight: FontWeight.w600,
             color: Theme.of(context).colorScheme.onInverseSurface,
           ),
-        ),
+        ).afmGetFuture(widget.future, 1),
       ],
     );
   }
@@ -82,11 +84,14 @@ class HomeCardList extends StatefulWidget {
   final String totalBalance;
   final String totalBonus;
   final String affiliateLink;
-  const HomeCardList(
-      {super.key,
-      this.totalBalance = '0.00',
-      this.totalBonus = '0.00',
-      required this.affiliateLink});
+  final Future<Object?>? future;
+  const HomeCardList({
+    super.key,
+    this.totalBalance = '0.00',
+    this.totalBonus = '0.00',
+    required this.affiliateLink,
+    this.future,
+  });
 
   @override
   State<HomeCardList> createState() => _HomeCardListState();
@@ -117,11 +122,13 @@ class _HomeCardListState extends State<HomeCardList> {
                         balanceString: 'Total Balance',
                         balance: formatBalance(widget.totalBalance),
                         toHideBalance: () {},
+                        future: widget.future,
                       ),
                       HomeCardBalance(
                         balanceString: 'Affiliate Balance',
                         balance: formatBalance(widget.totalBonus),
                         toHideBalance: () {},
+                        future: widget.future,
                       )
                     ],
                   ),

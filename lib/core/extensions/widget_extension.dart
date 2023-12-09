@@ -17,13 +17,26 @@ extension WidgetExtension on Widget {
         child: this,
       );
 
+  Widget get afmNeverScroll => SingleChildScrollView(
+        child: this,
+      );
   Widget afmBorderRadius(BorderRadius radius) => ClipRRect(
         borderRadius: radius,
         child: this,
       );
 
-  Widget get afmNeverScroll => SingleChildScrollView(
-        child: this,
+  Widget afmGetFuture(Future<Object?>? future, int? itemCount) => FutureBuilder(
+        future: future,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            return this;
+          } else {
+            return const Center(
+                child: CircularProgressIndicator(
+              strokeWidth: 2,
+            ));
+          }
+        },
       );
 
   Widget afmTouchable(

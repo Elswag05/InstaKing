@@ -28,7 +28,7 @@ class _WalletCard1State extends State<WalletCard1> {
         ? Consumer(
             builder: (context, ref, child) {
               final generatedAccounts =
-                  ref.read(instaWalletController.notifier).model;
+                  ref.read(instaWalletController.notifier);
               return Container(
                 color: Theme.of(context).cardColor,
                 // width: MediaQuery.of(context).size.width - 40.sp,
@@ -65,25 +65,37 @@ class _WalletCard1State extends State<WalletCard1> {
                           ),
                           // Add the bank account details widgets here
                           SizedBox(
-                            width: double.maxFinite,
-                            child: ListView.builder(
-                              itemCount: generatedAccounts.data!.length,
-                              shrinkWrap: true,
-                              itemBuilder: (((context, index) {
-                                return AccountDetails(
-                                  accountName: generatedAccounts
-                                          .data![index].accountName ??
-                                      'Loading...',
-                                  bankName:
-                                      generatedAccounts.data![index].bankName ??
-                                          'Loading...',
-                                  accountNumber: generatedAccounts
-                                          .data![index].accountNumber ??
-                                      'Loading...',
-                                );
-                              })),
-                            ),
-                          ),
+                              width: double.maxFinite,
+                              child: FutureBuilder(
+                                future:
+                                    generatedAccounts.generateAccountDetails(),
+                                builder: (context, snapshot) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.done) {
+                                    return ListView.builder(
+                                      itemCount:
+                                          generatedAccounts.model.data!.length,
+                                      shrinkWrap: true,
+                                      itemBuilder: (((context, index) {
+                                        return AccountDetails(
+                                          accountName: generatedAccounts.model
+                                                  .data![index].accountName ??
+                                              'Loading...',
+                                          bankName: generatedAccounts.model
+                                                  .data![index].bankName ??
+                                              'Loading...',
+                                          accountNumber: generatedAccounts.model
+                                                  .data![index].accountNumber ??
+                                              'Loading...',
+                                        );
+                                      })),
+                                    );
+                                  } else {
+                                    return const Center(
+                                        child: CircularProgressIndicator());
+                                  }
+                                },
+                              )),
                         ],
                       ),
                     ),

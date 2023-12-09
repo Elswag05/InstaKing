@@ -1,10 +1,7 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:insta_king/core/utils/my_strings.dart';
 import 'package:insta_king/presentation/controllers/insta_login_controller.dart';
-import 'package:insta_king/presentation/controllers/insta_profile_controller.dart';
 import 'package:insta_king/presentation/views/authentication/auth_shared/base_auth_view.dart';
 import 'package:insta_king/presentation/views/authentication/auth_shared/text_form.dart';
 import 'package:insta_king/presentation/views/authentication/login/forgot_password.dart';
@@ -67,16 +64,17 @@ class _InstaLoginState extends State<InstaLogin> {
           },
           isLoginWithFingerPrint: true,
           toSignOrLogin: () {
-            log('INFO: To login with email:${usernameController.text}and password: ${passwordController.text}');
             ref
                 .read(instaLoginController.notifier)
                 .signIn(usernameController.text, passwordController.text)
                 .then((value) {
               if (value) {
-                Navigator.of(context).push(MaterialPageRoute(
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
                   builder: (context) => const InstaDashboard(),
                 ));
               }
+              debugPrint(
+                  'INFO: To login with email:${usernameController.text} and password: ${passwordController.text}');
             });
           },
           anyWidget: AuthTextField(

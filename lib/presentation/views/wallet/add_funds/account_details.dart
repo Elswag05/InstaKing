@@ -101,13 +101,14 @@ class AccountDetails extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                         letterSpacing: 3.w,
                       ),
-                    ).afmPadding(EdgeInsets.only(left: 10.w)),
+                    ).afmPadding(EdgeInsets.only(left: 40.w)),
                     const SizedBox(),
                   ],
                 ),
               ).afmPadding(EdgeInsets.only(top: 10.sp, bottom: 10.sp)),
               Positioned(
-                right: 0,
+                right: 40,
+                top: 10,
                 child: GestureDetector(
                   onTap: () {
                     Clipboard.setData(
@@ -122,20 +123,20 @@ class AccountDetails extends StatelessWidget {
                     );
                   },
                   child: Container(
-                    height: 40.h,
-                    width: MediaQuery.of(context).size.width / 5.5,
+                    height: 25.h,
+                    width: 30.w,
                     decoration: BoxDecoration(
                       color: InstaColors.primaryColor,
-                      border: Border.all(
-                        color: InstaColors.darkColor.withOpacity(0.5),
-                        width: 1.sp,
-                      ),
-                      borderRadius: BorderRadius.circular(10.r),
+                      // border: Border.all(
+                      //   color: InstaColors.darkColor.withOpacity(0.5),
+                      //   width: 1.sp,
+                      // ),
+                      borderRadius: BorderRadius.circular(4.r),
                     ),
                     child: Center(
                       child: Icon(
                         Icons.copy,
-                        size: 10.sp,
+                        size: 16.sp,
                         color: Theme.of(context).colorScheme.onInverseSurface,
                       ),
 

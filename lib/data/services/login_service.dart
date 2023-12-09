@@ -21,7 +21,7 @@ class LoginService with DioMixin {
         'password': password,
       },
     );
-    debugPrint(response.data);
+    debugPrint('${response.data}');
     return response;
   }
 }
