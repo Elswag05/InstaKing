@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:insta_king/core/constants/env_colors.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
 
 class OrderViews extends StatelessWidget {
-  const OrderViews({super.key});
+  final String header;
+  final String body;
+  final String date;
+  const OrderViews(
+      {super.key,
+      required this.header,
+      required this.body,
+      required this.date});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +28,7 @@ class OrderViews extends StatelessWidget {
               SizedBox(
                 width: 150.w,
                 child: Text(
-                  'Instagram Service Activated',
+                  header,
                   softWrap: true,
                   style: TextStyle(
                     overflow: TextOverflow.clip,
@@ -35,7 +41,7 @@ class OrderViews extends StatelessWidget {
             ],
           ).afmPadding(EdgeInsets.only(bottom: 10.h)),
           Text(
-            'Instagram Service Activated, Thanks for staying with us.',
+            body,
             style: TextStyle(
               fontFamily: 'Montesserat',
               fontSize: 14.sp,
@@ -49,7 +55,7 @@ class OrderViews extends StatelessWidget {
                 size: 10.sp,
               ).afmPadding(EdgeInsets.only(right: 5.w)),
               Text(
-                '04.10.2023',
+                date,
                 style: TextStyle(
                   fontFamily: 'Montesserat',
                   fontSize: 10.sp,
@@ -60,8 +66,12 @@ class OrderViews extends StatelessWidget {
           ),
         ],
       ),
-    ).afmBorderRadius(
-      BorderRadius.circular(10.r),
-    );
+    )
+        .afmBorderRadius(
+          BorderRadius.circular(10.r),
+        )
+        .afmPadding(
+          EdgeInsets.only(bottom: 20.sp),
+        );
   }
 }

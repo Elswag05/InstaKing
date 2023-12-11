@@ -12,8 +12,8 @@ mixin DioMixin {
   Dio connect({Map<String, dynamic>? customHeaders}) {
     BaseOptions options = BaseOptions(
       baseUrl: 'https://www.instaking.ng/user-api',
-      connectTimeout: const Duration(seconds: 30),
-      receiveTimeout: const Duration(seconds: 30),
+      connectTimeout: const Duration(seconds: 10),
+      receiveTimeout: const Duration(seconds: 10),
       responseType: ResponseType.json,
     );
 

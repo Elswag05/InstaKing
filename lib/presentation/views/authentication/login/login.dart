@@ -51,7 +51,7 @@ class _InstaLoginState extends State<InstaLogin> {
           callToActionText: 'Forgot Password',
           callToActionFooterText: "Don't have an account yet?",
           checkBoxText: "Remember me",
-          inversePageName: 'Sign Up',
+          inversePageName: ' Sign Up',
           checked: ref.watch(instaLoginController.notifier).isBoxChecked,
           onChanged: (value) {
             setState(() {

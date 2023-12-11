@@ -38,7 +38,7 @@ class _ReferralCopyCardState extends State<ReferralCopyCard> {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      '0',
+                      '${refer.user?.bonus}',
                       style: TextStyle(
                         fontFamily: 'Montesserat',
                         fontSize: 18.sp,

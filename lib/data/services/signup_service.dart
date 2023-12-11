@@ -26,8 +26,6 @@ class SignUpService with DioMixin {
       options: Options(
         headers: {
           'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'Connection': 'keep-alive',
         },
       ),
     );

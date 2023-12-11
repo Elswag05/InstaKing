@@ -5,7 +5,7 @@ import 'package:insta_king/core/constants/env_assets.dart';
 import 'package:insta_king/core/constants/env_colors.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
 import 'package:insta_king/presentation/controllers/insta_dashboard_controller.dart';
-import 'package:insta_king/presentation/views/order_history/place_order.dart';
+import 'package:insta_king/presentation/views/order/place_order/place_order.dart';
 import 'package:insta_king/presentation/views/profile/sub_profile_views.dart/refer_and_earn/refer_and_earn.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:insta_king/presentation/views/services/insta_services.dart';

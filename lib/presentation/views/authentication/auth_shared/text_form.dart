@@ -77,7 +77,7 @@ class _AuthTextFieldState extends State<AuthTextField> {
         ),
         suffixIcon: (widget.hasSuffix) ? eyeToHidePassword() : const SizedBox(),
         filled: true,
-        fillColor: InstaColors.mildLightColor,
+        fillColor: InstaColors.lightColor,
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.r),
           borderSide: BorderSide(

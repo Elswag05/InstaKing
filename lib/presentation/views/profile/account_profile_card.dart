@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -44,36 +45,39 @@ class _ProfileCardState extends State<ProfileCard> {
                         widget.onProfileIconTap;
                       },
                       child: profileController.image == null
-                          ? SizedBox(
-                              width: 100.w,
-                              height: 50.h,
-                              child: AnimatedButton(
-                                text: 'Add',
-                                pressEvent: () {
-                                  AwesomeDialog(
-                                    context: context,
-                                    dialogType: DialogType.noHeader,
-                                    animType: AnimType.scale,
-                                    headerAnimationLoop: true,
-                                    title: 'Choose Profile Image',
-                                    desc: 'Choose image from...',
-                                    btnOkOnPress: () {
-                                      profileController.pickImageGallery();
-                                    },
-                                    btnCancelOnPress: () {
-                                      profileController.pickImageCamera();
-                                    },
-                                    btnOkIcon:
-                                        Icons.photo_size_select_actual_outlined,
-                                    btnCancelIcon: Icons.camera_alt_outlined,
-                                    btnOkColor: InstaColors.primaryColor,
-                                    btnCancelColor:
-                                        Theme.of(context).unselectedWidgetColor,
-                                    btnOkText: 'Gallery',
-                                    btnCancelText: 'Camera',
-                                  ).show();
-                                },
-                                icon: Icons.person_add_alt_sharp,
+                          ? GestureDetector(
+                              onTap: () {
+                                AwesomeDialog(
+                                  context: context,
+                                  dialogType: DialogType.noHeader,
+                                  animType: AnimType.scale,
+                                  headerAnimationLoop: true,
+                                  title: 'Choose Profile Image',
+                                  desc: 'Choose image from...',
+                                  btnOkOnPress: () {
+                                    profileController.pickImageGallery();
+                                  },
+                                  btnCancelOnPress: () {
+                                    profileController.pickImageCamera();
+                                  },
+                                  btnOkIcon:
+                                      Icons.photo_size_select_actual_outlined,
+                                  btnCancelIcon: Icons.camera_alt_outlined,
+                                  btnOkColor: InstaColors.primaryColor,
+                                  btnCancelColor:
+                                      Theme.of(context).unselectedWidgetColor,
+                                  btnOkText: 'Gallery',
+                                  btnCancelText: 'Camera',
+                                ).show();
+                              },
+                              child: CircleAvatar(
+                                radius: 20.r,
+                                //foregroundImage: FileImage(widget.imageFile),
+                                backgroundColor: InstaColors.primaryColor,
+                                backgroundImage: AssetImage(
+                                  EnvAssets.getImagePath('user-image'),
+                                ),
+                                // foregroundImage: NetworkImage(),
                               ),
                             )
                           : CircleAvatar(
@@ -115,12 +119,16 @@ class _ProfileCardState extends State<ProfileCard> {
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Text(
-                              '${apiData.user!.fname} ${apiData.user!.lname}',
-                              style: TextStyle(
-                                fontFamily: 'Montesserat',
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.bold,
+                            SizedBox(
+                              child: AutoSizeText(
+                                '${apiData.user!.fname} ${apiData.user!.lname}',
+                                minFontSize: 10.sp,
+                                stepGranularity: 2.sp,
+                                style: TextStyle(
+                                  fontFamily: 'Montesserat',
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
                             Image.asset(

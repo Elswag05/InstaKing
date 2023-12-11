@@ -1,8 +1,10 @@
 import 'dart:async';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:insta_king/core/constants/enum.dart';
 import 'package:insta_king/data/local/secure_storage_service.dart';
@@ -24,7 +26,23 @@ class CategoriesController extends BaseChangeNotifier {
   final GetAllServiceDetails getAllServiceDetails = GetAllServiceDetails();
   final GetOneServiceDetails getOneServiceDetails = GetOneServiceDetails();
   late GetAllServicesModel getAllServicesModel = GetAllServicesModel();
-  late List filteredData = List.empty();
+  late GetCategoriesModel getCategoriesModel = GetCategoriesModel();
+  late GetOneServiceDetailsModel getOneServiceDetailsModel =
+      GetOneServiceDetailsModel();
+  late List<DropdownMenuItem<String>> allCategoriesModel = [];
+  late List<DropdownMenuItem<String>> allServicesModel = [];
+  late List<dynamic>? filteredData = [];
+  late List<dynamic>? filteredServiceData = [];
+  late String selectedServiceValue = '9486';
+  late String newServiceValue = '';
+  String get newSelectedValue => selectedServiceValue;
+  String get newValue => newServiceValue;
+  late String newSelectedServiceValue;
+
+  void setNewValue(newValue) {
+    newServiceValue = newValue;
+    notifyListeners();
+  }
 
   @override
   LoadingState loadingState = LoadingState.idle;
@@ -32,25 +50,28 @@ class CategoriesController extends BaseChangeNotifier {
   final SecureStorageService secureStorageService =
       SecureStorageService(secureStorage: const FlutterSecureStorage());
 
-  Future<bool> getAllCategories() async {
+  Future<bool> toGetAllCategories() async {
     loadingState = LoadingState.loading;
     try {
-      final res = await categoriesService.getCategories();
+      final res = await categoriesService.getAllCategories();
+      getAllServiceDetails.getAllServicesDetails();
       debugPrint('${res.data}');
       if (res.statusCode == 200) {
-        // print("INFO: Bearer ${res..data}");
-        final data = GetCategoriesModel.fromJson(res.data);
-
-        // if ( rememberMe) {
-        //   await locator<SecureStorageService>().write(key: EnvStrings.us, value: value)
-        // }
-
+        final getCategoriesModel = GetCategoriesModel.fromJson(res.data);
+        allCategoriesModel = getCategoriesModel.data?.map((category) {
+              return DropdownMenuItem<String>(
+                value: category.id
+                    .toString(), // Set a unique identifier for the category
+                child: Text(category.name ?? ""), // Ensure name is not null
+              );
+            }).toList() ??
+            [];
         loadingState = LoadingState.idle;
         locator<ToastService>().showSuccessToast(
           'Categories loaded successfully',
         );
-        //print("INFO: Success converting data to model");
-        if (data.status == 'success') {
+        debugPrint("INFO: Success converting data to model");
+        if (getCategoriesModel.status == 'success') {
           return true;
         }
       } else {
@@ -76,14 +97,14 @@ class CategoriesController extends BaseChangeNotifier {
         .where((datum) => datum.name!.contains(keyword))
         .toList();
     notifyListeners();
-    debugPrint('$filteredData');
-    return filteredData.isNotEmpty ? filteredData : null;
+    debugPrint('${filteredData.toString()}');
+    return filteredData;
   }
 
   Future<bool> getSpecificCategories(String categoryId) async {
     loadingState = LoadingState.loading;
     try {
-      final res = await getCategoriesService.getCategoriesServices(
+      final res = await getCategoriesService.getSpecificCategoriesServices(
           categoryId: categoryId);
       if (res.statusCode == 200) {
         //final data = GetspecificCategoriesModel.fromJson(res.data);
@@ -128,14 +149,78 @@ class CategoriesController extends BaseChangeNotifier {
     return getAllServicesModel;
   }
 
+  Future<List<DropdownMenuItem<String>>> toGetDropdownItemsById(
+    String targetId,
+  ) async {
+    loadingState = LoadingState.loading;
+    try {
+      final res = await getAllServiceDetails.getAllServicesDetails();
+      if (res.statusCode == 200) {
+        getAllServicesModel = GetAllServicesModel.fromJson(res.data);
+
+        // Filter the data based on the specified id
+        final filteredServiceData = getAllServicesModel.data
+            ?.where((category) => category.categoryId == targetId)
+            .toList();
+
+        // Determine the selected service value based on the first id obtained
+        newSelectedServiceValue = filteredServiceData?.isNotEmpty == true
+            ? filteredServiceData![0].id.toString()
+            : "";
+
+        // Convert the filtered data to List<DropdownMenuItem<String>>
+        allServicesModel = filteredServiceData
+                ?.map((category) => DropdownMenuItem<String>(
+                      value: category.id.toString(),
+                      child: AutoSizeText(
+                        category.name ?? "",
+                        minFontSize: 6.sp,
+                        stepGranularity: 2.sp,
+                        style: TextStyle(
+                          fontFamily: 'Montesserat',
+                          fontSize: 12.sp,
+                        ),
+                      ),
+                    ))
+                .toList() ??
+            [];
+
+        // Notify listeners and update the selectedServiceValue
+        if (newValue != '') {
+          selectedServiceValue = newValue;
+          notifyListeners();
+        }
+        if (targetId.toString() != '703' && newValue == '') {
+          selectedServiceValue = newSelectedServiceValue;
+          notifyListeners();
+        }
+
+        notifyListeners();
+        toGetOneServiceDetail(newSelectedServiceValue);
+        loadingState = LoadingState.idle;
+        return allServicesModel;
+      } else {
+        throw Error();
+      }
+    } on DioException catch (e) {
+      loadingState = LoadingState.error;
+      ErrorService.handleErrors(e);
+    } catch (e) {
+      loadingState = LoadingState.error;
+      ErrorService.handleErrors(e);
+    }
+    return [];
+  }
+
   Future<bool> toGetOneServiceDetail(String serviceId) async {
     loadingState = LoadingState.loading;
     try {
       final res = await getOneServiceDetails.getOneServicesDetails(serviceId);
       if (res.statusCode == 200) {
-        final data = GetOneServiceDetailsModel.fromJson(res.data);
+        getOneServiceDetailsModel =
+            GetOneServiceDetailsModel.fromJson(res.data);
         loadingState = LoadingState.idle;
-        if (data.status == 'success') {
+        if (getOneServiceDetailsModel.status == 'success') {
           return true;
         }
       } else {

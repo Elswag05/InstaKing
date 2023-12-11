@@ -8,6 +8,16 @@ import 'package:insta_king/presentation/controllers/insta_categories_controller.
 import 'package:insta_king/presentation/views/services/tapped_status.dart';
 import 'package:insta_king/presentation/views/shared_widgets/recurring_appbar.dart';
 
+bool hasInstagramBeenTapped = false;
+bool hasFacebookBeenTapped = false;
+bool hasYoutubeBeenTapped = false;
+bool hasSpotifyBeenTapped = false;
+bool hasSnapchatBeenTapped = false;
+bool hasTelegramBeenTapped = false;
+bool hasAudiomackBeenTapped = false;
+bool hasTiktokBeenTapped = false;
+bool hasDeezerBeenTapped = false;
+
 class InstaServices extends StatefulWidget {
   const InstaServices({super.key});
 
@@ -16,16 +26,6 @@ class InstaServices extends StatefulWidget {
 }
 
 class _InstaServicesState extends State<InstaServices> {
-  bool hasInstagramBeenTapped = false;
-  bool hasFacebookBeenTapped = false;
-  bool hasYoutubeBeenTapped = false;
-  bool hasSpotifyBeenTapped = false;
-  bool hasSnapchatBeenTapped = false;
-  bool hasTelegramBeenTapped = false;
-  bool hasAudiomackBeenTapped = false;
-  bool hasTiktokBeenTapped = false;
-  bool hasDeezerBeenTapped = false;
-
   void setOnlyOneTrue(String tappedItem) {
     // Reset all boolean variables to false
     hasInstagramBeenTapped = false;
@@ -41,30 +41,39 @@ class _InstaServicesState extends State<InstaServices> {
     switch (tappedItem) {
       case 'instagram':
         hasInstagramBeenTapped = true;
+        debugPrint('insta set to tru');
         break;
       case 'facebook':
         hasFacebookBeenTapped = true;
+        debugPrint('fb set to tru');
         break;
       case 'youtube':
         hasYoutubeBeenTapped = true;
+        debugPrint('ytb set to tru');
         break;
       case 'spotify':
         hasSpotifyBeenTapped = true;
+        debugPrint('spotify set to tru');
         break;
       case 'snapchat':
         hasSnapchatBeenTapped = true;
+        debugPrint('snapchat set to tru');
         break;
       case 'telegram':
         hasTelegramBeenTapped = true;
+        debugPrint('telegrm set to tru');
         break;
       case 'audiomack':
         hasAudiomackBeenTapped = true;
+        debugPrint('adomck set to tru');
         break;
       case 'tiktok':
         hasTiktokBeenTapped = true;
+        debugPrint('tiktk set to tru');
         break;
       case 'deezer':
         hasDeezerBeenTapped = true;
+        debugPrint('dzr set to tru');
         break;
       default:
         break;
@@ -320,7 +329,6 @@ class ServicesDemoWidget extends StatefulWidget {
 
 class _ServicesDemoWidgetState extends State<ServicesDemoWidget> {
   // Initialize the tapped status object
-  final tappedStatus = TappedStatus();
 
   @override
   Widget build(BuildContext context) {
@@ -334,16 +342,17 @@ class _ServicesDemoWidgetState extends State<ServicesDemoWidget> {
             .filteredData; // Replace with your logic to get filteredData
 
         // Check if any of the boolean variables are true
-        final bool hasTappedStatus = tappedStatus.hasInstagramBeenTapped ||
-            tappedStatus.hasFacebookBeenTapped ||
-            tappedStatus.hasYoutubeBeenTapped ||
-            tappedStatus.hasSpotifyBeenTapped ||
-            tappedStatus.hasSnapchatBeenTapped ||
-            tappedStatus.hasTelegramBeenTapped ||
-            tappedStatus.hasAudiomackBeenTapped ||
-            tappedStatus.hasTiktokBeenTapped ||
-            tappedStatus.hasDeezerBeenTapped;
+        final bool hasTappedStatus = hasInstagramBeenTapped ||
+            hasFacebookBeenTapped ||
+            hasYoutubeBeenTapped ||
+            hasSpotifyBeenTapped ||
+            hasSnapchatBeenTapped ||
+            hasTelegramBeenTapped ||
+            hasAudiomackBeenTapped ||
+            hasTiktokBeenTapped ||
+            hasDeezerBeenTapped;
 
+        print(hasTappedStatus.toString());
         return Container(
           width: MediaQuery.of(context).size.width - 40.sp,
           height: 140.h,
@@ -352,21 +361,20 @@ class _ServicesDemoWidgetState extends State<ServicesDemoWidget> {
             color: Theme.of(context).cardColor,
             borderRadius: BorderRadius.circular(10.r),
           ),
-          child: hasTappedStatus
-              ? Text('${filteredData.toString()}')
-              : ServiceWidgetModel(
-                  IDtext:
-                      service.data?[widget.index].id.toString() ?? 'Loading...',
-                  name: service.data?[widget.index].name.toString() ??
-                      'Loading...',
-                  price: service.data?[widget.index].price
-                          .toString()
-                          .roundUpToDecimalPlaces(2) ??
-                      'Loading...',
-                  min: service.data?[widget.index].min.toString() ??
-                      'Loading...',
-                  max: service.data?[widget.index].max.toString() ?? '',
-                ),
+          child:
+              // hasTappedStatus
+              //     ? Text('${filteredData.toString()}')
+              //     :
+              ServiceWidgetModel(
+            IDtext: service.data?[widget.index].id.toString() ?? 'Loading...',
+            name: service.data?[widget.index].name.toString() ?? 'Loading...',
+            price: service.data?[widget.index].price
+                    .toString()
+                    .roundUpToDecimalPlaces(2) ??
+                'Loading...',
+            min: service.data?[widget.index].min.toString() ?? 'Loading...',
+            max: service.data?[widget.index].max.toString() ?? '',
+          ),
         );
       },
     );
@@ -462,11 +470,12 @@ Text lightText(String lightText, BuildContext context) {
 AutoSizeText darkText(String darkText, BuildContext context) {
   return AutoSizeText(
     darkText,
-    minFontSize: 8.sp,
-    maxFontSize: 13.sp,
-    style: const TextStyle(
+    minFontSize: 10.sp,
+    stepGranularity: 2.sp,
+    style: TextStyle(
       fontFamily: 'Montesserat',
       fontWeight: FontWeight.w500,
+      fontSize: 13.sp,
     ),
   );
 }

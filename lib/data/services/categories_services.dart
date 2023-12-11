@@ -5,7 +5,7 @@ import 'dio_mixin.dart';
 
 ///This is to get all categories. It returns a rather short response in this form  id, name, and two other things
 class CategoriesService with DioMixin {
-  Future<Response<dynamic>> getCategories() async {
+  Future<Response<dynamic>> getAllCategories() async {
     final customHeaders = {
       'Accept': 'application/vnd.api+json',
       'Content-Type': 'application/json',
@@ -23,7 +23,7 @@ class CategoriesService with DioMixin {
 ///This returns the categories in a more ordered manner.
 //TODO: change the String to int if it does not work
 class GetCategoriesService with DioMixin {
-  Future<Response<dynamic>> getCategoriesServices(
+  Future<Response<dynamic>> getSpecificCategoriesServices(
       {required String categoryId}) async {
     final customHeaders = {
       'Accept': 'application/vnd.api+json',
@@ -51,7 +51,7 @@ class GetAllServiceDetails with DioMixin {
     final response = await connect(customHeaders: customHeaders).get(
       '/services',
     );
-    debugPrint('${response.data}');
+    //debugPrint('${response.data}');
     return response;
   }
 }

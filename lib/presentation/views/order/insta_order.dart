@@ -3,9 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
 import 'package:insta_king/presentation/controllers/insta_order_controller.dart';
-import 'package:insta_king/presentation/views/order_history/order_appBar.dart';
-import 'package:insta_king/presentation/views/order_history/order_chips.dart';
-import 'package:insta_king/presentation/views/order_history/order_tabs/main_order_tabs.dart';
+import 'package:insta_king/presentation/views/order/order_appbar.dart';
+import 'package:insta_king/presentation/views/order/order_chips.dart';
+import 'package:insta_king/presentation/views/order/order_tabs/main_order_tabs.dart';
 
 class InstaOrderHistory extends StatefulWidget {
   const InstaOrderHistory({super.key});
@@ -50,8 +50,7 @@ class _InstaOrderHistoryState extends State<InstaOrderHistory>
     return Scaffold(
       body: SafeArea(child: Consumer(
         builder: (context, ref, child) {
-          final order =
-              ref.read(instaOrderController.notifier).getAllOrderModel;
+          final order = ref.read(instaOrderController.notifier);
           return Column(
             children: [
               const OrderAppBar(
@@ -77,15 +76,15 @@ class _InstaOrderHistoryState extends State<InstaOrderHistory>
                           },
                           label: 'All Orders',
                         ),
-                        // OrderChips(
-                        //   icon: Icons.file_open_rounded,
-                        //   isSelected: _isPendingSelected,
-                        //   onSelected: (_) {
-                        //     _isPendingSelected = _;
-                        //     setState(() {});
-                        //   },
-                        //   label: 'Order Received',
-                        // ),
+                        OrderChips(
+                          icon: Icons.file_open_rounded,
+                          isSelected: _isPendingSelected,
+                          onSelected: (_) {
+                            _isPendingSelected = _;
+                            setState(() {});
+                          },
+                          label: 'Order Received',
+                        ),
                         OrderChips(
                           icon: Icons.change_circle_outlined,
                           isSelected: _isRunningSelected,
@@ -104,15 +103,15 @@ class _InstaOrderHistoryState extends State<InstaOrderHistory>
                           },
                           label: 'Completed',
                         ),
-                        // OrderChips(
-                        //   icon: Icons.timelapse_rounded,
-                        //   isSelected: _isPartialDoneSelected,
-                        //   onSelected: (_) {
-                        //     _isPartialDoneSelected = _;
-                        //     setState(() {});
-                        //   },
-                        //   label: 'Partially Completed',
-                        // ),
+                        OrderChips(
+                          icon: Icons.timelapse_rounded,
+                          isSelected: _isPartialDoneSelected,
+                          onSelected: (_) {
+                            _isPartialDoneSelected = _;
+                            setState(() {});
+                          },
+                          label: 'Partially Completed',
+                        ),
                         OrderChips(
                           icon: Icons.download,
                           isSelected: _isInProgressSelected,
@@ -152,32 +151,22 @@ class _InstaOrderHistoryState extends State<InstaOrderHistory>
               //     .afmPadding(
               //         EdgeInsets.only(top: 20.sp, left: 20.sp, right: 20.sp))
               //     .afmNeverScroll,
-              const OrderViews().afmPadding(EdgeInsets.only(
-                top: 20.sp,
-                left: 20.w,
-                right: 20.w,
-              )),
-              const OrderViews().afmPadding(EdgeInsets.only(
-                top: 20.sp,
-                left: 20.w,
-                right: 20.w,
-              )),
-              const OrderViews().afmPadding(EdgeInsets.only(
-                top: 20.sp,
-                left: 20.w,
-                right: 20.w,
-              )),
-              const OrderViews().afmPadding(EdgeInsets.only(
-                top: 20.sp,
-                left: 20.w,
-                right: 20.w,
-              )),
-              const OrderViews().afmPadding(EdgeInsets.only(
-                top: 20.sp,
-                left: 20.w,
-                right: 20.w,
-                bottom: 20.h,
-              )),
+
+              SizedBox(
+                height: 800.h,
+                width: MediaQuery.of(context).size.width - 40.sp,
+                child: ListView.builder(
+                  padding: EdgeInsets.only(bottom: 20.h, top: 20.h),
+                  itemCount: order.getAllOrderModel.username?.length ?? 2,
+                  itemBuilder: ((context, index) {
+                    return OrderViews(
+                      header: order.getAllOrderModel.name.toString(),
+                      body: order.getAllOrderModel.media.toString(),
+                      date: order.getAllOrderModel.createdAt.toString(),
+                    );
+                  }),
+                ),
+              ).afmGetFuture(order.toGetAllOrders()),
             ],
           )
               .afmPadding(

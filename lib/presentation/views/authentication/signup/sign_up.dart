@@ -56,7 +56,7 @@ class _SignUpState extends State<SignUp> {
             });
           },
           anyWidget: AuthTextField(
-            icon: Icons.person_2_outlined,
+            icon: Icons.mail,
             hintT: 'Email Address',
             hasSuffix: false,
             controller: emailController,

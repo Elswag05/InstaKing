@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insta_king/core/constants/env_colors.dart';
@@ -21,8 +22,10 @@ class MiniTags extends StatelessWidget {
         borderRadius: BorderRadius.circular(5.r),
       ),
       child: Center(
-        child: Text(
+        child: AutoSizeText(
           textOnTag,
+          minFontSize: 10.sp,
+          stepGranularity: 2.sp,
           style: TextStyle(
             color: InstaColors.primaryColor,
             fontSize: 12.sp,
@@ -31,6 +34,6 @@ class MiniTags extends StatelessWidget {
           ),
         ),
       ),
-    ).afmPadding(EdgeInsets.only(right: 10.w));
+    ).afmPadding(EdgeInsets.only(bottom: 10.w));
   }
 }

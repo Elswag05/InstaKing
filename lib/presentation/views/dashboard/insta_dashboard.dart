@@ -6,7 +6,7 @@ import 'package:insta_king/presentation/controllers/insta_dashboard_controller.d
 import 'package:insta_king/presentation/views/wallet/insta_wallet.dart';
 import 'package:insta_king/presentation/views/dashboard/bottom_navigation_bar_item.dart';
 import 'package:insta_king/presentation/views/home/insta_home.dart';
-import 'package:insta_king/presentation/views/order_history/insta_order.dart';
+import 'package:insta_king/presentation/views/order/insta_order.dart';
 import 'package:insta_king/presentation/views/profile/insta_profile.dart';
 
 class InstaDashboard extends HookConsumerWidget {
