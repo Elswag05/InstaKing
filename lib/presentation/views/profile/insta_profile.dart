@@ -5,11 +5,9 @@ import 'package:insta_king/core/extensions/widget_extension.dart';
 import 'package:insta_king/data/local/secure_storage_service.dart';
 import 'package:insta_king/presentation/controllers/insta_dashboard_controller.dart';
 import 'package:insta_king/presentation/controllers/insta_login_controller.dart';
-import 'package:insta_king/presentation/controllers/theme_controller.dart';
 import 'package:insta_king/presentation/views/authentication/login/login.dart';
 import 'package:insta_king/presentation/views/profile/account_profile_card.dart';
 import 'package:insta_king/presentation/views/profile/profile_view_model.dart';
-import 'package:insta_king/presentation/views/profile/sub_profile_views.dart/bank_account_details/bank_account_details.dart';
 import 'package:insta_king/presentation/views/profile/sub_profile_views.dart/change_password.dart';
 import 'package:insta_king/presentation/views/profile/sub_profile_views.dart/more_information.dart';
 import 'package:insta_king/presentation/views/profile/sub_profile_views.dart/profile_details/personal_details_view.dart';
@@ -33,8 +31,8 @@ class _InstaProfileState extends State<InstaProfile> {
   Widget build(BuildContext context) {
     return Consumer(
       builder: ((context, ref, child) {
-        final themeController = ref.watch(themeControllerProvider);
-        bool isChangeBool = themeController.isDarkTheme;
+        //final themeController = ref.watch(themeControllerProvider);
+        //bool isChangeBool = themeController.isDarkTheme;
         return Scaffold(
           body: SafeArea(
             child: Column(
@@ -60,24 +58,24 @@ class _InstaProfileState extends State<InstaProfile> {
                     );
                   },
                   onProfileIconTap: () {
-                    setState(() {});
+                    // setState(() {});
                   },
                 ),
                 Container(
                         color: Theme.of(context).cardColor,
                         child: Column(
                           children: [
-                            ProfileViewModel(
-                              modelText: 'Bank Account Details',
-                              onTap: () {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        const BankAccountLink(),
-                                  ),
-                                );
-                              },
-                            ).afmPadding(),
+                            // ProfileViewModel(
+                            //   modelText: 'Bank Account Details',
+                            //   onTap: () {
+                            //     Navigator.of(context).push(
+                            //       MaterialPageRoute(
+                            //         builder: (context) =>
+                            //             const BankAccountLink(),
+                            //       ),
+                            //     );
+                            //   },
+                            // ).afmPadding(),
                             ProfileViewModel(
                               modelText: 'Refer And Earn',
                               onTap: () {
@@ -167,7 +165,7 @@ class _InstaProfileState extends State<InstaProfile> {
                       (value) {
                         ref
                             .read(dashBoardControllerProvider.notifier)
-                            .resetPage();
+                            .setPage(0);
                         Navigator.of(context).pushReplacement(
                           MaterialPageRoute(
                             builder: (context) => const InstaLogin(),
@@ -188,7 +186,8 @@ class _InstaProfileState extends State<InstaProfile> {
                 ),
               ],
             )
-                .afmPadding(EdgeInsets.only(left: 20.w, right: 20.w))
+                .afmPadding(
+                    EdgeInsets.only(left: 20.w, right: 20.w, top: 10.sp))
                 .afmNeverScroll,
           ),
         );

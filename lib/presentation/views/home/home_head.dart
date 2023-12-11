@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:insta_king/core/constants/constants.dart';
 import 'package:insta_king/core/constants/env_colors.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
 
@@ -9,14 +10,14 @@ class HomeHeaderWidget extends StatefulWidget {
   final String? username;
   final void Function()? onNotificationsTap;
   final void Function()? onProfileTap;
-  final Future<Object?>? future;
+  final String url;
   //File imageFile;
   const HomeHeaderWidget({
     Key? key,
     required this.username,
     this.onNotificationsTap,
     this.onProfileTap,
-    this.future,
+    required this.url,
     // this.imageFile = null,
   });
 
@@ -38,10 +39,10 @@ class _HomeHeaderWidgetState extends State<HomeHeaderWidget> {
                 radius: 20.r,
                 //foregroundImage: FileImage(widget.imageFile),
                 backgroundColor: InstaColors.primaryColor,
-                child: Icon(
-                  Icons.person_add_alt_sharp,
-                  color: Theme.of(context).colorScheme.onInverseSurface,
+                backgroundImage: AssetImage(
+                  EnvAssets.getImagePath('user-image'),
                 ),
+                foregroundImage: NetworkImage(widget.url),
               ),
             ),
             Column(
@@ -56,7 +57,7 @@ class _HomeHeaderWidgetState extends State<HomeHeaderWidget> {
                     fontSize: 14.sp,
                     fontWeight: FontWeight.bold,
                   ),
-                ).afmGetFuture(widget.future),
+                ),
                 Text(
                   'Welcome Back',
                   style: TextStyle(

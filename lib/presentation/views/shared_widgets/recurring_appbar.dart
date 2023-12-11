@@ -57,13 +57,15 @@ class SharedDropDown extends StatelessWidget {
             fontFamily: 'Montesserat',
             fontSize: 16.sp,
             fontWeight: FontWeight.w500,
+            color: InstaColors.mildGrey,
           ),
         ),
         Container(
           height: 40.h,
           decoration: BoxDecoration(
+            color: InstaColors.lightColor,
             border: Border.all(
-              width: 1.sp,
+              width: 0.5.sp,
             ),
             borderRadius: BorderRadius.circular(10.r),
           ),
@@ -76,11 +78,13 @@ class SharedDropDown extends StatelessWidget {
                   fontFamily: 'Montesserat',
                   fontSize: 13.sp,
                   fontWeight: FontWeight.w500,
+                  color: InstaColors.mildGrey,
                 ),
               ).afmPadding(EdgeInsets.only(left: 10.w)),
               Icon(
                 Icons.keyboard_arrow_down_rounded,
                 size: 20.sp,
+                color: InstaColors.mildGrey,
               ).afmPadding(EdgeInsets.only(right: 6.h)),
             ],
           ),

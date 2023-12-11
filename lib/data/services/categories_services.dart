@@ -1,7 +1,9 @@
 import 'package:dio/dio.dart' show Response;
+import 'package:flutter/material.dart';
 
 import 'dio_mixin.dart';
 
+///This is to get all categories. It returns a rather short response in this form  id, name, and two other things
 class CategoriesService with DioMixin {
   Future<Response<dynamic>> getCategories() async {
     final customHeaders = {
@@ -13,11 +15,12 @@ class CategoriesService with DioMixin {
     final response = await connect(customHeaders: customHeaders).get(
       '/services/categories',
     );
-    print(response.data);
+
     return response;
   }
 }
 
+///This returns the categories in a more ordered manner.
 //TODO: change the String to int if it does not work
 class GetCategoriesService with DioMixin {
   Future<Response<dynamic>> getCategoriesServices(
@@ -36,6 +39,7 @@ class GetCategoriesService with DioMixin {
   }
 }
 
+///this returns all the services you van get in no ordered manner
 class GetAllServiceDetails with DioMixin {
   Future<Response<dynamic>> getAllServicesDetails() async {
     final customHeaders = {
@@ -47,11 +51,13 @@ class GetAllServiceDetails with DioMixin {
     final response = await connect(customHeaders: customHeaders).get(
       '/services',
     );
-    print(response.data);
+    debugPrint('${response.data}');
     return response;
   }
 }
 
+///this folters the service.
+///Different ID's have different plans. ie Twitter comment is different from Twitter likes
 class GetOneServiceDetails with DioMixin {
   Future<Response<dynamic>> getOneServicesDetails(String serviceId) async {
     final customHeaders = {

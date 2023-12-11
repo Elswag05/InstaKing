@@ -31,7 +31,7 @@ class LoginController extends BaseChangeNotifier {
   final logOutService = SignOutService();
   final changePasswordService = ChangePasswordService();
   final resetPasswordService = ResetPasswordService();
-  late final InstaLoginModel data;
+  late InstaLoginModel data;
 
   final SecureStorageService secureStorageService =
       SecureStorageService(secureStorage: const FlutterSecureStorage());
@@ -88,7 +88,6 @@ class LoginController extends BaseChangeNotifier {
         locator<ToastService>().showSuccessToast(
           'You have been successfully logged out',
         );
-
         return true;
       } else {
         throw Error();

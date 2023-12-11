@@ -179,7 +179,11 @@ class _InstaOrderHistoryState extends State<InstaOrderHistory>
                 bottom: 20.h,
               )),
             ],
-          ).afmNeverScroll;
+          )
+              .afmPadding(
+                EdgeInsets.only(top: 10.sp),
+              )
+              .afmNeverScroll;
         },
       )),
     );

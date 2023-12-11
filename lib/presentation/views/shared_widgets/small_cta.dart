@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insta_king/core/constants/env_colors.dart';
 
-class SmallCTA extends StatelessWidget {
+class SmallCTA extends StatefulWidget {
   final String text;
   final Color backgroundColor;
   final Color textColor;
@@ -14,16 +14,21 @@ class SmallCTA extends StatelessWidget {
   });
 
   @override
+  State<SmallCTA> createState() => _SmallCTAState();
+}
+
+class _SmallCTAState extends State<SmallCTA> {
+  @override
   Widget build(BuildContext context) {
     return Container(
       height: 25.h,
       width: 90.w,
-      color: backgroundColor,
+      color: widget.backgroundColor,
       child: Center(
         child: Text(
-          text,
+          widget.text,
           style: TextStyle(
-            color: textColor,
+            color: widget.textColor,
             fontFamily: 'Montesserat',
             fontSize: 11.sp,
             fontWeight: FontWeight.w600,

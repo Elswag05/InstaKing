@@ -52,6 +52,7 @@ class EnvThemeManager {
     onSurface: InstaColors.lightColor,
     onError: InstaColors.lightColor,
     onSecondary: InstaColors.lightColor,
+    onInverseSurface: InstaColors.darkColor,
     onPrimaryContainer: InstaColors.lightColor,
     brightness: Brightness.dark,
     errorContainer: InstaColors.errorColor,

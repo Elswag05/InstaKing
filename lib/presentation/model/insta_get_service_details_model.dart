@@ -150,14 +150,22 @@ class Datum {
       };
 }
 
-enum Type { COMMENT_LIKES, CUSTOM_COMMENTS, DEFAULT, PACKAGE, SUBSCRIPTIONS }
+enum Type {
+  COMMENT_LIKES,
+  CUSTOM_COMMENTS,
+  DEFAULT,
+  PACKAGE,
+  SUBSCRIPTIONS,
+  TYPE_CUSTOM_COMMENTS
+}
 
 final typeValues = EnumValues({
   "comment likes": Type.COMMENT_LIKES,
-  "custom comments": Type.CUSTOM_COMMENTS,
+  "custom_comments": Type.CUSTOM_COMMENTS,
   "default": Type.DEFAULT,
   "package": Type.PACKAGE,
-  "subscriptions": Type.SUBSCRIPTIONS
+  "subscriptions": Type.SUBSCRIPTIONS,
+  "custom comments": Type.TYPE_CUSTOM_COMMENTS
 });
 
 class EnumValues<T> {

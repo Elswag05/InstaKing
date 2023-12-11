@@ -40,71 +40,78 @@ class _AuthTextFieldState extends State<AuthTextField> {
     return GestureDetector(
         onTap: toShowPassword,
         child: showPassword
-            ? Icon(widget.suffixIcon).afmPadding()
-            : const Icon(Icons.visibility_off_outlined).afmPadding());
+            ? Icon(
+                widget.suffixIcon,
+                color: InstaColors.mildGrey,
+              ).afmPadding()
+            : const Icon(
+                Icons.visibility_off_outlined,
+                color: InstaColors.mildGrey,
+              ).afmPadding());
   }
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 60.h,
-      child: TextFormField(
-        controller: widget.controller,
-        autovalidateMode: AutovalidateMode.onUserInteraction,
-        style: TextStyle(
+    return TextFormField(
+      controller: widget.controller,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      style: TextStyle(
+        fontSize: 13.sp,
+      ),
+      obscureText: widget.isPassword ? showPassword : false,
+      validator: widget.validator,
+      decoration: InputDecoration(
+        constraints: BoxConstraints.loose(
+          Size.fromHeight(60.h),
+        ),
+        contentPadding: EdgeInsets.symmetric(vertical: 12.h),
+        prefixIcon: Icon(
+          widget.icon,
+          color: InstaColors.mildGrey,
+        ),
+        hintText: widget.hintT,
+        hintStyle: TextStyle(
+          fontFamily: 'Montesserat',
           fontSize: 13.sp,
+          color: InstaColors.mildGrey,
         ),
-        obscureText: widget.isPassword ? showPassword : false,
-        validator: widget.validator,
-        decoration: InputDecoration(
-          contentPadding: EdgeInsets.symmetric(vertical: 12.h),
-          prefixIcon: Icon(
-            widget.icon,
-          ),
-          hintText: widget.hintT,
-          hintStyle: TextStyle(
-            fontFamily: 'Montesserat',
-            fontSize: 13.sp,
-          ),
-          suffixIcon:
-              (widget.hasSuffix) ? eyeToHidePassword() : const SizedBox(),
-          filled: true,
-          fillColor: InstaColors.lightColor,
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.r),
-            borderSide: BorderSide(
-              width: 0.5.sp,
-            ),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.r),
-            borderSide: BorderSide(
-              width: 0.5.sp,
-            ),
-          ),
-          disabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.r),
-            borderSide: BorderSide(
-              width: 0.5.sp,
-            ),
-          ),
-          errorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.r),
-            borderSide: BorderSide(
-              width: 0.5.sp,
-              color: InstaColors.errorColor,
-            ),
-          ),
-          focusedErrorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.r),
-            borderSide: BorderSide(
-              width: 0.5.sp,
-              color: InstaColors.errorColor,
-            ),
+        suffixIcon: (widget.hasSuffix) ? eyeToHidePassword() : const SizedBox(),
+        filled: true,
+        fillColor: InstaColors.mildLightColor,
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.r),
+          borderSide: BorderSide(
+            width: 0.5.sp,
           ),
         ),
-      ).afmPadding(
-          EdgeInsets.only(left: 20.w, right: 20.w, top: 10.sp, bottom: 10.sp)),
-    );
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.r),
+          borderSide: BorderSide(
+            width: 0.5.sp,
+          ),
+        ),
+        disabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.r),
+          borderSide: BorderSide(
+            width: 0.5.sp,
+          ),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.r),
+          borderSide: BorderSide(
+            width: 0.5.sp,
+            color: InstaColors.errorColor,
+          ),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.r),
+          borderSide: BorderSide(
+            width: 0.5.sp,
+            color: InstaColors.errorColor,
+          ),
+        ),
+      ),
+    ).afmPadding(
+        EdgeInsets.only(left: 20.w, right: 20.w, top: 10.sp, bottom: 10.sp));
   }
 }

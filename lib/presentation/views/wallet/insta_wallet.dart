@@ -22,7 +22,11 @@ class InstaWallet extends StatelessWidget {
             //const SelectPaymentOptions(),
             const RecentDeposits(),
           ],
-        ).afmNeverScroll,
+        )
+            .afmPadding(
+              EdgeInsets.only(top: 10.sp),
+            )
+            .afmNeverScroll,
       ),
     );
   }

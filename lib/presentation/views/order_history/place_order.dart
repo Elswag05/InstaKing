@@ -1,15 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insta_king/core/constants/constants.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
+import 'package:insta_king/presentation/controllers/insta_order_controller.dart';
 import 'package:insta_king/presentation/views/order_history/order_chips.dart';
 import 'package:insta_king/presentation/views/shared_widgets/mini_tags.dart';
 import 'package:insta_king/presentation/views/shared_widgets/input_data_viewmodel.dart';
 import 'package:insta_king/presentation/views/shared_widgets/cta_button.dart';
 import 'package:insta_king/presentation/views/shared_widgets/recurring_appbar.dart';
+// import 'package:insta_king/presentation/controllers/order_controller.dart';
 
-class PlaceOrder extends StatelessWidget {
+class PlaceOrder extends ConsumerStatefulWidget {
   const PlaceOrder({super.key});
+
+  @override
+  ConsumerState<PlaceOrder> createState() => _PlaceOrderState();
+}
+
+class _PlaceOrderState extends ConsumerState<PlaceOrder> {
+  late final OrderController orderController =
+      ref.read(instaOrderController.notifier);
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +74,9 @@ class PlaceOrder extends StatelessWidget {
                 ),
                 CustomButton(
                   pageCTA: 'Place Order',
-                  toSignOrLogin: () {},
+                  toSignOrLogin: () {
+                    //orderController.toPlaceOrder(, link, quantity);
+                  },
                 ).afmPadding(EdgeInsets.symmetric(vertical: 10.h))
               ],
             ).afmPadding(

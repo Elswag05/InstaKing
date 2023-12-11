@@ -1,10 +1,14 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:insta_king/core/constants/enum.dart';
 import 'package:insta_king/data/local/secure_storage_service.dart';
 import 'package:insta_king/data/local/toast_service.dart';
@@ -20,6 +24,10 @@ final instaProfileController =
 
 class ProfileController extends BaseChangeNotifier {
   File? image;
+  String imagePath = '';
+  File imageFile = File('');
+  Uint8List imageBytes = Uint8List(0);
+  String base64String = '';
   final EditDetailService editDetailService = EditDetailService();
   final GetProfileService _getProfileService = GetProfileService();
   late ProfileModel model = ProfileModel();
@@ -28,47 +36,77 @@ class ProfileController extends BaseChangeNotifier {
 
   void saveGalleryImage(File? galleryImage) {
     image = galleryImage;
+    notifyListeners();
   }
 
   void saveCameraImage(File? cameraImage) {
     image = cameraImage;
+    notifyListeners();
   }
 
-  // Future pickImageCamera() async {
-  //   Future<Uint8List> imageBytes = image!.readAsBytes();
-  //   String baseimage = base64.encode(imageBytes);
-  //   try {
-  //     final image = await ImagePicker().pickImage(source: ImageSource.camera);
-  //     if (image == null) return;
-  //     final imageTemp = File(image.path);
-  //     _pickedFile = PickedFile(image.path);
-  //     this.image = imageTemp;
-  //     notifyListeners();
-  //     try {
-  //       final res = await _getProfileService.setProfilePic(image: baseimage);
-  //       if (res.statusCode == 200) {
-  //         loadingState = LoadingState.idle;
-  //         locator<ToastService>().showSuccessToast(
-  //           'Profile image set successfully',
-  //         );
-  //         model = ProfileModel.fromJson(res.data);
-  //         notifyListeners();
-  //         log('model: ${model.message}');
-  //         return model;
-  //       } else {
-  //         throw Error();
-  //       }
-  //     } on DioException catch (e) {
-  //       loadingState = LoadingState.error;
-  //       ErrorService.handleErrors(e);
-  //     } catch (e) {
-  //       loadingState = LoadingState.error;
-  //       ErrorService.handleErrors(e);
-  //     }
-  //   } on PlatformException catch (e) {
-  //     debugPrint('$e');
-  //   }
-  // }
+  Future<void> pickImageGallery() async {
+    try {
+      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (image == null) return;
+      imagePath = image.path;
+      imageFile = File(imagePath);
+      imageBytes = await imageFile.readAsBytes();
+      base64String = base64.encode(imageBytes);
+      saveGalleryImage(imageFile);
+    } on PlatformException catch (e) {
+      debugPrint('$e');
+    }
+  }
+
+  Future<void> pickImageCamera() async {
+    try {
+      final image = await ImagePicker().pickImage(
+          source: ImageSource.camera,
+          imageQuality: 50, // <- Reduce Image quality
+          maxHeight: 500, // <- reduce the image size
+          maxWidth: 500);
+      if (image == null) return;
+      imagePath = image.path;
+      imageFile = File(imagePath);
+      imageBytes = await imageFile.readAsBytes();
+      base64String = base64.encode(imageBytes);
+      toSaveImage(imageFile.path);
+      saveCameraImage(imageFile);
+    } on PlatformException catch (e) {
+      debugPrint('$e');
+    }
+  }
+
+  Future toSaveImage(String filePath) async {
+    loadingState = LoadingState.loading;
+    try {
+      final fileName = filePath.split('/').last;
+      FormData formData = FormData.fromMap({
+        "profile_picture": await MultipartFile.fromFile(
+          filePath,
+          filename: fileName,
+          //contentType: new MediaType("image", "jpeg"),
+        ),
+      });
+      final response =
+          await _getProfileService.setProfilePic(formData: formData);
+      if (response.statusCode == 200) {
+        loadingState = LoadingState.idle;
+        model = ProfileModel.fromJson(response.data);
+        notifyListeners();
+        log('model: ${model.message}');
+        return model;
+      } else {
+        throw Error();
+      }
+    } on DioException catch (e) {
+      loadingState = LoadingState.error;
+      ErrorService.handleErrors(e);
+    } catch (e) {
+      loadingState = LoadingState.error;
+      ErrorService.handleErrors(e);
+    }
+  }
 
   Future<ProfileModel> getProfileDetails() async {
     loadingState = LoadingState.loading;

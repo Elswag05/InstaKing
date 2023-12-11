@@ -1,10 +1,7 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insta_king/core/constants/constants.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
-import 'package:insta_king/core/theme/env_theme_manager.dart';
 import 'package:insta_king/presentation/views/home/home_container_widget.dart';
 import 'package:insta_king/presentation/views/shared_widgets/small_cta.dart';
 import 'package:intl/intl.dart';
@@ -51,7 +48,7 @@ class _HomeCardBalanceState extends State<HomeCardBalance> {
             fontWeight: FontWeight.w600,
             color: Theme.of(context).colorScheme.onSurfaceVariant,
           ),
-        ).afmGetFuture(widget.future),
+        ),
       ],
     );
   }
@@ -82,13 +79,13 @@ class HomeCardList extends StatefulWidget {
   final String totalBalance;
   final String totalBonus;
   final String affiliateLink;
-  final Future<Object?>? future;
+  final Function()? onTap;
   const HomeCardList({
     super.key,
     this.totalBalance = '0.00',
     this.totalBonus = '0.00',
     required this.affiliateLink,
-    this.future,
+    this.onTap,
   });
 
   @override
@@ -120,21 +117,26 @@ class _HomeCardListState extends State<HomeCardList> {
                         balanceString: 'Total Balance',
                         balance: formatBalance(widget.totalBalance),
                         toHideBalance: () {},
-                        future: widget.future,
                       ),
                       HomeCardBalance(
                         balanceString: 'Affiliate Balance',
                         balance: formatBalance(widget.totalBonus),
                         toHideBalance: () {},
-                        future: widget.future,
                       )
                     ],
                   ),
-                  const SmallCTA(
-                    text: 'Fund Wallet',
-                  )
-                      .afmBorderRadius(BorderRadius.circular(6.r))
-                      .afmPadding(EdgeInsets.only(top: 23.h)),
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        widget.onTap;
+                      });
+                    },
+                    child: const SmallCTA(
+                      text: 'Fund Wallet',
+                    )
+                        .afmBorderRadius(BorderRadius.circular(6.r))
+                        .afmPadding(EdgeInsets.only(top: 23.h)),
+                  ),
                 ],
               ),
             ),

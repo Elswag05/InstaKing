@@ -1,11 +1,8 @@
-import 'dart:io';
-
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:image_picker/image_picker.dart';
 
 import 'package:insta_king/core/constants/constants.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
@@ -32,35 +29,6 @@ class _ProfileCardState extends State<ProfileCard> {
       builder: ((context, ref, child) {
         final profileController = ref.watch(instaProfileController.notifier);
         final apiData = ref.watch(instaProfileController.notifier).model;
-
-        Future<void> pickImageGallery() async {
-          try {
-            final image =
-                await ImagePicker().pickImage(source: ImageSource.gallery);
-            if (image == null) return;
-            setState(() {
-              final imageTemp = File(image.path);
-              profileController.saveGalleryImage(imageTemp);
-            });
-          } on PlatformException catch (e) {
-            debugPrint('$e');
-          }
-        }
-
-        Future<void> pickImageCamera() async {
-          try {
-            final image =
-                await ImagePicker().pickImage(source: ImageSource.camera);
-            if (image == null) return;
-            setState(() {
-              final imageTemp = File(image.path);
-              profileController.saveCameraImage(imageTemp);
-            });
-          } on PlatformException catch (e) {
-            debugPrint('$e');
-          }
-        }
-
         return GestureDetector(
           onTap: widget.onTap,
           child: Container(
@@ -90,10 +58,10 @@ class _ProfileCardState extends State<ProfileCard> {
                                     title: 'Choose Profile Image',
                                     desc: 'Choose image from...',
                                     btnOkOnPress: () {
-                                      pickImageGallery();
+                                      profileController.pickImageGallery();
                                     },
                                     btnCancelOnPress: () {
-                                      pickImageCamera();
+                                      profileController.pickImageCamera();
                                     },
                                     btnOkIcon:
                                         Icons.photo_size_select_actual_outlined,
@@ -123,10 +91,10 @@ class _ProfileCardState extends State<ProfileCard> {
                                     title: 'Change Profile Image',
                                     desc: 'Choose image from...',
                                     btnOkOnPress: () {
-                                      pickImageGallery();
+                                      profileController.pickImageGallery();
                                     },
                                     btnCancelOnPress: () {
-                                      pickImageCamera();
+                                      profileController.pickImageCamera();
                                     },
                                     btnOkIcon:
                                         Icons.photo_size_select_actual_outlined,

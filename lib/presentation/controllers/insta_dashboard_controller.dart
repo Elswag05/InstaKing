@@ -36,13 +36,29 @@ class DashBoardController extends BaseChangeNotifier {
     }
   }
 
+  Future<bool> getKey(String key) async {
+    String? stringn = await secureStorageService.read(key: key);
+    if (stringn == null) {
+      return false;
+    } else if (stringn.isEmpty) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   Future<String> getId() async {
     String? id = await secureStorageService.read(key: "id");
     return id as String;
   }
 
-  void resetPage() {
-    page = 0;
+  void setPage(int num) {
+    page = num;
+    notifyListeners();
+  }
+
+  void setTwoPage() {
+    page = 2;
     notifyListeners();
   }
 

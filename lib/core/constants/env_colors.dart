@@ -68,9 +68,9 @@ class InstaColors {
   static Color secondaryTextColor = const Color(0xff53505b);
 
   static const int _errorColorValue = 0xFFB42318;
-  static const int _primaryColorValue = 0xFFE65100;
+  static const int _primaryColorValue = 0xFFfa7f41;
 
-  // static Color getAppbarBgColor() {
+  // static Color getAppbarBgColor() { #fa7f41
   //   return isDarkTheme
   //       ? InstaColors.darkBackgroundColor
   //       : InstaColors.appBackgroundColor;

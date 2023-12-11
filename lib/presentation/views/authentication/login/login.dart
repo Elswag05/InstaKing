@@ -7,6 +7,7 @@ import 'package:insta_king/presentation/views/authentication/auth_shared/text_fo
 import 'package:insta_king/presentation/views/authentication/login/forgot_password.dart';
 import 'package:insta_king/presentation/views/authentication/signup/sign_up.dart';
 import 'package:insta_king/presentation/views/dashboard/insta_dashboard.dart';
+import 'package:local_auth/local_auth.dart';
 
 class InstaLogin extends StatefulWidget {
   const InstaLogin({Key? key}) : super(key: key);
@@ -18,11 +19,17 @@ class InstaLogin extends StatefulWidget {
 class _InstaLoginState extends State<InstaLogin> {
   late final TextEditingController usernameController;
   late final TextEditingController passwordController;
+  late final LocalAuthentication auth;
+  bool supportState = false;
 
   @override
   void initState() {
     usernameController = TextEditingController();
     passwordController = TextEditingController();
+    auth = LocalAuthentication();
+    auth.isDeviceSupported().then((bool isSupported) => setState(() {
+          supportState = isSupported;
+        }));
     super.initState();
   }
 
