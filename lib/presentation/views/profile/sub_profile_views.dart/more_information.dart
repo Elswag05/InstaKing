@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insta_king/core/constants/env_colors.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
@@ -23,22 +24,23 @@ class MoreInformation extends StatelessWidget {
                 const CollectPersonalDetailModel(
                   leadTitle: "Website",
                   hintT: '',
-                  isPasswordT: true,
+                  isPasswordT: false,
                 ),
                 const CollectPersonalDetailModel(
                   leadTitle: "Phone Number",
                   hintT: '',
-                  isPasswordT: true,
+                  isPasswordT: false,
                 ),
-                const CollectPersonalDetailModel(
+                CollectPersonalDetailModel(
                   leadTitle: "Whatsapp Number",
                   hintT: '',
-                  isPasswordT: true,
+                  isdigit: [FilteringTextInputFormatter.digitsOnly],
+                  isPasswordT: false,
                 ),
                 const CollectPersonalDetailModel(
                   leadTitle: "Address",
                   hintT: '',
-                  isPasswordT: true,
+                  isPasswordT: false,
                 ),
                 CustomButton(
                   pageCTA: 'Save',

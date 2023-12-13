@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insta_king/core/constants/env_colors.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
+import 'package:insta_king/presentation/controllers/insta_categories_controller.dart';
 import 'package:insta_king/presentation/controllers/insta_dashboard_controller.dart';
 import 'package:insta_king/presentation/controllers/insta_profile_controller.dart';
 import 'package:insta_king/presentation/model/profile_model.dart';
@@ -25,12 +26,11 @@ class InstaHome extends StatefulWidget {
 
 class _InstaHomeState extends State<InstaHome> with TickerProviderStateMixin {
   late final AnimationController _controller;
-  late ProfileModel apiData;
+  //late ProfileModel apiData;
   bool hasFetchedDetails = false;
 
   @override
   void initState() {
-    apiData = ProfileModel();
     super.initState();
     _controller = AnimationController(vsync: this);
   }
@@ -45,14 +45,16 @@ class _InstaHomeState extends State<InstaHome> with TickerProviderStateMixin {
     return Scaffold(
       body: SafeArea(
         child: Consumer(builder: (context, ref, child) {
-          final homie =
-              ref.read(instaProfileController.notifier).getProfileDetails();
+          // ref.read(instaCategoriesController.notifier).toGetAllCategories();
           if (!hasFetchedDetails) {
             // Fetch details only if they haven't been fetched yet
             Future(() async {
-              await homie.then((value) {
+              await ref
+                  .read(instaProfileController.notifier)
+                  .getProfileDetails()
+                  .then((value) {
                 setState(() {});
-                apiData = ref.watch(instaProfileController.notifier).model;
+                ref.read(instaProfileController.notifier).model;
                 hasFetchedDetails = true; // Set the flag after fetching details
               });
             });
@@ -66,10 +68,24 @@ class _InstaHomeState extends State<InstaHome> with TickerProviderStateMixin {
               children: [
                 HomeHeaderWidget(
                   //imageFile: ref.watch(instaProfileController.notifier).image!,
-                  url: apiData.user?.image ?? '',
-                  username: apiData.user?.username ?? 'User',
+                  url: ref
+                          .read(instaProfileController.notifier)
+                          .model
+                          .user
+                          ?.image ??
+                      '',
+                  username: ref
+                          .read(instaProfileController.notifier)
+                          .model
+                          .user
+                          ?.username ??
+                      'User',
                   onNotificationsTap: () {},
-
+                  foregroundImage: ref
+                      .read(instaProfileController.notifier)
+                      .model
+                      .user
+                      ?.image,
                   onProfileTap: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
@@ -82,10 +98,20 @@ class _InstaHomeState extends State<InstaHome> with TickerProviderStateMixin {
                       left: 20.sp, right: 20.sp, top: 5.sp, bottom: 20.h),
                 ),
                 HomeCardList(
-                    totalBalance: apiData.user?.balance ?? 'Loading...',
-                    totalBonus: apiData.user?.bonus ?? 'Loading...',
+                    totalBalance: ref
+                            .read(instaProfileController.notifier)
+                            .model
+                            .user
+                            ?.balance ??
+                        'Loading...',
+                    totalBonus: ref
+                            .read(instaProfileController.notifier)
+                            .model
+                            .user
+                            ?.bonus ??
+                        'Loading...',
                     affiliateLink:
-                        'https:/www.instaking.ng/signup?ref=${apiData.user?.username ?? "waiting..."}',
+                        'https:/www.instaking.ng/signup?ref=${ref.read(instaProfileController.notifier).model.user?.username ?? "waiting..."}',
                     onTap: () {
                       setState(() {
                         final value = ref.watch(dashBoardControllerProvider);

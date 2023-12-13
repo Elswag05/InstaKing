@@ -13,7 +13,6 @@ class PlaceOrder with DioMixin {
       'Content-Type': 'application/json',
       'Connection': 'keep-alive',
     };
-    // Use the configured Dio instance from the mixin
     final response = await connect(customHeaders: customHeaders).post(
       '/orders/create',
       data: {
@@ -22,7 +21,6 @@ class PlaceOrder with DioMixin {
         "quantity": quantity,
       },
     );
-    print(response.data);
     return response;
   }
 }

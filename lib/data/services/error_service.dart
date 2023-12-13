@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:insta_king/data/local/toast_service.dart';
 import 'package:insta_king/utils/locator.dart';
 
@@ -23,7 +24,7 @@ class ErrorService {
         message = e['message'];
       } else {
         message = errorService.defaultErrorMessage;
-        print('${e.toString()} Things 000');
+        debugPrint('${e.toString()} Things 000');
       }
     } else if (e is TimeoutException) {
       // Handle timeout errors
@@ -31,11 +32,11 @@ class ErrorService {
     } else if (e is Error) {
       // Handle general errors
       message = errorService.defaultErrorMessage;
-      print('${e.toString()} Things 001');
+      debugPrint('${e.runtimeType} Things 001');
     } else if (e is Exception) {
       // Handle general exceptions
       message = errorService.defaultErrorMessage;
-      print('${e.toString()} Things 002');
+      debugPrint('${e.toString()} Things 002');
     } else if (e is FormatException) {
       // Handle formatting errors
       message = 'There is something wrong with the format.';
@@ -45,7 +46,7 @@ class ErrorService {
     } else {
       // Handle other types of errors
       message = errorService.defaultErrorMessage;
-      print('${e.toString()} Things 004');
+      debugPrint('${e.toString()} Things 004');
     }
 
     // Show error message using a toast widget

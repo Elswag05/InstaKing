@@ -82,7 +82,7 @@ class ProfileController extends BaseChangeNotifier {
     try {
       final fileName = filePath.split('/').last;
       FormData formData = FormData.fromMap({
-        "profile_picture": await MultipartFile.fromFile(
+        "profile-image": await MultipartFile.fromFile(
           filePath,
           filename: fileName,
           //contentType: new MediaType("image", "jpeg"),
@@ -90,11 +90,11 @@ class ProfileController extends BaseChangeNotifier {
       });
       final response =
           await _getProfileService.setProfilePic(formData: formData);
+
       if (response.statusCode == 200) {
         loadingState = LoadingState.idle;
         model = ProfileModel.fromJson(response.data);
         notifyListeners();
-        log('model: ${model.message}');
         return model;
       } else {
         throw Error();

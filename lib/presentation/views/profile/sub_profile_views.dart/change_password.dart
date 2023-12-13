@@ -54,13 +54,13 @@ class _ChangePasswordState extends State<ChangePassword> {
                     CollectPersonalDetailModel(
                       leadTitle: "Old password",
                       hintT: 'You old password',
-                      isPasswordT: true,
+                      isPasswordT: false,
                       controller: oldPassword,
                     ),
                     CollectPersonalDetailModel(
                       leadTitle: "New password",
                       hintT: 'You new password',
-                      isPasswordT: true,
+                      isPasswordT: false,
                       controller: newPassword,
                       validator: (value) {
                         RegExp oneUppercase = RegExp(r'^(?=.*?[A-Z])');

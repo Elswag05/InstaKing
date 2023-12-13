@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:insta_king/core/constants/env_assets.dart';
 import 'package:insta_king/core/constants/env_colors.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
+import 'package:insta_king/presentation/controllers/insta_categories_controller.dart';
 import 'package:insta_king/presentation/controllers/insta_dashboard_controller.dart';
 import 'package:insta_king/presentation/views/order/place_order/place_order.dart';
 import 'package:insta_king/presentation/views/profile/sub_profile_views.dart/refer_and_earn/refer_and_earn.dart';
@@ -89,6 +90,9 @@ class ShortcutsTheWidget extends ConsumerWidget {
                   shortcutIcon: 'Place Order',
                   shortcutText: 'Place Order',
                   onTap: () {
+                    ref
+                        .read(instaCategoriesController.notifier)
+                        .toGetAllCategories();
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) => const PlaceOrder(),

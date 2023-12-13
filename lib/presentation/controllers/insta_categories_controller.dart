@@ -1,24 +1,34 @@
 import 'dart:async';
 
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:insta_king/core/constants/enum.dart';
 import 'package:insta_king/data/local/secure_storage_service.dart';
-import 'package:insta_king/data/local/toast_service.dart';
 import 'package:insta_king/data/services/categories_services.dart';
 import 'package:insta_king/data/services/error_service.dart';
 import 'package:insta_king/presentation/controllers/base_controller.dart';
 import 'package:insta_king/presentation/model/insta_get_category_model.dart';
 import 'package:insta_king/presentation/model/insta_get_one_service_detail_model.dart';
 import 'package:insta_king/presentation/model/insta_get_service_details_model.dart';
-import 'package:insta_king/utils/locator.dart';
 
 final instaCategoriesController = ChangeNotifierProvider<CategoriesController>(
     (ref) => CategoriesController());
+
+class CategoryItem {
+  final String id;
+  final String name;
+
+  CategoryItem({required this.id, required this.name});
+}
+
+class ServiceItem {
+  final String id;
+  final String name;
+
+  ServiceItem({required this.id, required this.name});
+}
 
 class CategoriesController extends BaseChangeNotifier {
   final CategoriesService categoriesService = CategoriesService();
@@ -29,23 +39,53 @@ class CategoriesController extends BaseChangeNotifier {
   late GetCategoriesModel getCategoriesModel = GetCategoriesModel();
   late GetOneServiceDetailsModel getOneServiceDetailsModel =
       GetOneServiceDetailsModel();
-  late List<DropdownMenuItem<String>> allCategoriesModel = [];
-  late List<DropdownMenuItem<String>> allServicesModel = [];
+  List<CategoryItem> allCategoriesModel = <CategoryItem>[];
+  List<ServiceItem> allServicesModel = [];
   late List<dynamic>? filteredData = [];
   late List<dynamic>? filteredServiceData = [];
-  late String selectedServiceValue = '9486';
-  late String newServiceValue = '';
-  String get newSelectedValue => selectedServiceValue;
-  String get newValue => newServiceValue;
-  late String newSelectedServiceValue;
+  late String _selectedServiceValue = '9486';
+  late String _selectedServiceName;
+  late String _selectedCategoryValue = '703';
+  late String _selectedCategoryName;
+  String get selectedService => _selectedServiceValue;
+  String get selectedServiceName => _selectedServiceName;
+  String get selectedCategory => _selectedCategoryValue;
+  String get selectedCategoryName => _selectedCategoryName;
+  bool isCatSet = false;
+  bool isServiceSet = false;
 
-  void setNewValue(newValue) {
-    newServiceValue = newValue;
+  void setCatValue(String newValue, String name) {
+    _selectedCategoryValue = newValue;
+    _selectedCategoryName = name;
+    isCatSet = true;
     notifyListeners();
+  }
+
+  void setServiceValue(String newValue, String name) {
+    _selectedServiceValue = newValue;
+    _selectedServiceName = name;
+    isServiceSet = true;
+    notifyListeners();
+  }
+
+  String calculatePricePerUnit(String intakePriceStr, String quantityStr) {
+    // Convert string inputs to numeric values
+    double intakePrice = double.tryParse(intakePriceStr) ?? 0.0;
+    int quantity = int.tryParse(quantityStr) ?? 0;
+
+    // Calculate the price per unit
+    double pricePerUnit = (intakePrice / 1000) * quantity;
+    notifyListeners();
+    // Return the result as a string
+    return pricePerUnit.toString();
   }
 
   @override
   LoadingState loadingState = LoadingState.idle;
+
+  // Future setServiceValue(String newValu) {
+  //   return toGetDropdownItemsById(newValu);
+  // }
 
   final SecureStorageService secureStorageService =
       SecureStorageService(secureStorage: const FlutterSecureStorage());
@@ -55,21 +95,23 @@ class CategoriesController extends BaseChangeNotifier {
     try {
       final res = await categoriesService.getAllCategories();
       getAllServiceDetails.getAllServicesDetails();
-      debugPrint('${res.data}');
+      toGetDropdownItemsById(_selectedCategoryValue);
+      //debugPrint('${res.data}');
       if (res.statusCode == 200) {
-        final getCategoriesModel = GetCategoriesModel.fromJson(res.data);
+        final getCategoriesModel =
+            GetCategoriesModel.fromJson(res.data as Map<String, dynamic>);
         allCategoriesModel = getCategoriesModel.data?.map((category) {
-              return DropdownMenuItem<String>(
-                value: category.id
-                    .toString(), // Set a unique identifier for the category
-                child: Text(category.name ?? ""), // Ensure name is not null
+              return CategoryItem(
+                id: category.id.toString(),
+                name: category.name ?? "",
               );
             }).toList() ??
-            [];
+            <CategoryItem>[];
+
         loadingState = LoadingState.idle;
-        locator<ToastService>().showSuccessToast(
-          'Categories loaded successfully',
-        );
+        // locator<ToastService>().showSuccessToast(
+        //   'Categories loaded successfully',
+        // );
         debugPrint("INFO: Success converting data to model");
         if (getCategoriesModel.status == 'success') {
           return true;
@@ -97,7 +139,7 @@ class CategoriesController extends BaseChangeNotifier {
         .where((datum) => datum.name!.contains(keyword))
         .toList();
     notifyListeners();
-    debugPrint('${filteredData.toString()}');
+    debugPrint(filteredData.toString());
     return filteredData;
   }
 
@@ -109,7 +151,7 @@ class CategoriesController extends BaseChangeNotifier {
       if (res.statusCode == 200) {
         //final data = GetspecificCategoriesModel.fromJson(res.data);
         loadingState = LoadingState.idle;
-        print(res.data);
+        debugPrint('${res.data}');
         //if (data.status == 'success') {
         return true;
         //
@@ -149,9 +191,32 @@ class CategoriesController extends BaseChangeNotifier {
     return getAllServicesModel;
   }
 
-  Future<List<DropdownMenuItem<String>>> toGetDropdownItemsById(
+  Future<List<ServiceItem>> toGetDropdownItemsById(
     String targetId,
   ) async {
+    if (allServicesModel.isNotEmpty) {
+      // Filter the data based on the specified id
+      final filteredServiceData = getAllServicesModel.data
+          ?.where((category) => category.categoryId == targetId)
+          .toList();
+
+      // Determine the selected service value based on the first id obtained
+      _selectedServiceValue = filteredServiceData?.isNotEmpty == true
+          ? filteredServiceData![0].id.toString()
+          : "";
+
+      // Convert the filtered data to List<DropdownMenuItem<String>>
+      allServicesModel = filteredServiceData
+              ?.map((category) => ServiceItem(
+                    id: category.id.toString(),
+                    name: category.name ?? "",
+                  ))
+              .toList() ??
+          [];
+      loadingState = LoadingState.idle;
+      toGetOneServiceDetail(_selectedServiceValue);
+      return allServicesModel;
+    }
     loadingState = LoadingState.loading;
     try {
       final res = await getAllServiceDetails.getAllServicesDetails();
@@ -164,39 +229,31 @@ class CategoriesController extends BaseChangeNotifier {
             .toList();
 
         // Determine the selected service value based on the first id obtained
-        newSelectedServiceValue = filteredServiceData?.isNotEmpty == true
+        _selectedServiceValue = filteredServiceData?.isNotEmpty == true
             ? filteredServiceData![0].id.toString()
             : "";
 
         // Convert the filtered data to List<DropdownMenuItem<String>>
         allServicesModel = filteredServiceData
-                ?.map((category) => DropdownMenuItem<String>(
-                      value: category.id.toString(),
-                      child: AutoSizeText(
-                        category.name ?? "",
-                        minFontSize: 6.sp,
-                        stepGranularity: 2.sp,
-                        style: TextStyle(
-                          fontFamily: 'Montesserat',
-                          fontSize: 12.sp,
-                        ),
-                      ),
+                ?.map((category) => ServiceItem(
+                      id: category.id.toString(),
+                      name: category.name ?? "",
                     ))
                 .toList() ??
             [];
 
         // Notify listeners and update the selectedServiceValue
-        if (newValue != '') {
-          selectedServiceValue = newValue;
-          notifyListeners();
-        }
-        if (targetId.toString() != '703' && newValue == '') {
-          selectedServiceValue = newSelectedServiceValue;
-          notifyListeners();
-        }
+        // if (newValue != '') {
+        //   selectedServiceValue = newValue;
+        //   notifyListeners();
+        // }
+        // if (targetId.toString() != '703' && newValue == '') {
+        //   selectedServiceValue = newSelectedServiceValue;
+        //   notifyListeners();
+        // }
 
-        notifyListeners();
-        toGetOneServiceDetail(newSelectedServiceValue);
+        // notifyListeners();
+
         loadingState = LoadingState.idle;
         return allServicesModel;
       } else {

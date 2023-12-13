@@ -23,8 +23,8 @@ class GetProfileService with DioMixin {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
     };
-    final response = await connect(customHeaders: customHeaders).put(
-      '/user/profile',
+    final response = await connect(customHeaders: customHeaders).post(
+      '/user/profile-image',
       data: formData,
     );
     debugPrint('Info: Service has ${response.data}');

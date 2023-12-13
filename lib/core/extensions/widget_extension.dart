@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insta_king/core/constants/constants.dart';
+import 'package:insta_king/presentation/views/shared_widgets/shared_loading.dart';
 
 extension WidgetExtension on Widget {
   Widget get aftmDefaultBorderRadius => ClipRRect(
@@ -31,10 +32,7 @@ extension WidgetExtension on Widget {
           if (snapshot.connectionState == ConnectionState.done) {
             return this;
           } else {
-            return const Center(
-                child: CircularProgressIndicator(
-              strokeWidth: 2,
-            ));
+            return const Center(child: TransparentLoadingScreen());
           }
         },
       );

@@ -11,6 +11,7 @@ class CollectPersonalDetailModel extends StatefulWidget {
   final List<TextInputFormatter>? isdigit;
   final TextEditingController? controller;
   final String? Function(String?)? validator;
+  final Function(String)? onChanged;
   const CollectPersonalDetailModel(
       {super.key,
       required this.leadTitle,
@@ -18,7 +19,8 @@ class CollectPersonalDetailModel extends StatefulWidget {
       this.isPasswordT = false,
       this.isdigit,
       this.controller,
-      this.validator});
+      this.validator,
+      this.onChanged});
 
   @override
   State<CollectPersonalDetailModel> createState() =>
@@ -46,9 +48,10 @@ class _CollectPersonalDetailModelState
           validator: widget.validator,
           autovalidateMode: AutovalidateMode.always,
           inputFormatters: widget.isdigit,
+          onChanged: widget.onChanged,
           style: TextStyle(
             fontSize: 13.sp,
-            color: Theme.of(context).cardColor,
+            color: InstaColors.darkColor,
           ),
           decoration: InputDecoration(
             contentPadding:
@@ -64,28 +67,28 @@ class _CollectPersonalDetailModelState
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10.r),
               borderSide: BorderSide(
-                width: 1.sp,
+                width: 0.5.sp,
                 color: InstaColors.darkColor,
               ),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10.r),
               borderSide: BorderSide(
-                width: 1.sp,
+                width: 0.5.sp,
                 color: InstaColors.darkColor,
               ),
             ),
             disabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10.r),
               borderSide: BorderSide(
-                width: 1.sp,
+                width: 0.5.sp,
                 color: InstaColors.darkColor.withOpacity(0.5),
               ),
             ),
             errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10.r),
               borderSide: BorderSide(
-                width: 1.sp,
+                width: 0.5.sp,
                 color: InstaColors.errorColor,
               ),
             ),
@@ -124,28 +127,28 @@ class _CollectPersonalDetailModelState
         //             enabledBorder: OutlineInputBorder(
         //               borderRadius: BorderRadius.circular(10.r),
         //               borderSide: BorderSide(
-        //                 width: 1.sp,
+        //                 width: 0.5.sp,
         //                 color: InstaColors.darkColor.withOpacity(0.3),
         //               ),
         //             ),
         //             focusedBorder: OutlineInputBorder(
         //               borderRadius: BorderRadius.circular(10.r),
         //               borderSide: BorderSide(
-        //                 width: 1.sp,
+        //                 width: 0.5.sp,
         //                 color: InstaColors.darkColor,
         //               ),
         //             ),
         //             disabledBorder: OutlineInputBorder(
         //               borderRadius: BorderRadius.circular(10.r),
         //               borderSide: BorderSide(
-        //                 width: 1.sp,
+        //                 width: 0.5.sp,
         //                 color: InstaColors.darkColor.withOpacity(0.5),
         //               ),
         //             ),
         //             errorBorder: OutlineInputBorder(
         //               borderRadius: BorderRadius.circular(10.r),
         //               borderSide: BorderSide(
-        //                 width: 1.sp,
+        //                 width: 0.5.sp,
         //                 color: InstaColors.errorColor,
         //               ),
         //             ),

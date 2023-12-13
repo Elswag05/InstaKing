@@ -10,6 +10,7 @@ class HomeHeaderWidget extends StatefulWidget {
   final String? username;
   final void Function()? onNotificationsTap;
   final void Function()? onProfileTap;
+  final ImageProvider<Object>? foregroundImage;
   final String url;
   //File imageFile;
   const HomeHeaderWidget({
@@ -18,6 +19,7 @@ class HomeHeaderWidget extends StatefulWidget {
     this.onNotificationsTap,
     this.onProfileTap,
     required this.url,
+    this.foregroundImage,
     // this.imageFile = null,
   });
 
@@ -37,12 +39,11 @@ class _HomeHeaderWidgetState extends State<HomeHeaderWidget> {
               onTap: widget.onProfileTap,
               child: CircleAvatar(
                 radius: 20.r,
-                //foregroundImage: FileImage(widget.imageFile),
                 backgroundColor: InstaColors.primaryColor,
                 backgroundImage: AssetImage(
                   EnvAssets.getImagePath('user-image'),
                 ),
-                foregroundImage: NetworkImage(widget.url),
+                foregroundImage: widget.foregroundImage,
               ),
             ),
             Column(

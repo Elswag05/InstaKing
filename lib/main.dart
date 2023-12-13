@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insta_king/core/theme/env_theme_manager.dart';
 import 'package:insta_king/presentation/controllers/insta_dashboard_controller.dart';
+import 'package:insta_king/presentation/controllers/insta_login_controller.dart';
 import 'package:insta_king/presentation/controllers/theme_controller.dart';
 import 'package:insta_king/presentation/views/dashboard/insta_dashboard.dart';
 import 'package:oktoast/oktoast.dart';
@@ -42,6 +43,10 @@ class _InstaKing extends ConsumerState<InstaKingGuide> {
   late final ThemeController themeController =
       ref.watch(themeControllerProvider.notifier);
   late Future<String> getEmailFuture;
+  late final isLoggedIn =
+      ref.read(instaLoginController.notifier).isUserLoggedIn;
+  late final weRememberPass =
+      ref.read(instaLoginController.notifier).isBoxChecked;
 
   @override
   void initState() {
@@ -70,14 +75,16 @@ class _InstaKing extends ConsumerState<InstaKingGuide> {
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.done) {
                       String? email = snapshot.data;
-                      if (email == null || email.isEmpty) {
+                      print('${isLoggedIn.toString()}');
+                      if ((email == null || email.isEmpty || !isLoggedIn) ||
+                          (isLoggedIn && !weRememberPass)) {
                         return const InstaLogin();
-                      } else {
+                      } else if (weRememberPass   ) {
                         return const InstaDashboard();
                       }
-                    } else {
-                      return const Center(child: CircularProgressIndicator());
                     }
+                    // In case none of the conditions are met, return an empty container.
+                    return Container();
                   },
                 ),
               ),

@@ -7,6 +7,7 @@ import 'package:insta_king/core/extensions/widget_extension.dart';
 import 'package:insta_king/presentation/controllers/insta_categories_controller.dart';
 import 'package:insta_king/presentation/views/services/tapped_status.dart';
 import 'package:insta_king/presentation/views/shared_widgets/recurring_appbar.dart';
+import 'package:insta_king/presentation/views/shared_widgets/shared_loading.dart';
 
 bool hasInstagramBeenTapped = false;
 bool hasFacebookBeenTapped = false;
@@ -154,7 +155,7 @@ class _InstaServicesState extends State<InstaServices> {
                           ),
                         );
                       } else {
-                        return const Center(child: CircularProgressIndicator());
+                        return const Center(child: TransparentLoadingScreen());
                       }
                     })
               ],

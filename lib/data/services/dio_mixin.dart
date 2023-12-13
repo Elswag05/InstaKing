@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:insta_king/core/constants/env_strings.dart';
 import 'package:insta_king/data/local/secure_storage_service.dart';
 import 'package:insta_king/utils/locator.dart';
@@ -12,8 +13,8 @@ mixin DioMixin {
   Dio connect({Map<String, dynamic>? customHeaders}) {
     BaseOptions options = BaseOptions(
       baseUrl: 'https://www.instaking.ng/user-api',
-      connectTimeout: const Duration(seconds: 10),
-      receiveTimeout: const Duration(seconds: 10),
+      connectTimeout: const Duration(seconds: 60),
+      receiveTimeout: const Duration(seconds: 60),
       responseType: ResponseType.json,
     );
 
@@ -46,16 +47,18 @@ mixin DioMixin {
       Future<Response<dynamic>> Function() request) async {
     try {
       final response = await request();
-      print('Info: work is at ${response.data}');
+      debugPrint('Info: work is at ${response.data}');
       return response;
     } on DioError catch (e) {
       // Handle Dio errors (e.g., network issues, non-200 status codes)
       log('Dio Error: $e', error: e);
+      debugPrint("'Dio Error: $e', error: $e");
 
       rethrow;
     } catch (e) {
       // Handle other errors
       log('Dio Error: $e', error: e);
+      debugPrint("'Dio Error: $e', error: $e");
 
       rethrow;
     }

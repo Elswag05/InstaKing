@@ -4,10 +4,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insta_king/core/constants/env_colors.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
 
-class MiniTags extends StatelessWidget {
+class MiniTags extends StatefulWidget {
   final String textOnTag;
   const MiniTags({super.key, required this.textOnTag});
 
+  @override
+  State<MiniTags> createState() => _MiniTagsState();
+}
+
+class _MiniTagsState extends State<MiniTags> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -23,7 +28,7 @@ class MiniTags extends StatelessWidget {
       ),
       child: Center(
         child: AutoSizeText(
-          textOnTag,
+          widget.textOnTag,
           minFontSize: 10.sp,
           stepGranularity: 2.sp,
           style: TextStyle(

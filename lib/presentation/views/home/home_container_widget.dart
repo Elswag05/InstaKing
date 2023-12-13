@@ -7,11 +7,11 @@ class HomeContainer extends StatelessWidget {
   final double height;
   Color? color;
   HomeContainer({
-    Key? key,
+    super.key,
     this.child,
     this.height = 150,
     required this.color,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

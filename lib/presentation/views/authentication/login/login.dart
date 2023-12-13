@@ -8,22 +8,25 @@ import 'package:insta_king/presentation/views/authentication/login/forgot_passwo
 import 'package:insta_king/presentation/views/authentication/signup/sign_up.dart';
 import 'package:insta_king/presentation/views/dashboard/insta_dashboard.dart';
 import 'package:local_auth/local_auth.dart';
+import 'package:lottie/lottie.dart';
 
 class InstaLogin extends StatefulWidget {
-  const InstaLogin({Key? key}) : super(key: key);
+  const InstaLogin({super.key});
 
   @override
   State<InstaLogin> createState() => _InstaLoginState();
 }
 
-class _InstaLoginState extends State<InstaLogin> {
+class _InstaLoginState extends State<InstaLogin> with TickerProviderStateMixin {
   late final TextEditingController usernameController;
   late final TextEditingController passwordController;
   late final LocalAuthentication auth;
   bool supportState = false;
+  late final AnimationController _controller;
 
   @override
   void initState() {
+    _controller = AnimationController(vsync: this);
     usernameController = TextEditingController();
     passwordController = TextEditingController();
     auth = LocalAuthentication();
@@ -35,6 +38,7 @@ class _InstaLoginState extends State<InstaLogin> {
 
   @override
   void dispose() {
+    _controller.dispose();
     usernameController.dispose();
     passwordController.dispose();
     super.dispose();
@@ -44,19 +48,22 @@ class _InstaLoginState extends State<InstaLogin> {
   Widget build(BuildContext context) {
     return Consumer(
       builder: (context, ref, child) {
+        final bool userloggedIn =
+            ref.read(instaLoginController.notifier).isUserLoggedIn;
         return BaseAuthView(
           pageName: ' Sign In',
-          pageCTA: 'Log in',
+          pageCTA: userloggedIn ? 'Login with fingerprint' : 'Log in',
           isLogin: true,
           callToActionText: 'Forgot Password',
-          callToActionFooterText: "Don't have an account yet?",
-          checkBoxText: "Remember me",
+          callToActionFooterText:
+              userloggedIn ? "" : "Don't have an account yet?",
+          checkBoxText: userloggedIn ? "" : "Remember me",
           inversePageName: ' Sign Up',
           checked: ref.watch(instaLoginController.notifier).isBoxChecked,
           onChanged: (value) {
             setState(() {
               ref.watch(instaLoginController.notifier).toCheckBox(value);
-              print('Checkbox Value: $value');
+              debugPrint('Checkbox Value: $value');
             });
           },
           toGoToInversePage: () {
@@ -69,44 +76,58 @@ class _InstaLoginState extends State<InstaLogin> {
               builder: (context) => const ChangeInstaPassword(),
             ));
           },
-          isLoginWithFingerPrint: true,
+          isLoginWithFingerPrint: userloggedIn ? true : false,
           toSignOrLogin: () {
-            ref
-                .read(instaLoginController.notifier)
-                .signIn(usernameController.text, passwordController.text)
-                .then((value) {
-              if (value) {
-                Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (context) => const InstaDashboard(),
-                ));
-              }
-              debugPrint(
-                  'INFO: To login with email:${usernameController.text} and password: ${passwordController.text}');
-            });
+            userloggedIn
+                ? {}
+                : ref
+                    .read(instaLoginController.notifier)
+                    .signIn(usernameController.text, passwordController.text)
+                    .then((value) {
+                    if (value) {
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: (context) => const InstaDashboard(),
+                      ));
+                    }
+                    debugPrint(
+                        'INFO: To login with email:${usernameController.text} and password: ${passwordController.text}');
+                  });
           },
-          anyWidget: AuthTextField(
-            icon: Icons.person_2_outlined,
-            hintT: 'Email',
-            hasSuffix: false,
-            controller: usernameController,
-            validator: (value) {
-              if (value != null && value.isEmpty) {
-                return MyStrings.enterYourEmail;
-              } else if (!MyStrings.emailValidatorRegExp
-                  .hasMatch(value ?? '')) {
-                return MyStrings.invalidEmailMsg;
-              } else {
-                return null;
-              }
-            },
-          ),
-          anyWidget1: AuthTextField(
-            isPassword: true,
-            icon: Icons.lock_outline_rounded,
-            hintT: 'Password',
-            hasSuffix: true,
-            controller: passwordController,
-          ),
+          anyWidget: userloggedIn
+              ? const SizedBox()
+              : AuthTextField(
+                  icon: Icons.person_2_outlined,
+                  hintT: 'Email',
+                  hasSuffix: false,
+                  controller: usernameController,
+                  validator: (value) {
+                    if (value != null && value.isEmpty) {
+                      return MyStrings.enterYourEmail;
+                    } else if (!MyStrings.emailValidatorRegExp
+                        .hasMatch(value ?? '')) {
+                      return MyStrings.invalidEmailMsg;
+                    } else {
+                      return null;
+                    }
+                  },
+                ),
+          anyWidget1: userloggedIn
+              ? Lottie.asset(
+                  "assets/animation/insta_refer.json",
+                  controller: _controller,
+                  onLoaded: (composition) {
+                    _controller
+                      ..duration = composition.duration
+                      ..forward();
+                  },
+                )
+              : AuthTextField(
+                  isPassword: true,
+                  icon: Icons.lock_outline_rounded,
+                  hintT: 'Password',
+                  hasSuffix: true,
+                  controller: passwordController,
+                ),
         );
       },
     );

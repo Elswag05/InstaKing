@@ -5,6 +5,7 @@ import 'package:insta_king/core/constants/env_colors.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
 import 'package:insta_king/presentation/controllers/insta_wallet_controller.dart';
 import 'package:insta_king/presentation/views/shared_widgets/cta_button.dart';
+import 'package:insta_king/presentation/views/shared_widgets/shared_loading.dart';
 import 'package:insta_king/presentation/views/wallet/add_funds/account_details.dart';
 
 class WalletCard1 extends ConsumerStatefulWidget {
@@ -91,7 +92,7 @@ class _WalletCard1State extends ConsumerState<WalletCard1> {
                               );
                             } else {
                               return const Center(
-                                  child: CircularProgressIndicator());
+                                  child: TransparentLoadingScreen());
                             }
                           },
                         ),

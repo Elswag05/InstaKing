@@ -27,7 +27,7 @@ class BankAccountLink extends StatelessWidget {
                 const CollectPersonalDetailModel(
                   leadTitle: "Account Number",
                   hintT: '',
-                  isPasswordT: true,
+                  isPasswordT: false,
                 ),
                 CustomButton(
                   pageCTA: 'Save',

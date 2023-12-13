@@ -18,12 +18,31 @@ final instaLoginController =
     ChangeNotifierProvider<LoginController>((ref) => LoginController());
 
 class LoginController extends BaseChangeNotifier {
-  late bool rememberMe = false;
-  bool get isBoxChecked => rememberMe;
+  late bool _rememberMe = false;
+  late bool _isLoggedIn = false;
+  bool get isBoxChecked => _rememberMe;
+  bool get isUserLoggedIn => _isLoggedIn;
 
   void toCheckBox(value) {
-    rememberMe = !rememberMe;
-    log(rememberMe.toString());
+    _rememberMe = !_rememberMe;
+    log(_rememberMe.toString());
+    notifyListeners();
+  }
+
+  Future getIsLogInBool() async {
+    String? loggedIn = await secureStorageService.read(key: "loggedIn");
+    if (loggedIn == null) {
+      _isLoggedIn = false;
+    } else if (loggedIn.isEmpty) {
+      _isLoggedIn = false;
+    } else {
+      _isLoggedIn = true;
+    }
+  }
+
+  void userLogInOrNot() {
+    getIsLogInBool();
+    log('User has just logged in = ${isUserLoggedIn.toString()}');
     notifyListeners();
   }
 
@@ -49,9 +68,13 @@ class LoginController extends BaseChangeNotifier {
           key: InstaStrings.token,
           value: data.token ?? '',
         );
+        await locator<SecureStorageService>().write(
+          key: 'loggedIn',
+          value: 'true',
+        );
 
-        if (rememberMe) {
-          print(rememberMe.toString());
+        if (_rememberMe) {
+          print(_rememberMe.toString());
           await locator<SecureStorageService>().write(
             key: InstaStrings.email,
             value: data.user?.email ?? '',
@@ -63,6 +86,7 @@ class LoginController extends BaseChangeNotifier {
           'Successfully logged you in',
         );
         //print("INFO: Success converting data to model");
+        userLogInOrNot();
         if (data.status == 'success') {
           return true;
         }
