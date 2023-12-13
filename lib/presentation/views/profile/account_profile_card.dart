@@ -1,10 +1,8 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-
 import 'package:insta_king/core/constants/constants.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
 import 'package:insta_king/presentation/controllers/insta_profile_controller.dart';
@@ -42,76 +40,41 @@ class _ProfileCardState extends State<ProfileCard> {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        widget.onProfileIconTap;
+                        AwesomeDialog(
+                          context: context,
+                          dialogType: DialogType.noHeader,
+                          animType: AnimType.scale,
+                          headerAnimationLoop: true,
+                          title: 'Choose Profile Image',
+                          desc: 'Choose image from...',
+                          btnOkOnPress: () {
+                            profileController.pickImageGallery().then(
+                                  (value) => profileController.toSaveImage(),
+                                );
+                          },
+                          btnCancelOnPress: () {
+                            profileController.pickImageCamera().then(
+                                  (value) => profileController.toSaveImage(),
+                                );
+                          },
+                          btnOkIcon: Icons.photo_size_select_actual_outlined,
+                          btnCancelIcon: Icons.camera_alt_outlined,
+                          btnOkColor: InstaColors.primaryColor,
+                          btnCancelColor:
+                              Theme.of(context).unselectedWidgetColor,
+                          btnOkText: 'Gallery',
+                          btnCancelText: 'Camera',
+                        ).show();
                       },
-                      child: profileController.image == null
-                          ? GestureDetector(
-                              onTap: () {
-                                AwesomeDialog(
-                                  context: context,
-                                  dialogType: DialogType.noHeader,
-                                  animType: AnimType.scale,
-                                  headerAnimationLoop: true,
-                                  title: 'Choose Profile Image',
-                                  desc: 'Choose image from...',
-                                  btnOkOnPress: () {
-                                    profileController.pickImageGallery();
-                                  },
-                                  btnCancelOnPress: () {
-                                    profileController.pickImageCamera();
-                                  },
-                                  btnOkIcon:
-                                      Icons.photo_size_select_actual_outlined,
-                                  btnCancelIcon: Icons.camera_alt_outlined,
-                                  btnOkColor: InstaColors.primaryColor,
-                                  btnCancelColor:
-                                      Theme.of(context).unselectedWidgetColor,
-                                  btnOkText: 'Gallery',
-                                  btnCancelText: 'Camera',
-                                ).show();
-                              },
-                              child: CircleAvatar(
-                                radius: 20.r,
-                                //foregroundImage: FileImage(widget.imageFile),
-                                backgroundColor: InstaColors.primaryColor,
-                                backgroundImage: AssetImage(
-                                  EnvAssets.getImagePath('user-image'),
-                                ),
-                                // foregroundImage: NetworkImage(),
-                              ),
-                            )
-                          : CircleAvatar(
-                              backgroundColor: InstaColors.primaryColor,
-                              radius: 30.r,
-                              foregroundImage:
-                                  FileImage(profileController.image!),
-                              child: AnimatedButton(
-                                pressEvent: () {
-                                  AwesomeDialog(
-                                    context: context,
-                                    dialogType: DialogType.noHeader,
-                                    animType: AnimType.scale,
-                                    headerAnimationLoop: true,
-                                    title: 'Change Profile Image',
-                                    desc: 'Choose image from...',
-                                    btnOkOnPress: () {
-                                      profileController.pickImageGallery();
-                                    },
-                                    btnCancelOnPress: () {
-                                      profileController.pickImageCamera();
-                                    },
-                                    btnOkIcon:
-                                        Icons.photo_size_select_actual_outlined,
-                                    btnCancelIcon: Icons.camera_alt_outlined,
-                                    btnOkColor: InstaColors.primaryColor,
-                                    btnCancelColor:
-                                        Theme.of(context).unselectedWidgetColor,
-                                    btnOkText: 'Gallery',
-                                    btnCancelText: 'Camera',
-                                  ).show();
-                                },
-                              ),
-                            ),
+                      child: CircleAvatar(
+                        radius: 20.r,
+                        //foregroundImage: FileImage(widget.imageFile),
+                        backgroundColor: InstaColors.primaryColor,
+                        backgroundImage: AssetImage(
+                          EnvAssets.getImagePath('user-image'),
+                        ),
+                        // foregroundImage: NetworkImage(),
+                      ),
                     ).afmPadding(EdgeInsets.only(right: 10.w)),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

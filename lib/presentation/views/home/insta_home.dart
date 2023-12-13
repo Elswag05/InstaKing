@@ -28,6 +28,7 @@ class _InstaHomeState extends State<InstaHome> with TickerProviderStateMixin {
   late final AnimationController _controller;
   //late ProfileModel apiData;
   bool hasFetchedDetails = false;
+  bool toCallWallet = false;
 
   @override
   void initState() {
@@ -45,6 +46,11 @@ class _InstaHomeState extends State<InstaHome> with TickerProviderStateMixin {
     return Scaffold(
       body: SafeArea(
         child: Consumer(builder: (context, ref, child) {
+          void setPageIndexToTwo() {
+            final value = ref.watch(dashBoardControllerProvider);
+            value.switchPage(2);
+          }
+
           // ref.read(instaCategoriesController.notifier).toGetAllCategories();
           if (!hasFetchedDetails) {
             // Fetch details only if they haven't been fetched yet
@@ -98,26 +104,21 @@ class _InstaHomeState extends State<InstaHome> with TickerProviderStateMixin {
                       left: 20.sp, right: 20.sp, top: 5.sp, bottom: 20.h),
                 ),
                 HomeCardList(
-                    totalBalance: ref
-                            .read(instaProfileController.notifier)
-                            .model
-                            .user
-                            ?.balance ??
-                        'Loading...',
-                    totalBonus: ref
-                            .read(instaProfileController.notifier)
-                            .model
-                            .user
-                            ?.bonus ??
-                        'Loading...',
-                    affiliateLink:
-                        'https:/www.instaking.ng/signup?ref=${ref.read(instaProfileController.notifier).model.user?.username ?? "waiting..."}',
-                    onTap: () {
-                      setState(() {
-                        final value = ref.watch(dashBoardControllerProvider);
-                        value.switchPage(2);
-                      });
-                    }),
+                  totalBalance: ref
+                          .read(instaProfileController.notifier)
+                          .model
+                          .user
+                          ?.balance ??
+                      'Loading...',
+                  totalBonus: ref
+                          .read(instaProfileController.notifier)
+                          .model
+                          .user
+                          ?.bonus ??
+                      'Loading...',
+                  affiliateLink:
+                      'https:/www.instaking.ng/signup?ref=${ref.read(instaProfileController.notifier).model.user?.username ?? "waiting..."}',
+                ),
                 HomeContainer(
                   color: Theme.of(context).cardColor,
                   height: 150.h,
@@ -127,11 +128,12 @@ class _InstaHomeState extends State<InstaHome> with TickerProviderStateMixin {
                     .afmPadding(EdgeInsets.only(bottom: 25.h)),
                 GestureDetector(
                   onTap: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => const ReferAndEarn(),
-                      ),
-                    );
+                    setPageIndexToTwo();
+                    // Navigator.of(context).push(
+                    //   MaterialPageRoute(
+                    //     builder: (context) => const ReferAndEarn(),
+                    //   ),
+                    // );
                   },
                   child: Container(
                     height: 100.h,

@@ -14,13 +14,13 @@ class EditDetailService with DioMixin {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
     };
-    print({
-      "fname": fname,
-      "lname": lname,
-      "address": address,
-      "phone": phone,
-      "country": country,
-    });
+    // print({
+    //   "fname": fname,
+    //   "lname": lname,
+    //   "address": address,
+    //   "phone": phone,
+    //   "country": country,
+    // });
     final response =
         await connect(customHeaders: customHeaders).put('/user/profile',
             data: {

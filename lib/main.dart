@@ -18,9 +18,9 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await setUpLocator();
 
-  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-
+  //TODO: release this guy
+  //await FirebaseApi().initNotifications();
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
       overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom]).then(
     (_) => runApp(
@@ -79,7 +79,7 @@ class _InstaKing extends ConsumerState<InstaKingGuide> {
                       if ((email == null || email.isEmpty || !isLoggedIn) ||
                           (isLoggedIn && !weRememberPass)) {
                         return const InstaLogin();
-                      } else if (weRememberPass   ) {
+                      } else if (weRememberPass) {
                         return const InstaDashboard();
                       }
                     }

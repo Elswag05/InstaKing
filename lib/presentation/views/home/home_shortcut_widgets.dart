@@ -111,7 +111,7 @@ class ShortcutsTheWidget extends ConsumerWidget {
                     //   ),
                     // );
                     // ignore: avoid_print
-                    print('this is tapped');
+                    debugPrint('Going to the Wallet screen');
                   },
                 ),
                 HomeColumn(

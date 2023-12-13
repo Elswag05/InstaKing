@@ -44,10 +44,10 @@ class ProfileController extends BaseChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> pickImageGallery() async {
+  Future<bool> pickImageGallery() async {
     try {
       final image = await ImagePicker().pickImage(source: ImageSource.gallery);
-      if (image == null) return;
+      if (image == null) return false;
       imagePath = image.path;
       imageFile = File(imagePath);
       imageBytes = await imageFile.readAsBytes();
@@ -56,46 +56,53 @@ class ProfileController extends BaseChangeNotifier {
     } on PlatformException catch (e) {
       debugPrint('$e');
     }
+    return true;
   }
 
-  Future<void> pickImageCamera() async {
+  Future<bool> pickImageCamera() async {
     try {
       final image = await ImagePicker().pickImage(
           source: ImageSource.camera,
           imageQuality: 50, // <- Reduce Image quality
           maxHeight: 500, // <- reduce the image size
           maxWidth: 500);
-      if (image == null) return;
+      debugPrint('${image?.name ?? "No name"}');
+      if (image == null) return false;
       imagePath = image.path;
       imageFile = File(imagePath);
       imageBytes = await imageFile.readAsBytes();
       base64String = base64.encode(imageBytes);
-      toSaveImage(imageFile.path);
+      toSaveImage();
       saveCameraImage(imageFile);
     } on PlatformException catch (e) {
       debugPrint('$e');
     }
+    return true;
   }
 
-  Future toSaveImage(String filePath) async {
+  Future toSaveImage() async {
     loadingState = LoadingState.loading;
     try {
-      final fileName = filePath.split('/').last;
+      final fileName = imageFile.path.split('/').last;
+      debugPrint('FileName: $fileName');
+      debugPrint('FileName: $imagePath');
       FormData formData = FormData.fromMap({
         "profile-image": await MultipartFile.fromFile(
-          filePath,
+          imagePath,
           filename: fileName,
           //contentType: new MediaType("image", "jpeg"),
         ),
       });
-      final response =
-          await _getProfileService.setProfilePic(formData: formData);
-
-      if (response.statusCode == 200) {
-        loadingState = LoadingState.idle;
-        model = ProfileModel.fromJson(response.data);
-        notifyListeners();
-        return model;
+      if (imageFile.path != '') {
+        final response =
+            await _getProfileService.setProfilePic(formData: formData);
+        debugPrint('${response.toString()}');
+        if (response.statusCode == 200) {
+          loadingState = LoadingState.idle;
+          model = ProfileModel.fromJson(response.data);
+          notifyListeners();
+          return model;
+        }
       } else {
         throw Error();
       }

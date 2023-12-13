@@ -136,6 +136,21 @@ class _InstaOrderHistoryState extends State<InstaOrderHistory>
                   ],
                 ),
               ),
+              SizedBox(
+                height: 1500.h,
+                child: ListView.builder(
+                  // padding: EdgeInsets.only(bottom: 20.h, top: 20.h),
+                  itemCount: order.getAllOrderModel.username?.length,
+                  itemBuilder: ((context, index) {
+                    return OrderViews(
+                      header: order.getAllOrderModel.name.toString(),
+                      body: order.getAllOrderModel.media.toString(),
+                      date: order.getAllOrderModel.createdAt.toString(),
+                    );
+                  }),
+                ).afmGetFuture(order.toGetAllOrders()),
+              ).afmPadding(
+                  EdgeInsets.symmetric(vertical: 10.h, horizontal: 20.h)),
               // SizedBox(
               //   width: double.infinity,
               //   height: 500.h,
@@ -151,22 +166,6 @@ class _InstaOrderHistoryState extends State<InstaOrderHistory>
               //     .afmPadding(
               //         EdgeInsets.only(top: 20.sp, left: 20.sp, right: 20.sp))
               //     .afmNeverScroll,
-
-              SizedBox(
-                height: 800.h,
-                width: MediaQuery.of(context).size.width - 40.sp,
-                child: ListView.builder(
-                  padding: EdgeInsets.only(bottom: 20.h, top: 20.h),
-                  itemCount: order.getAllOrderModel.username?.length ?? 2,
-                  itemBuilder: ((context, index) {
-                    return OrderViews(
-                      header: order.getAllOrderModel.name.toString(),
-                      body: order.getAllOrderModel.media.toString(),
-                      date: order.getAllOrderModel.createdAt.toString(),
-                    );
-                  }),
-                ),
-              ).afmGetFuture(order.toGetAllOrders()),
             ],
           )
               .afmPadding(

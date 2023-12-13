@@ -1,7 +1,12 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insta_king/core/constants/constants.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
+import 'package:insta_king/presentation/controllers/insta_dashboard_controller.dart';
+import 'package:insta_king/presentation/views/dashboard/insta_dashboard.dart';
 import 'package:insta_king/presentation/views/home/home_container_widget.dart';
 import 'package:insta_king/presentation/views/shared_widgets/small_cta.dart';
 import 'package:intl/intl.dart';
@@ -95,49 +100,50 @@ class HomeCardList extends StatefulWidget {
 class _HomeCardListState extends State<HomeCardList> {
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-            height: 150.h,
-            width: MediaQuery.of(context).size.width - 40.w,
-            child: HomeContainer(
-              color: InstaColors.mildGrey,
-              child: Padding(
-                padding: EdgeInsets.only(left: 18.sp, top: 3.sp, right: 18.w),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        HomeCardBalance(
-                          balanceString: 'Total Balance',
-                          balance: formatBalance(widget.totalBalance),
-                          toHideBalance: () {},
-                        ),
-                        HomeCardBalance(
-                          balanceString: 'Affiliate Balance',
-                          balance: formatBalance(widget.totalBonus),
-                          toHideBalance: () {},
+    return Consumer(builder: ((context, ref, child) {
+      return SizedBox(
+              height: 150.h,
+              width: MediaQuery.of(context).size.width - 40.w,
+              child: HomeContainer(
+                color: InstaColors.mildGrey,
+                child: Padding(
+                  padding: EdgeInsets.only(left: 18.sp, top: 3.sp, right: 18.w),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          HomeCardBalance(
+                            balanceString: 'Total Balance',
+                            balance: formatBalance(widget.totalBalance),
+                            toHideBalance: () {},
+                          ),
+                          HomeCardBalance(
+                            balanceString: 'Affiliate Balance',
+                            balance: formatBalance(widget.totalBonus),
+                            toHideBalance: () {},
+                          )
+                        ],
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          ref.read(dashBoardControllerProvider).switchPage(2);
+                          debugPrint('Fund Wallet Button Tapped');
+                        },
+                        child: const SmallCTA(
+                          text: 'Fund Wallet',
                         )
-                      ],
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          widget.onTap;
-                        });
-                      },
-                      child: const SmallCTA(
-                        text: 'Fund Wallet',
-                      )
-                          .afmBorderRadius(BorderRadius.circular(6.r))
-                          .afmPadding(EdgeInsets.only(top: 23.h)),
-                    ),
-                  ],
+                            .afmBorderRadius(BorderRadius.circular(6.r))
+                            .afmPadding(EdgeInsets.only(top: 23.h)),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ).afmBorderRadius(BorderRadius.circular(24.r)))
-        .afmPadding(EdgeInsets.only(bottom: 25.h));
+              ).afmBorderRadius(BorderRadius.circular(24.r)))
+          .afmPadding(EdgeInsets.only(bottom: 25.h));
+    }));
   }
 }
