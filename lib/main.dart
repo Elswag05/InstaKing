@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insta_king/core/theme/env_theme_manager.dart';
+import 'package:insta_king/data/services/firebase_api.dart';
 import 'package:insta_king/presentation/controllers/insta_dashboard_controller.dart';
 import 'package:insta_king/presentation/controllers/insta_login_controller.dart';
 import 'package:insta_king/presentation/controllers/theme_controller.dart';
@@ -17,10 +18,8 @@ import 'package:insta_king/utils/locator.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await setUpLocator();
-
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  //TODO: release this guy
-  //await FirebaseApi().initNotifications();
+  await FirebaseApi().initNotifications();
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
       overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom]).then(
     (_) => runApp(
@@ -73,17 +72,17 @@ class _InstaKing extends ConsumerState<InstaKingGuide> {
                 child: FutureBuilder<String?>(
                   future: getEmailFuture,
                   builder: (context, snapshot) {
+                    // Inside FutureBuilder<String?> builder method
                     if (snapshot.connectionState == ConnectionState.done) {
                       String? email = snapshot.data;
                       print('${isLoggedIn.toString()}');
-                      if ((email == null || email.isEmpty || !isLoggedIn) ||
-                          (isLoggedIn && !weRememberPass)) {
+                      if (email == null || email.isEmpty || !weRememberPass) {
                         return const InstaLogin();
                       } else if (weRememberPass) {
                         return const InstaDashboard();
                       }
                     }
-                    // In case none of the conditions are met, return an empty container.
+// ...                    // In case none of the conditions are met, return an empty container.
                     return Container();
                   },
                 ),

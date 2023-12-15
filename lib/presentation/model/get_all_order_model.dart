@@ -1,29 +1,76 @@
 import 'dart:convert';
 
 class GetAllOrderModel {
+  String? status;
+  String? message;
+  List<Datum>? data;
+
+  GetAllOrderModel({
+    this.status,
+    this.message,
+    this.data,
+  });
+
+  GetAllOrderModel copyWith({
+    String? status,
+    String? message,
+    List<Datum>? data,
+  }) =>
+      GetAllOrderModel(
+        status: status ?? this.status,
+        message: message ?? this.message,
+        data: data ?? this.data,
+      );
+
+  factory GetAllOrderModel.fromRawJson(String str) =>
+      GetAllOrderModel.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());
+
+  factory GetAllOrderModel.fromJson(Map<String, dynamic> json) =>
+      GetAllOrderModel(
+        status: json["status"],
+        message: json["message"],
+        data: json["data"] == null
+            ? []
+            : List<Datum>.from(json["data"]!.map((x) => Datum.fromJson(x))),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "status": status,
+        "message": message,
+        "data": data == null
+            ? []
+            : List<dynamic>.from(data!.map((x) => x.toJson())),
+      };
+}
+
+class Datum {
   int? id;
-  int? userId;
-  int? categoryId;
-  int? serviceId;
-  int? apiServiceId;
-  int? apiProviderId;
-  int? apiOrderId;
+  String? userId;
+  String? categoryId;
+  String? serviceId;
+  String? apiServiceId;
+  String? apiProviderId;
+  String? apiOrderId;
   dynamic apiRefillId;
-  int? quantity;
-  double? price;
+  String? quantity;
+  String? price;
+  String? amount;
+  String? profit;
   String? link;
   String? username;
   Comments? comments;
   dynamic hashtags;
   dynamic hashtag;
   dynamic media;
-  int? startCounter;
-  int? remain;
-  int? runs;
-  int? interval;
+  String? startCounter;
+  String? remain;
+  String? runs;
+  String? interval;
   Status? status;
-  int? apiOrder;
-  int? dripFeed;
+  String? apiOrder;
+  String? dripFeed;
   String? dripfeedQuantity;
   dynamic refillStatus;
   dynamic refilledAt;
@@ -31,7 +78,7 @@ class GetAllOrderModel {
   DateTime? createdAt;
   DateTime? updatedAt;
 
-  GetAllOrderModel({
+  Datum({
     this.id,
     this.userId,
     this.categoryId,
@@ -42,6 +89,8 @@ class GetAllOrderModel {
     this.apiRefillId,
     this.quantity,
     this.price,
+    this.amount,
+    this.profit,
     this.link,
     this.username,
     this.comments,
@@ -63,30 +112,32 @@ class GetAllOrderModel {
     this.updatedAt,
   });
 
-  GetAllOrderModel copyWith({
+  Datum copyWith({
     int? id,
-    int? userId,
-    int? categoryId,
-    int? serviceId,
-    int? apiServiceId,
-    int? apiProviderId,
-    int? apiOrderId,
+    String? userId,
+    String? categoryId,
+    String? serviceId,
+    String? apiServiceId,
+    String? apiProviderId,
+    String? apiOrderId,
     dynamic apiRefillId,
-    int? quantity,
-    double? price,
+    String? quantity,
+    String? price,
+    String? amount,
+    String? profit,
     String? link,
     String? username,
     Comments? comments,
     dynamic hashtags,
     dynamic hashtag,
     dynamic media,
-    int? startCounter,
-    int? remain,
-    int? runs,
-    int? interval,
+    String? startCounter,
+    String? remain,
+    String? runs,
+    String? interval,
     Status? status,
-    int? apiOrder,
-    int? dripFeed,
+    String? apiOrder,
+    String? dripFeed,
     String? dripfeedQuantity,
     dynamic refillStatus,
     dynamic refilledAt,
@@ -94,7 +145,7 @@ class GetAllOrderModel {
     DateTime? createdAt,
     DateTime? updatedAt,
   }) =>
-      GetAllOrderModel(
+      Datum(
         id: id ?? this.id,
         userId: userId ?? this.userId,
         categoryId: categoryId ?? this.categoryId,
@@ -105,6 +156,8 @@ class GetAllOrderModel {
         apiRefillId: apiRefillId ?? this.apiRefillId,
         quantity: quantity ?? this.quantity,
         price: price ?? this.price,
+        amount: amount ?? this.amount,
+        profit: profit ?? this.profit,
         link: link ?? this.link,
         username: username ?? this.username,
         comments: comments ?? this.comments,
@@ -126,13 +179,11 @@ class GetAllOrderModel {
         updatedAt: updatedAt ?? this.updatedAt,
       );
 
-  factory GetAllOrderModel.fromRawJson(String str) =>
-      GetAllOrderModel.fromJson(json.decode(str));
+  factory Datum.fromRawJson(String str) => Datum.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory GetAllOrderModel.fromJson(Map<String, dynamic> json) =>
-      GetAllOrderModel(
+  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
         id: json["id"],
         userId: json["user_id"],
         categoryId: json["category_id"],
@@ -142,7 +193,9 @@ class GetAllOrderModel {
         apiOrderId: json["api_order_id"],
         apiRefillId: json["api_refill_id"],
         quantity: json["quantity"],
-        price: json["price"]?.toDouble(),
+        price: json["price"],
+        amount: json["amount"],
+        profit: json["profit"],
         link: json["link"],
         username: json["username"],
         comments: commentsValues.map[json["comments"]]!,
@@ -179,6 +232,8 @@ class GetAllOrderModel {
         "api_refill_id": apiRefillId,
         "quantity": quantity,
         "price": price,
+        "amount": amount,
+        "profit": profit,
         "link": link,
         "username": username,
         "comments": commentsValues.reverse[comments],
@@ -206,11 +261,12 @@ enum Comments { EMPTY, HELP_US }
 final commentsValues =
     EnumValues({"": Comments.EMPTY, "Help us": Comments.HELP_US});
 
-enum Status { CANCELED, COMPLETED, PENDING, PROCESSING }
+enum Status { CANCELED, COMPLETED, INPROGRESS, PENDING, PROCESSING }
 
 final statusValues = EnumValues({
   "canceled": Status.CANCELED,
   "completed": Status.COMPLETED,
+  "inprogress": Status.INPROGRESS,
   "pending": Status.PENDING,
   "processing": Status.PROCESSING
 });

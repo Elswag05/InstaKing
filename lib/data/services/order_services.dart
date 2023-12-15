@@ -49,7 +49,6 @@ class GetOrders with DioMixin {
       queryParameters: queryParams,
     );
 
-    print(response.data);
     return response;
   }
 }
@@ -67,7 +66,6 @@ class GetOrderDetails with DioMixin {
       '/orders/$orderId',
     );
 
-    print(response.data);
     return response;
   }
 }

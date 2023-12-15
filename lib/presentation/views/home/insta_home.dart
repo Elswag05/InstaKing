@@ -3,16 +3,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insta_king/core/constants/env_colors.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
-import 'package:insta_king/presentation/controllers/insta_categories_controller.dart';
 import 'package:insta_king/presentation/controllers/insta_dashboard_controller.dart';
 import 'package:insta_king/presentation/controllers/insta_profile_controller.dart';
-import 'package:insta_king/presentation/model/profile_model.dart';
+import 'package:insta_king/presentation/controllers/insta_transactions_controller.dart';
 import 'package:insta_king/presentation/views/home/home_card_widgets.dart';
 import 'package:insta_king/presentation/views/home/home_container_widget.dart';
 import 'package:insta_king/presentation/views/home/home_head.dart';
 import 'package:insta_king/presentation/views/home/home_shortcut_widgets.dart';
 import 'package:insta_king/presentation/views/profile/insta_profile.dart';
-import 'package:insta_king/presentation/views/profile/sub_profile_views.dart/refer_and_earn/refer_and_earn.dart';
+import 'package:insta_king/presentation/views/shared_widgets/shared_loading.dart';
+import 'package:insta_king/presentation/views/order/order_history_transactions_view_model.dart';
 import 'package:lottie/lottie.dart';
 
 class InstaHome extends StatefulWidget {
@@ -55,6 +55,7 @@ class _InstaHomeState extends State<InstaHome> with TickerProviderStateMixin {
           if (!hasFetchedDetails) {
             // Fetch details only if they haven't been fetched yet
             Future(() async {
+              await ref.read(instaTransactionController).getTransactions();
               await ref
                   .read(instaProfileController.notifier)
                   .getProfileDetails()
@@ -104,18 +105,12 @@ class _InstaHomeState extends State<InstaHome> with TickerProviderStateMixin {
                       left: 20.sp, right: 20.sp, top: 5.sp, bottom: 20.h),
                 ),
                 HomeCardList(
-                  totalBalance: ref
-                          .read(instaProfileController.notifier)
-                          .model
-                          .user
-                          ?.balance ??
-                      'Loading...',
-                  totalBonus: ref
-                          .read(instaProfileController.notifier)
-                          .model
-                          .user
-                          ?.bonus ??
-                      'Loading...',
+                  totalBalance:
+                      ref.watch(instaProfileController).model.user?.balance ??
+                          'Loading...',
+                  totalBonus:
+                      ref.watch(instaProfileController).model.user?.bonus ??
+                          'Loading...',
                   affiliateLink:
                       'https:/www.instaking.ng/signup?ref=${ref.read(instaProfileController.notifier).model.user?.username ?? "waiting..."}',
                 ),
@@ -185,9 +180,48 @@ class _InstaHomeState extends State<InstaHome> with TickerProviderStateMixin {
                 Stack(
                   children: [
                     HomeContainer(
-                      color: Theme.of(context).cardColor,
-                      height: 150.h,
-                    )
+                            color: Theme.of(context).cardColor,
+                            height: 360.h,
+                            child: FutureBuilder(
+                              future: ref
+                                  .read(instaTransactionController.notifier)
+                                  .getTransactions(),
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.done) {
+                                  return ListView.builder(
+                                    padding: EdgeInsets.only(
+                                        top: 40.h,
+                                        left: 23.h,
+                                        right: 20.h,
+                                        bottom: 20.h),
+                                    itemCount: 5,
+                                    itemBuilder: ((context, index) {
+                                      final trx = ref
+                                          .watch(instaTransactionController)
+                                          .instaTransactionsModel;
+                                      final transactions =
+                                          trx.data?.transactions?[index];
+                                      return OrderHistoryViewModel(
+                                        idText: '${transactions?.id}',
+                                        dateHere: '${transactions?.createdAt}',
+                                        linkHere: '${transactions?.updatedAt}',
+                                        priceHere: '${transactions?.charge}',
+                                        digitHere: '${transactions?.amount}',
+                                        quantity: '${transactions?.response}',
+                                        serviceHere: '${transactions?.service}',
+                                        remNant: '${transactions?.oldBalance}',
+                                        status: SizedBox(),
+                                      );
+                                    }),
+                                  );
+                                } else {
+                                  return const TransparentLoadingScreen();
+                                }
+
+// ...
+                              },
+                            ))
                         .afmBorderRadius(BorderRadius.circular(24.r))
                         .afmPadding(EdgeInsets.only(bottom: 20.h)),
                     Container(

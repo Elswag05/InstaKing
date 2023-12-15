@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insta_king/core/constants/constants.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
@@ -78,53 +79,58 @@ import 'package:insta_king/core/extensions/widget_extension.dart';
 //   }
 
 Widget buildLoadingContainer(String keyWord, heading) {
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      Text(
-        heading,
-        style: TextStyle(
-          fontFamily: 'Montesserat',
-          fontSize: 15.sp,
-          fontWeight: FontWeight.w600,
-          color: InstaColors.mildGrey,
-        ),
-      ),
-      Container(
-        height: 40.h,
-        decoration: BoxDecoration(
-          color: InstaColors.lightColor,
-          border: Border.all(
-            width: 0.5.sp,
-          ),
-          borderRadius: BorderRadius.circular(10.r),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Flexible(
-              child: AutoSizeText(
-                keyWord,
-                stepGranularity: 2.sp,
-                minFontSize: 4.sp,
-                style: TextStyle(
-                  fontFamily: 'Montesserat',
-                  fontSize: 13.sp,
-                  fontWeight: FontWeight.w500,
-                  color: InstaColors.mildGrey,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ).afmPadding(EdgeInsets.only(left: 10.w)),
-            ),
-            Icon(
-              Icons.chevron_right_rounded,
-              size: 20.sp,
+  return Consumer(
+    builder: (context, ref, child) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            heading,
+            style: TextStyle(
+              fontFamily: 'Montesserat',
+              fontSize: 15.sp,
+              fontWeight: FontWeight.w600,
               color: InstaColors.mildGrey,
-            ).afmPadding(EdgeInsets.only(right: 6.h)),
-          ],
-        ),
-      ).afmPadding(EdgeInsets.only(top: 10.sp, bottom: 10.sp)),
-    ],
+            ),
+          ),
+          Container(
+            height: 40.h,
+            decoration: BoxDecoration(
+              color: InstaColors.lightColor,
+              border: Border.all(
+                width: 0.5.sp,
+              ),
+              borderRadius: BorderRadius.circular(10.r),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Flexible(
+                  child: AutoSizeText(
+                    keyWord,
+                    stepGranularity: 2.sp,
+                    minFontSize: 4.sp,
+                    style: TextStyle(
+                      fontFamily: 'Montesserat',
+                      fontSize: 13.sp,
+                      fontWeight: FontWeight.w500,
+                      color: InstaColors.mildGrey,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ).afmPadding(EdgeInsets.only(left: 10.w)),
+                ),
+                Icon(
+                  Icons.chevron_right_rounded,
+                  size: 20.sp,
+                  color: InstaColors.mildGrey,
+                ).afmPadding(EdgeInsets.only(right: 6.h)),
+              ],
+            ),
+          ).afmPadding(EdgeInsets.only(top: 10.sp, bottom: 10.sp)),
+        ],
+      );
+    },
   );
 }
+
 //}

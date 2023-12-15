@@ -166,7 +166,7 @@ class LoginController extends BaseChangeNotifier {
         );
         return true;
       } else {
-        throw Error();
+        // throw Error();
       }
     } on DioException catch (e) {
       loadingState = LoadingState.error;

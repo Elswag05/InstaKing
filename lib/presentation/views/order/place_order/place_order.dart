@@ -25,10 +25,6 @@ class PlaceOrder extends ConsumerStatefulWidget {
 
 class PlaceOrderState extends ConsumerState<PlaceOrder> {
   late TextEditingController linkController = TextEditingController();
-  late final categoriesController = ref.watch(instaCategoriesController);
-  late final orderController = ref.read(instaOrderController.notifier);
-  late final quantityController = ref.read(textControllerProvider);
-  late final textValueNotifier = ref.read(textValueProvider);
 
   @override
   Widget build(BuildContext context) {
@@ -87,8 +83,19 @@ class PlaceOrderState extends ConsumerState<PlaceOrder> {
                   Column(
                     children: [
                       MiniTags(
-                        textOnTag:
-                            'Min ${formatBalance(categoriesController.getOneServiceDetailsModel.data?.min.toString() ?? '')} - Max ${formatBalance(categoriesController.getOneServiceDetailsModel.data?.max.toString() ?? '')}',
+                        textOnTag: 'Min ${formatBalance(
+                          categoriesController
+                                  .getOneServiceDetailsModel.data?.min
+                                  .toString() ??
+                              '',
+                          noShowNaira: true,
+                        )} - Max ${formatBalance(
+                          categoriesController
+                                  .getOneServiceDetailsModel.data?.max
+                                  .toString() ??
+                              '',
+                          noShowNaira: true,
+                        )}',
                       ),
                       MiniTags(
                         textOnTag:
@@ -128,6 +135,14 @@ class PlaceOrderState extends ConsumerState<PlaceOrder> {
       ),
     );
   }
+
+  late CategoriesController categoriesController =
+      ref.watch(instaCategoriesController);
+  late OrderController orderController =
+      ref.read(instaOrderController.notifier);
+  late TextEditingController quantityController =
+      ref.read(textControllerProvider);
+  late TextValueNotifier textValueNotifier = ref.read(textValueProvider);
 }
 
 

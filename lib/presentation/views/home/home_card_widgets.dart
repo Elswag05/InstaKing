@@ -1,12 +1,9 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insta_king/core/constants/constants.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
 import 'package:insta_king/presentation/controllers/insta_dashboard_controller.dart';
-import 'package:insta_king/presentation/views/dashboard/insta_dashboard.dart';
 import 'package:insta_king/presentation/views/home/home_container_widget.dart';
 import 'package:insta_king/presentation/views/shared_widgets/small_cta.dart';
 import 'package:intl/intl.dart';
@@ -59,14 +56,16 @@ class _HomeCardBalanceState extends State<HomeCardBalance> {
   }
 }
 
-String formatBalance(String balance) {
+String formatBalance(String balance, {bool noShowNaira = false}) {
   // Convert the balance string to a double
   final balanceValue = double.tryParse(balance);
 
   if (balanceValue != null) {
     // Create a NumberFormat instance with the desired formatting
     final formatter = NumberFormat.currency(
-      symbol: '₦', // Set the currency symbol if needed (e.g., '$')
+      symbol: !noShowNaira
+          ? '₦'
+          : 'Units', // Set the currency symbol if needed (e.g., '$')
       decimalDigits: 2, // Set the number of decimal places
     );
 

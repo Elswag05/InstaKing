@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
 
-class OrderViews extends StatelessWidget {
+class AnnouncementViews extends StatelessWidget {
   final String header;
   final String body;
   final String date;
-  const OrderViews(
+  const AnnouncementViews(
       {super.key,
       required this.header,
       required this.body,

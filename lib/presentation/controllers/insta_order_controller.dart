@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -41,9 +42,9 @@ class OrderController extends BaseChangeNotifier {
         // }
 
         loadingState = LoadingState.idle;
-        locator<ToastService>().showSuccessToast(
-          'Order Purchased Successfully',
-        );
+        // locator<ToastService>().showSuccessToast(
+        //   'Order Purchased Successfully',
+        // );
         //print("INFO: Success converting data to model");
         //if (data.status == 'success') {
         return true;
@@ -64,6 +65,13 @@ class OrderController extends BaseChangeNotifier {
     return false;
   }
 
+  List<Datum> getOrdersByStatus(Status status) {
+    if (getAllOrderModel.data == null) return [];
+    return getAllOrderModel.data!
+        .where((order) => order.status == status)
+        .toList();
+  }
+
   Future<bool> toGetAllOrders() async {
     loadingState = LoadingState.loading;
     try {
@@ -71,15 +79,15 @@ class OrderController extends BaseChangeNotifier {
       if (res.statusCode == 200) {
         // print("INFO: Bearer ${res..data}");
         getAllOrderModel = GetAllOrderModel.fromJson(res.data);
-
+        debugPrint(getAllOrderModel.data.toString());
+        log('All orders so far ===> ${res.data}');
         // if ( rememberMe) {
         //   await locator<SecureStorageService>().write(key: EnvStrings.us, value: value)
         // }
-
         loadingState = LoadingState.idle;
-        locator<ToastService>().showSuccessToast(
-          'Order loaded successfully',
-        );
+        // locator<ToastService>().showSuccessToast(
+        //   'Order loaded successfully',
+        // );
         //print("INFO: Success converting data to model");
         return true;
       } else {
@@ -109,9 +117,9 @@ class OrderController extends BaseChangeNotifier {
         // }
 
         loadingState = LoadingState.idle;
-        locator<ToastService>().showSuccessToast(
-          'Categories loaded successfully',
-        );
+        // locator<ToastService>().showSuccessToast(
+        //   'Categories loaded successfully',
+        // );
         //print("INFO: Success converting data to model");
         if (data.status == 'success') {
           return true;

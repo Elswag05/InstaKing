@@ -9,8 +9,8 @@ import 'dio_mixin.dart';
 /// 3 = failed/cancelled
 /// Send search="value" to search for transactions
 
-class CategoriesService with DioMixin {
-  Future<Response<dynamic>> getAllCategories() async {
+class TransactionsService with DioMixin {
+  Future<Response<dynamic>> getTransacations() async {
     final customHeaders = {
       'Accept': 'application/vnd.api+json',
       'Content-Type': 'application/json',
@@ -18,7 +18,7 @@ class CategoriesService with DioMixin {
     };
     // Use the configured Dio instance from the mixin
     final response = await connect(customHeaders: customHeaders).get(
-      '/transactions',
+      '/user/transactions',
     );
 
     return response;

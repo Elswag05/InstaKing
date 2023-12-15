@@ -117,7 +117,7 @@ class CategoriesController extends BaseChangeNotifier {
           return true;
         }
       } else {
-        throw Error();
+        // throw Error();
       }
     } on DioException catch (e) {
       loadingState = LoadingState.error;
@@ -157,7 +157,7 @@ class CategoriesController extends BaseChangeNotifier {
         //
         // }
       } else {
-        throw Error();
+        // throw Error();
       }
     } on DioException catch (e) {
       loadingState = LoadingState.error;
@@ -179,7 +179,7 @@ class CategoriesController extends BaseChangeNotifier {
         loadingState = LoadingState.idle;
         return getAllServicesModel;
       } else {
-        throw Error();
+        // throw Error();
       }
     } on DioException catch (e) {
       loadingState = LoadingState.error;
@@ -257,7 +257,7 @@ class CategoriesController extends BaseChangeNotifier {
         loadingState = LoadingState.idle;
         return allServicesModel;
       } else {
-        throw Error();
+        // throw Error();
       }
     } on DioException catch (e) {
       loadingState = LoadingState.error;
@@ -267,6 +267,13 @@ class CategoriesController extends BaseChangeNotifier {
       ErrorService.handleErrors(e);
     }
     return [];
+  }
+
+  String? getOneServiceName(String? serviceId) {
+    if (serviceId != null || serviceId != '') {
+      toGetOneServiceDetail(serviceId!);
+    }
+    return getOneServiceDetailsModel.data?.name;
   }
 
   Future<bool> toGetOneServiceDetail(String serviceId) async {
@@ -281,7 +288,7 @@ class CategoriesController extends BaseChangeNotifier {
           return true;
         }
       } else {
-        throw Error();
+        // throw Error();
       }
     } on DioException catch (e) {
       loadingState = LoadingState.error;

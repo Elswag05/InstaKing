@@ -9,12 +9,11 @@ class OrderChips extends StatelessWidget {
   final void Function(bool)? onSelected;
   final String label;
   const OrderChips(
-      {Key? key,
+      {super.key,
       required this.isSelected,
       this.onSelected,
       required this.label,
-      required this.icon})
-      : super(key: key);
+      required this.icon});
 
   @override
   Widget build(BuildContext context) {
