@@ -9,6 +9,8 @@ import 'package:insta_king/presentation/controllers/insta_dashboard_controller.d
 import 'package:insta_king/presentation/controllers/insta_login_controller.dart';
 import 'package:insta_king/presentation/controllers/theme_controller.dart';
 import 'package:insta_king/presentation/views/dashboard/insta_dashboard.dart';
+import 'package:insta_king/presentation/views/notifications.dart';
+import 'package:insta_king/presentation/views/shared_widgets/shared_loading.dart';
 import 'package:oktoast/oktoast.dart';
 
 import 'package:insta_king/firebase_options.dart';
@@ -29,6 +31,8 @@ Future<void> main() async {
     ),
   );
 }
+
+final navigatorKey = GlobalKey<NavigatorState>();
 
 class InstaKingGuide extends ConsumerStatefulWidget {
   const InstaKingGuide({super.key});
@@ -66,6 +70,11 @@ class _InstaKing extends ConsumerState<InstaKingGuide> {
             themeMode: ThemeMode.system,
             theme: EnvThemeManager.lightTheme,
             darkTheme: EnvThemeManager.darkTheme,
+            navigatorKey: navigatorKey,
+            routes: {
+              InstaNitifications.notificationRoute: (context) =>
+                  const InstaNitifications()
+            },
             debugShowCheckedModeBanner: false,
             home: Scaffold(
               body: SafeArea(
@@ -83,7 +92,7 @@ class _InstaKing extends ConsumerState<InstaKingGuide> {
                       }
                     }
 // ...                    // In case none of the conditions are met, return an empty container.
-                    return Container();
+                    return const TransparentLoadingScreen();
                   },
                 ),
               ),

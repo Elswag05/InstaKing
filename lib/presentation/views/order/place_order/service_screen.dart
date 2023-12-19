@@ -15,7 +15,7 @@ class ServiceScreen extends ConsumerStatefulWidget {
 
 class _MyWidgetState extends ConsumerState<ServiceScreen> {
   late final CategoriesController servicesControllerScreen =
-      ref.read(instaCategoriesController.notifier);
+      ref.read(instaCatValueProvider);
 
   @override
   Widget build(BuildContext context) {
@@ -57,8 +57,10 @@ class _MyWidgetState extends ConsumerState<ServiceScreen> {
                   ServiceItem servicesItem = services[index];
                   return GestureDetector(
                     onTap: () {
-                      servicesControllerScreen.setServiceValue(
-                          servicesItem.id, servicesItem.name);
+                      setState(() {
+                        servicesControllerScreen.setServiceValue(
+                            servicesItem.id, servicesItem.name);
+                      });
                       debugPrint(
                           'ID: ${servicesItem.id} and the service NAME: ${servicesItem.name}');
                       Navigator.pop(context);

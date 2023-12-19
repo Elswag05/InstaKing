@@ -3,7 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insta_king/core/constants/env_colors.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
+import 'package:insta_king/presentation/controllers/insta_categories_controller.dart';
 import 'package:insta_king/presentation/controllers/insta_dashboard_controller.dart';
+import 'package:insta_king/presentation/controllers/insta_order_controller.dart';
 import 'package:insta_king/presentation/controllers/insta_profile_controller.dart';
 import 'package:insta_king/presentation/controllers/insta_transactions_controller.dart';
 import 'package:insta_king/presentation/views/home/home_card_widgets.dart';
@@ -51,6 +53,7 @@ class _InstaHomeState extends State<InstaHome> with TickerProviderStateMixin {
             value.switchPage(2);
           }
 
+          ref.watch(instaOrderController).toGetAllOrders();
           // ref.read(instaCategoriesController.notifier).toGetAllCategories();
           if (!hasFetchedDetails) {
             // Fetch details only if they haven't been fetched yet
@@ -177,70 +180,71 @@ class _InstaHomeState extends State<InstaHome> with TickerProviderStateMixin {
                       .afmBorderRadius(BorderRadius.circular(24.r))
                       .afmPadding(EdgeInsets.only(bottom: 25.h)),
                 ),
-                Stack(
-                  children: [
-                    HomeContainer(
-                            color: Theme.of(context).cardColor,
-                            height: 360.h,
-                            child: FutureBuilder(
-                              future: ref
-                                  .read(instaTransactionController.notifier)
-                                  .getTransactions(),
-                              builder: (context, snapshot) {
-                                if (snapshot.connectionState ==
-                                    ConnectionState.done) {
-                                  return ListView.builder(
-                                    padding: EdgeInsets.only(
-                                        top: 40.h,
-                                        left: 23.h,
-                                        right: 20.h,
-                                        bottom: 20.h),
-                                    itemCount: 5,
-                                    itemBuilder: ((context, index) {
-                                      final trx = ref
-                                          .watch(instaTransactionController)
-                                          .instaTransactionsModel;
-                                      final transactions =
-                                          trx.data?.transactions?[index];
-                                      return OrderHistoryViewModel(
-                                        idText: '${transactions?.id}',
-                                        dateHere: '${transactions?.createdAt}',
-                                        linkHere: '${transactions?.updatedAt}',
-                                        priceHere: '${transactions?.charge}',
-                                        digitHere: '${transactions?.amount}',
-                                        quantity: '${transactions?.response}',
-                                        serviceHere: '${transactions?.service}',
-                                        remNant: '${transactions?.oldBalance}',
-                                        status: SizedBox(),
-                                      );
-                                    }),
-                                  );
-                                } else {
-                                  return const TransparentLoadingScreen();
-                                }
+//                 Stack(
+//                   children: [
+//                     HomeContainer(
+//                             color: Theme.of(context).cardColor,
+//                             height: 360.h,
+//                             child: FutureBuilder(
+//                               future: ref
+//                                   .read(instaTransactionController.notifier)
+//                                   .getTransactions(),
+//                               builder: (context, snapshot) {
+//                                 if (snapshot.connectionState ==
+//                                     ConnectionState.done) {
+//                                   return ListView.builder(
+//                                     padding: EdgeInsets.only(
+//                                         top: 40.h,
+//                                         left: 23.h,
+//                                         right: 20.h,
+//                                         bottom: 20.h),
+//                                     itemCount: 5,
+//                                     itemBuilder: ((context, index) {
+//                                       final trx = ref
+//                                           .watch(instaTransactionController)
+//                                           .instaTransactionsModel;
+//                                       final transaction = trx
+//                                           .data?.transactions[index.toString()];
+//                                       return OrderHistoryViewModel(
+//                                         idText: '${transaction?.id}',
+//                                         dateHere: '${transaction?.createdAt}',
+//                                         linkHere: '${transaction?.updatedAt}',
+//                                         priceHere: '${transaction?.charge}',
+//                                         digitHere: '${transaction?.amount}',
+//                                         quantity: '${transaction?.response}',
+//                                         serviceHere: '${transaction?.service}',
+//                                         remNant: '${transaction?.oldBalance}',
+//                                         status: SizedBox(),
+//                                       );
+//                                     }),
+//                                   );
+//                                 } else {
+//                                   return const TransparentLoadingScreen();
+//                                 }
 
-// ...
-                              },
-                            ))
-                        .afmBorderRadius(BorderRadius.circular(24.r))
-                        .afmPadding(EdgeInsets.only(bottom: 20.h)),
-                    Container(
-                      height: 40.h,
-                      width: MediaQuery.of(context).size.width - 40.sp,
-                      padding: EdgeInsets.only(left: 25.sp, top: 15.sp),
-                      child: Text(
-                        'Recent Transactions',
-                        style: TextStyle(
-                          fontFamily: 'Montesserat',
-                          fontSize: 15.sp,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ).afmBorderRadius(BorderRadius.only(
-                        topLeft: Radius.circular(24.r),
-                        topRight: Radius.circular(24.r))),
-                  ],
-                ),
+// // ...
+//                               },
+//                             ))
+//                         .afmBorderRadius(BorderRadius.circular(24.r))
+//                         .afmPadding(EdgeInsets.only(bottom: 20.h)),
+//                     Container(
+//                       height: 40.h,
+//                       width: MediaQuery.of(context).size.width - 40.sp,
+//                       padding: EdgeInsets.only(left: 25.sp, top: 15.sp),
+//                       color: Theme.of(context).colorScheme.onSurfaceVariant,
+//                       child: Text(
+//                         'Recent Transactions',
+//                         style: TextStyle(
+//                           fontFamily: 'Montesserat',
+//                           fontSize: 15.sp,
+//                           fontWeight: FontWeight.bold,
+//                         ),
+//                       ),
+//                     ).afmBorderRadius(BorderRadius.only(
+//                         topLeft: Radius.circular(24.r),
+//                         topRight: Radius.circular(24.r))),
+//                   ],
+//                 ),
               ],
             )
                 .afmPadding(

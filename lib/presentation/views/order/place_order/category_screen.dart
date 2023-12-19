@@ -15,19 +15,19 @@ class CategoryScreen extends ConsumerStatefulWidget {
 
 class _MyWidgetState extends ConsumerState<CategoryScreen> {
   late final CategoriesController categoriesControllerScreen =
-      ref.read(instaCategoriesController.notifier);
+      ref.watch(instaCategoriesProvider);
 
   @override
   Widget build(BuildContext context) {
-    ref.read(instaCategoriesController.notifier).toGetDropdownItemsById(
-        ref.read(instaCategoriesController.notifier).selectedCategory);
+    ref.watch(instaCategoriesProvider).toGetDropdownItemsById(
+        ref.watch(instaCategoriesProvider).selectedCategory);
     return FutureBuilder(
       future: categoriesControllerScreen.toGetAllCategories(),
       builder: ((context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(
-              child:
-                  TransparentLoadingScreen()); // Show loading indicator while fetching data
+          return const Scaffold(
+            body: Center(child: TransparentLoadingScreen()),
+          ); // Show loading indicator while fetching data
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         } else {

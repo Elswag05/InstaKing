@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:insta_king/core/constants/enum.dart';
@@ -22,12 +23,32 @@ class InstaWalletController extends BaseChangeNotifier {
   final SecureStorageService secureStorageService =
       SecureStorageService(secureStorage: const FlutterSecureStorage());
 
-  Future setUserHasGenAccountsTrue(bool value) async {
-    value = true;
-    await locator<SecureStorageService>().write(
-      key: 'userHasGeneratedAccount',
-      value: 'true',
-    );
+  Future<bool> checkUserAccountTrue() async {
+    final value = await locator<SecureStorageService>()
+        .read(key: 'userHasGeneratedAccount');
+    debugPrint(value.toString());
+    debugPrint('User account has been read');
+    if (value != null) {
+      userHasGeneratedAccount = true;
+      notifyListeners();
+      return true;
+    } else {
+      userHasGeneratedAccount = false;
+      notifyListeners();
+      return false;
+    }
+  }
+
+  Future setUserHasGenAccountsTrueIfFalse() async {
+    final value = await locator<SecureStorageService>()
+        .read(key: 'userHasGeneratedAccount');
+    if (value != null) {
+      userHasGeneratedAccount = true;
+      await locator<SecureStorageService>().write(
+        key: 'userHasGeneratedAccount',
+        value: 'true',
+      );
+    }
   }
 
   Future<GenerateAccountModel> generateAccountDetails() async {
@@ -35,14 +56,10 @@ class InstaWalletController extends BaseChangeNotifier {
     try {
       final res = await generateAccountsService.generateAccountDetails();
       if (res.statusCode == 200) {
-        setUserHasGenAccountsTrue(userHasGeneratedAccount);
-        userHasGeneratedAccount = true;
-        loadingState = LoadingState.idle;
-        // locator<ToastService>().showSuccessToast(
-        //   'Gotten Profile Details',
-        // );
+        setUserHasGenAccountsTrueIfFalse();
         model = GenerateAccountModel.fromJson(res.data);
         log('model: ${model.message}');
+        loadingState = LoadingState.idle;
         return model;
       } else {
         throw Error();

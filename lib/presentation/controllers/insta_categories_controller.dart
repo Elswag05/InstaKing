@@ -13,8 +13,14 @@ import 'package:insta_king/presentation/model/insta_get_category_model.dart';
 import 'package:insta_king/presentation/model/insta_get_one_service_detail_model.dart';
 import 'package:insta_king/presentation/model/insta_get_service_details_model.dart';
 
-final instaCategoriesController = ChangeNotifierProvider<CategoriesController>(
-    (ref) => CategoriesController());
+final instaCategoriesProvider =
+    Provider<CategoriesController>((ref) => CategoriesController());
+
+final instaCatValueProvider =
+    ChangeNotifierProvider<CategoriesController>((ref) {
+  final controller = ref.watch(instaCategoriesProvider);
+  return CategoriesController();
+});
 
 class CategoryItem {
   final String id;
@@ -51,20 +57,22 @@ class CategoriesController extends BaseChangeNotifier {
   String get selectedServiceName => _selectedServiceName;
   String get selectedCategory => _selectedCategoryValue;
   String get selectedCategoryName => _selectedCategoryName;
-  bool isCatSet = false;
-  bool isServiceSet = false;
+  bool _isCatSet = false;
+  bool _isServiceSet = false;
+  bool get isCatSet => _isCatSet;
+  bool get isServiceSet => _isServiceSet;
 
   void setCatValue(String newValue, String name) {
     _selectedCategoryValue = newValue;
     _selectedCategoryName = name;
-    isCatSet = true;
+    _isCatSet = true;
     notifyListeners();
   }
 
   void setServiceValue(String newValue, String name) {
     _selectedServiceValue = newValue;
     _selectedServiceName = name;
-    isServiceSet = true;
+    _isServiceSet = true;
     notifyListeners();
   }
 

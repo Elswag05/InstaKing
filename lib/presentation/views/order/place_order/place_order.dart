@@ -1,3 +1,4 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -83,13 +84,13 @@ class PlaceOrderState extends ConsumerState<PlaceOrder> {
                   Column(
                     children: [
                       MiniTags(
-                        textOnTag: 'Min ${formatBalance(
+                        textOnTag: 'Min. ${formatBalance(
                           categoriesController
                                   .getOneServiceDetailsModel.data?.min
                                   .toString() ??
                               '',
                           noShowNaira: true,
-                        )} - Max ${formatBalance(
+                        )} - Max. ${formatBalance(
                           categoriesController
                                   .getOneServiceDetailsModel.data?.max
                                   .toString() ??
@@ -119,8 +120,36 @@ class PlaceOrderState extends ConsumerState<PlaceOrder> {
                           .toPlaceOrder(categoriesController.selectedService,
                               linkController.text, quantityController.text)
                           .then(
-                            (value) => Navigator.pop(context),
-                          );
+                        (value) {
+                          if (value == true) {
+                            // Handle success
+                            AwesomeDialog(
+                              context: context,
+                              animType: AnimType.scale,
+                              dialogType: DialogType.success,
+                              title: 'Order Successful',
+                              desc:
+                                  'You have successfully purchased this order',
+                              btnOkOnPress: () {
+                                Navigator.pop(context);
+                              },
+                            ).show();
+                          } else {
+                            // Handle failure or other cases
+                            // Optionally, you can show an error message or take appropriate action
+                            AwesomeDialog(
+                              context: context,
+                              animType: AnimType.scale,
+                              dialogType: DialogType.error,
+                              title: 'Order Failed',
+                              desc: 'This order could not be placed',
+                              btnOkOnPress: () {
+                                Navigator.pop(context);
+                              },
+                            ).show();
+                          }
+                        },
+                      );
                     },
                   ).afmPadding(EdgeInsets.symmetric(vertical: 10.h))
                 ],
@@ -137,7 +166,7 @@ class PlaceOrderState extends ConsumerState<PlaceOrder> {
   }
 
   late CategoriesController categoriesController =
-      ref.watch(instaCategoriesController);
+      ref.watch(instaCatValueProvider);
   late OrderController orderController =
       ref.read(instaOrderController.notifier);
   late TextEditingController quantityController =

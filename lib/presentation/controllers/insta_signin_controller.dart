@@ -46,10 +46,11 @@ class SignUpController extends BaseChangeNotifier {
           key: InstaStrings.token,
           value: data.token ?? '',
         );
-        loadingState = LoadingState.idle;
+
         locator<ToastService>().showSuccessToast(
           'You are signed in',
         );
+        loadingState = LoadingState.idle;
         return true;
       } else {
         throw Error();

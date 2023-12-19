@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -37,15 +35,15 @@ class _InstaOrderHistoryState extends ConsumerState<InstaOrderHistory>
   List<Datum>? _inProgressOrders;
   List<Datum>? _cancelledOrders;
   List<Datum>? _currentOrders;
-  String _searchQuery = '';
+  //String _searchQuery = '';
 
   late final order = ref.read(instaOrderController.notifier);
 
-  void _updateSearchQuery(String query) {
-    setState(() {
-      _searchQuery = query;
-    });
-  }
+  // void _updateSearchQuery(String query) {
+  //   setState(() {
+  //     _searchQuery = query;
+  //   });
+  // }
 
   void _updateChipSelection(String chipKey) {
     setState(() {
@@ -58,8 +56,10 @@ class _InstaOrderHistoryState extends ConsumerState<InstaOrderHistory>
 
       switch (chipKey) {
         case 'one':
-          _currentOrders = _allOrders ?? order.getAllOrderModel.data;
-          _isAllSelected = true;
+          setState(() {
+            _currentOrders = _allOrders ?? order.getAllOrderModel.data;
+            _isAllSelected = true;
+          });
           break;
         case 'completed':
           _currentOrders =
@@ -99,7 +99,7 @@ class _InstaOrderHistoryState extends ConsumerState<InstaOrderHistory>
             ?.where((order) =>
                 order.link!.toLowerCase().contains(query.toLowerCase()) ||
                 ref
-                    .read(instaCategoriesController.notifier)
+                    .read(instaCatValueProvider)
                     .getOneServiceDetailsModel
                     .data!
                     .name!
@@ -133,8 +133,8 @@ class _InstaOrderHistoryState extends ConsumerState<InstaOrderHistory>
 
   @override
   Widget build(BuildContext context) {
-    List<Datum>? filteredOrders = _filterOrders(_searchQuery);
-    _currentOrders = filteredOrders;
+    // List<Datum>? filteredOrders = _filterOrders(_searchQuery);
+    // _currentOrders = filteredOrders;
 
     // if (filteredOrders.isNotEmpty && filteredOrders != []) {
     //   _currentOrders = filteredOrders;
@@ -146,7 +146,7 @@ class _InstaOrderHistoryState extends ConsumerState<InstaOrderHistory>
           OrderAppBar(
             text: 'Order History',
             textController: textController,
-            onSearch: _updateSearchQuery,
+            onSearch: (value) {},
           ).afmPadding(
             EdgeInsets.symmetric(horizontal: 20.w),
           ),
@@ -218,7 +218,7 @@ class _InstaOrderHistoryState extends ConsumerState<InstaOrderHistory>
             child: ListView.builder(
               itemCount: _currentOrders?.length ?? 0,
               itemBuilder: ((context, index) {
-                ref.watch(instaCategoriesController).getOneServiceName(
+                ref.watch(instaCategoriesProvider).getOneServiceName(
                     _currentOrders?[index].serviceId.toString());
                 return OrderHistoryViewModel(
                   idText: _currentOrders?[index].id.toString() ?? '',
@@ -228,7 +228,7 @@ class _InstaOrderHistoryState extends ConsumerState<InstaOrderHistory>
                   digitHere: _currentOrders?[index].startCounter ?? '',
                   quantity: _currentOrders?[index].quantity ?? '',
                   serviceHere: ref
-                          .read(instaCategoriesController.notifier)
+                          .read(instaCatValueProvider)
                           .getOneServiceDetailsModel
                           .data
                           ?.name ??

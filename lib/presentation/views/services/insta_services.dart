@@ -87,9 +87,7 @@ class _InstaServicesState extends State<InstaServices> {
       body: SafeArea(
         child: Consumer(
           builder: ((context, ref, child) {
-            final service = ref
-                .read(instaCategoriesController.notifier)
-                .getAllServicesModel;
+            final service = ref.read(instaCatValueProvider).getAllServicesModel;
             return Column(
               children: [
                 const RecurringAppBar(appBarTitle: "Services")
@@ -135,9 +133,8 @@ class _InstaServicesState extends State<InstaServices> {
                   ),
                 ).afmPadding(EdgeInsets.only(bottom: 20.sp)),
                 FutureBuilder(
-                    future: ref
-                        .read(instaCategoriesController.notifier)
-                        .toGetAllServiceDetail(),
+                    future:
+                        ref.read(instaCatValueProvider).toGetAllServiceDetail(),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.done) {
                         return SizedBox(
@@ -178,9 +175,7 @@ class _InstaServicesState extends State<InstaServices> {
               isTapped: hasInstagramBeenTapped,
               onTap: () {
                 setState(() {
-                  ref
-                      .read(instaCategoriesController.notifier)
-                      .searchByName('instagram');
+                  ref.read(instaCatValueProvider).searchByName('instagram');
                   setOnlyOneTrue('instagram');
                 });
               },
@@ -191,9 +186,7 @@ class _InstaServicesState extends State<InstaServices> {
               isTapped: hasFacebookBeenTapped,
               onTap: () {
                 setState(() {
-                  ref
-                      .read(instaCategoriesController.notifier)
-                      .searchByName('facebook');
+                  ref.read(instaCatValueProvider).searchByName('facebook');
                   setOnlyOneTrue('facebook');
                 });
               },
@@ -210,9 +203,7 @@ class _InstaServicesState extends State<InstaServices> {
               isTapped: hasYoutubeBeenTapped,
               onTap: () {
                 setState(() {
-                  ref
-                      .read(instaCategoriesController.notifier)
-                      .searchByName('youtube');
+                  ref.read(instaCatValueProvider).searchByName('youtube');
                   setOnlyOneTrue('youtube');
                 });
               },
@@ -223,9 +214,7 @@ class _InstaServicesState extends State<InstaServices> {
               isTapped: hasSpotifyBeenTapped,
               onTap: () {
                 setState(() {
-                  ref
-                      .read(instaCategoriesController.notifier)
-                      .searchByName('spotify');
+                  ref.read(instaCatValueProvider).searchByName('spotify');
                   setOnlyOneTrue('spotify');
                 });
               },
@@ -240,9 +229,7 @@ class _InstaServicesState extends State<InstaServices> {
               isTapped: hasSnapchatBeenTapped,
               onTap: () {
                 setState(() {
-                  ref
-                      .read(instaCategoriesController.notifier)
-                      .searchByName('snapchat');
+                  ref.read(instaCatValueProvider).searchByName('snapchat');
                   setOnlyOneTrue('snapchat');
                 });
               },
@@ -253,9 +240,7 @@ class _InstaServicesState extends State<InstaServices> {
               isTapped: hasTelegramBeenTapped,
               onTap: () {
                 setState(() {
-                  ref
-                      .read(instaCategoriesController.notifier)
-                      .searchByName('telegram');
+                  ref.read(instaCatValueProvider).searchByName('telegram');
                   setOnlyOneTrue('telegram');
                 });
               },
@@ -270,9 +255,7 @@ class _InstaServicesState extends State<InstaServices> {
               isTapped: hasAudiomackBeenTapped,
               onTap: () {
                 setState(() {
-                  ref
-                      .read(instaCategoriesController.notifier)
-                      .searchByName('audiomack');
+                  ref.read(instaCatValueProvider).searchByName('audiomack');
                   setOnlyOneTrue('audiomack');
                 });
               },
@@ -283,9 +266,7 @@ class _InstaServicesState extends State<InstaServices> {
               isTapped: hasTiktokBeenTapped,
               onTap: () {
                 setState(() {
-                  ref
-                      .read(instaCategoriesController.notifier)
-                      .searchByName('tiktok');
+                  ref.read(instaCatValueProvider).searchByName('tiktok');
                   setOnlyOneTrue('tiktok');
                 });
               },
@@ -302,9 +283,7 @@ class _InstaServicesState extends State<InstaServices> {
               onTap: () {
                 setState(
                   () {
-                    ref
-                        .read(instaCategoriesController.notifier)
-                        .searchByName('deezer');
+                    ref.read(instaCatValueProvider).searchByName('deezer');
                     setOnlyOneTrue('deezer');
                   },
                 );
@@ -335,11 +314,10 @@ class _ServicesDemoWidgetState extends State<ServicesDemoWidget> {
   Widget build(BuildContext context) {
     return Consumer(
       builder: (context, ref, child) {
-        final service =
-            ref.watch(instaCategoriesController.notifier).getAllServicesModel;
+        final service = ref.watch(instaCatValueProvider).getAllServicesModel;
         // Get the filteredData object based on your logic
         final filteredData = ref
-            .watch(instaCategoriesController.notifier)
+            .watch(instaCatValueProvider)
             .filteredData; // Replace with your logic to get filteredData
 
         // Check if any of the boolean variables are true

@@ -49,10 +49,10 @@ class ErrorService {
       message = errorService.defaultErrorMessage;
       debugPrint('${e.toString()} Things 004');
     }
-
+    debugPrint('ERROR MESSAGE :: $message Things 004');
     // Show error message using a toast widget
-    locator<ToastService>().showErrorToast(
-      message,
-    );
+    // locator<ToastService>().showErrorToast(
+    //   message,
+    // );
   }
 }

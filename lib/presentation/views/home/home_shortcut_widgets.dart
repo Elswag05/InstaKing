@@ -90,9 +90,7 @@ class ShortcutsTheWidget extends ConsumerWidget {
                   shortcutIcon: 'Place Order',
                   shortcutText: 'Place Order',
                   onTap: () {
-                    ref
-                        .read(instaCategoriesController.notifier)
-                        .toGetAllCategories();
+                    ref.read(instaCatValueProvider).toGetAllCategories();
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) => const PlaceOrder(),

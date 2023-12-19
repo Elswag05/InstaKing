@@ -7,14 +7,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:insta_king/core/constants/enum.dart';
 import 'package:insta_king/data/local/secure_storage_service.dart';
-import 'package:insta_king/data/local/toast_service.dart';
 import 'package:insta_king/data/services/error_service.dart';
 import 'package:insta_king/data/services/order_services.dart';
 import 'package:insta_king/presentation/controllers/base_controller.dart';
 import 'package:insta_king/presentation/model/get_all_order_model.dart';
 import 'package:insta_king/presentation/model/get_order_details_model.dart';
 import 'package:insta_king/presentation/model/place_order_model.dart';
-import 'package:insta_king/utils/locator.dart';
 
 final instaOrderController =
     ChangeNotifierProvider<OrderController>((ref) => OrderController());
@@ -41,12 +39,12 @@ class OrderController extends BaseChangeNotifier {
         //   await locator<SecureStorageService>().write(key: EnvStrings.us, value: value)
         // }
 
-        loadingState = LoadingState.idle;
         // locator<ToastService>().showSuccessToast(
         //   'Order Purchased Successfully',
         // );
         //print("INFO: Success converting data to model");
         //if (data.status == 'success') {
+        loadingState = LoadingState.idle;
         return true;
         //}
       } else {
@@ -84,11 +82,12 @@ class OrderController extends BaseChangeNotifier {
         // if ( rememberMe) {
         //   await locator<SecureStorageService>().write(key: EnvStrings.us, value: value)
         // }
-        loadingState = LoadingState.idle;
+
         // locator<ToastService>().showSuccessToast(
         //   'Order loaded successfully',
         // );
         //print("INFO: Success converting data to model");
+        loadingState = LoadingState.idle;
         return true;
       } else {
         throw Error();

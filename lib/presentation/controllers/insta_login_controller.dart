@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:insta_king/core/constants/enum.dart';
@@ -55,6 +56,15 @@ class LoginController extends BaseChangeNotifier {
   final SecureStorageService secureStorageService =
       SecureStorageService(secureStorage: const FlutterSecureStorage());
 
+  Future checkUserHasGenAccountsBefore() async {
+    if (data.user?.virtualBanks != []) {
+      await locator<SecureStorageService>().write(
+        key: 'userHasGeneratedAccount',
+        value: 'true',
+      );
+    }
+  }
+
   Future<bool> signIn(String email, password) async {
     loadingState = LoadingState.loading;
     try {
@@ -74,22 +84,22 @@ class LoginController extends BaseChangeNotifier {
         );
 
         if (_rememberMe) {
-          print(_rememberMe.toString());
+          debugPrint(_rememberMe.toString());
           await locator<SecureStorageService>().write(
             key: InstaStrings.email,
             value: data.user?.email ?? '',
           );
         }
+        checkUserHasGenAccountsBefore();
 
-        loadingState = LoadingState.idle;
         locator<ToastService>().showSuccessToast(
           'Successfully logged you in',
         );
-        //print("INFO: Success converting data to model");
         userLogInOrNot();
         if (data.status == 'success') {
           return true;
         }
+        loadingState = LoadingState.idle;
       } else {
         throw Error();
       }
