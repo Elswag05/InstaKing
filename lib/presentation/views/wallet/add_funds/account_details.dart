@@ -21,7 +21,7 @@ class AccountDetails extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         border: Border.all(
-          width: 1.0,
+          width: 0.5,
           color: Theme.of(context).unselectedWidgetColor,
         ),
         borderRadius: BorderRadius.circular(10.r),
@@ -40,15 +40,16 @@ class AccountDetails extends StatelessWidget {
                     'Bank Name',
                     style: TextStyle(
                       fontFamily: 'Montesserat',
-                      fontSize: 13.sp,
-                      fontWeight: FontWeight.w500,
+                      fontSize: 11.sp,
+                      fontWeight: FontWeight.w600,
+                      color: InstaColors.mildGrey,
                     ),
                   ),
                   Text(
                     bankName,
                     style: TextStyle(
                       fontFamily: 'Montesserat',
-                      fontSize: 15.sp,
+                      fontSize: 14.sp,
                       fontWeight: FontWeight.bold,
                     ),
                   )
@@ -62,15 +63,16 @@ class AccountDetails extends StatelessWidget {
                     'Account Name',
                     style: TextStyle(
                       fontFamily: 'Montesserat',
-                      fontSize: 13.sp,
-                      fontWeight: FontWeight.w500,
+                      fontSize: 11.sp,
+                      fontWeight: FontWeight.w600,
+                      color: InstaColors.mildGrey,
                     ),
                   ),
                   Text(
                     accountName,
                     style: TextStyle(
                       fontFamily: 'Montesserat',
-                      fontSize: 15.sp,
+                      fontSize: 14.sp,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -78,82 +80,69 @@ class AccountDetails extends StatelessWidget {
               ),
             ],
           ),
-          Stack(
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                height: 40.h,
-                decoration: BoxDecoration(
-                  color: Theme.of(context).cardColor,
-                  border: Border.all(
-                    color: InstaColors.darkColor.withOpacity(0.5),
-                    width: 1.sp,
-                  ),
-                  borderRadius: BorderRadius.circular(10.r),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      accountNumber,
-                      style: TextStyle(
-                        fontFamily: 'Montesserat',
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 3.w,
-                      ),
-                    ).afmPadding(EdgeInsets.only(left: 40.w)),
-                    const SizedBox(),
-                  ],
-                ),
-              ).afmPadding(EdgeInsets.only(top: 10.sp, bottom: 10.sp)),
-              Positioned(
-                right: 40,
-                top: 10,
-                child: GestureDetector(
-                  onTap: () {
-                    Clipboard.setData(
-                      ClipboardData(text: accountNumber),
-                    ).then(
-                      (value) {
-                        debugPrint('data copied successfully $accountNumber');
-                        locator<ToastService>().showSuccessToast(
-                          'You have the account number to your clip board',
-                        );
-                      },
-                    );
-                  },
-                  child: Container(
-                    height: 25.h,
-                    width: 30.w,
-                    decoration: BoxDecoration(
-                      color: InstaColors.primaryColor,
-                      // border: Border.all(
-                      //   color: InstaColors.darkColor.withOpacity(0.5),
-                      //   width: 1.sp,
-                      // ),
-                      borderRadius: BorderRadius.circular(4.r),
-                    ),
-                    child: Center(
-                      child: Icon(
-                        Icons.copy,
-                        size: 16.sp,
-                        color: Theme.of(context).colorScheme.onInverseSurface,
-                      ),
-
-                      // Text(
-                      //   'Copy',
-                      //   style: TextStyle(
-                      //     fontFamily: 'Montesserat',
-                      //     fontSize: 15.sp,
-                      //     fontWeight: FontWeight.w600,
-                      //   ),
-                      // ).afmPadding(EdgeInsets.only(right: 10.w, bottom: 3.h)),
-                    ),
-                  ).afmPadding(EdgeInsets.only(top: 10.sp, bottom: 10.sp)),
+              Text(
+                'Account Number',
+                style: TextStyle(
+                  fontFamily: 'Montesserat',
+                  fontSize: 11.sp,
+                  fontWeight: FontWeight.w600,
+                  color: InstaColors.mildGrey,
                 ),
               ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    accountNumber,
+                    style: TextStyle(
+                      fontFamily: 'Montesserat',
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ), //.afmPadding(EdgeInsets.only(left: 40.w)),
+                  const SizedBox(),
+                  Positioned(
+                    right: 40,
+                    top: 10,
+                    child: GestureDetector(
+                      onTap: () {
+                        Clipboard.setData(
+                          ClipboardData(text: accountNumber),
+                        ).then(
+                          (value) {
+                            debugPrint(
+                                'data copied successfully $accountNumber');
+                            locator<ToastService>().showSuccessToast(
+                              'You have the account number to your clip board',
+                            );
+                          },
+                        );
+                      },
+                      child: Container(
+                        height: 25.h,
+                        width: 30.w,
+                        decoration: BoxDecoration(
+                          color: InstaColors.primaryColor,
+                          borderRadius: BorderRadius.circular(4.r),
+                        ),
+                        child: Center(
+                          child: Icon(
+                            Icons.copy,
+                            size: 16.sp,
+                            color:
+                                Theme.of(context).colorScheme.onInverseSurface,
+                          ),
+                        ),
+                      ).afmPadding(EdgeInsets.only(left: 4.sp)),
+                    ),
+                  ),
+                ],
+              )
             ],
-          )
+          ).afmPadding(EdgeInsets.only(top: 18.sp)),
         ],
       ),
     ).afmPadding(

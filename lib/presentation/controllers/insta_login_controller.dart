@@ -14,36 +14,19 @@ import 'package:insta_king/data/services/login_service.dart';
 import 'package:insta_king/presentation/controllers/base_controller.dart';
 import 'package:insta_king/presentation/model/insta_login_model.dart';
 import 'package:insta_king/utils/locator.dart';
+import 'package:local_auth/local_auth.dart';
 
 final instaLoginController =
     ChangeNotifierProvider<LoginController>((ref) => LoginController());
 
 class LoginController extends BaseChangeNotifier {
   late bool _rememberMe = false;
-  late bool _isLoggedIn = false;
+
   bool get isBoxChecked => _rememberMe;
-  bool get isUserLoggedIn => _isLoggedIn;
 
   void toCheckBox(value) {
     _rememberMe = !_rememberMe;
     log(_rememberMe.toString());
-    notifyListeners();
-  }
-
-  Future getIsLogInBool() async {
-    String? loggedIn = await secureStorageService.read(key: "loggedIn");
-    if (loggedIn == null) {
-      _isLoggedIn = false;
-    } else if (loggedIn.isEmpty) {
-      _isLoggedIn = false;
-    } else {
-      _isLoggedIn = true;
-    }
-  }
-
-  void userLogInOrNot() {
-    getIsLogInBool();
-    log('User has just logged in = ${isUserLoggedIn.toString()}');
     notifyListeners();
   }
 
@@ -52,6 +35,7 @@ class LoginController extends BaseChangeNotifier {
   final changePasswordService = ChangePasswordService();
   final resetPasswordService = ResetPasswordService();
   late InstaLoginModel data;
+  final LocalAuthentication _localAuthentication = LocalAuthentication();
 
   final SecureStorageService secureStorageService =
       SecureStorageService(secureStorage: const FlutterSecureStorage());
@@ -62,6 +46,17 @@ class LoginController extends BaseChangeNotifier {
         key: 'userHasGeneratedAccount',
         value: 'true',
       );
+    }
+  }
+
+  Future loginWithFingerprint() async {
+    bool isBiometricsAvailable = await _localAuthentication.canCheckBiometrics;
+    try {
+      bool isAuthenticated = await _localAuthentication.authenticate(
+        localizedReason: 'Authenticate with fingerprint',
+      );
+    } catch (e) {
+      print(e);
     }
   }
 
@@ -90,12 +85,10 @@ class LoginController extends BaseChangeNotifier {
             value: data.user?.email ?? '',
           );
         }
-        checkUserHasGenAccountsBefore();
 
         locator<ToastService>().showSuccessToast(
           'Successfully logged you in',
         );
-        userLogInOrNot();
         if (data.status == 'success') {
           return true;
         }

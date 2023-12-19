@@ -13,14 +13,8 @@ import 'package:insta_king/presentation/model/insta_get_category_model.dart';
 import 'package:insta_king/presentation/model/insta_get_one_service_detail_model.dart';
 import 'package:insta_king/presentation/model/insta_get_service_details_model.dart';
 
-final instaCategoriesProvider =
-    Provider<CategoriesController>((ref) => CategoriesController());
-
-final instaCatValueProvider =
-    ChangeNotifierProvider<CategoriesController>((ref) {
-  final controller = ref.watch(instaCategoriesProvider);
-  return CategoriesController();
-});
+final instaCategoriesProvider = ChangeNotifierProvider<CategoriesController>(
+    (ref) => CategoriesController());
 
 class CategoryItem {
   final String id;
@@ -87,9 +81,6 @@ class CategoriesController extends BaseChangeNotifier {
     // Return the result as a string
     return pricePerUnit.toString();
   }
-
-  @override
-  LoadingState loadingState = LoadingState.idle;
 
   // Future setServiceValue(String newValu) {
   //   return toGetDropdownItemsById(newValu);

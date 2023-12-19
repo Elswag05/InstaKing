@@ -57,6 +57,7 @@ class _AuthTextFieldState extends State<AuthTextField> {
       autovalidateMode: AutovalidateMode.onUserInteraction,
       style: TextStyle(
         fontSize: 13.sp,
+        color: InstaColors.mildGrey,
       ),
       obscureText: widget.isPassword ? showPassword : false,
       validator: widget.validator,

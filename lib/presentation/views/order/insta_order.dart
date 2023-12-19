@@ -99,7 +99,7 @@ class _InstaOrderHistoryState extends ConsumerState<InstaOrderHistory>
             ?.where((order) =>
                 order.link!.toLowerCase().contains(query.toLowerCase()) ||
                 ref
-                    .read(instaCatValueProvider)
+                    .read(instaCategoriesProvider)
                     .getOneServiceDetailsModel
                     .data!
                     .name!
@@ -218,7 +218,7 @@ class _InstaOrderHistoryState extends ConsumerState<InstaOrderHistory>
             child: ListView.builder(
               itemCount: _currentOrders?.length ?? 0,
               itemBuilder: ((context, index) {
-                ref.watch(instaCategoriesProvider).getOneServiceName(
+                ref.read(instaCategoriesProvider).getOneServiceName(
                     _currentOrders?[index].serviceId.toString());
                 return OrderHistoryViewModel(
                   idText: _currentOrders?[index].id.toString() ?? '',
@@ -228,7 +228,7 @@ class _InstaOrderHistoryState extends ConsumerState<InstaOrderHistory>
                   digitHere: _currentOrders?[index].startCounter ?? '',
                   quantity: _currentOrders?[index].quantity ?? '',
                   serviceHere: ref
-                          .read(instaCatValueProvider)
+                          .read(instaCategoriesProvider)
                           .getOneServiceDetailsModel
                           .data
                           ?.name ??
@@ -250,83 +250,3 @@ class _InstaOrderHistoryState extends ConsumerState<InstaOrderHistory>
     );
   }
 }
-
-
-///These were modifications we needed to make, possible code to come back to 
-///Save them for me
-  // AnnouncementViews(
-                    //   header: order.getAllOrderModel.data?[index].name ?? '',
-                    //   body: order.getAllOrderModel.data?[index].amount ?? '',
-                    //   date:
-                    //       order.getAllOrderModel.data?[index].apiOrderId ?? '',
-                    // );
-
-
-        // SizedBox(
-              //   width: double.infinity,
-              //   height: 500.h,
-              //   child: TabBarView(
-              //     controller: _tabController,
-              //     children: const [
-              //       // MyOrder(),
-              //       // DripFeed(),
-              //       Subscriptions(),
-              //     ],
-              //   ),
-              // )
-              //     .afmPadding(
-              //         EdgeInsets.only(top: 20.sp, left: 20.sp, right: 20.sp))
-              //     .afmNeverScroll,
-
-  // Container(
-  //             color: InstaColors.lightColor,
-  //             child: TabBar(
-  //               isScrollable: true,
-  //               padding: EdgeInsets.all(8.sp),
-  //               indicator: CustomTabIndicator(),
-  //               controller: _tabController,
-  //               tabs: [
-  //                 Tab(
-  //                   child: Text(
-  //                     'My Orders',
-  //                     style: TextStyle(
-  //                       fontFamily: 'Montesserat',
-  //                       fontSize: 13.sp,
-  //                       color: _selectedIndex == 0
-  //                           ? InstaColors.lightColor
-  //                           : InstaColors.darkColor,
-  //                       fontWeight: FontWeight.bold,
-  //                     ),
-  //                   ),
-  //                 ),
-  //                 Tab(
-  //                   child: Text(
-  //                     'Drip Feed',
-  //                     style: TextStyle(
-  //                       fontFamily: 'Montesserat',
-  //                       fontSize: 13.sp,
-  //                       color: _selectedIndex == 1
-  //                           ? InstaColors.lightColor
-  //                           : InstaColors.darkColor,
-  //                       fontWeight: FontWeight.bold,
-  //                     ),
-  //                   ),
-  //                 ),
-  //                 Tab(
-  //                   child: Text(
-  //                     'Subscriptions',
-  //                     style: TextStyle(
-  //                       fontFamily: 'Montesserat',
-  //                       fontSize: 13.sp,
-  //                       color: _selectedIndex == 2
-  //                           ? InstaColors.lightColor
-  //                           : InstaColors.darkColor,
-  //                       fontWeight: FontWeight.bold,
-  //                     ),
-  //                   ),
-  //                 ),
-  //               ],
-  //             ),
-  //           )
-  //               .afmBorderRadius(BorderRadius.circular(10.r))
-  //               .afmPadding(EdgeInsets.symmetric(horizontal: 20.sp)),

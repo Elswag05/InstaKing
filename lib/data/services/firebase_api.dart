@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:insta_king/data/local/secure_storage_service.dart';
 import 'package:insta_king/main.dart';
-import 'package:insta_king/presentation/views/notifications.dart';
 import 'package:insta_king/utils/locator.dart';
 
 class FirebaseApi {
@@ -20,10 +19,10 @@ class FirebaseApi {
 
   void handleMessage(RemoteMessage? message) {
     if (message == null) return;
-    navigatorKey.currentState?.pushNamed(
-      InstaNitifications.notificationRoute,
-      arguments: message,
-    );
+    // navigatorKey.currentState?.pushNamed(
+    //   InstaNitifications.notificationRoute,
+    //   arguments: message,
+    // );
   }
 
   Future initLocalNotifications() async {

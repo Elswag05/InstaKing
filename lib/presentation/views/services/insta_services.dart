@@ -87,7 +87,8 @@ class _InstaServicesState extends State<InstaServices> {
       body: SafeArea(
         child: Consumer(
           builder: ((context, ref, child) {
-            final service = ref.read(instaCatValueProvider).getAllServicesModel;
+            final service =
+                ref.read(instaCategoriesProvider).getAllServicesModel;
             return Column(
               children: [
                 const RecurringAppBar(appBarTitle: "Services")
@@ -133,8 +134,9 @@ class _InstaServicesState extends State<InstaServices> {
                   ),
                 ).afmPadding(EdgeInsets.only(bottom: 20.sp)),
                 FutureBuilder(
-                    future:
-                        ref.read(instaCatValueProvider).toGetAllServiceDetail(),
+                    future: ref
+                        .read(instaCategoriesProvider)
+                        .toGetAllServiceDetail(),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.done) {
                         return SizedBox(
@@ -175,7 +177,7 @@ class _InstaServicesState extends State<InstaServices> {
               isTapped: hasInstagramBeenTapped,
               onTap: () {
                 setState(() {
-                  ref.read(instaCatValueProvider).searchByName('instagram');
+                  ref.read(instaCategoriesProvider).searchByName('instagram');
                   setOnlyOneTrue('instagram');
                 });
               },
@@ -186,7 +188,7 @@ class _InstaServicesState extends State<InstaServices> {
               isTapped: hasFacebookBeenTapped,
               onTap: () {
                 setState(() {
-                  ref.read(instaCatValueProvider).searchByName('facebook');
+                  ref.read(instaCategoriesProvider).searchByName('facebook');
                   setOnlyOneTrue('facebook');
                 });
               },
@@ -203,7 +205,7 @@ class _InstaServicesState extends State<InstaServices> {
               isTapped: hasYoutubeBeenTapped,
               onTap: () {
                 setState(() {
-                  ref.read(instaCatValueProvider).searchByName('youtube');
+                  ref.read(instaCategoriesProvider).searchByName('youtube');
                   setOnlyOneTrue('youtube');
                 });
               },
@@ -214,7 +216,7 @@ class _InstaServicesState extends State<InstaServices> {
               isTapped: hasSpotifyBeenTapped,
               onTap: () {
                 setState(() {
-                  ref.read(instaCatValueProvider).searchByName('spotify');
+                  ref.read(instaCategoriesProvider).searchByName('spotify');
                   setOnlyOneTrue('spotify');
                 });
               },
@@ -229,7 +231,7 @@ class _InstaServicesState extends State<InstaServices> {
               isTapped: hasSnapchatBeenTapped,
               onTap: () {
                 setState(() {
-                  ref.read(instaCatValueProvider).searchByName('snapchat');
+                  ref.read(instaCategoriesProvider).searchByName('snapchat');
                   setOnlyOneTrue('snapchat');
                 });
               },
@@ -240,7 +242,7 @@ class _InstaServicesState extends State<InstaServices> {
               isTapped: hasTelegramBeenTapped,
               onTap: () {
                 setState(() {
-                  ref.read(instaCatValueProvider).searchByName('telegram');
+                  ref.read(instaCategoriesProvider).searchByName('telegram');
                   setOnlyOneTrue('telegram');
                 });
               },
@@ -255,7 +257,7 @@ class _InstaServicesState extends State<InstaServices> {
               isTapped: hasAudiomackBeenTapped,
               onTap: () {
                 setState(() {
-                  ref.read(instaCatValueProvider).searchByName('audiomack');
+                  ref.read(instaCategoriesProvider).searchByName('audiomack');
                   setOnlyOneTrue('audiomack');
                 });
               },
@@ -266,7 +268,7 @@ class _InstaServicesState extends State<InstaServices> {
               isTapped: hasTiktokBeenTapped,
               onTap: () {
                 setState(() {
-                  ref.read(instaCatValueProvider).searchByName('tiktok');
+                  ref.read(instaCategoriesProvider).searchByName('tiktok');
                   setOnlyOneTrue('tiktok');
                 });
               },
@@ -283,7 +285,7 @@ class _InstaServicesState extends State<InstaServices> {
               onTap: () {
                 setState(
                   () {
-                    ref.read(instaCatValueProvider).searchByName('deezer');
+                    ref.read(instaCategoriesProvider).searchByName('deezer');
                     setOnlyOneTrue('deezer');
                   },
                 );
@@ -314,10 +316,10 @@ class _ServicesDemoWidgetState extends State<ServicesDemoWidget> {
   Widget build(BuildContext context) {
     return Consumer(
       builder: (context, ref, child) {
-        final service = ref.watch(instaCatValueProvider).getAllServicesModel;
+        final service = ref.watch(instaCategoriesProvider).getAllServicesModel;
         // Get the filteredData object based on your logic
         final filteredData = ref
-            .watch(instaCatValueProvider)
+            .watch(instaCategoriesProvider)
             .filteredData; // Replace with your logic to get filteredData
 
         // Check if any of the boolean variables are true

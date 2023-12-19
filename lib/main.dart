@@ -7,12 +7,8 @@ import 'package:insta_king/core/theme/env_theme_manager.dart';
 import 'package:insta_king/data/services/firebase_api.dart';
 import 'package:insta_king/presentation/controllers/insta_dashboard_controller.dart';
 import 'package:insta_king/presentation/controllers/insta_login_controller.dart';
-import 'package:insta_king/presentation/controllers/theme_controller.dart';
-import 'package:insta_king/presentation/views/dashboard/insta_dashboard.dart';
-import 'package:insta_king/presentation/views/notifications.dart';
 import 'package:insta_king/presentation/views/shared_widgets/shared_loading.dart';
 import 'package:oktoast/oktoast.dart';
-
 import 'package:insta_king/firebase_options.dart';
 import 'package:insta_king/presentation/views/authentication/login/login.dart';
 import 'package:insta_king/utils/locator.dart';
@@ -43,14 +39,10 @@ class InstaKingGuide extends ConsumerStatefulWidget {
 class _InstaKing extends ConsumerState<InstaKingGuide> {
   late final DashBoardController screenController =
       ref.read(dashBoardControllerProvider.notifier);
-  late final ThemeController themeController =
-      ref.watch(themeControllerProvider.notifier);
+
   late Future<String> getEmailFuture;
-  late final isLoggedIn =
-      ref.read(instaLoginController.notifier).isUserLoggedIn;
   late final weRememberPass =
       ref.read(instaLoginController.notifier).isBoxChecked;
-
   @override
   void initState() {
     getEmailFuture = screenController.getEmail();
@@ -71,27 +63,21 @@ class _InstaKing extends ConsumerState<InstaKingGuide> {
             theme: EnvThemeManager.lightTheme,
             darkTheme: EnvThemeManager.darkTheme,
             navigatorKey: navigatorKey,
-            routes: {
-              InstaNitifications.notificationRoute: (context) =>
-                  const InstaNitifications()
-            },
             debugShowCheckedModeBanner: false,
             home: Scaffold(
               body: SafeArea(
                 child: FutureBuilder<String?>(
                   future: getEmailFuture,
                   builder: (context, snapshot) {
-                    // Inside FutureBuilder<String?> builder method
                     if (snapshot.connectionState == ConnectionState.done) {
                       String? email = snapshot.data;
-                      print('${isLoggedIn.toString()}');
+
                       if (email == null || email.isEmpty || !weRememberPass) {
                         return const InstaLogin();
-                      } else if (weRememberPass) {
-                        return const InstaDashboard();
+                      } else if (email.isNotEmpty) {
+                        return const InstaLogin();
                       }
                     }
-// ...                    // In case none of the conditions are met, return an empty container.
                     return const TransparentLoadingScreen();
                   },
                 ),

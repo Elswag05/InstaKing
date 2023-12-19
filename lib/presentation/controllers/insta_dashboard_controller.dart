@@ -12,6 +12,7 @@ final SecureStorageService secureStorageService =
 
 class DashBoardController extends BaseChangeNotifier {
   int page = 0;
+  bool isLoggedIn = false;
 
   Future<String> getName() async {
     String? name = await secureStorageService.read(key: "name");
@@ -28,10 +29,12 @@ class DashBoardController extends BaseChangeNotifier {
   Future<String> getEmail() async {
     String? email = await secureStorageService.read(key: "email");
     if (email == null) {
+      isLoggedIn = false;
       return '';
     } else if (email.isEmpty) {
       return '';
     } else {
+      isLoggedIn = true;
       return email;
     }
   }

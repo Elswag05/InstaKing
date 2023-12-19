@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insta_king/core/constants/env_colors.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
-import 'package:insta_king/presentation/controllers/insta_categories_controller.dart';
 import 'package:insta_king/presentation/controllers/insta_dashboard_controller.dart';
 import 'package:insta_king/presentation/controllers/insta_order_controller.dart';
 import 'package:insta_king/presentation/controllers/insta_profile_controller.dart';
@@ -13,8 +12,6 @@ import 'package:insta_king/presentation/views/home/home_container_widget.dart';
 import 'package:insta_king/presentation/views/home/home_head.dart';
 import 'package:insta_king/presentation/views/home/home_shortcut_widgets.dart';
 import 'package:insta_king/presentation/views/profile/insta_profile.dart';
-import 'package:insta_king/presentation/views/shared_widgets/shared_loading.dart';
-import 'package:insta_king/presentation/views/order/order_history_transactions_view_model.dart';
 import 'package:lottie/lottie.dart';
 
 class InstaHome extends StatefulWidget {
@@ -38,6 +35,7 @@ class _InstaHomeState extends State<InstaHome> with TickerProviderStateMixin {
     _controller = AnimationController(vsync: this);
   }
 
+  @override
   void dispose() {
     _controller.dispose();
     super.dispose();
@@ -48,12 +46,12 @@ class _InstaHomeState extends State<InstaHome> with TickerProviderStateMixin {
     return Scaffold(
       body: SafeArea(
         child: Consumer(builder: (context, ref, child) {
+          ref.watch(instaOrderController).toGetAllOrders();
           void setPageIndexToTwo() {
             final value = ref.watch(dashBoardControllerProvider);
             value.switchPage(2);
           }
 
-          ref.watch(instaOrderController).toGetAllOrders();
           // ref.read(instaCategoriesController.notifier).toGetAllCategories();
           if (!hasFetchedDetails) {
             // Fetch details only if they haven't been fetched yet
@@ -71,8 +69,9 @@ class _InstaHomeState extends State<InstaHome> with TickerProviderStateMixin {
           }
           return RefreshIndicator(
             onRefresh: () async {
-              setState(() {});
-              hasFetchedDetails = false;
+              setState(() {
+                hasFetchedDetails = false;
+              });
             },
             child: Column(
               children: [

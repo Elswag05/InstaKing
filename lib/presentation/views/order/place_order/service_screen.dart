@@ -15,7 +15,7 @@ class ServiceScreen extends ConsumerStatefulWidget {
 
 class _MyWidgetState extends ConsumerState<ServiceScreen> {
   late final CategoriesController servicesControllerScreen =
-      ref.read(instaCatValueProvider);
+      ref.read(instaCategoriesProvider);
 
   @override
   Widget build(BuildContext context) {

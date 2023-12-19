@@ -23,17 +23,20 @@ class OrderChips extends StatelessWidget {
       selectedColor: InstaColors.primaryColor,
       showCheckmark: false,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10.r),
+        borderRadius: BorderRadius.circular(7.r),
       ),
-      padding: EdgeInsets.all(8.sp),
+      padding: EdgeInsets.all(5.sp),
 
       label: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
             icon,
           ),
           Text(
             label,
+            textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 13.sp,
               fontWeight: FontWeight.w400,
