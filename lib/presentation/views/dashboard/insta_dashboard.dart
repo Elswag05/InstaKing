@@ -10,12 +10,13 @@ import 'package:insta_king/presentation/views/order/insta_order.dart';
 import 'package:insta_king/presentation/views/profile/insta_profile.dart';
 
 class InstaDashboard extends HookConsumerWidget {
-  const InstaDashboard({Key? key}) : super(key: key);
+  const InstaDashboard({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final dashboardController = ref.watch(dashBoardControllerProvider);
     final selectedPageIndex = dashboardController.page;
+    // ref.read(instaOrderController).toGetAllOrders();
 
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(

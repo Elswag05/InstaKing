@@ -24,7 +24,7 @@ class TransactionsController extends BaseChangeNotifier {
       final response = await transactionsService.getTransacations();
       if (response.statusCode == 200) {
         log('Note: Transations Has Been Fetched');
-        log('INFO: We have transactions --> ${response.data}');
+        // log('INFO: We have transactions --> ${response.data}');
         instaTransactionsModel = InstaTransactionsModel.fromJson(response.data);
         notifyListeners();
         loadingState = LoadingState.idle;

@@ -5,6 +5,7 @@ import 'package:insta_king/core/extensions/widget_extension.dart';
 import 'package:insta_king/data/local/secure_storage_service.dart';
 import 'package:insta_king/presentation/controllers/insta_dashboard_controller.dart';
 import 'package:insta_king/presentation/controllers/insta_login_controller.dart';
+import 'package:insta_king/presentation/controllers/insta_profile_controller.dart';
 import 'package:insta_king/presentation/views/authentication/login/login.dart';
 import 'package:insta_king/presentation/views/profile/account_profile_card.dart';
 import 'package:insta_king/presentation/views/profile/profile_view_model.dart';
@@ -50,6 +51,12 @@ class _InstaProfileState extends State<InstaProfile> {
                   height: 30.h,
                 ),
                 ProfileCard(
+                  foregroundImageUrl: ref
+                          .read(instaProfileController.notifier)
+                          .model
+                          .user
+                          ?.profilePicture ??
+                      '',
                   onTap: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(

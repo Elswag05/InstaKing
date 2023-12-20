@@ -29,15 +29,15 @@ class ErrorService {
     } else if (e is TimeoutException) {
       // Handle timeout errors
       message = errorService.timeoutMessage;
-      locator<ToastService>().showErrorToast(
-        message,
-      );
+      // locator<ToastService>().showErrorToast(
+      //   message,
+      // );
     } else if (e is Error) {
       // Handle general errors
       message = errorService.defaultErrorMessage;
-      locator<ToastService>().showErrorToast(
-        e.toString(),
-      );
+      // locator<ToastService>().showErrorToast(
+      //   e.toString(),
+      // );
       debugPrint('${e.runtimeType} Things 001');
       debugPrint('${e.toString()} Things 001');
     } else if (e is Exception) {

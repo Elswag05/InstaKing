@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insta_king/core/constants/constants.dart';
+import 'package:insta_king/core/extensions/widget_extension.dart';
+import 'package:insta_king/data/local/toast_service.dart';
 import 'package:insta_king/presentation/views/services/insta_services.dart';
+import 'package:insta_king/utils/locator.dart';
 
 class OrderHistoryViewModel extends StatefulWidget {
   final String idText;
@@ -32,14 +36,41 @@ class OrderHistoryViewModel extends StatefulWidget {
 class _OrderHistoryViewModelState extends State<OrderHistoryViewModel> {
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 240.h,
+    return Container(
+      decoration: BoxDecoration(
+        color: InstaColors.lightColor,
+        borderRadius: BorderRadius.circular(10.r),
+      ),
+      padding: EdgeInsets.all(20.w),
+      margin: EdgeInsets.only(bottom: 10.h),
+      height: 250.h,
       child: Stack(
         children: [
-          lightText('ID', context),
+          lightText('ORDER ID', context),
           Positioned(
             left: MediaQuery.of(context).size.width / 2.5.w,
-            child: darkText(widget.idText, context),
+            child: GestureDetector(
+              onTap: () {
+                Clipboard.setData(
+                  ClipboardData(text: widget.idText),
+                );
+                locator<ToastService>().showSuccessToast(
+                  'You have copied your order ID',
+                );
+              },
+              child: Row(
+                children: [
+                  darkText(widget.idText, context),
+                  Icon(
+                    Icons.copy_rounded,
+                    size: 13.sp,
+                    color: InstaColors.primaryColor,
+                  ).afmPadding(
+                    EdgeInsets.only(left: 5.w),
+                  ),
+                ],
+              ),
+            ),
           ),
           Positioned(
             top: 20.h,
@@ -56,7 +87,7 @@ class _OrderHistoryViewModelState extends State<OrderHistoryViewModel> {
           ),
           Positioned(
             top: 40.h,
-            child: lightText('Link', context),
+            child: lightText('LINK', context),
           ),
           Positioned(
             left: MediaQuery.of(context).size.width / 2.5.w,
@@ -69,7 +100,7 @@ class _OrderHistoryViewModelState extends State<OrderHistoryViewModel> {
           ),
           Positioned(
             top: 60.h,
-            child: lightText('Price', context),
+            child: lightText('PRICE', context),
           ),
           Positioned(
             left: MediaQuery.of(context).size.width / 2.5.w,
@@ -82,7 +113,7 @@ class _OrderHistoryViewModelState extends State<OrderHistoryViewModel> {
           ),
           Positioned(
             top: 80.h,
-            child: lightText('Start', context),
+            child: lightText('START', context),
           ),
           Positioned(
             left: MediaQuery.of(context).size.width / 2.5.w,
@@ -95,7 +126,7 @@ class _OrderHistoryViewModelState extends State<OrderHistoryViewModel> {
           ), //₦
           Positioned(
             top: 100.h,
-            child: lightText('Quantity', context),
+            child: lightText('QUANTITY', context),
           ),
           Positioned(
             left: MediaQuery.of(context).size.width / 2.5.w,
@@ -104,7 +135,7 @@ class _OrderHistoryViewModelState extends State<OrderHistoryViewModel> {
           ),
           Positioned(
             top: 130.h,
-            child: lightText('Service', context),
+            child: lightText('SERVICE', context),
           ),
           Positioned(
             left: MediaQuery.of(context).size.width / 2.5.w,
@@ -117,7 +148,7 @@ class _OrderHistoryViewModelState extends State<OrderHistoryViewModel> {
           ),
           Positioned(
             top: 170.h,
-            child: lightText('Remaining', context),
+            child: lightText('REMAINING', context),
           ),
           Positioned(
             left: MediaQuery.of(context).size.width / 2.5.w,
@@ -130,26 +161,26 @@ class _OrderHistoryViewModelState extends State<OrderHistoryViewModel> {
           ),
           Positioned(
             top: 190.h,
-            child: lightText('Status', context),
+            child: lightText('STATUS', context),
           ),
           Positioned(
             left: MediaQuery.of(context).size.width / 2.5.w,
             top: 190.h,
             child: SizedBox(
               height: 20.h,
-              width: 150.w,
+              width: 100.w,
               child: widget.status,
             ),
           ),
-          Positioned(
-            bottom: 0.sp,
-            child: Container(
-              width: MediaQuery.of(context).size.width - 40.sp,
-              height: 1.sp,
-              color: InstaColors.primaryColor,
-              margin: EdgeInsets.symmetric(vertical: 10.sp),
-            ),
-          )
+          // Positioned(
+          //   bottom: 0.sp,
+          //   child: Container(
+          //     width: MediaQuery.of(context).size.width - 40.sp,
+          //     height: 1.sp,
+          //     color: InstaColors.primaryColor,
+          //     margin: EdgeInsets.symmetric(vertical: 10.sp),
+          //   ),
+          // )
         ],
       ),
     );

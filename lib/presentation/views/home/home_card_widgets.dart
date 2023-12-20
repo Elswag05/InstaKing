@@ -65,7 +65,7 @@ String formatBalance(String balance, {bool noShowNaira = false}) {
     final formatter = NumberFormat.currency(
       symbol: !noShowNaira
           ? '₦'
-          : 'Units', // Set the currency symbol if needed (e.g., '$')
+          : '', // Set the currency symbol if needed (e.g., '$')
       decimalDigits: 2, // Set the number of decimal places
     );
 

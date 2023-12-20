@@ -100,6 +100,7 @@ class FirebaseApi {
   }
 }
 
+
 // Clipboard.setData(
 //   ClipboardData(text: fcmToken),
 // );

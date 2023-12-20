@@ -10,11 +10,13 @@ import 'package:insta_king/presentation/controllers/insta_profile_controller.dar
 class ProfileCard extends StatefulWidget {
   final void Function()? onTap;
   final void Function()? onProfileIconTap;
+  final String foregroundImageUrl;
 
   const ProfileCard({
     super.key,
     this.onTap,
     this.onProfileIconTap,
+    required this.foregroundImageUrl,
   });
 
   @override
@@ -39,43 +41,45 @@ class _ProfileCardState extends State<ProfileCard> {
                 Row(
                   children: [
                     GestureDetector(
-                      onTap: () {
-                        AwesomeDialog(
-                          context: context,
-                          dialogType: DialogType.noHeader,
-                          animType: AnimType.scale,
-                          headerAnimationLoop: true,
-                          title: 'Choose Profile Image',
-                          desc: 'Choose image from...',
-                          btnOkOnPress: () {
-                            profileController.pickImageGallery().then(
-                                  (value) => profileController.toSaveImage(),
-                                );
-                          },
-                          btnCancelOnPress: () {
-                            profileController.pickImageCamera().then(
-                                  (value) => profileController.toSaveImage(),
-                                );
-                          },
-                          btnOkIcon: Icons.photo_size_select_actual_outlined,
-                          btnCancelIcon: Icons.camera_alt_outlined,
-                          btnOkColor: InstaColors.primaryColor,
-                          btnCancelColor:
-                              Theme.of(context).unselectedWidgetColor,
-                          btnOkText: 'Gallery',
-                          btnCancelText: 'Camera',
-                        ).show();
-                      },
-                      child: CircleAvatar(
-                        radius: 20.r,
-                        //foregroundImage: FileImage(widget.imageFile),
-                        backgroundColor: InstaColors.primaryColor,
-                        backgroundImage: AssetImage(
-                          EnvAssets.getImagePath('user-image'),
-                        ),
-                        // foregroundImage: NetworkImage(),
-                      ),
-                    ).afmPadding(EdgeInsets.only(right: 10.w)),
+                        onTap: () {
+                          AwesomeDialog(
+                            context: context,
+                            dialogType: DialogType.noHeader,
+                            animType: AnimType.scale,
+                            headerAnimationLoop: true,
+                            title: 'Choose Profile Image',
+                            desc: 'Choose image from...',
+                            btnOkOnPress: () {
+                              profileController.pickImageGallery().then(
+                                    (value) => profileController.toSaveImage(),
+                                  );
+                            },
+                            btnCancelOnPress: () {
+                              profileController.pickImageCamera().then(
+                                    (value) => profileController.toSaveImage(),
+                                  );
+                            },
+                            btnOkIcon: Icons.photo_size_select_actual_outlined,
+                            btnCancelIcon: Icons.camera_alt_outlined,
+                            btnOkColor: InstaColors.primaryColor,
+                            btnCancelColor:
+                                Theme.of(context).unselectedWidgetColor,
+                            btnOkText: 'Gallery',
+                            btnCancelText: 'Camera',
+                          ).show();
+                        },
+                        child: CircleAvatar(
+                          radius: 20.r,
+                          backgroundColor: InstaColors.primaryColor,
+                          child: ClipOval(
+                            child: Image.network(
+                              widget.foregroundImageUrl,
+                              fit: BoxFit.cover,
+                              width: 40,
+                              height: 40,
+                            ),
+                          ),
+                        )).afmPadding(EdgeInsets.only(right: 10.w)),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

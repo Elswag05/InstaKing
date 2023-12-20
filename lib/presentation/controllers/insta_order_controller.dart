@@ -75,10 +75,9 @@ class OrderController extends BaseChangeNotifier {
     try {
       final res = await getOrder.getAllOrders();
       if (res.statusCode == 200) {
-        // print("INFO: Bearer ${res..data}");
         getAllOrderModel = GetAllOrderModel.fromJson(res.data);
-        debugPrint(getAllOrderModel.data.toString());
-        log('All orders so far ===> ${res.data}');
+        //debugPrint(getAllOrderModel.data.toString());
+        //log('All orders so far ===> ${res.data}');
         // if ( rememberMe) {
         //   await locator<SecureStorageService>().write(key: EnvStrings.us, value: value)
         // }

@@ -66,7 +66,7 @@ class ProfileController extends BaseChangeNotifier {
           imageQuality: 50, // <- Reduce Image quality
           maxHeight: 500, // <- reduce the image size
           maxWidth: 500);
-      debugPrint('${image?.name ?? "No name"}');
+      debugPrint(image?.name ?? "No name");
       if (image == null) return false;
       imagePath = image.path;
       imageFile = File(imagePath);
@@ -85,26 +85,21 @@ class ProfileController extends BaseChangeNotifier {
     try {
       final fileName = imageFile.path.split('/').last;
       debugPrint('FileName: $fileName');
-      debugPrint('FileName: $imagePath');
+      debugPrint('FilePath : $imagePath');
       FormData formData = FormData.fromMap({
-        "profile-image": await MultipartFile.fromFile(
+        'image': await MultipartFile.fromFile(
           imagePath,
-          filename: fileName,
-          //contentType: new MediaType("image", "jpeg"),
         ),
       });
-      if (imageFile.path != '') {
-        final response =
-            await _getProfileService.setProfilePic(formData: formData);
-        debugPrint('${response.toString()}');
-        if (response.statusCode == 200) {
-          loadingState = LoadingState.idle;
-          model = ProfileModel.fromJson(response.data);
-          notifyListeners();
-          return model;
-        }
-      } else {
-        throw Error();
+
+      final response =
+          await _getProfileService.setProfilePic(formData: formData);
+      log(response.toString());
+      if (response.statusMessage == "success") {
+        model = ProfileModel.fromJson(response.data);
+        notifyListeners();
+        loadingState = LoadingState.idle;
+        return model;
       }
     } on DioException catch (e) {
       loadingState = LoadingState.error;
@@ -120,13 +115,13 @@ class ProfileController extends BaseChangeNotifier {
     try {
       final res = await _getProfileService.getProfileDetails();
       if (res.statusCode == 200) {
-        loadingState = LoadingState.idle;
         // locator<ToastService>().showSuccessToast(
         //   'Gotten Profile Details',
         // );
         model = ProfileModel.fromJson(res.data);
         notifyListeners();
-        log('model: ${model.message}');
+        log('model: ${res.data}');
+        loadingState = LoadingState.idle;
         return model;
       } else {
         throw Error();

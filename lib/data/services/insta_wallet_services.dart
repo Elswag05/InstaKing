@@ -14,7 +14,7 @@ class GenerateAccountsService with DioMixin {
             options: Options(
               method: 'GET',
             ));
-    debugPrint('Info: Service has ${response.data}');
+    //debugPrint('Info: Service has ${response.data}');
     return response;
   }
 }

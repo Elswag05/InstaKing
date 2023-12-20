@@ -46,7 +46,10 @@ class StatusContainer extends StatelessWidget {
     return Container(
       height: 30.h,
       width: 100.w,
-      color: getColor(), // Get color based on status
+      decoration: BoxDecoration(
+        color: getColor(),
+        borderRadius: BorderRadius.circular(5.r),
+      ), // Get color based on status
       child: Center(
         child: AutoSizeText(
           getStatusText(), // Get text based on status

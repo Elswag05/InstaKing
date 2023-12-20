@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insta_king/core/constants/env_colors.dart';
+import 'package:insta_king/core/extensions/widget_extension.dart';
 import 'package:insta_king/presentation/controllers/insta_categories_controller.dart';
+import 'package:insta_king/presentation/views/home/home_card_widgets.dart';
 import 'package:insta_king/presentation/views/shared_widgets/shared_loading.dart';
 
 class ServiceScreen extends ConsumerStatefulWidget {
@@ -15,7 +17,7 @@ class ServiceScreen extends ConsumerStatefulWidget {
 
 class _MyWidgetState extends ConsumerState<ServiceScreen> {
   late final CategoriesController servicesControllerScreen =
-      ref.read(instaCategoriesProvider);
+      ref.read(instaCategoriesController);
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +26,6 @@ class _MyWidgetState extends ConsumerState<ServiceScreen> {
       builder: ((context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Scaffold(
-            backgroundColor: Colors.transparent,
             body: Center(child: TransparentLoadingScreen()),
           ); // Show loading indicator while fetching data
         } else if (snapshot.hasError) {
@@ -65,35 +66,85 @@ class _MyWidgetState extends ConsumerState<ServiceScreen> {
                           'ID: ${servicesItem.id} and the service NAME: ${servicesItem.name}');
                       Navigator.pop(context);
                     },
-                    child: Container(
-                      padding: EdgeInsets.all(10.sp),
-                      margin: EdgeInsets.symmetric(
-                        vertical: 10.w,
-                        horizontal: 20.h,
-                      ),
-                      height: 40.h,
-                      alignment: Alignment.centerLeft,
-                      width: MediaQuery.of(context).size.width - 40.w,
-                      decoration: BoxDecoration(
-                        color: InstaColors.lightColor,
-                        border: Border.all(
-                          color: Theme.of(context).shadowColor,
-                          width: 0.5.sp,
+                    child: Column(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.all(10.sp),
+                          // margin: EdgeInsets.symmetric(
+                          //   vertical: 10.w,
+                          //   horizontal: 20.h,
+                          // ),
+                          height: 40.h,
+                          alignment: Alignment.centerLeft,
+                          width: MediaQuery.of(context).size.width - 40.w,
+                          decoration: BoxDecoration(
+                            color: InstaColors.lightColor,
+                            border: Border.all(
+                              color: Theme.of(context).shadowColor,
+                              width: 0.5.sp,
+                            ),
+                            borderRadius: BorderRadius.circular(10.r),
+                          ),
+                          child: AutoSizeText(
+                            servicesItem.name,
+                            minFontSize: 8.sp,
+                            stepGranularity: 2.sp,
+                            style: TextStyle(
+                              fontFamily: 'Monteserrat',
+                              fontWeight: FontWeight.w500,
+                              fontSize: 13.sp,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
                         ),
-                        borderRadius: BorderRadius.circular(10.r),
-                      ),
-                      child: AutoSizeText(
-                        servicesItem.name,
-                        minFontSize: 8.sp,
-                        stepGranularity: 2.sp,
-                        style: TextStyle(
-                          fontFamily: 'Monteserrat',
-                          fontWeight: FontWeight.w500,
-                          fontSize: 13.sp,
-                          overflow: TextOverflow.ellipsis,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "MIN ORDERS :  ${formatBalance(
+                                ref
+                                        .read(instaCategoriesController)
+                                        .getOneServiceDetailsModel
+                                        .data
+                                        ?.min
+                                        .toString() ??
+                                    '',
+                                noShowNaira: true,
+                              )}",
+                              style: TextStyle(
+                                fontSize: 9.sp,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ).afmPadding(EdgeInsets.symmetric(
+                      vertical: 5.w,
+                      horizontal: 10.h,
+                    )),
+                            Text(
+                              "PRICE PER 1K : ${formatBalance(
+                                ref
+                                        .read(instaCategoriesController)
+                                        .getOneServiceDetailsModel
+                                        .data
+                                        ?.price
+                                        .toString() ??
+                                    '',
+                                noShowNaira: false,
+                              )}",
+                              style: TextStyle(
+                                fontSize: 9.sp,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ).afmPadding(EdgeInsets.symmetric(
+                      vertical: 5.w,
+                      horizontal: 10.h,
+                    )),
+                          ],
                         ),
-                      ),
-                    ),
+                      ],
+                    ).afmPadding(EdgeInsets.symmetric(
+                      vertical: 10.w,
+                      horizontal: 20.h,
+                    )),
                   );
                 },
               ),

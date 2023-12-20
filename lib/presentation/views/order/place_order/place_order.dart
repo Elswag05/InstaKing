@@ -1,10 +1,11 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:insta_king/core/constants/enum.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
+import 'package:insta_king/data/services/notification_service.dart';
 import 'package:insta_king/presentation/controllers/insta_categories_controller.dart';
 import 'package:insta_king/presentation/controllers/insta_order_controller.dart';
 import 'package:insta_king/presentation/controllers/text_editing_controller.dart';
@@ -13,11 +14,9 @@ import 'package:insta_king/presentation/views/order/place_order/category_screen.
 import 'package:insta_king/presentation/views/order/place_order/dropdown_model.dart';
 import 'package:insta_king/presentation/views/order/place_order/service_screen.dart';
 import 'package:insta_king/presentation/views/order/place_order/widget.dart';
-import 'package:insta_king/presentation/views/shared_widgets/mini_tags.dart';
 import 'package:insta_king/presentation/views/shared_widgets/input_data_viewmodel.dart';
 import 'package:insta_king/presentation/views/shared_widgets/cta_button.dart';
 import 'package:insta_king/presentation/views/shared_widgets/recurring_appbar.dart';
-import 'package:insta_king/presentation/views/shared_widgets/shared_loading.dart';
 
 class PlaceOrder extends ConsumerStatefulWidget {
   const PlaceOrder({super.key});
@@ -28,6 +27,64 @@ class PlaceOrder extends ConsumerStatefulWidget {
 
 class PlaceOrderState extends ConsumerState<PlaceOrder> {
   late TextEditingController linkController = TextEditingController();
+  late CategoriesController categoriesController =
+      ref.read(instaCategoriesController);
+  late OrderController orderController =
+      ref.read(instaOrderController.notifier);
+  late TextEditingController quantityController =
+      ref.read(textControllerProvider);
+  late TextValueNotifier textValueNotifier = ref.read(textValueProvider);
+  late final instaPlaceOrderState =
+      ref.watch(instaCategoriesController).loadingState;
+
+  String categoryText() {
+    String showCategoryText = 'Choose Category';
+    if (ref.watch(instaCategoriesController).isCatSet) {
+      setState(() {
+        showCategoryText =
+            ref.watch(instaCategoriesController).selectedCategoryName;
+      });
+    } else {
+      showCategoryText = 'Choose Category';
+    }
+    return showCategoryText;
+  }
+
+  String servicesText() {
+    String showServiceText = 'Choose service';
+    if (ref.watch(instaCategoriesController).isServiceSet) {
+      setState(() {
+        showServiceText =
+            ref.watch(instaCategoriesController).selectedServiceName;
+      });
+    } else {
+      showServiceText = 'Choose Service';
+    }
+    return showServiceText;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    LocalNotificationService.initialize();
+
+    // To initialise the sg
+    FirebaseMessaging.instance.getInitialMessage().then((message) {});
+
+    // To initialise when app is not terminated
+    // FirebaseMessaging.onMessage.listen((message) {
+    // if (message.notification != null) {
+    // 	LocalNotificationService.display(message);
+    // }
+    // });
+
+    // To handle when app is open in
+    // user divide and heshe is using it
+    FirebaseMessaging.onMessageOpenedApp.listen((message) {
+      print("on message opened app");
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,9 +107,7 @@ class PlaceOrderState extends ConsumerState<PlaceOrder> {
                           ));
                         },
                         child: buildLoadingContainer(
-                          categoriesController.isCatSet
-                              ? categoriesController.selectedCategoryName
-                              : 'Choose Category',
+                          categoryText(),
                           'Category',
                         ),
                       ),
@@ -63,9 +118,7 @@ class PlaceOrderState extends ConsumerState<PlaceOrder> {
                           ));
                         },
                         child: buildLoadingContainer(
-                          categoriesController.isServiceSet
-                              ? categoriesController.selectedServiceName
-                              : 'Choose Service',
+                          servicesText(),
                           'Services',
                         ),
                       ),
@@ -87,29 +140,35 @@ class PlaceOrderState extends ConsumerState<PlaceOrder> {
                       ),
                       Column(
                         children: [
-                          MiniTags(
-                            textOnTag: 'Min. ${formatBalance(
-                              categoriesController
-                                      .getOneServiceDetailsModel.data?.min
-                                      .toString() ??
-                                  '',
-                              noShowNaira: true,
-                            )} - Max. ${formatBalance(
-                              categoriesController
-                                      .getOneServiceDetailsModel.data?.max
-                                      .toString() ??
-                                  '',
-                              noShowNaira: true,
-                            )}',
-                          ),
-                          MiniTags(
-                            textOnTag:
-                                'Per 1k - ${formatBalance(categoriesController.getOneServiceDetailsModel.data?.price.toString() ?? '')}',
-                          ),
-                          MiniTags(
-                            textOnTag:
-                                'TOTAL: ${formatBalance(categoriesController.calculatePricePerUnit(categoriesController.getOneServiceDetailsModel.data?.price ?? '0.0', ref.watch(textValueProvider).textValue))}',
-                          ),
+                          // MiniTags(
+                          //   textOnTag: 'Min. ${formatBalance(
+                          //     categoriesController
+                          //             .getOneServiceDetailsModel.data?.min
+                          //             .toString() ??
+                          //         '',
+                          //     noShowNaira: true,
+                          //   )} - Max. ${formatBalance(
+                          //     categoriesController
+                          //             .getOneServiceDetailsModel.data?.max
+                          //             .toString() ??
+                          //         '',
+                          //     noShowNaira: true,
+                          //   )}',
+                          // ),
+                          // MiniTags(
+                          //   textOnTag:
+                          //       'Per 1k - ${formatBalance(categoriesController.getOneServiceDetailsModel.data?.price.toString() ?? '')}',
+                          // ),
+                          // MiniTags(
+                          //   textOnTag:
+                          //       'TOTAL: ${formatBalance(categoriesController.calculatePricePerUnit(categoriesController.getOneServiceDetailsModel.data?.price ?? '0.0', ref.watch(textValueProvider).textValue))}',
+                          // ),
+                          CustomButton(
+                              height: 35,
+                              color: Theme.of(context).shadowColor,
+                              buttonTextColor: Theme.of(context).cardColor,
+                              pageCTA:
+                                  "Charge: ${formatBalance(categoriesController.calculatePricePerUnit(categoriesController.getOneServiceDetailsModel.data?.price ?? '0.0', ref.watch(textValueProvider).textValue))}")
                         ],
                       ),
                       SizedBox(
@@ -140,6 +199,7 @@ class PlaceOrderState extends ConsumerState<PlaceOrder> {
                                     Navigator.pop(context);
                                   },
                                 ).show();
+                                //TODO:  //Handle showing Notification here
                               } else {
                                 // Handle failure or other cases
                                 // Optionally, you can show an error message or take appropriate action
@@ -168,57 +228,44 @@ class PlaceOrderState extends ConsumerState<PlaceOrder> {
               ],
             ).afmNeverScroll,
           ),
-          if (loadingState == LoadingState.loading)
-            const TransparentLoadingScreen(),
+          // if (instaPlaceOrderState == LoadingState.loading)
+          //   const TransparentLoadingScreen(),
         ],
       ),
     );
   }
-
-  late CategoriesController categoriesController =
-      ref.read(instaCategoriesProvider);
-  late OrderController orderController =
-      ref.read(instaOrderController.notifier);
-  late TextEditingController quantityController =
-      ref.read(textControllerProvider);
-  late TextValueNotifier textValueNotifier = ref.read(textValueProvider);
-  late LoadingState loadingState =
-      ref.read(instaCategoriesProvider).loadingState;
 }
 
-
-
-
-                    // SharedDropDown(
-                    //   key: GlobalKey<FormFieldState<String>>(),
-                    //   future: Future.delayed(Durations.long4, () {
-                    //     return categoriesController.toGetAllCategories();
-                    //   }),
-                    //   text: 'Choose Category',
-                    //   selectedValue: selectedCategoryValue,
-                    //   dropdownItems: categoryDropDownItems,
-                    //   onChanged: (String? newCategoryValue) {
-                    //     setState(() {
-                    //       categoriesController
-                    //           .setSelectedValue(newCategoryValue ?? '');
-                    //       categoriesController
-                    //           .toGetDropdownItemsById(newCategoryValue!);
-                    //     });
-                    //   },
-                    // ),
-                    // SharedDropDown(
-                    //   key: GlobalKey<FormFieldState<String>>(),
-                    //   future: Future.wait([
-                    //     categoriesController.toGetAllCategories(),
-                    //     categoriesController
-                    //         .setSelectedValue(selectedCategoryValue),
-                    //   ]),
-                    //   text: 'Choose Service',
-                    //   selectedValue: selectedServiceValue,
-                    //   dropdownItems: servicesDropDownItems,
-                    //   onChanged: (String? newServiceValue) {
-                    //     setState(() {
-                    //       categoriesController.setNewValue(newServiceValue);
-                    //     });
-                    //   },
-                    // ),
+// SharedDropDown(
+//   key: GlobalKey<FormFieldState<String>>(),
+//   future: Future.delayed(Durations.long4, () {
+//     return categoriesController.toGetAllCategories();
+//   }),
+//   text: 'Choose Category',
+//   selectedValue: selectedCategoryValue,
+//   dropdownItems: categoryDropDownItems,
+//   onChanged: (String? newCategoryValue) {
+//     setState(() {
+//       categoriesController
+//           .setSelectedValue(newCategoryValue ?? '');
+//       categoriesController
+//           .toGetDropdownItemsById(newCategoryValue!);
+//     });
+//   },
+// ),
+// SharedDropDown(
+//   key: GlobalKey<FormFieldState<String>>(),
+//   future: Future.wait([
+//     categoriesController.toGetAllCategories(),
+//     categoriesController
+//         .setSelectedValue(selectedCategoryValue),
+//   ]),
+//   text: 'Choose Service',
+//   selectedValue: selectedServiceValue,
+//   dropdownItems: servicesDropDownItems,
+//   onChanged: (String? newServiceValue) {
+//     setState(() {
+//       categoriesController.setNewValue(newServiceValue);
+//     });
+//   },
+// ),

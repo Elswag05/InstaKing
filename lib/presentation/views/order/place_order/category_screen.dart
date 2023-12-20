@@ -15,12 +15,14 @@ class CategoryScreen extends ConsumerStatefulWidget {
 
 class _MyWidgetState extends ConsumerState<CategoryScreen> {
   late final CategoriesController categoriesControllerScreen =
-      ref.watch(instaCategoriesProvider);
+      ref.read(instaCategoriesController.notifier);
 
   @override
   Widget build(BuildContext context) {
-    ref.watch(instaCategoriesProvider).toGetDropdownItemsById(
-        ref.watch(instaCategoriesProvider).selectedCategory);
+    Future(() async {
+      await ref.read(instaCategoriesController.notifier).toGetDropdownItemsById(
+          ref.read(instaCategoriesController.notifier).selectedCategory);
+    });
     return FutureBuilder(
       future: categoriesControllerScreen.toGetAllCategories(),
       builder: ((context, snapshot) {

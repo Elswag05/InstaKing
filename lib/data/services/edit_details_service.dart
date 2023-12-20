@@ -33,7 +33,7 @@ class EditDetailService with DioMixin {
             options: Options(
               method: 'PUT',
             ));
-    print('Info: Service has ${response.data}');
+    //print('Info: Service has ${response.data}');
     return response;
   }
 }

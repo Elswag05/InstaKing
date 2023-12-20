@@ -3,23 +3,23 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insta_king/core/constants/constants.dart';
-import 'package:insta_king/core/constants/env_colors.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
 
 class HomeHeaderWidget extends StatefulWidget {
   final String? username;
   final void Function()? onNotificationsTap;
   final void Function()? onProfileTap;
-  final ImageProvider<Object>? foregroundImage;
+  final String? foregroundImageUrl;
   final String url;
-  //File imageFile;
+  final bool isHomeImageNull;
   const HomeHeaderWidget({
-    Key? key,
+    super.key,
     required this.username,
     this.onNotificationsTap,
     this.onProfileTap,
     required this.url,
-    this.foregroundImage,
+    this.foregroundImageUrl,
+    required this.isHomeImageNull,
     // this.imageFile = null,
   });
 
@@ -36,16 +36,19 @@ class _HomeHeaderWidgetState extends State<HomeHeaderWidget> {
         Row(
           children: [
             GestureDetector(
-              onTap: widget.onProfileTap,
-              child: CircleAvatar(
-                radius: 20.r,
-                backgroundColor: InstaColors.primaryColor,
-                backgroundImage: AssetImage(
-                  EnvAssets.getImagePath('user-image'),
-                ),
-                foregroundImage: widget.foregroundImage,
-              ),
-            ),
+                onTap: widget.onProfileTap,
+                child: CircleAvatar(
+                  radius: 20.r,
+                  backgroundColor: InstaColors.primaryColor,
+                  child: ClipOval(
+                    child: Image.network(
+                      widget.foregroundImageUrl ?? '',
+                      fit: BoxFit.cover,
+                      width: 40,
+                      height: 40,
+                    ),
+                  ),
+                )),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

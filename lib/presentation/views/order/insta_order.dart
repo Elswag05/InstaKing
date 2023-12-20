@@ -5,6 +5,7 @@ import 'package:insta_king/core/extensions/widget_extension.dart';
 import 'package:insta_king/presentation/controllers/insta_categories_controller.dart';
 import 'package:insta_king/presentation/controllers/insta_order_controller.dart';
 import 'package:insta_king/presentation/model/get_all_order_model.dart';
+import 'package:insta_king/presentation/views/home/home_card_widgets.dart';
 import 'package:insta_king/presentation/views/order/order_appbar.dart';
 import 'package:insta_king/presentation/views/order/order_history_status.dart';
 import 'package:insta_king/presentation/views/order/order_history_transactions_view_model.dart';
@@ -19,8 +20,7 @@ class InstaOrderHistory extends ConsumerStatefulWidget {
 
 class _InstaOrderHistoryState extends ConsumerState<InstaOrderHistory>
     with SingleTickerProviderStateMixin {
-  late TabController _tabController;
-  // late int _selectedIndex = 0;
+  // late TabController _tabController;
   late TextEditingController textController;
   bool _isAllSelected = true;
   bool _isRunningSelected = false;
@@ -35,17 +35,10 @@ class _InstaOrderHistoryState extends ConsumerState<InstaOrderHistory>
   List<Datum>? _inProgressOrders;
   List<Datum>? _cancelledOrders;
   List<Datum>? _currentOrders;
-  //String _searchQuery = '';
 
   late final order = ref.read(instaOrderController.notifier);
 
-  // void _updateSearchQuery(String query) {
-  //   setState(() {
-  //     _searchQuery = query;
-  //   });
-  // }
-
-  void _updateChipSelection(String chipKey) {
+  _updateChipSelection(String chipKey) {
     setState(() {
       _isAllSelected = false;
       _isCompletedSelected = false;
@@ -56,10 +49,9 @@ class _InstaOrderHistoryState extends ConsumerState<InstaOrderHistory>
 
       switch (chipKey) {
         case 'one':
-          setState(() {
-            _currentOrders = _allOrders ?? order.getAllOrderModel.data;
-            _isAllSelected = true;
-          });
+          _currentOrders = _allOrders ?? order.getAllOrderModel.data;
+          _isAllSelected = true;
+          setState(() {});
           break;
         case 'completed':
           _currentOrders =
@@ -90,36 +82,10 @@ class _InstaOrderHistoryState extends ConsumerState<InstaOrderHistory>
     });
   }
 
-  List<Datum> _filterOrders(String query) {
-    if (query.isEmpty) {
-      return _currentOrders ?? [];
-    }
-
-    return _currentOrders
-            ?.where((order) =>
-                order.link!.toLowerCase().contains(query.toLowerCase()) ||
-                ref
-                    .read(instaCategoriesProvider)
-                    .getOneServiceDetailsModel
-                    .data!
-                    .name!
-                    .toLowerCase()
-                    .contains(query.toLowerCase()) ||
-                order.createdAt.toString().contains(query.toLowerCase()))
-            .toList() ??
-        [];
-  }
-
   @override
   void initState() {
-    _tabController = TabController(length: 3, vsync: this);
-    _tabController.addListener(() {
-      // setState(() {
-      //   // _selectedIndex = _tabController.index;
-      // });
-      // ignore: avoid_print
-      //print("Selected Index: ${_tabController.index}");
-    });
+    // _tabController = TabController(length: 3, vsync: this);
+    // _tabController.addListener(() {});
     _updateChipSelection('one');
     textController = TextEditingController();
     super.initState();
@@ -127,18 +93,13 @@ class _InstaOrderHistoryState extends ConsumerState<InstaOrderHistory>
 
   @override
   void dispose() {
-    _tabController.dispose();
+    // _tabController.dispose();
+    textController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    // List<Datum>? filteredOrders = _filterOrders(_searchQuery);
-    // _currentOrders = filteredOrders;
-
-    // if (filteredOrders.isNotEmpty && filteredOrders != []) {
-    //   _currentOrders = filteredOrders;
-    // }
     return Scaffold(
       body: SafeArea(
           child: Column(
@@ -163,7 +124,9 @@ class _InstaOrderHistoryState extends ConsumerState<InstaOrderHistory>
                       icon: Icons.filter_alt,
                       isSelected: _isAllSelected,
                       onSelected: (one) {
-                        _updateChipSelection('one');
+                        Future(() async {
+                          await _updateChipSelection('one');
+                        });
                       },
                       label: 'All Orders',
                     ),
@@ -171,7 +134,9 @@ class _InstaOrderHistoryState extends ConsumerState<InstaOrderHistory>
                       icon: Icons.done,
                       isSelected: _isCompletedSelected,
                       onSelected: (_) {
-                        _updateChipSelection('completed');
+                        Future(() async {
+                          await _updateChipSelection('completed');
+                        });
                       },
                       label: 'Completed',
                     ),
@@ -179,7 +144,9 @@ class _InstaOrderHistoryState extends ConsumerState<InstaOrderHistory>
                       icon: Icons.change_circle_outlined,
                       isSelected: _isRunningSelected,
                       onSelected: (_) {
-                        _updateChipSelection('running');
+                        Future(() async {
+                          await _updateChipSelection('running');
+                        });
                       },
                       label: 'In Progress',
                     ),
@@ -187,7 +154,9 @@ class _InstaOrderHistoryState extends ConsumerState<InstaOrderHistory>
                       icon: Icons.timelapse_rounded,
                       isSelected: _isPartialDoneSelected,
                       onSelected: (_) {
-                        _updateChipSelection('partialDone');
+                        Future(() async {
+                          await _updateChipSelection('partialDone');
+                        });
                       },
                       label: 'Pending',
                     ),
@@ -195,7 +164,9 @@ class _InstaOrderHistoryState extends ConsumerState<InstaOrderHistory>
                       icon: Icons.download,
                       isSelected: _isInProgressSelected,
                       onSelected: (_) {
-                        _updateChipSelection('inProgress');
+                        Future(() async {
+                          await _updateChipSelection('inProgress');
+                        });
                       },
                       label: 'Processing',
                     ),
@@ -203,7 +174,9 @@ class _InstaOrderHistoryState extends ConsumerState<InstaOrderHistory>
                       icon: Icons.cancel,
                       isSelected: _isCancelledSelected,
                       onSelected: (_) {
-                        _updateChipSelection('cancelled');
+                        Future(() async {
+                          await _updateChipSelection('cancelled');
+                        });
                       },
                       label: 'Cancelled',
                     ),
@@ -216,19 +189,22 @@ class _InstaOrderHistoryState extends ConsumerState<InstaOrderHistory>
           SizedBox(
             height: MediaQuery.of(context).size.height - 180.h,
             child: ListView.builder(
-              itemCount: _currentOrders?.length ?? 0,
+              itemCount: _currentOrders?.length,
               itemBuilder: ((context, index) {
-                ref.read(instaCategoriesProvider).getOneServiceName(
-                    _currentOrders?[index].serviceId.toString());
+                // Future(() async {
+                ref
+                    .read(instaCategoriesController)
+                    .getOneServiceName(_currentOrders?[index].serviceId);
+                // });
                 return OrderHistoryViewModel(
                   idText: _currentOrders?[index].id.toString() ?? '',
                   dateHere: _currentOrders?[index].createdAt.toString() ?? '',
                   linkHere: _currentOrders?[index].link ?? '',
-                  priceHere: _currentOrders?[index].price ?? '',
+                  priceHere: formatBalance(_currentOrders?[index].price ?? '0'),
                   digitHere: _currentOrders?[index].startCounter ?? '',
                   quantity: _currentOrders?[index].quantity ?? '',
                   serviceHere: ref
-                          .read(instaCategoriesProvider)
+                          .read(instaCategoriesController)
                           .getOneServiceDetailsModel
                           .data
                           ?.name ??

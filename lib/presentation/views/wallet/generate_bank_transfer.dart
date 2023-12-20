@@ -17,16 +17,22 @@ class WalletCard1 extends ConsumerStatefulWidget {
 
 class _WalletCard1State extends ConsumerState<WalletCard1> {
   late final generatedAccounts = ref.watch(instaWalletController);
-  // late bool onGenerate;
 
   @override
   void initState() {
     super.initState();
+    _loadData();
+  }
+
+  Future<void> _loadData() async {
+    await generatedAccounts.generateAccountDetails();
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     //   generatedAccounts.checkUserAccountTrue();
+
     if (generatedAccounts.userHasGeneratedAccount) {
       return Consumer(
         builder: (context, ref, child) {

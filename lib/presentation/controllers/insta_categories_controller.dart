@@ -13,7 +13,7 @@ import 'package:insta_king/presentation/model/insta_get_category_model.dart';
 import 'package:insta_king/presentation/model/insta_get_one_service_detail_model.dart';
 import 'package:insta_king/presentation/model/insta_get_service_details_model.dart';
 
-final instaCategoriesProvider = ChangeNotifierProvider<CategoriesController>(
+final instaCategoriesController = ChangeNotifierProvider<CategoriesController>(
     (ref) => CategoriesController());
 
 class CategoryItem {
@@ -108,6 +108,7 @@ class CategoriesController extends BaseChangeNotifier {
             <CategoryItem>[];
 
         loadingState = LoadingState.idle;
+        notifyListeners();
         // locator<ToastService>().showSuccessToast(
         //   'Categories loaded successfully',
         // );
@@ -138,7 +139,7 @@ class CategoriesController extends BaseChangeNotifier {
         .where((datum) => datum.name!.contains(keyword))
         .toList();
     notifyListeners();
-    debugPrint(filteredData.toString());
+    //debugPrint(filteredData.toString());
     return filteredData;
   }
 
@@ -149,9 +150,10 @@ class CategoriesController extends BaseChangeNotifier {
           categoryId: categoryId);
       if (res.statusCode == 200) {
         //final data = GetspecificCategoriesModel.fromJson(res.data);
-        loadingState = LoadingState.idle;
-        debugPrint('${res.data}');
+        //debugPrint('${res.data}');
         //if (data.status == 'success') {
+        loadingState = LoadingState.idle;
+        notifyListeners();
         return true;
         //
         // }
@@ -176,6 +178,7 @@ class CategoriesController extends BaseChangeNotifier {
       if (res.statusCode == 200) {
         getAllServicesModel = GetAllServicesModel.fromJson(res.data);
         loadingState = LoadingState.idle;
+        notifyListeners();
         return getAllServicesModel;
       } else {
         // throw Error();
@@ -193,6 +196,7 @@ class CategoriesController extends BaseChangeNotifier {
   Future<List<ServiceItem>> toGetDropdownItemsById(
     String targetId,
   ) async {
+    loadingState = LoadingState.loading;
     if (allServicesModel.isNotEmpty) {
       // Filter the data based on the specified id
       final filteredServiceData = getAllServicesModel.data
@@ -214,6 +218,7 @@ class CategoriesController extends BaseChangeNotifier {
           [];
       loadingState = LoadingState.idle;
       toGetOneServiceDetail(_selectedServiceValue);
+      notifyListeners();
       return allServicesModel;
     }
     loadingState = LoadingState.loading;
@@ -254,6 +259,7 @@ class CategoriesController extends BaseChangeNotifier {
         // notifyListeners();
 
         loadingState = LoadingState.idle;
+        notifyListeners();
         return allServicesModel;
       } else {
         // throw Error();
@@ -283,6 +289,7 @@ class CategoriesController extends BaseChangeNotifier {
         getOneServiceDetailsModel =
             GetOneServiceDetailsModel.fromJson(res.data);
         loadingState = LoadingState.idle;
+        notifyListeners();
         if (getOneServiceDetailsModel.status == 'success') {
           return true;
         }
