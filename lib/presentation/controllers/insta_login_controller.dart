@@ -65,10 +65,7 @@ class LoginController extends BaseChangeNotifier {
     try {
       final res = await loginService.signIn(email: email, password: password);
       if (res.statusCode == 200) {
-        //print("INFO: Bearer ${res..data}");
-
         data = InstaLoginModel.fromJson(res.data);
-
         await locator<SecureStorageService>().write(
           key: InstaStrings.token,
           value: data.token ?? '',

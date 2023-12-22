@@ -54,7 +54,7 @@ class _InstaLoginState extends State<InstaLogin> with TickerProviderStateMixin {
         Future getEmail =
             ref.read(dashBoardControllerProvider.notifier).getEmail();
         getEmail;
-        final bool userloggedIn = false;
+        late bool userloggedIn = false;
         //     ref.read(dashBoardControllerProvider.notifier).isLoggedIn;
         // final bool userloggedIn =
         //     ref.read(dashBoardControllerProvider.notifier).isLoggedIn;

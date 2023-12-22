@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:insta_king/core/constants/constants.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
 import 'package:insta_king/data/services/notification_service.dart';
 import 'package:insta_king/presentation/controllers/insta_categories_controller.dart';
 import 'package:insta_king/presentation/controllers/insta_order_controller.dart';
+import 'package:insta_king/presentation/controllers/insta_profile_controller.dart';
 import 'package:insta_king/presentation/controllers/text_editing_controller.dart';
 import 'package:insta_king/presentation/views/home/home_card_widgets.dart';
 import 'package:insta_king/presentation/views/order/place_order/category_screen.dart';
@@ -16,7 +18,9 @@ import 'package:insta_king/presentation/views/order/place_order/service_screen.d
 import 'package:insta_king/presentation/views/order/place_order/widget.dart';
 import 'package:insta_king/presentation/views/shared_widgets/input_data_viewmodel.dart';
 import 'package:insta_king/presentation/views/shared_widgets/cta_button.dart';
+import 'package:insta_king/presentation/views/shared_widgets/mini_tags.dart';
 import 'package:insta_king/presentation/views/shared_widgets/recurring_appbar.dart';
+import 'package:insta_king/presentation/views/shared_widgets/shared_loading.dart';
 
 class PlaceOrder extends ConsumerStatefulWidget {
   const PlaceOrder({super.key});
@@ -34,8 +38,7 @@ class PlaceOrderState extends ConsumerState<PlaceOrder> {
   late TextEditingController quantityController =
       ref.read(textControllerProvider);
   late TextValueNotifier textValueNotifier = ref.read(textValueProvider);
-  late final instaPlaceOrderState =
-      ref.watch(instaCategoriesController).loadingState;
+  late OrderController instaPlaceOrderState;
 
   String categoryText() {
     String showCategoryText = 'Choose Category';
@@ -66,32 +69,22 @@ class PlaceOrderState extends ConsumerState<PlaceOrder> {
   @override
   void initState() {
     super.initState();
-
+    linkController = TextEditingController();
+    textValueNotifier = ref.read(textValueProvider);
     LocalNotificationService.initialize();
-
-    // To initialise the sg
     FirebaseMessaging.instance.getInitialMessage().then((message) {});
-
-    // To initialise when app is not terminated
-    // FirebaseMessaging.onMessage.listen((message) {
-    // if (message.notification != null) {
-    // 	LocalNotificationService.display(message);
-    // }
-    // });
-
-    // To handle when app is open in
-    // user divide and heshe is using it
     FirebaseMessaging.onMessageOpenedApp.listen((message) {
-      print("on message opened app");
+      debugPrint("on message opened app");
     });
+    instaPlaceOrderState = ref.read(instaOrderController);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          SafeArea(
+    return Stack(
+      children: [
+        Scaffold(
+          body: SafeArea(
             child: Column(
               children: [
                 const RecurringAppBar(appBarTitle: "Place Order")
@@ -164,11 +157,17 @@ class PlaceOrderState extends ConsumerState<PlaceOrder> {
                           //       'TOTAL: ${formatBalance(categoriesController.calculatePricePerUnit(categoriesController.getOneServiceDetailsModel.data?.price ?? '0.0', ref.watch(textValueProvider).textValue))}',
                           // ),
                           CustomButton(
-                              height: 35,
-                              color: Theme.of(context).shadowColor,
-                              buttonTextColor: Theme.of(context).cardColor,
-                              pageCTA:
-                                  "Charge: ${formatBalance(categoriesController.calculatePricePerUnit(categoriesController.getOneServiceDetailsModel.data?.price ?? '0.0', ref.watch(textValueProvider).textValue))}")
+                            height: 35,
+                            color: Theme.of(context).shadowColor,
+                            buttonTextColor: Theme.of(context).cardColor,
+                            pageCTA: "Charge: ${formatBalance(
+                              categoriesController.calculatePricePerUnit(
+                                  categoriesController.getOneServiceDetailsModel
+                                          .data?.price ??
+                                      '0.0',
+                                  ref.watch(textValueProvider).textValue),
+                            )}",
+                          ),
                         ],
                       ),
                       SizedBox(
@@ -228,10 +227,10 @@ class PlaceOrderState extends ConsumerState<PlaceOrder> {
               ],
             ).afmNeverScroll,
           ),
-          // if (instaPlaceOrderState == LoadingState.loading)
-          //   const TransparentLoadingScreen(),
-        ],
-      ),
+        ),
+        if (instaPlaceOrderState.loadingState == LoadingState.loading)
+          const TransparentLoadingScreen(),
+      ],
     );
   }
 }

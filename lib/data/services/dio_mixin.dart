@@ -7,6 +7,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:insta_king/core/constants/env_strings.dart';
 import 'package:insta_king/data/local/secure_storage_service.dart';
+import 'package:insta_king/data/local/toast_service.dart';
 import 'package:insta_king/utils/locator.dart';
 
 mixin DioMixin {
@@ -34,7 +35,11 @@ mixin DioMixin {
           return handler.next(options);
         },
         onError: (DioError e, handler) {
-          log('Dio Error: ${e.response}', error: e);
+          log('Dio Error 00: ${e.response}', error: e);
+          String message = e.response?.data.toString() ?? '';
+          locator<ToastService>().showErrorToast(
+            message,
+          );
           return handler.next(e);
         },
       ),
@@ -51,15 +56,16 @@ mixin DioMixin {
       return response;
     } on DioError catch (e) {
       // Handle Dio errors (e.g., network issues, non-200 status codes)
-      log('Dio Error: $e', error: e);
-      debugPrint("'Dio Error: $e', error: $e");
+      String message = e.message.toString();
+      locator<ToastService>().showErrorToast(
+        message,
+      );
+      log('Dio Error 01: $e', error: e);
 
       rethrow;
     } catch (e) {
       // Handle other errors
-      log('Dio Error: $e', error: e);
-      debugPrint("'Dio Error: $e', error: $e");
-
+      log('Dio Error 02: $e', error: e);
       rethrow;
     }
   }

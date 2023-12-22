@@ -17,12 +17,13 @@ class ServiceScreen extends ConsumerStatefulWidget {
 
 class _MyWidgetState extends ConsumerState<ServiceScreen> {
   late final CategoriesController servicesControllerScreen =
-      ref.read(instaCategoriesController);
+      ref.read(instaCategoriesController.notifier);
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: servicesControllerScreen.toGetAllCategories(),
+      future: servicesControllerScreen.toGetOneServiceDetail(
+          ref.read(instaCategoriesController).selectedCategory),
       builder: ((context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Scaffold(
@@ -102,13 +103,7 @@ class _MyWidgetState extends ConsumerState<ServiceScreen> {
                           children: [
                             Text(
                               "MIN ORDERS :  ${formatBalance(
-                                ref
-                                        .read(instaCategoriesController)
-                                        .getOneServiceDetailsModel
-                                        .data
-                                        ?.min
-                                        .toString() ??
-                                    '',
+                                servicesItem.min,
                                 noShowNaira: true,
                               )}",
                               style: TextStyle(
@@ -116,18 +111,12 @@ class _MyWidgetState extends ConsumerState<ServiceScreen> {
                                 fontWeight: FontWeight.bold,
                               ),
                             ).afmPadding(EdgeInsets.symmetric(
-                      vertical: 5.w,
-                      horizontal: 10.h,
-                    )),
+                              vertical: 5.w,
+                              horizontal: 10.h,
+                            )),
                             Text(
                               "PRICE PER 1K : ${formatBalance(
-                                ref
-                                        .read(instaCategoriesController)
-                                        .getOneServiceDetailsModel
-                                        .data
-                                        ?.price
-                                        .toString() ??
-                                    '',
+                                servicesItem.price,
                                 noShowNaira: false,
                               )}",
                               style: TextStyle(
@@ -135,9 +124,9 @@ class _MyWidgetState extends ConsumerState<ServiceScreen> {
                                 fontWeight: FontWeight.bold,
                               ),
                             ).afmPadding(EdgeInsets.symmetric(
-                      vertical: 5.w,
-                      horizontal: 10.h,
-                    )),
+                              vertical: 5.w,
+                              horizontal: 10.h,
+                            )),
                           ],
                         ),
                       ],

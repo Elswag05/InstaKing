@@ -41,45 +41,54 @@ class _ProfileCardState extends State<ProfileCard> {
                 Row(
                   children: [
                     GestureDetector(
-                        onTap: () {
-                          AwesomeDialog(
-                            context: context,
-                            dialogType: DialogType.noHeader,
-                            animType: AnimType.scale,
-                            headerAnimationLoop: true,
-                            title: 'Choose Profile Image',
-                            desc: 'Choose image from...',
-                            btnOkOnPress: () {
-                              profileController.pickImageGallery().then(
-                                    (value) => profileController.toSaveImage(),
-                                  );
-                            },
-                            btnCancelOnPress: () {
-                              profileController.pickImageCamera().then(
-                                    (value) => profileController.toSaveImage(),
-                                  );
-                            },
-                            btnOkIcon: Icons.photo_size_select_actual_outlined,
-                            btnCancelIcon: Icons.camera_alt_outlined,
-                            btnOkColor: InstaColors.primaryColor,
-                            btnCancelColor:
-                                Theme.of(context).unselectedWidgetColor,
-                            btnOkText: 'Gallery',
-                            btnCancelText: 'Camera',
-                          ).show();
-                        },
+                      onTap: () {
+                        AwesomeDialog(
+                          context: context,
+                          dialogType: DialogType.noHeader,
+                          animType: AnimType.scale,
+                          headerAnimationLoop: true,
+                          title: 'Choose Profile Image',
+                          desc: 'Choose image from...',
+                          btnOkOnPress: () {
+                            profileController.pickImageGallery().then(
+                                  (value) => profileController.toSaveImage(),
+                                );
+                          },
+                          btnCancelOnPress: () {
+                            profileController.pickImageCamera().then(
+                                  (value) => profileController.toSaveImage(),
+                                );
+                          },
+                          btnOkIcon: Icons.photo_size_select_actual_outlined,
+                          btnCancelIcon: Icons.camera_alt_outlined,
+                          btnOkColor: InstaColors.primaryColor,
+                          btnCancelColor:
+                              Theme.of(context).unselectedWidgetColor,
+                          btnOkText: 'Gallery',
+                          btnCancelText: 'Camera',
+                        ).show();
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(
+                              25.r), // Adjust the radius as needed
+                          border: Border.all(
+                            width: 2.sp,
+                            color: InstaColors.primaryColor,
+                          ),
+                        ),
                         child: CircleAvatar(
                           radius: 20.r,
                           backgroundColor: InstaColors.primaryColor,
-                          child: ClipOval(
-                            child: Image.network(
-                              widget.foregroundImageUrl,
-                              fit: BoxFit.cover,
-                              width: 40,
-                              height: 40,
-                            ),
+                          backgroundImage: AssetImage(
+                            EnvAssets.getImagePath('user-image'),
                           ),
-                        )).afmPadding(EdgeInsets.only(right: 10.w)),
+                          foregroundImage: NetworkImage(
+                            widget.foregroundImageUrl,
+                          ),
+                        ),
+                      ),
+                    ).afmPadding(EdgeInsets.only(right: 10.w)),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

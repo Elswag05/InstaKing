@@ -36,19 +36,28 @@ class _HomeHeaderWidgetState extends State<HomeHeaderWidget> {
         Row(
           children: [
             GestureDetector(
-                onTap: widget.onProfileTap,
+              onTap: widget.onProfileTap,
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(
+                      25.r), // Adjust the radius as needed
+                  border: Border.all(
+                    width: 2.sp,
+                    color: InstaColors.primaryColor,
+                  ),
+                ),
                 child: CircleAvatar(
                   radius: 20.r,
                   backgroundColor: InstaColors.primaryColor,
-                  child: ClipOval(
-                    child: Image.network(
-                      widget.foregroundImageUrl ?? '',
-                      fit: BoxFit.cover,
-                      width: 40,
-                      height: 40,
-                    ),
+                  backgroundImage: AssetImage(
+                    EnvAssets.getImagePath('user-image'),
                   ),
-                )),
+                  foregroundImage: NetworkImage(
+                    widget.foregroundImageUrl ?? '',
+                  ),
+                ),
+              ),
+            ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

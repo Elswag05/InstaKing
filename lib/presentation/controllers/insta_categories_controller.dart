@@ -26,8 +26,15 @@ class CategoryItem {
 class ServiceItem {
   final String id;
   final String name;
+  final String min;
+  final String price;
+  //final String max;
 
-  ServiceItem({required this.id, required this.name});
+  ServiceItem(
+      {required this.min,
+      required this.price,
+      required this.id,
+      required this.name});
 }
 
 class CategoriesController extends BaseChangeNotifier {
@@ -213,6 +220,9 @@ class CategoriesController extends BaseChangeNotifier {
               ?.map((category) => ServiceItem(
                     id: category.id.toString(),
                     name: category.name ?? "",
+                    min: category.min ?? "loading...",
+                    price: category.price ?? "00.00",
+                    //   max: category.max ?? "loading...",
                   ))
               .toList() ??
           [];
@@ -242,6 +252,9 @@ class CategoriesController extends BaseChangeNotifier {
                 ?.map((category) => ServiceItem(
                       id: category.id.toString(),
                       name: category.name ?? "",
+                      min: category.min ?? "00.00",
+                      price: category.price ?? "00.00",
+                      // max: category.max ?? "loading...",
                     ))
                 .toList() ??
             [];
