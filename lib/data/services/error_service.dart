@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:insta_king/data/local/toast_service.dart';
 import 'package:insta_king/utils/locator.dart';
 
 final ErrorService errorService = locator<ErrorService>();
@@ -55,7 +54,7 @@ class ErrorService {
       message = errorService.defaultErrorMessage;
       debugPrint('${e.toString()} Things 004');
     }
-    debugPrint('ERROR MESSAGE :: $message Things 004');
+    debugPrint('ERROR MESSAGE : ${e.toString()} : $message Things 004');
     // Show error message using a toast widget
     // locator<ToastService>().showErrorToast(
     //   message,

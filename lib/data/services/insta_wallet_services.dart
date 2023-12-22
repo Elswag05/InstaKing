@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart' show Options, Response;
-import 'package:flutter/material.dart';
 
 import 'dio_mixin.dart';
 

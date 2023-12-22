@@ -78,7 +78,7 @@ class _ReferralCopyCardState extends State<ReferralCopyCard> {
             ),
             CollectPersonalDetailModel(
               leadTitle: "Affiliate link",
-              hintT: 'https://instaking.ng/signup?ref=${refer.user!.username}',
+              hintT: 'https://instaking.ng/signup?ref=${refer.user?.username}',
               isPasswordT: false,
             ),
             CustomButton(
@@ -88,7 +88,7 @@ class _ReferralCopyCardState extends State<ReferralCopyCard> {
                 Clipboard.setData(
                   ClipboardData(
                       text:
-                          'https://instaking.ng/signup?ref=${refer.user!.username}'),
+                          'https://instaking.ng/signup?ref=${refer.user?.username}'),
                 ).then(
                   (value) {
                     debugPrint(

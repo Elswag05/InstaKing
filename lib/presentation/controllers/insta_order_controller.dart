@@ -74,21 +74,15 @@ class OrderController extends BaseChangeNotifier {
     loadingState = LoadingState.loading;
     try {
       final res = await getOrder.getAllOrders();
-      if (res.statusCode == 200) {
+      //debugPrint('This is the response ${res.data.toString()}');
+      if (res.statusCode == 200 || res.statusCode == 201) {
         getAllOrderModel = GetAllOrderModel.fromJson(res.data);
         //debugPrint(getAllOrderModel.data.toString());
-        //log('All orders so far ===> ${res.data}');
-        // if ( rememberMe) {
-        //   await locator<SecureStorageService>().write(key: EnvStrings.us, value: value)
-        // }
-
-        // locator<ToastService>().showSuccessToast(
-        //   'Order loaded successfully',
-        // );
-        //print("INFO: Success converting data to model");
+        debugPrint('All orders so far have been gotten');
         loadingState = LoadingState.idle;
         return true;
       } else {
+        log('All orders not gotten');
         throw Error();
       }
     } on DioException catch (e) {

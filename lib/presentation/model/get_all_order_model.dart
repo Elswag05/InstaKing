@@ -33,7 +33,7 @@ class GetAllOrderModel {
         message: json["message"],
         data: json["data"] == null
             ? []
-            : List<Datum>.from(json["data"]!.map((x) => Datum.fromJson(x))),
+            : List<Datum>.from(json["data"]?.map((x) => Datum.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -206,7 +206,7 @@ class Datum {
         remain: json["remain"],
         runs: json["runs"],
         interval: json["interval"],
-        status: statusValues.map[json["status"]]!,
+        status: statusValues.map[json["status"]],
         apiOrder: json["api_order"],
         dripFeed: json["drip_feed"],
         dripfeedQuantity: json["dripfeed_quantity"],
@@ -261,12 +261,12 @@ enum Comments { EMPTY, HELP_US }
 final commentsValues =
     EnumValues({"": Comments.EMPTY, "Help us": Comments.HELP_US});
 
-enum Status { CANCELED, COMPLETED, INPROGRESS, PENDING, PROCESSING }
+enum Status { CANCELED, COMPLETED, PARTIAL, PENDING, PROCESSING }
 
 final statusValues = EnumValues({
   "canceled": Status.CANCELED,
   "completed": Status.COMPLETED,
-  "inprogress": Status.INPROGRESS,
+  "partial": Status.PARTIAL,
   "pending": Status.PENDING,
   "processing": Status.PROCESSING
 });

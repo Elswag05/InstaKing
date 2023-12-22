@@ -97,7 +97,7 @@ class _ProfileCardState extends State<ProfileCard> {
                           children: [
                             SizedBox(
                               child: AutoSizeText(
-                                '${apiData.user!.fname} ${apiData.user!.lname}',
+                                '${apiData.user?.fname} ${apiData.user?.lname}',
                                 minFontSize: 10.sp,
                                 stepGranularity: 2.sp,
                                 style: TextStyle(

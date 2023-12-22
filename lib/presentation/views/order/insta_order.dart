@@ -10,6 +10,8 @@ import 'package:insta_king/presentation/views/order/order_appbar.dart';
 import 'package:insta_king/presentation/views/order/order_history_status.dart';
 import 'package:insta_king/presentation/views/order/order_history_transactions_view_model.dart';
 import 'package:insta_king/presentation/views/order/order_tabs/main_order_tabs.dart';
+import 'package:insta_king/presentation/views/shared_widgets/shared_loading.dart';
+import 'package:lottie/lottie.dart';
 
 class InstaOrderHistory extends ConsumerStatefulWidget {
   const InstaOrderHistory({super.key});
@@ -19,8 +21,9 @@ class InstaOrderHistory extends ConsumerStatefulWidget {
 }
 
 class _InstaOrderHistoryState extends ConsumerState<InstaOrderHistory>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   // late TabController _tabController;
+  late final AnimationController _controller;
   late TextEditingController textController;
   bool _isAllSelected = true;
   bool _isRunningSelected = false;
@@ -60,7 +63,7 @@ class _InstaOrderHistoryState extends ConsumerState<InstaOrderHistory>
           break;
         case 'running':
           _currentOrders =
-              _runningOrders ?? order.getOrdersByStatus(Status.INPROGRESS);
+              _runningOrders ?? order.getOrdersByStatus(Status.PARTIAL);
           _isRunningSelected = true;
           break;
         case 'partialDone':
@@ -84,16 +87,14 @@ class _InstaOrderHistoryState extends ConsumerState<InstaOrderHistory>
 
   @override
   void initState() {
-    // _tabController = TabController(length: 3, vsync: this);
-    // _tabController.addListener(() {});
     _updateChipSelection('one');
     textController = TextEditingController();
+    _controller = AnimationController(vsync: this);
     super.initState();
   }
 
   @override
   void dispose() {
-    // _tabController.dispose();
     textController.dispose();
     super.dispose();
   }
@@ -187,36 +188,62 @@ class _InstaOrderHistoryState extends ConsumerState<InstaOrderHistory>
             ),
           ),
           SizedBox(
-            height: MediaQuery.of(context).size.height - 180.h,
-            child: ListView.builder(
-              itemCount: _currentOrders?.length,
-              itemBuilder: ((context, index) {
-                // Future(() async {
-                ref
-                    .read(instaCategoriesController)
-                    .getOneServiceName(_currentOrders?[index].serviceId);
-                // });
-                return OrderHistoryViewModel(
-                  idText: _currentOrders?[index].id.toString() ?? '',
-                  dateHere: _currentOrders?[index].createdAt.toString() ?? '',
-                  linkHere: _currentOrders?[index].link ?? '',
-                  priceHere: formatBalance(_currentOrders?[index].price ?? '0'),
-                  digitHere: _currentOrders?[index].startCounter ?? '',
-                  quantity: _currentOrders?[index].quantity ?? '',
-                  serviceHere: ref
-                          .read(instaCategoriesController)
-                          .getOneServiceDetailsModel
-                          .data
-                          ?.name ??
-                      '',
-                  remNant: _currentOrders?[index].remain ?? '',
-                  status: StatusContainer(
-                    status: _currentOrders?[index].status ?? Status.PENDING,
-                  ),
-                );
-              }),
-            ).afmGetFuture(order.toGetAllOrders()),
-          ).afmPadding(EdgeInsets.symmetric(vertical: 10.h, horizontal: 20.h)),
+              height: MediaQuery.of(context).size.height - 180.h,
+              child: FutureBuilder(
+                  future:
+                      ref.read(instaOrderController.notifier).toGetAllOrders(),
+                  builder: ((context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      if (_currentOrders != null) {
+                        return ListView.builder(
+                          itemCount: _currentOrders?.length ?? 0,
+                          itemBuilder: ((context, index) {
+                            ref
+                                .read(instaCategoriesController)
+                                .getOneServiceName(
+                                    _currentOrders?[index].serviceId);
+                            return OrderHistoryViewModel(
+                              idText:
+                                  _currentOrders?[index].id.toString() ?? '',
+                              dateHere:
+                                  _currentOrders?[index].createdAt.toString() ??
+                                      '',
+                              linkHere: _currentOrders?[index].link ?? '',
+                              priceHere: formatBalance(
+                                  _currentOrders?[index].price ?? '0'),
+                              digitHere:
+                                  _currentOrders?[index].startCounter ?? '',
+                              quantity: _currentOrders?[index].quantity ?? '',
+                              serviceHere: ref
+                                      .read(instaCategoriesController)
+                                      .getOneServiceDetailsModel
+                                      .data
+                                      ?.name ??
+                                  '',
+                              remNant: _currentOrders?[index].remain ?? '',
+                              status: StatusContainer(
+                                status: _currentOrders?[index].status ??
+                                    Status.PENDING,
+                              ),
+                            );
+                          }),
+                        );
+                      } else {
+                        return Lottie.asset(
+                          "assets/animation/null-animation.json",
+                          controller: _controller,
+                          onLoaded: (composition) {
+                            _controller
+                              ..duration = composition.duration
+                              ..repeat();
+                          },
+                        );
+                      }
+                    } else {
+                      return const TransparentLoadingScreen();
+                    }
+                  }))).afmPadding(
+              EdgeInsets.symmetric(vertical: 10.h, horizontal: 20.h)),
         ],
       )
               .afmPadding(
@@ -226,3 +253,18 @@ class _InstaOrderHistoryState extends ConsumerState<InstaOrderHistory>
     );
   }
 }
+
+// });
+                          // if (_currentOrders != null) {
+
+                          // } else {
+                          // return Lottie.asset(
+                          //   "assets/animation/null-animation.json",
+                          //   controller: _controller,
+                          //   onLoaded: (composition) {
+                          //     _controller
+                          //       ..duration = composition.duration
+                          //       ..repeat();
+                          //   },
+                          // );
+                          // }

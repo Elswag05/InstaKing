@@ -4,7 +4,6 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:insta_king/data/local/secure_storage_service.dart';
-import 'package:insta_king/main.dart';
 import 'package:insta_king/utils/locator.dart';
 
 class FirebaseApi {

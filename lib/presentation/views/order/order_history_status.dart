@@ -12,7 +12,7 @@ class StatusContainer extends StatelessWidget {
   // Method to get the color based on the status
   Color getColor() {
     switch (status) {
-      case Status.INPROGRESS:
+      case Status.PARTIAL:
         return Colors.blue;
       case Status.COMPLETED:
         return Colors.green;
@@ -28,7 +28,7 @@ class StatusContainer extends StatelessWidget {
   // Method to get the text based on the status
   String getStatusText() {
     switch (status) {
-      case Status.INPROGRESS:
+      case Status.PARTIAL:
         return 'In Progress';
       case Status.COMPLETED:
         return 'Completed';

@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:insta_king/core/constants/env_colors.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
+import 'package:insta_king/presentation/controllers/insta_profile_controller.dart';
 import 'package:insta_king/presentation/controllers/insta_wallet_controller.dart';
 import 'package:insta_king/presentation/views/shared_widgets/cta_button.dart';
 import 'package:insta_king/presentation/views/shared_widgets/shared_loading.dart';
@@ -31,152 +32,165 @@ class _WalletCard1State extends ConsumerState<WalletCard1> {
 
   @override
   Widget build(BuildContext context) {
-    //   generatedAccounts.checkUserAccountTrue();
-
-    if (generatedAccounts.userHasGeneratedAccount) {
-      return Consumer(
-        builder: (context, ref, child) {
-          return Container(
-            color: Theme.of(context).cardColor,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Bank Transfer',
-                  style: TextStyle(
-                    fontFamily: 'Montesserat',
-                    fontSize: 15.sp,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ).afmPadding(
-                  EdgeInsets.only(
-                    bottom: 20.sp,
-                  ),
-                ),
-                Column(
+    return FutureBuilder(
+        future: generatedAccounts
+            .checkUserAccounts(ref.read(instaProfileController.notifier).model),
+        builder: ((context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            if (generatedAccounts.userHasGeneratedAccount ||
+                generatedAccounts.accountIsGen) {
+              return Consumer(
+                builder: (context, ref, child) {
+                  return Container(
+                    color: Theme.of(context).cardColor,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Bank Transfer',
+                          style: TextStyle(
+                            fontFamily: 'Montesserat',
+                            fontSize: 15.sp,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ).afmPadding(
+                          EdgeInsets.only(
+                            bottom: 20.sp,
+                          ),
+                        ),
+                        Column(
+                          children: [
+                            Text(
+                              'Make transfer into the account number below to fund your wallet automatically',
+                              style: TextStyle(
+                                fontFamily: 'Montesserat',
+                                fontSize: 15.sp,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ).afmPadding(
+                              EdgeInsets.only(
+                                bottom: 10.sp,
+                              ),
+                            ),
+                            FutureBuilder(
+                              future:
+                                  generatedAccounts.generateAccountDetails(),
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.done) {
+                                  return SizedBox(
+                                    width: MediaQuery.of(context).size.width -
+                                        40.sp,
+                                    height: 240.h,
+                                    child: ListView.builder(
+                                      itemCount:
+                                          generatedAccounts.model.data?.length,
+                                      itemBuilder: (((context, index) {
+                                        return AccountDetails(
+                                          accountName: generatedAccounts.model
+                                                  .data?[index].accountName ??
+                                              'Loading...',
+                                          bankName: generatedAccounts.model
+                                                  .data?[index].bankName ??
+                                              'Loading...',
+                                          accountNumber: generatedAccounts.model
+                                                  .data?[index].accountNumber ??
+                                              'Loading...',
+                                        );
+                                      })),
+                                    ),
+                                  );
+                                } else {
+                                  return const Center(
+                                      child: TransparentLoadingScreen());
+                                }
+                              },
+                            ),
+                          ],
+                        ),
+                      ],
+                    ).afmPadding(
+                      EdgeInsets.all(20.sp),
+                    ),
+                  )
+                      .afmBorderRadius(
+                        BorderRadius.circular(10.r),
+                      )
+                      .afmPadding(
+                        EdgeInsets.only(
+                            bottom: 20.sp, left: 20.sp, right: 20.sp),
+                      );
+                },
+              );
+            } else {
+              return Container(
+                color: Theme.of(context).cardColor,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Make transfer into the account number below to fund your wallet automatically',
+                      'Bank Transfer',
                       style: TextStyle(
                         fontFamily: 'Montesserat',
                         fontSize: 15.sp,
-                        fontWeight: FontWeight.w500,
+                        fontWeight: FontWeight.bold,
                       ),
                     ).afmPadding(
                       EdgeInsets.only(
-                        bottom: 10.sp,
+                        bottom: 20.sp,
                       ),
                     ),
-                    FutureBuilder(
-                      future: generatedAccounts.generateAccountDetails(),
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.done) {
-                          return SizedBox(
-                            width: MediaQuery.of(context).size.width - 40.sp,
-                            height: 240.h,
-                            child: ListView.builder(
-                              itemCount: generatedAccounts.model.data!.length,
-                              itemBuilder: (((context, index) {
-                                return AccountDetails(
-                                  accountName: generatedAccounts
-                                          .model.data![index].accountName ??
-                                      'Loading...',
-                                  bankName: generatedAccounts
-                                          .model.data![index].bankName ??
-                                      'Loading...',
-                                  accountNumber: generatedAccounts
-                                          .model.data![index].accountNumber ??
-                                      'Loading...',
-                                );
-                              })),
+                    SizedBox(
+                      height: 30.h,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            width: 5.w,
+                          ),
+                          Icon(
+                            Icons.warning_amber_outlined,
+                            color: InstaColors.errorColor,
+                            size: 13.sp,
+                          ),
+                          SizedBox(
+                            height: 30.h,
+                            width: MediaQuery.of(context).size.width - 100.w,
+                            child: Text(
+                              'You have not been assigned an account yet!',
+                              style: TextStyle(
+                                fontFamily: 'Montesserat',
+                                fontSize: 13.sp,
+                                fontWeight: FontWeight.w500,
+                                overflow: TextOverflow.clip,
+                              ),
                             ),
-                          );
-                        } else {
-                          return const Center(
-                              child: TransparentLoadingScreen());
-                        }
+                          )
+                        ],
+                      ),
+                    ),
+                    CustomButton(
+                      pageCTA: 'Generate Accounts',
+                      toSignOrLogin: () async {
+                        await generatedAccounts.generateAccountDetails();
+                        setState(() {});
                       },
                     ),
                   ],
+                ).afmPadding(
+                  EdgeInsets.all(20.sp),
                 ),
-              ],
-            ).afmPadding(
-              EdgeInsets.all(20.sp),
-            ),
-          )
-              .afmBorderRadius(
-                BorderRadius.circular(10.r),
               )
-              .afmPadding(
-                EdgeInsets.only(bottom: 20.sp, left: 20.sp, right: 20.sp),
-              );
-        },
-      );
-    } else {
-      return Container(
-        color: Theme.of(context).cardColor,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Bank Transfer',
-              style: TextStyle(
-                fontFamily: 'Montesserat',
-                fontSize: 15.sp,
-                fontWeight: FontWeight.bold,
-              ),
-            ).afmPadding(
-              EdgeInsets.only(
-                bottom: 20.sp,
-              ),
-            ),
-            SizedBox(
-              height: 30.h,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    width: 5.w,
-                  ),
-                  Icon(
-                    Icons.warning_amber_outlined,
-                    color: InstaColors.errorColor,
-                    size: 13.sp,
-                  ),
-                  SizedBox(
-                    height: 30.h,
-                    width: MediaQuery.of(context).size.width - 100.w,
-                    child: Text(
-                      'You have not been assigned an account yet!',
-                      style: TextStyle(
-                        fontFamily: 'Montesserat',
-                        fontSize: 13.sp,
-                        fontWeight: FontWeight.w500,
-                        overflow: TextOverflow.clip,
-                      ),
-                    ),
+                  .afmBorderRadius(
+                    BorderRadius.circular(10.r),
                   )
-                ],
-              ),
-            ),
-            CustomButton(
-              pageCTA: 'Generate Accounts',
-              toSignOrLogin: () async {
-                await generatedAccounts.generateAccountDetails();
-                setState(() {});
-              },
-            ),
-          ],
-        ).afmPadding(
-          EdgeInsets.all(20.sp),
-        ),
-      )
-          .afmBorderRadius(
-            BorderRadius.circular(10.r),
-          )
-          .afmPadding(
-            EdgeInsets.only(bottom: 20.sp, left: 20.sp, right: 20.sp),
-          );
-    }
+                  .afmPadding(
+                    EdgeInsets.only(bottom: 20.sp, left: 20.sp, right: 20.sp),
+                  );
+            }
+          } else {
+            return const TransparentLoadingScreen();
+          }
+        }));
   }
 }

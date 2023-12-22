@@ -53,7 +53,8 @@ class _HomeHeaderWidgetState extends State<HomeHeaderWidget> {
                     EnvAssets.getImagePath('user-image'),
                   ),
                   foregroundImage: NetworkImage(
-                    widget.foregroundImageUrl ?? '',
+                    widget.foregroundImageUrl ??
+                        'https://images.app.goo.gl/kQXQGDhGmgvrVVWCA',
                   ),
                 ),
               ),

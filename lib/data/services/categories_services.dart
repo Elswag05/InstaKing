@@ -1,6 +1,4 @@
 import 'package:dio/dio.dart' show Response;
-import 'package:flutter/material.dart';
-
 import 'dio_mixin.dart';
 
 ///This is to get all categories. It returns a rather short response in this form  id, name, and two other things
