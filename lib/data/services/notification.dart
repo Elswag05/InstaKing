@@ -6,6 +6,49 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:insta_king/data/local/secure_storage_service.dart';
 import 'package:insta_king/utils/locator.dart';
 
+class LocalNotification {
+  static final FlutterLocalNotificationsPlugin
+      _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+  static Future initLocalNotifications() async {
+    // initialise the plugin. app_icon needs to be a added as a drawable resource to the Android head project
+    const AndroidInitializationSettings initializationSettingsAndroid =
+        AndroidInitializationSettings('@mipmap/ic_launcher');
+    final DarwinInitializationSettings initializationSettingsDarwin =
+        DarwinInitializationSettings(
+            onDidReceiveLocalNotification: (id, title, body, payload) {});
+    const LinuxInitializationSettings initializationSettingsLinux =
+        LinuxInitializationSettings(defaultActionName: 'Open notification');
+    final InitializationSettings initializationSettings =
+        InitializationSettings(
+      android: initializationSettingsAndroid,
+      iOS: initializationSettingsDarwin,
+      linux: initializationSettingsLinux,
+    );
+    _flutterLocalNotificationsPlugin.initialize(initializationSettings,
+        onDidReceiveNotificationResponse: (details) {});
+  }
+
+  ///To show simple notification when user purchases order
+  static Future showPurchaseNotification({
+    required String title,
+    required String body,
+    required String payload,
+  }) async {
+    const AndroidNotificationDetails androidNotificationDetails =
+        AndroidNotificationDetails('your channel id', 'your channel name',
+            channelDescription:
+                'Sends response notification to users after purchase',
+            importance: Importance.max,
+            priority: Priority.high,
+            styleInformation: BigTextStyleInformation(''),
+            ticker: 'ticker');
+    const NotificationDetails notificationDetails =
+        NotificationDetails(android: androidNotificationDetails);
+    await _flutterLocalNotificationsPlugin
+        .show(0, title, body, notificationDetails, payload: payload);
+  }
+}
+
 class FirebaseApi {
   final _firebaseMessaging = FirebaseMessaging.instance;
 

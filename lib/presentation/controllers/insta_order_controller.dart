@@ -29,8 +29,9 @@ class OrderController extends BaseChangeNotifier {
 
   Future<bool> toPlaceOrder(
       String serviceId, String link, String quantity) async {
-    loadingState = LoadingState.loading;
     try {
+      loadingState = LoadingState.loading;
+      print(loadingState);
       final res = await placeOrder.placeOrder(serviceId, link, quantity);
       if (res.statusCode == 201) {
         debugPrint("INFO: Bearer ${res.data}");
@@ -71,8 +72,8 @@ class OrderController extends BaseChangeNotifier {
   }
 
   Future<bool> toGetAllOrders() async {
-    loadingState = LoadingState.loading;
     try {
+      loadingState = LoadingState.loading;
       final res = await getOrder.getAllOrders();
       //debugPrint('This is the response ${res.data.toString()}');
       if (res.statusCode == 200 || res.statusCode == 201) {
@@ -96,8 +97,8 @@ class OrderController extends BaseChangeNotifier {
   }
 
   Future<bool> toGetOrderDetails(orderId) async {
-    loadingState = LoadingState.loading;
     try {
+      loadingState = LoadingState.loading;
       final res =
           await getOrderDetails.getFilteredOrderDetails(orderId: orderId);
       if (res.statusCode == 200) {

@@ -96,6 +96,7 @@ class _InstaOrderHistoryState extends ConsumerState<InstaOrderHistory>
   @override
   void dispose() {
     textController.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
@@ -225,7 +226,12 @@ class _InstaOrderHistoryState extends ConsumerState<InstaOrderHistory>
                                 status: _currentOrders?[index].status ??
                                     Status.PENDING,
                               ),
-                            );
+                            ).afmGetFuture(Future.delayed(Duration.zero, () {
+                              return ref
+                                  .read(instaCategoriesController)
+                                  .getOneServiceName(
+                                      _currentOrders?[index].serviceId);
+                            }));
                           }),
                         );
                       } else {
@@ -253,18 +259,3 @@ class _InstaOrderHistoryState extends ConsumerState<InstaOrderHistory>
     );
   }
 }
-
-// });
-                          // if (_currentOrders != null) {
-
-                          // } else {
-                          // return Lottie.asset(
-                          //   "assets/animation/null-animation.json",
-                          //   controller: _controller,
-                          //   onLoaded: (composition) {
-                          //     _controller
-                          //       ..duration = composition.duration
-                          //       ..repeat();
-                          //   },
-                          // );
-                          // }

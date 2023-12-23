@@ -16,7 +16,7 @@ final instaWalletController = ChangeNotifierProvider<InstaWalletController>(
     (ref) => InstaWalletController());
 
 class InstaWalletController extends BaseChangeNotifier {
-  late bool userHasGeneratedAccount;
+  late bool userHasGeneratedAccount = false;
   final GenerateAccountsService generateAccountsService =
       GenerateAccountsService();
   late GenerateAccountModel model = GenerateAccountModel();

@@ -8,6 +8,7 @@ import 'package:insta_king/presentation/controllers/insta_wallet_controller.dart
 import 'package:insta_king/presentation/views/shared_widgets/cta_button.dart';
 import 'package:insta_king/presentation/views/shared_widgets/shared_loading.dart';
 import 'package:insta_king/presentation/views/wallet/add_funds/account_details.dart';
+import 'package:lottie/lottie.dart';
 
 class WalletCard1 extends ConsumerStatefulWidget {
   const WalletCard1({super.key});
@@ -16,17 +17,20 @@ class WalletCard1 extends ConsumerStatefulWidget {
   ConsumerState<WalletCard1> createState() => _WalletCard1State();
 }
 
-class _WalletCard1State extends ConsumerState<WalletCard1> {
+class _WalletCard1State extends ConsumerState<WalletCard1>
+    with SingleTickerProviderStateMixin {
   late final generatedAccounts = ref.watch(instaWalletController);
-
+  late final AnimationController _controller;
   @override
   void initState() {
+    _controller = AnimationController(vsync: this);
     super.initState();
     _loadData();
   }
 
   Future<void> _loadData() async {
     await generatedAccounts.generateAccountDetails();
+    _controller.dispose();
     setState(() {});
   }
 
@@ -39,89 +43,96 @@ class _WalletCard1State extends ConsumerState<WalletCard1> {
           if (snapshot.connectionState == ConnectionState.done) {
             if (generatedAccounts.userHasGeneratedAccount ||
                 generatedAccounts.accountIsGen) {
-              return Consumer(
-                builder: (context, ref, child) {
-                  return Container(
-                    color: Theme.of(context).cardColor,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+              return Container(
+                color: Theme.of(context).cardColor,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Bank Transfer',
+                      style: TextStyle(
+                        fontFamily: 'Montesserat',
+                        fontSize: 15.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ).afmPadding(
+                      EdgeInsets.only(
+                        bottom: 20.sp,
+                      ),
+                    ),
+                    Column(
                       children: [
                         Text(
-                          'Bank Transfer',
+                          'Make transfer into the account number below to fund your wallet automatically',
                           style: TextStyle(
                             fontFamily: 'Montesserat',
                             fontSize: 15.sp,
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.w500,
                           ),
                         ).afmPadding(
                           EdgeInsets.only(
-                            bottom: 20.sp,
+                            bottom: 10.sp,
                           ),
                         ),
-                        Column(
-                          children: [
-                            Text(
-                              'Make transfer into the account number below to fund your wallet automatically',
-                              style: TextStyle(
-                                fontFamily: 'Montesserat',
-                                fontSize: 15.sp,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ).afmPadding(
-                              EdgeInsets.only(
-                                bottom: 10.sp,
-                              ),
-                            ),
-                            FutureBuilder(
-                              future:
-                                  generatedAccounts.generateAccountDetails(),
-                              builder: (context, snapshot) {
-                                if (snapshot.connectionState ==
-                                    ConnectionState.done) {
-                                  return SizedBox(
-                                    width: MediaQuery.of(context).size.width -
-                                        40.sp,
-                                    height: 240.h,
-                                    child: ListView.builder(
-                                      itemCount:
-                                          generatedAccounts.model.data?.length,
-                                      itemBuilder: (((context, index) {
-                                        return AccountDetails(
-                                          accountName: generatedAccounts.model
-                                                  .data?[index].accountName ??
-                                              'Loading...',
-                                          bankName: generatedAccounts.model
-                                                  .data?[index].bankName ??
-                                              'Loading...',
-                                          accountNumber: generatedAccounts.model
-                                                  .data?[index].accountNumber ??
-                                              'Loading...',
-                                        );
-                                      })),
-                                    ),
-                                  );
-                                } else {
-                                  return const Center(
-                                      child: TransparentLoadingScreen());
-                                }
-                              },
-                            ),
-                          ],
+                        FutureBuilder(
+                          future: generatedAccounts.generateAccountDetails(),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.done) {
+                              if (generatedAccounts.model.data?.isNotEmpty ??
+                                  generatedAccounts.accountIsGen) {
+                                return SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width - 40.sp,
+                                  height: 240.h,
+                                  child: ListView.builder(
+                                    itemCount:
+                                        generatedAccounts.model.data?.length,
+                                    itemBuilder: (((context, index) {
+                                      return AccountDetails(
+                                        accountName: generatedAccounts.model
+                                                .data?[index].accountName ??
+                                            'Loading...',
+                                        bankName: generatedAccounts
+                                                .model.data?[index].bankName ??
+                                            'Loading...',
+                                        accountNumber: generatedAccounts.model
+                                                .data?[index].accountNumber ??
+                                            'Loading...',
+                                      );
+                                    })),
+                                  ),
+                                );
+                              } else {
+                                return Lottie.asset(
+                                  "assets/animation/null-animation.json",
+                                  controller: _controller,
+                                  onLoaded: (composition) {
+                                    _controller
+                                      ..duration = composition.duration
+                                      ..repeat();
+                                  },
+                                );
+                              }
+                            } else {
+                              return const Center(
+                                  child: TransparentLoadingScreen());
+                            }
+                          },
                         ),
                       ],
-                    ).afmPadding(
-                      EdgeInsets.all(20.sp),
                     ),
+                  ],
+                ).afmPadding(
+                  EdgeInsets.all(20.sp),
+                ),
+              )
+                  .afmBorderRadius(
+                    BorderRadius.circular(10.r),
                   )
-                      .afmBorderRadius(
-                        BorderRadius.circular(10.r),
-                      )
-                      .afmPadding(
-                        EdgeInsets.only(
-                            bottom: 20.sp, left: 20.sp, right: 20.sp),
-                      );
-                },
-              );
+                  .afmPadding(
+                    EdgeInsets.only(bottom: 20.sp, left: 20.sp, right: 20.sp),
+                  );
             } else {
               return Container(
                 color: Theme.of(context).cardColor,
@@ -181,11 +192,11 @@ class _WalletCard1State extends ConsumerState<WalletCard1> {
                   EdgeInsets.all(20.sp),
                 ),
               )
-                  .afmBorderRadius(
-                    BorderRadius.circular(10.r),
-                  )
                   .afmPadding(
                     EdgeInsets.only(bottom: 20.sp, left: 20.sp, right: 20.sp),
+                  )
+                  .afmBorderRadius(
+                    BorderRadius.circular(10.r),
                   );
             }
           } else {

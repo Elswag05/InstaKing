@@ -1,12 +1,11 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insta_king/core/constants/constants.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
-import 'package:insta_king/data/services/notification_service.dart';
+import 'package:insta_king/data/services/notification.dart';
 import 'package:insta_king/presentation/controllers/insta_categories_controller.dart';
 import 'package:insta_king/presentation/controllers/insta_order_controller.dart';
 import 'package:insta_king/presentation/controllers/insta_profile_controller.dart';
@@ -18,7 +17,6 @@ import 'package:insta_king/presentation/views/order/place_order/service_screen.d
 import 'package:insta_king/presentation/views/order/place_order/widget.dart';
 import 'package:insta_king/presentation/views/shared_widgets/input_data_viewmodel.dart';
 import 'package:insta_king/presentation/views/shared_widgets/cta_button.dart';
-import 'package:insta_king/presentation/views/shared_widgets/mini_tags.dart';
 import 'package:insta_king/presentation/views/shared_widgets/recurring_appbar.dart';
 import 'package:insta_king/presentation/views/shared_widgets/shared_loading.dart';
 
@@ -38,15 +36,16 @@ class PlaceOrderState extends ConsumerState<PlaceOrder> {
   late TextEditingController quantityController =
       ref.read(textControllerProvider);
   late TextValueNotifier textValueNotifier = ref.read(textValueProvider);
-  late OrderController instaPlaceOrderState;
+
+  late final user = ref.read(instaProfileController.notifier).model.user;
 
   String categoryText() {
     String showCategoryText = 'Choose Category';
     if (ref.watch(instaCategoriesController).isCatSet) {
-      setState(() {
-        showCategoryText =
-            ref.watch(instaCategoriesController).selectedCategoryName;
-      });
+      // setState(() {
+      showCategoryText =
+          ref.watch(instaCategoriesController).selectedCategoryName;
+      //  });
     } else {
       showCategoryText = 'Choose Category';
     }
@@ -56,10 +55,10 @@ class PlaceOrderState extends ConsumerState<PlaceOrder> {
   String servicesText() {
     String showServiceText = 'Choose service';
     if (ref.watch(instaCategoriesController).isServiceSet) {
-      setState(() {
-        showServiceText =
-            ref.watch(instaCategoriesController).selectedServiceName;
-      });
+      // setState(() {
+      showServiceText =
+          ref.watch(instaCategoriesController).selectedServiceName;
+      //  });
     } else {
       showServiceText = 'Choose Service';
     }
@@ -71,167 +70,155 @@ class PlaceOrderState extends ConsumerState<PlaceOrder> {
     super.initState();
     linkController = TextEditingController();
     textValueNotifier = ref.read(textValueProvider);
-    LocalNotificationService.initialize();
-    FirebaseMessaging.instance.getInitialMessage().then((message) {});
-    FirebaseMessaging.onMessageOpenedApp.listen((message) {
-      debugPrint("on message opened app");
-    });
-    instaPlaceOrderState = ref.read(instaOrderController);
+    //LocalNotificationService.initialize();
+    // FirebaseMessaging.instance.getInitialMessage().then((message) {});
+    // FirebaseMessaging.onMessageOpenedApp.listen((message) {
+    //   debugPrint("on message opened app");
+    // });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Scaffold(
-          body: SafeArea(
-            child: Column(
-              children: [
-                const RecurringAppBar(appBarTitle: "Place Order")
-                    .afmPadding(EdgeInsets.only(bottom: 10.h)),
-                Container(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const CategoryScreen(),
-                          ));
-                        },
-                        child: buildLoadingContainer(
-                          categoryText(),
-                          'Category',
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const ServiceScreen(),
-                          ));
-                        },
-                        child: buildLoadingContainer(
-                          servicesText(),
-                          'Services',
-                        ),
-                      ),
-                      CollectPersonalDetailModel(
-                        leadTitle: "Link",
-                        hintT: 'https://link-to-your-social',
-                        isPasswordT: false,
-                        controller: linkController,
-                      ),
-                      CollectPersonalDetailModel(
-                        leadTitle: "Quantity",
-                        hintT: '1',
-                        isPasswordT: false,
-                        controller: quantityController,
-                        isdigit: [FilteringTextInputFormatter.digitsOnly],
-                        onChanged: (value) {
-                          textValueNotifier.textValue = value;
-                        },
-                      ),
-                      Column(
-                        children: [
-                          // MiniTags(
-                          //   textOnTag: 'Min. ${formatBalance(
-                          //     categoriesController
-                          //             .getOneServiceDetailsModel.data?.min
-                          //             .toString() ??
-                          //         '',
-                          //     noShowNaira: true,
-                          //   )} - Max. ${formatBalance(
-                          //     categoriesController
-                          //             .getOneServiceDetailsModel.data?.max
-                          //             .toString() ??
-                          //         '',
-                          //     noShowNaira: true,
-                          //   )}',
-                          // ),
-                          // MiniTags(
-                          //   textOnTag:
-                          //       'Per 1k - ${formatBalance(categoriesController.getOneServiceDetailsModel.data?.price.toString() ?? '')}',
-                          // ),
-                          // MiniTags(
-                          //   textOnTag:
-                          //       'TOTAL: ${formatBalance(categoriesController.calculatePricePerUnit(categoriesController.getOneServiceDetailsModel.data?.price ?? '0.0', ref.watch(textValueProvider).textValue))}',
-                          // ),
-                          CustomButton(
-                            height: 35,
-                            color: Theme.of(context).shadowColor,
-                            buttonTextColor: Theme.of(context).cardColor,
-                            pageCTA: "Charge: ${formatBalance(
-                              categoriesController.calculatePricePerUnit(
-                                  categoriesController.getOneServiceDetailsModel
-                                          .data?.price ??
-                                      '0.0',
-                                  ref.watch(textValueProvider).textValue),
-                            )}",
+    return Consumer(builder: (context, ref, child) {
+      late final OrderController instaPlaceOrderState;
+      instaPlaceOrderState = ref.watch(instaOrderController);
+      return Stack(
+        children: [
+          Scaffold(
+            body: SafeArea(
+              child: Column(
+                children: [
+                  const RecurringAppBar(appBarTitle: "Place Order")
+                      .afmPadding(EdgeInsets.only(bottom: 10.h)),
+                  Container(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => const CategoryScreen(),
+                            ));
+                          },
+                          child: buildLoadingContainer(
+                            categoryText(),
+                            'Category',
                           ),
-                        ],
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => const ServiceScreen(),
+                            ));
+                          },
+                          child: buildLoadingContainer(
+                            servicesText(),
+                            'Services',
+                          ),
+                        ),
+                        CollectPersonalDetailModel(
+                          leadTitle: "Link",
+                          hintT: 'https://link-to-your-social',
+                          isPasswordT: false,
+                          controller: linkController,
+                        ),
+                        CollectPersonalDetailModel(
+                          leadTitle: "Quantity",
+                          hintT: '1',
+                          isPasswordT: false,
+                          controller: quantityController,
+                          isdigit: [FilteringTextInputFormatter.digitsOnly],
+                          onChanged: (value) {
+                            textValueNotifier.textValue = value;
+                          },
+                        ),
+                        Column(
+                          children: [
+                            CustomButton(
+                              height: 35,
+                              color: Theme.of(context).shadowColor,
+                              buttonTextColor: Theme.of(context).cardColor,
+                              pageCTA: "Charge: ${formatBalance(
+                                categoriesController.calculatePricePerUnit(
+                                    categoriesController
+                                            .getOneServiceDetailsModel
+                                            .data
+                                            ?.price ??
+                                        '0.0',
+                                    ref.watch(textValueProvider).textValue),
+                              )}",
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 20.h,
+                        ),
+                        noticeBoard(context)
+                            .afmPadding(EdgeInsets.only(bottom: 10.sp)),
+                        CustomButton(
+                          pageCTA: 'Place Order',
+                          toSignOrLogin: () {
+                            orderController
+                                .toPlaceOrder(
+                                    categoriesController.selectedService,
+                                    linkController.text,
+                                    quantityController.text)
+                                .then(
+                              (value) {
+                                if (value == true) {
+                                  // Handle success
+
+                                  AwesomeDialog(
+                                    context: context,
+                                    animType: AnimType.scale,
+                                    dialogType: DialogType.success,
+                                    title: 'Order Successful',
+                                    desc:
+                                        'You have successfully purchased this order',
+                                    btnOkOnPress: () {
+                                      Navigator.pop(context);
+                                    },
+                                  ).show();
+                                  LocalNotification.showPurchaseNotification(
+                                    title: 'Insta King ♛ \nOrder Successful',
+                                    body:
+                                        'Dear ${user?.fullname},\nYour purchase of ${formatBalance(categoriesController.calculatePricePerUnit(categoriesController.getOneServiceDetailsModel.data?.price ?? '0.0', ref.watch(textValueProvider).textValue))} is successful.\nYour available insta balance is ₦${user?.balance}.\nPurchase Details  ::: \nName: ${categoriesController.selectedServiceName}\nCategory: ${categoriesController.selectedCategoryName}\nAmount: ${formatBalance(categoriesController.calculatePricePerUnit(categoriesController.getOneServiceDetailsModel.data?.price ?? '0.0', ref.watch(textValueProvider).textValue))}',
+                                    payload: 'payload',
+                                  );
+                                } else {
+                                  // Handle failure or other cases
+                                  // Optionally, you can show an error message or take appropriate action
+                                  AwesomeDialog(
+                                    context: context,
+                                    animType: AnimType.scale,
+                                    dialogType: DialogType.error,
+                                    title: 'Order Failed',
+                                    desc: 'This order could not be placed',
+                                    btnOkOnPress: () {
+                                      Navigator.pop(context);
+                                    },
+                                  ).show();
+                                }
+                              },
+                            );
+                          },
+                        ).afmPadding(EdgeInsets.symmetric(vertical: 10.h))
+                      ],
+                    ).afmPadding(
+                      EdgeInsets.all(
+                        20.sp,
                       ),
-                      SizedBox(
-                        height: 20.h,
-                      ),
-                      noticeBoard(context)
-                          .afmPadding(EdgeInsets.only(bottom: 10.sp)),
-                      CustomButton(
-                        pageCTA: 'Place Order',
-                        toSignOrLogin: () {
-                          orderController
-                              .toPlaceOrder(
-                                  categoriesController.selectedService,
-                                  linkController.text,
-                                  quantityController.text)
-                              .then(
-                            (value) {
-                              if (value == true) {
-                                // Handle success
-                                AwesomeDialog(
-                                  context: context,
-                                  animType: AnimType.scale,
-                                  dialogType: DialogType.success,
-                                  title: 'Order Successful',
-                                  desc:
-                                      'You have successfully purchased this order',
-                                  btnOkOnPress: () {
-                                    Navigator.pop(context);
-                                  },
-                                ).show();
-                                //TODO:  //Handle showing Notification here
-                              } else {
-                                // Handle failure or other cases
-                                // Optionally, you can show an error message or take appropriate action
-                                AwesomeDialog(
-                                  context: context,
-                                  animType: AnimType.scale,
-                                  dialogType: DialogType.error,
-                                  title: 'Order Failed',
-                                  desc: 'This order could not be placed',
-                                  btnOkOnPress: () {
-                                    Navigator.pop(context);
-                                  },
-                                ).show();
-                              }
-                            },
-                          );
-                        },
-                      ).afmPadding(EdgeInsets.symmetric(vertical: 10.h))
-                    ],
-                  ).afmPadding(
-                    EdgeInsets.all(
-                      20.sp,
                     ),
                   ),
-                ),
-              ],
-            ).afmNeverScroll,
+                ],
+              ).afmNeverScroll,
+            ),
           ),
-        ),
-        if (instaPlaceOrderState.loadingState == LoadingState.loading)
-          const TransparentLoadingScreen(),
-      ],
-    );
+          if (instaPlaceOrderState.loadingState == LoadingState.loading)
+            const TransparentLoadingScreen(),
+        ],
+      );
+    });
   }
 }
 

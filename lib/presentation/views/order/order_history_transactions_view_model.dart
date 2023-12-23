@@ -43,12 +43,12 @@ class _OrderHistoryViewModelState extends State<OrderHistoryViewModel> {
       ),
       padding: EdgeInsets.all(20.w),
       margin: EdgeInsets.only(bottom: 10.h),
-      height: 250.h,
+      height: 240.h,
       child: Stack(
         children: [
           lightText('ORDER ID', context),
           Positioned(
-            left: MediaQuery.of(context).size.width / 2.5.w,
+            left: MediaQuery.of(context).size.width / 4.w,
             child: GestureDetector(
               onTap: () {
                 Clipboard.setData(
@@ -74,72 +74,11 @@ class _OrderHistoryViewModelState extends State<OrderHistoryViewModel> {
           ),
           Positioned(
             top: 20.h,
-            child: lightText('DATE', context),
-          ),
-          Positioned(
-            left: MediaQuery.of(context).size.width / 2.5.w,
-            top: 20.h,
-            child: SizedBox(
-              height: 47.h,
-              width: 200,
-              child: darkText(widget.dateHere, context),
-            ),
-          ),
-          Positioned(
-            top: 40.h,
-            child: lightText('LINK', context),
-          ),
-          Positioned(
-            left: MediaQuery.of(context).size.width / 2.5.w,
-            top: 40.h,
-            child: SizedBox(
-              height: 20.h,
-              width: 250,
-              child: darkText(widget.linkHere, context),
-            ),
-          ),
-          Positioned(
-            top: 60.h,
-            child: lightText('PRICE', context),
-          ),
-          Positioned(
-            left: MediaQuery.of(context).size.width / 2.5.w,
-            top: 60.h,
-            child: SizedBox(
-              height: 47.h,
-              width: 150,
-              child: darkText(widget.priceHere, context),
-            ),
-          ),
-          Positioned(
-            top: 80.h,
-            child: lightText('START', context),
-          ),
-          Positioned(
-            left: MediaQuery.of(context).size.width / 2.5.w,
-            top: 80.h,
-            child: SizedBox(
-              height: 20.h,
-              width: 80.w,
-              child: darkText(widget.digitHere, context),
-            ),
-          ), //₦
-          Positioned(
-            top: 100.h,
-            child: lightText('QUANTITY', context),
-          ),
-          Positioned(
-            left: MediaQuery.of(context).size.width / 2.5.w,
-            top: 100.h,
-            child: darkText(widget.quantity, context),
-          ),
-          Positioned(
-            top: 130.h,
             child: lightText('SERVICE', context),
           ),
           Positioned(
-            left: MediaQuery.of(context).size.width / 2.5.w,
-            top: 130.h,
+            left: MediaQuery.of(context).size.width / 4.w,
+            top: 20.h,
             child: SizedBox(
               height: 50.h,
               width: 250.w,
@@ -147,12 +86,74 @@ class _OrderHistoryViewModelState extends State<OrderHistoryViewModel> {
             ),
           ),
           Positioned(
-            top: 170.h,
+            top: 60.h,
+            child: lightText('DATE', context),
+          ),
+          Positioned(
+            left: MediaQuery.of(context).size.width / 4.w,
+            top: 60.h,
+            child: SizedBox(
+              height: 47.h,
+              width: 200,
+              child: darkText(widget.dateHere, context),
+            ),
+          ),
+          Positioned(
+            top: 80.h,
+            child: lightText('LINK', context),
+          ),
+          Positioned(
+            left: MediaQuery.of(context).size.width / 4.w,
+            top: 80.h,
+            child: SizedBox(
+              height: 20.h,
+              width: 250,
+              child: darkText(widget.linkHere, context),
+            ),
+          ),
+          Positioned(
+            top: 100.h,
+            child: lightText('PRICE', context),
+          ),
+          Positioned(
+            left: MediaQuery.of(context).size.width / 4.w,
+            top: 100.h,
+            child: SizedBox(
+              height: 47.h,
+              width: 150,
+              child: darkText(widget.priceHere, context),
+            ),
+          ),
+          Positioned(
+            top: 120.h,
+            child: lightText('START', context),
+          ),
+          Positioned(
+            left: MediaQuery.of(context).size.width / 4.w,
+            top: 120.h,
+            child: SizedBox(
+              height: 20.h,
+              width: 80.w,
+              child: darkText(widget.digitHere, context),
+            ),
+          ), //₦
+          Positioned(
+            top: 140.h,
+            child: lightText('QUANTITY', context),
+          ),
+          Positioned(
+            left: MediaQuery.of(context).size.width / 4.w,
+            top: 140.h,
+            child: darkText(widget.quantity, context),
+          ),
+
+          Positioned(
+            top: 160.h,
             child: lightText('REMAINING', context),
           ),
           Positioned(
-            left: MediaQuery.of(context).size.width / 2.5.w,
-            top: 170.h,
+            left: MediaQuery.of(context).size.width / 4.w,
+            top: 160.h,
             child: SizedBox(
               height: 20.h,
               width: 80.w,
@@ -160,12 +161,12 @@ class _OrderHistoryViewModelState extends State<OrderHistoryViewModel> {
             ),
           ),
           Positioned(
-            top: 190.h,
+            top: 180.h,
             child: lightText('STATUS', context),
           ),
           Positioned(
-            left: MediaQuery.of(context).size.width / 2.5.w,
-            top: 190.h,
+            left: MediaQuery.of(context).size.width / 4.w,
+            top: 180.h,
             child: SizedBox(
               height: 20.h,
               width: 100.w,

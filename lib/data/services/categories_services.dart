@@ -19,7 +19,7 @@ class CategoriesService with DioMixin {
 }
 
 ///This returns the categories in a more ordered manner.
-//TODO: change the String to int if it does not work
+
 class GetCategoriesService with DioMixin {
   Future<Response<dynamic>> getSpecificCategoriesServices(
       {required String categoryId}) async {

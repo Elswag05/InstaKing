@@ -443,7 +443,7 @@ Text lightText(String lightText, BuildContext context) {
     style: TextStyle(
       fontFamily: 'Montesserat',
       fontWeight: FontWeight.w500,
-      fontSize: 12.sp,
+      fontSize: 10.sp,
       color: Theme.of(context).unselectedWidgetColor,
     ),
   );
@@ -452,12 +452,12 @@ Text lightText(String lightText, BuildContext context) {
 AutoSizeText darkText(String darkText, BuildContext context) {
   return AutoSizeText(
     darkText,
-    minFontSize: 10.sp,
+    minFontSize: 8.sp,
     stepGranularity: 2.sp,
     style: TextStyle(
       fontFamily: 'Montesserat',
       fontWeight: FontWeight.w500,
-      fontSize: 13.sp,
+      fontSize: 11.sp,
     ),
   );
 }
