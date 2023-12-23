@@ -174,7 +174,7 @@ class PlaceOrderState extends ConsumerState<PlaceOrder> {
                                     dialogType: DialogType.success,
                                     title: 'Order Successful',
                                     desc:
-                                        'You have successfully purchased this order',
+                                        'You have successfully purchased this service',
                                     btnOkOnPress: () {
                                       Navigator.pop(context);
                                     },

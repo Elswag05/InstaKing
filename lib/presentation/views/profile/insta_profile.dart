@@ -170,15 +170,18 @@ class _InstaProfileState extends State<InstaProfile> {
                   onTap: () {
                     ref.read(instaLoginController.notifier).signOut().then(
                       (value) {
-                        ref
-                            .read(dashBoardControllerProvider.notifier)
-                            .setPage(0);
-                        Navigator.of(context).pushReplacement(
-                          MaterialPageRoute(
-                            builder: (context) => const InstaLogin(),
-                          ),
-                        );
-                        locator<SecureStorageService>().deleteAll();
+                        if (value == true) {
+                          ref
+                              .read(dashBoardControllerProvider.notifier)
+                              .setPage(0);
+                          Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(
+                              builder: (context) => const InstaLogin(),
+                            ),
+                          );
+                          locator<SecureStorageService>().delete(key: 'token');
+                          locator<SecureStorageService>().delete(key: 'email');
+                        } else {}
                       },
                     );
                   },

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:insta_king/core/constants/enum.dart';
 import 'package:insta_king/core/utils/my_strings.dart';
@@ -21,20 +22,20 @@ class InstaLogin extends StatefulWidget {
 }
 
 class _InstaLoginState extends State<InstaLogin> with TickerProviderStateMixin {
-  late final TextEditingController usernameController;
+  late final TextEditingController userEmailController;
   late final TextEditingController passwordController;
   late final LocalAuthentication auth;
-  bool supportState = false;
+  bool _supportState = false;
   late final AnimationController _controller;
 
   @override
   void initState() {
     _controller = AnimationController(vsync: this);
-    usernameController = TextEditingController();
+    userEmailController = TextEditingController();
     passwordController = TextEditingController();
     auth = LocalAuthentication();
     auth.isDeviceSupported().then((bool isSupported) => setState(() {
-          supportState = isSupported;
+          _supportState = isSupported;
         }));
     super.initState();
   }
@@ -42,7 +43,7 @@ class _InstaLoginState extends State<InstaLogin> with TickerProviderStateMixin {
   @override
   void dispose() {
     _controller.dispose();
-    usernameController.dispose();
+    userEmailController.dispose();
     passwordController.dispose();
     super.dispose();
   }
@@ -51,11 +52,12 @@ class _InstaLoginState extends State<InstaLogin> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Consumer(
       builder: (context, ref, child) {
-        Future getEmail =
-            ref.read(dashBoardControllerProvider.notifier).getEmail();
-        getEmail;
-        late bool userloggedIn = false;
-        //     ref.read(dashBoardControllerProvider.notifier).isLoggedIn;
+        Future dash = ref.read(dashBoardControllerProvider.notifier).getEmail();
+        dash;
+        userEmailController.text =
+            ref.read(dashBoardControllerProvider.notifier).userEmail;
+        bool userloggedIn =
+            ref.read(dashBoardControllerProvider.notifier).isLoggedIn;
         // final bool userloggedIn =
         //     ref.read(dashBoardControllerProvider.notifier).isLoggedIn;
         final instaLoginState = ref.watch(instaLoginController);
@@ -64,17 +66,19 @@ class _InstaLoginState extends State<InstaLogin> with TickerProviderStateMixin {
         return Stack(
           children: [
             FutureBuilder(
-              future: getEmail,
+              future: dash,
               builder: ((context, snapshot) {
                 return BaseAuthView(
                   pageName: ' Sign In',
                   pageCTA: userloggedIn ? 'Login with fingerprint' : 'Log in',
                   isLogin: true,
                   callToActionText: userloggedIn ? "" : 'Forgot Password',
-                  callToActionFooterText:
-                      userloggedIn ? "" : "Don't have an account yet?",
+                  callToActionFooterText: userloggedIn
+                      ? "Need another way?"
+                      : "Don't have an account yet?",
                   checkBoxText: userloggedIn ? "" : "Remember me",
-                  inversePageName: userloggedIn ? "" : ' Sign Up',
+                  inversePageName:
+                      userloggedIn ? "  Use details instead" : ' Sign Up',
                   checked: ref.watch(instaLoginController).isBoxChecked,
                   isForgotPassword: userloggedIn ? true : false,
                   onChanged: (value) {
@@ -86,9 +90,19 @@ class _InstaLoginState extends State<InstaLogin> with TickerProviderStateMixin {
                     });
                   },
                   toGoToInversePage: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const SignUp(),
-                    ));
+                    userloggedIn
+                        ? {
+                            setState(() {
+                              userloggedIn = false;
+                            }),
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => const InstaLogin()))
+                          }
+                        : {
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => const SignUp(),
+                            ))
+                          };
                   },
                   onForgotPassword: () {
                     Navigator.of(context).push(MaterialPageRoute(
@@ -99,11 +113,7 @@ class _InstaLoginState extends State<InstaLogin> with TickerProviderStateMixin {
                   toSignOrLogin: () {
                     userloggedIn
                         ? {
-                            auth
-                                .authenticate(
-                              localizedReason: 'Authenticate With Biometrics',
-                            )
-                                .then((value) {
+                            _authenticate().then((value) {
                               if (value) {
                                 Navigator.of(context)
                                     .pushReplacement(MaterialPageRoute(
@@ -115,7 +125,7 @@ class _InstaLoginState extends State<InstaLogin> with TickerProviderStateMixin {
                           }
                         : ref
                             .read(instaLoginController.notifier)
-                            .signIn(usernameController.text,
+                            .signIn(userEmailController.text,
                                 passwordController.text)
                             .then((value) {
                             if (value) {
@@ -125,7 +135,7 @@ class _InstaLoginState extends State<InstaLogin> with TickerProviderStateMixin {
                               ));
                             }
                             debugPrint(
-                                'INFO: To login with email:${usernameController.text} and password: ${passwordController.text}');
+                                'INFO: To login with email:${userEmailController.text} and password: ${passwordController.text}');
                           });
                   },
                   anyWidget: userloggedIn
@@ -134,7 +144,7 @@ class _InstaLoginState extends State<InstaLogin> with TickerProviderStateMixin {
                           icon: Icons.person_2_outlined,
                           hintT: 'Email',
                           hasSuffix: false,
-                          controller: usernameController,
+                          controller: userEmailController,
                           validator: (value) {
                             if (value != null && value.isEmpty) {
                               return MyStrings.enterYourEmail;
@@ -172,5 +182,31 @@ class _InstaLoginState extends State<InstaLogin> with TickerProviderStateMixin {
         );
       },
     );
+  }
+
+  Future<void> _getAvailableBiometrics() async {
+    List<BiometricType> availableBiometrics =
+        await auth.getAvailableBiometrics();
+
+    debugPrint("List of biometrics: $availableBiometrics");
+    if (!mounted) {
+      return;
+    }
+  }
+
+  Future<bool> _authenticate() async {
+    late bool authenticated = false;
+    try {
+      authenticated = await auth.authenticate(
+        localizedReason: 'Authenticate to log in',
+        options: const AuthenticationOptions(
+          stickyAuth: true,
+        ),
+      );
+      debugPrint('User is authenticated ==> $authenticated');
+    } on PlatformException catch (e) {
+      debugPrint('$e');
+    }
+    return authenticated;
   }
 }

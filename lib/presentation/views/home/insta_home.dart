@@ -124,7 +124,7 @@ class _InstaHomeState extends State<InstaHome> with TickerProviderStateMixin {
                   ),
                   HomeContainer(
                     color: Theme.of(context).cardColor,
-                    height: 150.h,
+                    height: 170.h,
                     child: const ShortcutsTheWidget(),
                   )
                       .afmBorderRadius(BorderRadius.circular(24.r))
@@ -140,6 +140,7 @@ class _InstaHomeState extends State<InstaHome> with TickerProviderStateMixin {
                     },
                     child: Container(
                       height: 100.h,
+                      alignment: Alignment.center,
                       width: MediaQuery.of(context).size.width - 40.w,
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
@@ -151,20 +152,24 @@ class _InstaHomeState extends State<InstaHome> with TickerProviderStateMixin {
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           SizedBox(
                             height: 50.h,
                             width: 150.w,
-                            child: Text(
-                              'Refer people and earn up to 10% off all their transactions',
-                              style: TextStyle(
-                                fontSize: 13.sp,
-                                fontWeight: FontWeight.w600,
+                            child: Center(
+                              child: Text(
+                                'Refer people and earn up to 10% off all their transactions',
+                                style: TextStyle(
+                                  fontSize: 13.sp,
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
                             ),
                           ).afmPadding(
                             EdgeInsets.only(
-                              top: 20.h,
+                              // top: 10.h,
+                              // bottom: 10.h,
                               left: 20.w,
                             ),
                           ),

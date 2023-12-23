@@ -43,6 +43,7 @@ class _CollectPersonalDetailModelState
           ),
         ),
         TextFormField(
+          enableInteractiveSelection: true,
           obscureText: widget.isPasswordT,
           controller: widget.controller,
           validator: widget.validator,

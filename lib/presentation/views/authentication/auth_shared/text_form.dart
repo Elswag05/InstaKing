@@ -55,6 +55,7 @@ class _AuthTextFieldState extends State<AuthTextField> {
     return TextFormField(
       controller: widget.controller,
       autovalidateMode: AutovalidateMode.onUserInteraction,
+      enableInteractiveSelection: true,
       style: TextStyle(
         fontSize: 13.sp,
         color: InstaColors.mildGrey,

@@ -1,7 +1,9 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:insta_king/data/local/secure_storage_service.dart';
 import 'package:insta_king/presentation/controllers/base_controller.dart';
+import 'package:insta_king/utils/locator.dart';
 
 final dashBoardControllerProvider = ChangeNotifierProvider<DashBoardController>(
   (ref) => DashBoardController(),
@@ -12,7 +14,15 @@ final SecureStorageService secureStorageService =
 
 class DashBoardController extends BaseChangeNotifier {
   int page = 0;
-  bool isLoggedIn = false;
+  bool _isLoggedIn = false;
+  bool get isLoggedIn => _isLoggedIn;
+  String _userEmail = "Email here";
+  String get userEmail => _userEmail;
+
+  // set isLoggedIn(bool value) {
+  //   isLoggedIn = value;
+  //   notifyListeners();
+  // }
 
   Future<String> getName() async {
     String? name = await secureStorageService.read(key: "name");
@@ -28,13 +38,24 @@ class DashBoardController extends BaseChangeNotifier {
 
   Future<String> getEmail() async {
     String? email = await secureStorageService.read(key: "email");
+
     if (email == null) {
-      isLoggedIn = false;
+      _isLoggedIn = false;
       return '';
     } else if (email.isEmpty) {
       return '';
     } else {
-      isLoggedIn = true;
+      try {
+        await locator<SecureStorageService>().write(
+          key: 'loginMail',
+          value: email,
+        );
+        _userEmail = await secureStorageService.read(key: 'loginMail') ?? '';
+      } catch (e) {
+        debugPrint('$e');
+      }
+      _isLoggedIn = true;
+      _userEmail = email;
       return email;
     }
   }

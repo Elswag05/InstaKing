@@ -73,7 +73,7 @@ class ShortcutsTheWidget extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Shortcuts',
+          'Quick Links',
           style: TextStyle(
             fontFamily: 'Montesserat',
             fontSize: 15.sp,
@@ -156,6 +156,6 @@ class ShortcutsTheWidget extends ConsumerWidget {
           ],
         )
       ],
-    ).afmPadding(EdgeInsets.only(left: 25.sp, top: 20.sp));
+    ).afmPadding(EdgeInsets.only(left: 25.sp, top: 20.sp, bottom: 15.h));
   }
 }

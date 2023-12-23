@@ -56,7 +56,7 @@ class LoginController extends BaseChangeNotifier {
         localizedReason: 'Authenticate with fingerprint',
       );
     } catch (e) {
-      print(e);
+      debugPrint('$e');
     }
   }
 
