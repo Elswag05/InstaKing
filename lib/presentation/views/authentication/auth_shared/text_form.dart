@@ -13,7 +13,7 @@ class AuthTextField extends StatefulWidget {
   final bool isPassword;
 
   const AuthTextField({
-    Key? key,
+    super.key,
     required this.icon,
     required this.hintT,
     this.hasSuffix = false, // Set the default value to false
@@ -21,7 +21,7 @@ class AuthTextField extends StatefulWidget {
     this.controller,
     this.validator,
     this.isPassword = false,
-  }) : super(key: key);
+  });
 
   @override
   State<AuthTextField> createState() => _AuthTextFieldState();

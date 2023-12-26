@@ -108,7 +108,15 @@ class _OrderHistoryViewModelState extends State<OrderHistoryViewModel> {
             child: SizedBox(
               height: 20.h,
               width: 250,
-              child: darkText(widget.linkHere, context),
+              child: Text(
+                widget.linkHere,
+                style: TextStyle(
+                  fontFamily: 'Montesserat',
+                  fontWeight: FontWeight.w500,
+                  fontSize: 11.sp,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
             ),
           ),
           Positioned(

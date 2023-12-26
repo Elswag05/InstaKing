@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'dart:developer';
+import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:insta_king/core/constants/enum.dart';
 import 'package:insta_king/data/services/error_service.dart';
@@ -22,9 +24,20 @@ class TransactionsController extends BaseChangeNotifier {
     try {
       final response = await transactionsService.getTransacations();
       if (response.statusCode == 200) {
-        log('Note: Transations Has Been Fetched');
-        // log('INFO: We have transactions --> ${response.data}');
-        instaTransactionsModel = InstaTransactionsModel.fromJson(response.data);
+        log('Error Note: Transations Has Been Fetched');
+        log('INFO: We have transactions --> ${response.data}');
+        try {
+          debugPrint('Starting out the map!');
+          //debugPrint('${response.data.runtimeType}');
+          //final jsonObject = json.decode(response.data);
+          //debugPrint('Starting out the map! 001');
+          instaTransactionsModel =
+              InstaTransactionsModel.fromJson(response.data);
+          debugPrint('Starting out the map! 002');
+          debugPrint('${instaTransactionsModel.data}');
+        } catch (e) {
+          log(' Error 101: $e');
+        }
         notifyListeners();
         loadingState = LoadingState.idle;
         return instaTransactionsModel;

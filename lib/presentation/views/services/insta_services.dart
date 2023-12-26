@@ -93,7 +93,9 @@ class _InstaServicesState extends State<InstaServices> {
               children: [
                 const RecurringAppBar(appBarTitle: "Services")
                     .afmPadding(EdgeInsets.only(bottom: 5.h, top: 10.h)),
-                const ServicesSearchBar(),
+                const ServicesSearchBar(
+                  searchText: 'Search Services',
+                ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -510,7 +512,8 @@ class ServicesIconTabs extends StatelessWidget {
 }
 
 class ServicesSearchBar extends StatelessWidget {
-  const ServicesSearchBar({super.key});
+  final String searchText;
+  const ServicesSearchBar({super.key, required this.searchText});
 
   @override
   Widget build(BuildContext context) {
@@ -527,7 +530,7 @@ class ServicesSearchBar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            'Search Service',
+            searchText,
             style: TextStyle(
               fontFamily: 'Montesserat',
               fontSize: 13.sp,

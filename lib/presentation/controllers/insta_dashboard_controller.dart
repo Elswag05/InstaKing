@@ -16,7 +16,7 @@ class DashBoardController extends BaseChangeNotifier {
   int page = 0;
   bool _isLoggedIn = false;
   bool get isLoggedIn => _isLoggedIn;
-  String _userEmail = "Email here";
+  String _userEmail = "";
   String get userEmail => _userEmail;
 
   // set isLoggedIn(bool value) {

@@ -1,17 +1,15 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insta_king/presentation/controllers/insta_categories_controller.dart';
 import 'package:insta_king/presentation/controllers/insta_order_controller.dart';
+import 'package:insta_king/presentation/views/profile/sub_profile_views.dart/refer_and_earn/refer_and_earn.dart';
 import 'package:lottie/lottie.dart';
 
 import 'package:insta_king/core/constants/env_colors.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
 import 'package:insta_king/presentation/controllers/insta_dashboard_controller.dart';
 import 'package:insta_king/presentation/controllers/insta_profile_controller.dart';
-import 'package:insta_king/presentation/controllers/insta_transactions_controller.dart';
 import 'package:insta_king/presentation/views/home/home_card_widgets.dart';
 import 'package:insta_king/presentation/views/home/home_container_widget.dart';
 import 'package:insta_king/presentation/views/home/home_head.dart';
@@ -28,7 +26,6 @@ class InstaHome extends StatefulWidget {
 
 class _InstaHomeState extends State<InstaHome> with TickerProviderStateMixin {
   late final AnimationController _controller;
-  //late ProfileModel apiData;
   bool hasFetchedDetails = false;
   bool toCallWallet = false;
 
@@ -131,12 +128,11 @@ class _InstaHomeState extends State<InstaHome> with TickerProviderStateMixin {
                       .afmPadding(EdgeInsets.only(bottom: 25.h)),
                   GestureDetector(
                     onTap: () {
-                      setPageIndexToTwo(2);
-                      // Navigator.of(context).push(
-                      //   MaterialPageRoute(
-                      //     builder: (context) => const ReferAndEarn(),
-                      //   ),
-                      // );
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const ReferAndEarn(),
+                        ),
+                      );
                     },
                     child: Container(
                       height: 100.h,

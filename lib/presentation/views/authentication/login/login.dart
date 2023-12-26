@@ -14,14 +14,15 @@ import 'package:insta_king/presentation/views/shared_widgets/shared_loading.dart
 import 'package:local_auth/local_auth.dart';
 import 'package:lottie/lottie.dart';
 
-class InstaLogin extends StatefulWidget {
+class InstaLogin extends ConsumerStatefulWidget {
   const InstaLogin({super.key});
 
   @override
-  State<InstaLogin> createState() => _InstaLoginState();
+  ConsumerState<InstaLogin> createState() => _InstaLoginState();
 }
 
-class _InstaLoginState extends State<InstaLogin> with TickerProviderStateMixin {
+class _InstaLoginState extends ConsumerState<InstaLogin>
+    with TickerProviderStateMixin {
   late final TextEditingController userEmailController;
   late final TextEditingController passwordController;
   late final LocalAuthentication auth;
@@ -30,6 +31,7 @@ class _InstaLoginState extends State<InstaLogin> with TickerProviderStateMixin {
 
   @override
   void initState() {
+    super.initState();
     _controller = AnimationController(vsync: this);
     userEmailController = TextEditingController();
     passwordController = TextEditingController();
@@ -37,7 +39,8 @@ class _InstaLoginState extends State<InstaLogin> with TickerProviderStateMixin {
     auth.isDeviceSupported().then((bool isSupported) => setState(() {
           _supportState = isSupported;
         }));
-    super.initState();
+    userEmailController.text =
+        ref.read(dashBoardControllerProvider.notifier).userEmail;
   }
 
   @override
@@ -54,10 +57,9 @@ class _InstaLoginState extends State<InstaLogin> with TickerProviderStateMixin {
       builder: (context, ref, child) {
         Future dash = ref.read(dashBoardControllerProvider.notifier).getEmail();
         dash;
-        userEmailController.text =
-            ref.read(dashBoardControllerProvider.notifier).userEmail;
-        bool userloggedIn =
-            ref.read(dashBoardControllerProvider.notifier).isLoggedIn;
+
+        bool userloggedIn = false;
+        ref.read(dashBoardControllerProvider.notifier).isLoggedIn;
         // final bool userloggedIn =
         //     ref.read(dashBoardControllerProvider.notifier).isLoggedIn;
         final instaLoginState = ref.watch(instaLoginController);

@@ -10,6 +10,7 @@ import 'package:insta_king/presentation/views/order/place_order/place_order.dart
 import 'package:insta_king/presentation/views/profile/sub_profile_views.dart/refer_and_earn/refer_and_earn.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:insta_king/presentation/views/services/insta_services.dart';
+import 'package:insta_king/presentation/views/transactions/insta_transactions.dart';
 
 class HomeColumn extends StatelessWidget {
   final String shortcutIcon;
@@ -126,7 +127,13 @@ class ShortcutsTheWidget extends ConsumerWidget {
                 HomeColumn(
                   shortcutIcon: 'Transactioons',
                   shortcutText: 'Transactions',
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const InstaTransactions(),
+                      ),
+                    );
+                  },
                 ),
                 HomeColumn(
                   shortcutIcon: 'Refer&Earn',
