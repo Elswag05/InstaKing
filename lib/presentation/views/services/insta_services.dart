@@ -1,34 +1,70 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insta_king/core/constants/constants.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
 import 'package:insta_king/presentation/controllers/insta_categories_controller.dart';
-import 'package:insta_king/presentation/views/services/tapped_status.dart';
+import 'package:insta_king/presentation/views/services/service_icon.dart';
+import 'package:insta_king/presentation/views/services/service_widgets.dart';
+import 'package:insta_king/presentation/views/services/services_demo.dart';
 import 'package:insta_king/presentation/views/shared_widgets/recurring_appbar.dart';
 import 'package:insta_king/presentation/views/shared_widgets/shared_loading.dart';
-
-bool hasInstagramBeenTapped = false;
-bool hasFacebookBeenTapped = false;
-bool hasYoutubeBeenTapped = false;
-bool hasSpotifyBeenTapped = false;
-bool hasSnapchatBeenTapped = false;
-bool hasTelegramBeenTapped = false;
-bool hasAudiomackBeenTapped = false;
-bool hasTiktokBeenTapped = false;
-bool hasDeezerBeenTapped = false;
 
 class InstaServices extends StatefulWidget {
   const InstaServices({super.key});
 
   @override
-  State<InstaServices> createState() => _InstaServicesState();
+  InstaServicesState createState() => InstaServicesState();
 }
 
-class _InstaServicesState extends State<InstaServices> {
-  void setOnlyOneTrue(String tappedItem) {
-    // Reset all boolean variables to false
+class InstaServicesState extends State<InstaServices> {
+  bool hasInstagramBeenTapped = false;
+  bool hasFacebookBeenTapped = false;
+  bool hasYoutubeBeenTapped = false;
+  bool hasSpotifyBeenTapped = false;
+  bool hasSnapchatBeenTapped = false;
+  bool hasTelegramBeenTapped = false;
+  bool hasAudiomackBeenTapped = false;
+  bool hasTiktokBeenTapped = false;
+  bool hasDeezerBeenTapped = false;
+
+  void setOnlyOneTrue(String tappedItem, WidgetRef ref) {
+    resetAllBooleanVariables();
+    switch (tappedItem) {
+      case 'instagram':
+        hasInstagramBeenTapped = true;
+        break;
+      case 'facebook':
+        hasFacebookBeenTapped = true;
+        break;
+      case 'youtube':
+        hasYoutubeBeenTapped = true;
+        break;
+      case 'spotify':
+        hasSpotifyBeenTapped = true;
+        break;
+      case 'snapchat':
+        hasSnapchatBeenTapped = true;
+        break;
+      case 'telegram':
+        hasTelegramBeenTapped = true;
+        break;
+      case 'audiomack':
+        hasAudiomackBeenTapped = true;
+        break;
+      case 'tiktok':
+        hasTiktokBeenTapped = true;
+        break;
+      case 'deezer':
+        hasDeezerBeenTapped = true;
+        break;
+      default:
+        break;
+    }
+    ref.read(instaCategoriesController).searchByName(tappedItem);
+  }
+
+  void resetAllBooleanVariables() {
     hasInstagramBeenTapped = false;
     hasFacebookBeenTapped = false;
     hasYoutubeBeenTapped = false;
@@ -38,47 +74,6 @@ class _InstaServicesState extends State<InstaServices> {
     hasAudiomackBeenTapped = false;
     hasTiktokBeenTapped = false;
     hasDeezerBeenTapped = false;
-    // Set the tappedItem to true
-    switch (tappedItem) {
-      case 'instagram':
-        hasInstagramBeenTapped = true;
-        debugPrint('insta set to tru');
-        break;
-      case 'facebook':
-        hasFacebookBeenTapped = true;
-        debugPrint('fb set to tru');
-        break;
-      case 'youtube':
-        hasYoutubeBeenTapped = true;
-        debugPrint('ytb set to tru');
-        break;
-      case 'spotify':
-        hasSpotifyBeenTapped = true;
-        debugPrint('spotify set to tru');
-        break;
-      case 'snapchat':
-        hasSnapchatBeenTapped = true;
-        debugPrint('snapchat set to tru');
-        break;
-      case 'telegram':
-        hasTelegramBeenTapped = true;
-        debugPrint('telegrm set to tru');
-        break;
-      case 'audiomack':
-        hasAudiomackBeenTapped = true;
-        debugPrint('adomck set to tru');
-        break;
-      case 'tiktok':
-        hasTiktokBeenTapped = true;
-        debugPrint('tiktk set to tru');
-        break;
-      case 'deezer':
-        hasDeezerBeenTapped = true;
-        debugPrint('dzr set to tru');
-        break;
-      default:
-        break;
-    }
   }
 
   @override
@@ -86,7 +81,7 @@ class _InstaServicesState extends State<InstaServices> {
     return Scaffold(
       body: SafeArea(
         child: Consumer(
-          builder: ((context, ref, child) {
+          builder: (context, ref, child) {
             final service =
                 ref.read(instaCategoriesController).getAllServicesModel;
             return Column(
@@ -96,453 +91,131 @@ class _InstaServicesState extends State<InstaServices> {
                 const ServicesSearchBar(
                   searchText: 'Search Services',
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    // const Text(
-                    //   'See all',
-                    //   style: TextStyle(
-                    //     fontFamily: 'Montesserat',
-                    //     fontWeight: FontWeight.w500,
-                    //   ),
-                    // ),
-                    rows1(context, ref)
-                        .afmPadding(EdgeInsets.symmetric(vertical: 10.sp)),
-                  ],
-                ).afmPadding(
-                  EdgeInsets.only(
-                    left: 20.sp,
-                    right: 20.sp,
-                    top: 20.sp,
-                    bottom: 10.sp,
-                  ),
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width - 40.sp,
-                  padding: EdgeInsets.all(15.sp),
-                  decoration: BoxDecoration(
-                    color: InstaColors.primaryColor,
-                    borderRadius: BorderRadius.circular(10.r),
-                  ),
-                  child: Text(
-                    'All Services',
-                    style: TextStyle(
-                      fontFamily: 'Montesserat',
-                      fontWeight: FontWeight.w500,
-                      color: InstaColors.lightColor,
-                      fontSize: 14.sp,
-                    ),
-                  ),
-                ).afmPadding(EdgeInsets.only(bottom: 20.sp)),
-                FutureBuilder(
-                    future: ref
-                        .read(instaCategoriesController)
-                        .toGetAllServiceDetail(),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.done) {
-                        return SizedBox(
-                          height: 340.h,
-                          width: MediaQuery.of(context).size.width - 40.sp,
-                          child: ListView.builder(
-                            itemCount: service.data?.length,
-                            shrinkWrap: true,
-                            itemBuilder: (context, index) {
-                              return ServicesDemoWidget(index: index)
-                                  .afmPadding(
-                                EdgeInsets.only(bottom: 20.h),
-                              );
-                            },
-                          ),
-                        );
-                      } else {
-                        return const Center(child: TransparentLoadingScreen());
-                      }
-                    })
+                _buildServiceRows(context, ref),
+                _buildAllServicesContainer(context, ref),
+                _buildServiceList(context, ref, service),
               ],
             ).afmNeverScroll;
-          }),
+          },
         ),
       ),
     );
   }
 
-  Row rows1(BuildContext context, WidgetRef ref) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  Widget _buildServiceRows(BuildContext context, WidgetRef ref) {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 20.sp, horizontal: 10.w),
+      child: Center(
+        child: Wrap(
+          spacing: 10.h,
+          runSpacing: 5.h,
+          alignment: WrapAlignment.start,
+          children: [
+            _buildServiceColumn(context, ref, 'instagram', 'Instagram'),
+            _buildServiceColumn(context, ref, 'facebook (1)', 'Facebook'),
+            _buildServiceColumn(context, ref, 'play', 'Youtube'),
+            _buildServiceColumn(context, ref, 'spotify', 'Spotify'),
+            _buildServiceColumn(context, ref, 'snapchat (1)', 'Snapchat'),
+            _buildServiceColumn(context, ref, 'telegram', 'Telegram'),
+            _buildServiceColumn(context, ref, 'audiomack', 'Audiomack'),
+            _buildServiceColumn(context, ref, 'tiktok', 'TikTok'),
+            _buildServiceColumn(context, ref, 'deezer', 'Deezer'),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Column _buildServiceColumn(
+      BuildContext context, WidgetRef ref, String imagePath, String text) {
+    return Column(
       children: [
-        Column(
-          children: [
-            ServicesIconTabs(
-              imageIconPath: 'instagram',
-              text: 'Instagram',
-              isTapped: hasInstagramBeenTapped,
-              onTap: () {
-                setState(() {
-                  ref.read(instaCategoriesController).searchByName('instagram');
-                  setOnlyOneTrue('instagram');
-                });
-              },
-            ),
-            ServicesIconTabs(
-              imageIconPath: 'facebook (1)',
-              text: 'Facebook',
-              isTapped: hasFacebookBeenTapped,
-              onTap: () {
-                setState(() {
-                  ref.read(instaCategoriesController).searchByName('facebook');
-                  setOnlyOneTrue('facebook');
-                });
-              },
-            ),
-          ],
+        ServicesIconTabs(
+          imageIconPath: imagePath,
+          text: text,
+          isTapped: _isServiceTapped(imagePath),
+          onTap: () {
+            setState(() {
+              setOnlyOneTrue(imagePath, ref);
+            });
+          },
         ),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ServicesIconTabs(
-              imageIconPath: 'play',
-              text: 'Youtube',
-              isTapped: hasYoutubeBeenTapped,
-              onTap: () {
-                setState(() {
-                  ref.read(instaCategoriesController).searchByName('youtube');
-                  setOnlyOneTrue('youtube');
-                });
-              },
-            ),
-            ServicesIconTabs(
-              imageIconPath: 'spotify',
-              text: 'Spotify',
-              isTapped: hasSpotifyBeenTapped,
-              onTap: () {
-                setState(() {
-                  ref.read(instaCategoriesController).searchByName('spotify');
-                  setOnlyOneTrue('spotify');
-                });
-              },
-            ),
-          ],
+      ],
+    );
+  }
+
+  bool _isServiceTapped(String serviceName) {
+    switch (serviceName) {
+      case 'instagram':
+        return hasInstagramBeenTapped;
+      case 'facebook':
+        return hasFacebookBeenTapped;
+      case 'youtube':
+        return hasYoutubeBeenTapped;
+      case 'spotify':
+        return hasSpotifyBeenTapped;
+      case 'snapchat':
+        return hasSnapchatBeenTapped;
+      case 'telegram':
+        return hasTelegramBeenTapped;
+      case 'audiomack':
+        return hasAudiomackBeenTapped;
+      case 'tiktok':
+        return hasTiktokBeenTapped;
+      case 'deezer':
+        return hasDeezerBeenTapped;
+      default:
+        return false;
+    }
+  }
+
+  Widget _buildAllServicesContainer(BuildContext context, WidgetRef ref) {
+    return Container(
+      width: MediaQuery.of(context).size.width - 40.sp,
+      padding: EdgeInsets.all(15.sp),
+      decoration: BoxDecoration(
+        color: InstaColors.primaryColor,
+        borderRadius: BorderRadius.circular(10.r),
+      ),
+      child: Text(
+        'All Services',
+        style: TextStyle(
+          fontFamily: 'Montesserat',
+          fontWeight: FontWeight.w500,
+          color: InstaColors.lightColor,
+          fontSize: 14.sp,
         ),
-        Column(
-          children: [
-            ServicesIconTabs(
-              imageIconPath: 'snapchat (1)',
-              text: 'Snapchat',
-              isTapped: hasSnapchatBeenTapped,
-              onTap: () {
-                setState(() {
-                  ref.read(instaCategoriesController).searchByName('snapchat');
-                  setOnlyOneTrue('snapchat');
-                });
-              },
-            ),
-            ServicesIconTabs(
-              imageIconPath: 'instagram',
-              text: 'Telegram',
-              isTapped: hasTelegramBeenTapped,
-              onTap: () {
-                setState(() {
-                  ref.read(instaCategoriesController).searchByName('telegram');
-                  setOnlyOneTrue('telegram');
-                });
-              },
-            ),
-          ],
-        ),
-        Column(
-          children: [
-            ServicesIconTabs(
-              imageIconPath: 'facebook (1)',
-              text: 'Audiomack',
-              isTapped: hasAudiomackBeenTapped,
-              onTap: () {
-                setState(() {
-                  ref.read(instaCategoriesController).searchByName('audiomack');
-                  setOnlyOneTrue('audiomack');
-                });
-              },
-            ),
-            ServicesIconTabs(
-              imageIconPath: 'play',
-              text: 'TikTok',
-              isTapped: hasTiktokBeenTapped,
-              onTap: () {
-                setState(() {
-                  ref.read(instaCategoriesController).searchByName('tiktok');
-                  setOnlyOneTrue('tiktok');
-                });
-              },
-            ),
-          ],
-        ),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            ServicesIconTabs(
-              imageIconPath: 'spotify',
-              text: 'Deezer',
-              isTapped: hasDeezerBeenTapped,
-              onTap: () {
-                setState(
-                  () {
-                    ref.read(instaCategoriesController).searchByName('deezer');
-                    setOnlyOneTrue('deezer');
-                  },
+      ),
+    ).afmPadding(EdgeInsets.only(bottom: 20.sp));
+  }
+
+  Widget _buildServiceList(
+      BuildContext context, WidgetRef ref, dynamic service) {
+    return FutureBuilder(
+      future: ref.read(instaCategoriesController).toGetAllServiceDetail(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          return SizedBox(
+            height: 340.h,
+            width: MediaQuery.of(context).size.width - 40.sp,
+            child: ListView.builder(
+              itemCount: service.data?.length,
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                return _buildServiceDemoWidget(index, ref).afmPadding(
+                  EdgeInsets.symmetric(vertical: 5.h),
                 );
               },
             ),
-            SizedBox(
-              height: 70.h,
-            )
-          ],
-        ),
-      ],
-    );
-  }
-}
-
-class ServicesDemoWidget extends StatefulWidget {
-  final int index;
-  const ServicesDemoWidget({Key? key, required this.index}) : super(key: key);
-
-  @override
-  State<ServicesDemoWidget> createState() => _ServicesDemoWidgetState();
-}
-
-class _ServicesDemoWidgetState extends State<ServicesDemoWidget> {
-  // Initialize the tapped status object
-
-  @override
-  Widget build(BuildContext context) {
-    return Consumer(
-      builder: (context, ref, child) {
-        final service =
-            ref.watch(instaCategoriesController).getAllServicesModel;
-        // Get the filteredData object based on your logic
-        final filteredData = ref
-            .watch(instaCategoriesController)
-            .filteredData; // Replace with your logic to get filteredData
-
-        // Check if any of the boolean variables are true
-        final bool hasTappedStatus = hasInstagramBeenTapped ||
-            hasFacebookBeenTapped ||
-            hasYoutubeBeenTapped ||
-            hasSpotifyBeenTapped ||
-            hasSnapchatBeenTapped ||
-            hasTelegramBeenTapped ||
-            hasAudiomackBeenTapped ||
-            hasTiktokBeenTapped ||
-            hasDeezerBeenTapped;
-
-        print(hasTappedStatus.toString());
-        return Container(
-          width: MediaQuery.of(context).size.width - 40.sp,
-          height: 140.h,
-          padding: EdgeInsets.all(15.sp),
-          decoration: BoxDecoration(
-            color: Theme.of(context).cardColor,
-            borderRadius: BorderRadius.circular(10.r),
-          ),
-          child:
-              // hasTappedStatus
-              //     ? Text('${filteredData.toString()}')
-              //     :
-              ServiceWidgetModel(
-            IDtext: service.data?[widget.index].id.toString() ?? 'Loading...',
-            name: service.data?[widget.index].name.toString() ?? 'Loading...',
-            price: service.data?[widget.index].price
-                    .toString()
-                    .roundUpToDecimalPlaces(2) ??
-                'Loading...',
-            min: service.data?[widget.index].min.toString() ?? 'Loading...',
-            max: service.data?[widget.index].max.toString() ?? '',
-          ),
-        );
+          );
+        } else {
+          return const Center(child: TransparentLoadingScreen());
+        }
       },
     );
   }
-}
 
-extension StringExtension on String {
-  String roundUpToDecimalPlaces(int decimalPlaces) {
-    double number = double.parse(this);
-    final mod = 1 / (10 * decimalPlaces);
-    double roundedNumber = ((number / mod).ceil() * mod);
-    return roundedNumber.toStringAsFixed(decimalPlaces);
-  }
-}
-
-class ServiceWidgetModel extends StatelessWidget {
-  final String IDtext;
-  final String min;
-  final String max;
-  final String name;
-  final String price;
-
-  const ServiceWidgetModel({
-    super.key,
-    required this.IDtext,
-    required this.min,
-    required this.max,
-    required this.price,
-    required this.name,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        lightText('ID', context),
-        Positioned(
-          left: MediaQuery.of(context).size.width / 2.5.w,
-          child: darkText(IDtext, context),
-        ),
-        Positioned(
-          top: 20.h,
-          child: lightText('NAME', context),
-        ),
-        Positioned(
-          left: MediaQuery.of(context).size.width / 2.5.w,
-          top: 20.h,
-          child: Container(
-            height: 47.h,
-            width: 150,
-            child: darkText('$name', context),
-          ),
-        ),
-        Positioned(
-          top: 75.h,
-          child: lightText('PRICE PER 1000', context),
-        ),
-        Positioned(
-          left: MediaQuery.of(context).size.width / 2.5.w,
-          top: 75.h,
-          child: SizedBox(
-            height: 20.h,
-            width: 80.w,
-            child: darkText('₦$price', context),
-          ),
-        ),
-        Positioned(
-          top: 95.h,
-          child: lightText('MIN - MAX', context),
-        ),
-        Positioned(
-          left: MediaQuery.of(context).size.width / 2.5.w,
-          top: 95.h,
-          child: darkText('$min - $max', context),
-        ),
-      ],
-    );
-  }
-}
-
-Text lightText(String lightText, BuildContext context) {
-  return Text(
-    lightText,
-    style: TextStyle(
-      fontFamily: 'Montesserat',
-      fontWeight: FontWeight.w500,
-      fontSize: 10.sp,
-      color: Theme.of(context).unselectedWidgetColor,
-    ),
-  );
-}
-
-AutoSizeText darkText(String darkText, BuildContext context) {
-  return AutoSizeText(
-    darkText,
-    minFontSize: 8.sp,
-    stepGranularity: 2.sp,
-    style: TextStyle(
-      fontFamily: 'Montesserat',
-      fontWeight: FontWeight.w500,
-      fontSize: 11.sp,
-    ),
-  );
-}
-
-class ServicesIconTabs extends StatelessWidget {
-  final String imageIconPath;
-  final String text;
-  final bool isTapped;
-  final void Function()? onTap;
-  const ServicesIconTabs(
-      {super.key,
-      required this.imageIconPath,
-      required this.text,
-      this.isTapped = false,
-      this.onTap});
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Column(
-        children: [
-          Container(
-            padding: EdgeInsets.all(12.sp),
-            width: 50.w,
-            height: 45.h,
-            decoration: BoxDecoration(
-              color:
-                  InstaColors.containerGradient.elementAt(2).withOpacity(0.2),
-              borderRadius: BorderRadius.circular(5.r),
-            ),
-            child: Image.asset(
-              EnvAssets.getIconPath(imageIconPath),
-              // width: 15.w,
-              // height: 15.h,
-              color: isTapped ? null : InstaColors.mildGrey,
-            ),
-          ),
-          Text(
-            text,
-            style: TextStyle(
-              fontFamily: 'Montesserat',
-              fontSize: 11.sp,
-            ),
-          ).afmPadding(EdgeInsets.symmetric(vertical: 5.h)),
-        ],
-      ),
-    );
-  }
-}
-
-class ServicesSearchBar extends StatelessWidget {
-  final String searchText;
-  const ServicesSearchBar({super.key, required this.searchText});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 40.h,
-      decoration: BoxDecoration(
-        color: Theme.of(context).canvasColor,
-        border: Border.all(
-          width: 1.sp,
-        ),
-        borderRadius: BorderRadius.circular(10.r),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            searchText,
-            style: TextStyle(
-              fontFamily: 'Montesserat',
-              fontSize: 13.sp,
-              fontWeight: FontWeight.w500,
-            ),
-          ).afmPadding(EdgeInsets.only(left: 10.w)),
-          Icon(
-            Icons.search,
-            size: 20.sp,
-          ).afmPadding(EdgeInsets.only(right: 6.h)),
-        ],
-      ),
-    ).afmPadding(EdgeInsets.symmetric(horizontal: 20.sp));
+  ServicesDemoWidget _buildServiceDemoWidget(int index, WidgetRef ref) {
+    return ServicesDemoWidget(index: index);
   }
 }

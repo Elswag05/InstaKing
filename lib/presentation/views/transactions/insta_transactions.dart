@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
 import 'package:insta_king/presentation/controllers/insta_transactions_controller.dart';
-import 'package:insta_king/presentation/views/services/insta_services.dart';
+import 'package:insta_king/presentation/views/services/service_widgets.dart';
 import 'package:insta_king/presentation/views/shared_widgets/recurring_appbar.dart';
 import 'package:insta_king/presentation/views/shared_widgets/shared_loading.dart';
 import 'package:insta_king/presentation/views/transactions/transactions_view_model.dart';
