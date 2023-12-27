@@ -57,7 +57,7 @@ class EnvThemeManager {
     brightness: Brightness.dark,
     errorContainer: InstaColors.errorColor,
     onSecondaryContainer: InstaColors.lightColor,
-    onSurfaceVariant: InstaColors.mildGrey,
+    onSurfaceVariant: InstaColors.lightColor,
     onTertiary: InstaColors.lightColor,
     onTertiaryContainer: InstaColors.lightColor,
     primaryContainer: InstaColors.darkColor,

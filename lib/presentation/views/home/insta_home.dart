@@ -55,6 +55,7 @@ class _InstaHomeState extends State<InstaHome> with TickerProviderStateMixin {
             // Fetch details only if they haven't been fetched yet
             Future(() async {
               //await ref.read(instaTransactionController).getTransactions();
+              await ref.read(instaCategoriesController).toGetAllServiceDetail();
               await ref.read(instaOrderController).toGetAllOrders();
               await ref
                   .read(instaProfileController.notifier)
@@ -186,6 +187,20 @@ class _InstaHomeState extends State<InstaHome> with TickerProviderStateMixin {
                         .afmBorderRadius(BorderRadius.circular(24.r))
                         .afmPadding(EdgeInsets.only(bottom: 50.h)),
                   ),
+                ],
+              ).afmPadding(
+                EdgeInsets.only(top: 10.h),
+              ),
+            ),
+          );
+        }),
+      ),
+    );
+  }
+}
+
+
+
                   //                 Stack(
                   //                   children: [
                   //                     HomeContainer(
@@ -251,14 +266,3 @@ class _InstaHomeState extends State<InstaHome> with TickerProviderStateMixin {
                   //                         topRight: Radius.circular(24.r))),
                   //                   ],
                   //                 ),
-                ],
-              ).afmPadding(
-                EdgeInsets.only(top: 10.h),
-              ),
-            ),
-          );
-        }),
-      ),
-    );
-  }
-}

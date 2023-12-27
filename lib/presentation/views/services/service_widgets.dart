@@ -5,6 +5,7 @@ import 'package:insta_king/core/extensions/widget_extension.dart';
 
 bool hasInstagramBeenTapped = false;
 bool hasFacebookBeenTapped = false;
+bool hasBoomplayBeenTapped = false;
 bool hasYoutubeBeenTapped = false;
 bool hasSpotifyBeenTapped = false;
 bool hasSnapchatBeenTapped = false;
@@ -20,7 +21,7 @@ Text lightText(String lightText, BuildContext context) {
       fontFamily: 'Montesserat',
       fontWeight: FontWeight.w500,
       fontSize: 10.sp,
-      color: Theme.of(context).unselectedWidgetColor,
+      //color: Theme.of(context).colorScheme.scrim,
     ),
   );
 }
@@ -34,6 +35,7 @@ AutoSizeText darkText(String darkText, BuildContext context) {
       fontFamily: 'Montesserat',
       fontWeight: FontWeight.w500,
       fontSize: 11.sp,
+      //color: Theme.of(context).colorScheme.scrim,
     ),
   );
 }

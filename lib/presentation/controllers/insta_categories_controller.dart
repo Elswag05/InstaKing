@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,7 @@ import 'package:insta_king/presentation/controllers/base_controller.dart';
 import 'package:insta_king/presentation/model/insta_get_category_model.dart';
 import 'package:insta_king/presentation/model/insta_get_one_service_detail_model.dart';
 import 'package:insta_king/presentation/model/insta_get_service_details_model.dart';
+import 'package:insta_king/presentation/views/services/service_widgets.dart';
 
 final instaCategoriesController = ChangeNotifierProvider<CategoriesController>(
     (ref) => CategoriesController());
@@ -19,7 +21,6 @@ final instaCategoriesController = ChangeNotifierProvider<CategoriesController>(
 class CategoryItem {
   final String id;
   final String name;
-
   CategoryItem({required this.id, required this.name});
 }
 
@@ -27,11 +28,13 @@ class ServiceItem {
   final String id;
   final String name;
   final String min;
+  final String max;
   final String price;
   //final String max;
 
   ServiceItem(
       {required this.min,
+      required this.max,
       required this.price,
       required this.id,
       required this.name});
@@ -48,7 +51,9 @@ class CategoriesController extends BaseChangeNotifier {
       GetOneServiceDetailsModel();
   List<CategoryItem> allCategoriesModel = <CategoryItem>[];
   List<ServiceItem> allServicesModel = [];
+  List<ServiceItem> servicesModel = []; /*New*/
   late List<dynamic>? filteredData = [];
+  late List<dynamic>? servicesData = []; /*New*/
   late List<dynamic>? filteredServiceData = [];
   late String _selectedServiceValue = '9486';
   late String _selectedServiceName;
@@ -62,6 +67,7 @@ class CategoriesController extends BaseChangeNotifier {
   bool _isServiceSet = false;
   bool get isCatSet => _isCatSet;
   bool get isServiceSet => _isServiceSet;
+  late bool hasTappedStatus = false;
 
   void setCatValue(String newValue, String name) {
     _selectedCategoryValue = newValue;
@@ -100,7 +106,7 @@ class CategoriesController extends BaseChangeNotifier {
     loadingState = LoadingState.loading;
     try {
       final res = await categoriesService.getAllCategories();
-      getAllServiceDetails.getAllServicesDetails();
+      toGetAllServiceDetail();
       toGetDropdownItemsById(_selectedCategoryValue);
       //debugPrint('${res.data}');
       if (res.statusCode == 200) {
@@ -140,13 +146,12 @@ class CategoriesController extends BaseChangeNotifier {
     if (getAllServicesModel.data == null) {
       return null;
     }
-
     // Filter the data list based on the keyword in the name field
     filteredData = getAllServicesModel.data!
-        .where((datum) => datum.name!.contains(keyword))
+        .where((datum) => datum.name?.toLowerCase().contains(keyword) == true)
         .toList();
     notifyListeners();
-    //debugPrint(filteredData.toString());
+    debugPrint(filteredData.toString());
     return filteredData;
   }
 
@@ -177,16 +182,74 @@ class CategoriesController extends BaseChangeNotifier {
     return false;
   }
 
-  Future<GetAllServicesModel> toGetAllServiceDetail() async {
+//   Future<List<String>> getServiceNamesByIds(List<String> serviceIds) async {
+//   try {
+//     // Ensure that toGetAllServiceDetail has been called previously
+//     if (getAllServicesModel == null || getAllServicesModel.data == null) {
+//       throw Error();
+//     }
+
+//     // Map service IDs to corresponding service names
+//     final Map<String, String> serviceIdToNameMap = {};
+//     for (GetAllServicesModel service in getAllServicesModel!.data?) {
+//       serviceIdToNameMap[service.data?.toString()] = service.data?. ?? "";
+//     }
+
+//     // Collect service names based on the order of service IDs
+//     final List<String> serviceNames = serviceIds.map((id) {
+//       return serviceIdToNameMap[id] ?? ""; // Use an empty string if not found
+//     }).toList();
+
+//     return serviceNames;
+//   } catch (e) {
+//     log('Error getting service names by IDs');
+//     ErrorService.handleErrors(e);
+//     return [];
+//   }
+// }
+
+  Future<List<ServiceItem>> toGetAllServiceDetail() async {
     loadingState = LoadingState.loading;
+    bool _hasTappedStatus() {
+      notifyListeners();
+      return hasInstagramBeenTapped ||
+          hasFacebookBeenTapped ||
+          hasYoutubeBeenTapped ||
+          hasSpotifyBeenTapped ||
+          hasSnapchatBeenTapped ||
+          hasTelegramBeenTapped ||
+          hasAudiomackBeenTapped ||
+          hasTiktokBeenTapped ||
+          hasDeezerBeenTapped;
+    }
+
+    hasTappedStatus = _hasTappedStatus();
+    debugPrint('Has Any Button Been Tapped? => $hasTappedStatus');
+
     try {
       final res = await getAllServiceDetails.getAllServicesDetails();
-      //debugPrint('${res.data}');
       if (res.statusCode == 200) {
         getAllServicesModel = GetAllServicesModel.fromJson(res.data);
+        // If filteredData is not null, use it instead of getAllServicesModel.data
+        servicesData =
+            hasTappedStatus ? filteredData : getAllServicesModel.data;
+        servicesModel = servicesData
+                ?.map((category) => ServiceItem(
+                      id: category.id.toString(),
+                      name: category.name ?? "",
+                      min: category.min ?? "00.00",
+                      max: category.max ?? "00.00",
+                      price: category.price ?? "00.00",
+                    ))
+                .toList() ??
+            [];
+
         loadingState = LoadingState.idle;
         notifyListeners();
-        return getAllServicesModel;
+        return servicesModel;
+        // loadingState = LoadingState.idle;
+        // notifyListeners();
+        // return getAllServicesModel;
       } else {
         // throw Error();
       }
@@ -197,7 +260,7 @@ class CategoriesController extends BaseChangeNotifier {
       loadingState = LoadingState.error;
       ErrorService.handleErrors(e);
     }
-    return getAllServicesModel;
+    return servicesModel;
   }
 
   Future<List<ServiceItem>> toGetDropdownItemsById(
@@ -221,6 +284,7 @@ class CategoriesController extends BaseChangeNotifier {
                     id: category.id.toString(),
                     name: category.name ?? "",
                     min: category.min ?? "loading...",
+                    max: category.max ?? "loading...",
                     price: category.price ?? "00.00",
                     //   max: category.max ?? "loading...",
                   ))
@@ -246,30 +310,18 @@ class CategoriesController extends BaseChangeNotifier {
         _selectedServiceValue = filteredServiceData?.isNotEmpty == true
             ? filteredServiceData![0].id.toString()
             : "";
-
         // Convert the filtered data to List<DropdownMenuItem<String>>
         allServicesModel = filteredServiceData
                 ?.map((category) => ServiceItem(
                       id: category.id.toString(),
                       name: category.name ?? "",
                       min: category.min ?? "00.00",
+                      max: category.max ?? "00.00",
                       price: category.price ?? "00.00",
                       // max: category.max ?? "loading...",
                     ))
                 .toList() ??
             [];
-
-        // Notify listeners and update the selectedServiceValue
-        // if (newValue != '') {
-        //   selectedServiceValue = newValue;
-        //   notifyListeners();
-        // }
-        // if (targetId.toString() != '703' && newValue == '') {
-        //   selectedServiceValue = newSelectedServiceValue;
-        //   notifyListeners();
-        // }
-
-        // notifyListeners();
 
         loadingState = LoadingState.idle;
         notifyListeners();

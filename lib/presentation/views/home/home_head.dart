@@ -56,6 +56,8 @@ class _HomeHeaderWidgetState extends State<HomeHeaderWidget> {
                     widget.foregroundImageUrl ??
                         'https://images.app.goo.gl/kQXQGDhGmgvrVVWCA',
                   ),
+                  onForegroundImageError: (_, __) {},
+                  onBackgroundImageError: (_, __) {},
                 ),
               ),
             ),

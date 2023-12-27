@@ -18,55 +18,81 @@ class InstaServices extends StatefulWidget {
 }
 
 class InstaServicesState extends State<InstaServices> {
-  bool hasInstagramBeenTapped = false;
-  bool hasFacebookBeenTapped = false;
-  bool hasYoutubeBeenTapped = false;
-  bool hasSpotifyBeenTapped = false;
-  bool hasSnapchatBeenTapped = false;
-  bool hasTelegramBeenTapped = false;
-  bool hasAudiomackBeenTapped = false;
-  bool hasTiktokBeenTapped = false;
-  bool hasDeezerBeenTapped = false;
-
+  late String selectedService;
   void setOnlyOneTrue(String tappedItem, WidgetRef ref) {
     resetAllBooleanVariables();
     switch (tappedItem) {
       case 'instagram':
-        hasInstagramBeenTapped = true;
+        setState(() {
+          hasInstagramBeenTapped = true;
+          selectedService = 'Instagram Services';
+        });
         break;
       case 'facebook':
-        hasFacebookBeenTapped = true;
+        setState(() {
+          hasFacebookBeenTapped = true;
+          selectedService = 'Facebook Services';
+        });
+        break;
+      case 'boomplay':
+        setState(() {
+          hasBoomplayBeenTapped = true;
+          selectedService = 'Boomplay Services';
+        });
         break;
       case 'youtube':
-        hasYoutubeBeenTapped = true;
+        setState(() {
+          hasYoutubeBeenTapped = true;
+          selectedService = 'Youtube Services';
+        });
         break;
       case 'spotify':
-        hasSpotifyBeenTapped = true;
+        setState(() {
+          hasSpotifyBeenTapped = true;
+          selectedService = 'Spotify Services';
+        });
         break;
       case 'snapchat':
-        hasSnapchatBeenTapped = true;
+        setState(() {
+          hasSnapchatBeenTapped = true;
+          selectedService = 'Snapchat Services';
+        });
         break;
       case 'telegram':
-        hasTelegramBeenTapped = true;
+        setState(() {
+          hasTelegramBeenTapped = true;
+          selectedService = 'Telegram Services';
+        });
         break;
       case 'audiomack':
-        hasAudiomackBeenTapped = true;
+        setState(() {
+          hasAudiomackBeenTapped = true;
+          selectedService = 'Audiomack Services';
+        });
         break;
       case 'tiktok':
-        hasTiktokBeenTapped = true;
+        setState(() {
+          hasTiktokBeenTapped = true;
+          selectedService = 'Tiktok Services';
+        });
         break;
       case 'deezer':
-        hasDeezerBeenTapped = true;
+        setState(() {
+          hasDeezerBeenTapped = true;
+          selectedService = 'Deezer Services';
+        });
         break;
       default:
         break;
     }
+    debugPrint('$tappedItem has been tapped');
     ref.read(instaCategoriesController).searchByName(tappedItem);
   }
 
   void resetAllBooleanVariables() {
     hasInstagramBeenTapped = false;
     hasFacebookBeenTapped = false;
+    hasBoomplayBeenTapped = false;
     hasYoutubeBeenTapped = false;
     hasSpotifyBeenTapped = false;
     hasSnapchatBeenTapped = false;
@@ -77,13 +103,19 @@ class InstaServicesState extends State<InstaServices> {
   }
 
   @override
+  void initState() {
+    resetAllBooleanVariables();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: Consumer(
           builder: (context, ref, child) {
             final service =
-                ref.read(instaCategoriesController).getAllServicesModel;
+                ref.watch(instaCategoriesController).servicesModel.length;
             return Column(
               children: [
                 const RecurringAppBar(appBarTitle: "Services")
@@ -93,7 +125,9 @@ class InstaServicesState extends State<InstaServices> {
                 ),
                 _buildServiceRows(context, ref),
                 _buildAllServicesContainer(context, ref),
-                _buildServiceList(context, ref, service),
+                _buildServiceList(context, ref, service).afmPadding(
+                  EdgeInsets.only(bottom: 20.h),
+                ),
               ],
             ).afmNeverScroll;
           },
@@ -112,10 +146,11 @@ class InstaServicesState extends State<InstaServices> {
           alignment: WrapAlignment.start,
           children: [
             _buildServiceColumn(context, ref, 'instagram', 'Instagram'),
-            _buildServiceColumn(context, ref, 'facebook (1)', 'Facebook'),
-            _buildServiceColumn(context, ref, 'play', 'Youtube'),
+            _buildServiceColumn(context, ref, 'facebook', 'Facebook'),
+            _buildServiceColumn(context, ref, 'boomplay', 'Boomplay'),
+            _buildServiceColumn(context, ref, 'youtube', 'Youtube'),
             _buildServiceColumn(context, ref, 'spotify', 'Spotify'),
-            _buildServiceColumn(context, ref, 'snapchat (1)', 'Snapchat'),
+            _buildServiceColumn(context, ref, 'snapchat', 'Snapchat'),
             _buildServiceColumn(context, ref, 'telegram', 'Telegram'),
             _buildServiceColumn(context, ref, 'audiomack', 'Audiomack'),
             _buildServiceColumn(context, ref, 'tiktok', 'TikTok'),
@@ -150,6 +185,8 @@ class InstaServicesState extends State<InstaServices> {
         return hasInstagramBeenTapped;
       case 'facebook':
         return hasFacebookBeenTapped;
+      case 'boomplay':
+        return hasBoomplayBeenTapped;
       case 'youtube':
         return hasYoutubeBeenTapped;
       case 'spotify':
@@ -178,7 +215,9 @@ class InstaServicesState extends State<InstaServices> {
         borderRadius: BorderRadius.circular(10.r),
       ),
       child: Text(
-        'All Services',
+        ref.read(instaCategoriesController).hasTappedStatus
+            ? selectedService
+            : 'All Services',
         style: TextStyle(
           fontFamily: 'Montesserat',
           fontWeight: FontWeight.w500,
@@ -199,7 +238,7 @@ class InstaServicesState extends State<InstaServices> {
             height: 340.h,
             width: MediaQuery.of(context).size.width - 40.sp,
             child: ListView.builder(
-              itemCount: service.data?.length,
+              itemCount: service,
               shrinkWrap: true,
               itemBuilder: (context, index) {
                 return _buildServiceDemoWidget(index, ref).afmPadding(
@@ -209,7 +248,7 @@ class InstaServicesState extends State<InstaServices> {
             ),
           );
         } else {
-          return const Center(child: TransparentLoadingScreen());
+          return const TransparentLoadingScreen();
         }
       },
     );

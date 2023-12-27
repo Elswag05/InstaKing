@@ -28,6 +28,7 @@ mixin DioMixin {
               .read(key: InstaStrings.token);
           if (value != 'token' && value != null) {
             options.headers['Authorization'] = "Bearer $value";
+            debugPrint(value);
           }
           if (customHeaders != null) {
             options.headers.addAll(Map<String, dynamic>.from(customHeaders));

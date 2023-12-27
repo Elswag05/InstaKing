@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insta_king/core/constants/constants.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
 import 'package:insta_king/data/local/toast_service.dart';
-import 'package:insta_king/presentation/views/services/insta_services.dart';
 import 'package:insta_king/presentation/views/services/service_widgets.dart';
 import 'package:insta_king/utils/locator.dart';
 
@@ -35,11 +34,26 @@ class OrderHistoryViewModel extends StatefulWidget {
 }
 
 class _OrderHistoryViewModelState extends State<OrderHistoryViewModel> {
+  //late String orderService;
+
+  @override
+  void initState() {
+    // orderService = 'loading...';
+    super.initState();
+  }
+
+  // Future<void> fetchData() async {
+  //   setState(() {
+  //     orderService = widget.serviceHere;
+  //   });
+  // }
+
   @override
   Widget build(BuildContext context) {
+    // fetchData();
     return Container(
       decoration: BoxDecoration(
-        color: InstaColors.lightColor,
+        color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(10.r),
       ),
       padding: EdgeInsets.all(20.w),

@@ -120,7 +120,7 @@ class ProfileController extends BaseChangeNotifier {
         // );
         model = ProfileModel.fromJson(res.data);
         notifyListeners();
-        log('model: ${res.data}');
+        log('model has been gotten');
         loadingState = LoadingState.idle;
         return model;
       } else {

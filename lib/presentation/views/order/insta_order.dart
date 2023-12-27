@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -38,6 +40,8 @@ class _InstaOrderHistoryState extends ConsumerState<InstaOrderHistory>
   List<Datum>? _inProgressOrders;
   List<Datum>? _cancelledOrders;
   List<Datum>? _currentOrders;
+  late List<String> allOrderId;
+  late List<String> serviceNames;
 
   late final order = ref.read(instaOrderController.notifier);
 
@@ -85,11 +89,40 @@ class _InstaOrderHistoryState extends ConsumerState<InstaOrderHistory>
     });
   }
 
+  void getServices() {
+    for (int i = 0; i < _currentOrders!.length; i++) {
+      allOrderId.add(_currentOrders![i].serviceId!);
+    }
+    //log('Services ID ==> $allOrderId');
+    getServiceNames(allOrderId);
+  }
+
+  List<String> getServiceNames(List<String> allOrderId) {
+    // Initialize serviceNames as an empty list
+
+    for (int i = 0; i < _currentOrders!.length; i++) {
+      // Append to the existing serviceNames list
+      serviceNames.addAll(
+        ref
+            .read(instaCategoriesController.notifier)
+            .getAllServicesModel
+            .data!
+            .where((service) => service.id.toString().contains(allOrderId[i]))
+            .map((service) => service.name ?? ""),
+      );
+      // debugPrint('Service Names ==> $serviceNames');
+    }
+
+    return serviceNames;
+  }
+
   @override
   void initState() {
     _updateChipSelection('one');
     textController = TextEditingController();
     _controller = AnimationController(vsync: this);
+    allOrderId = [];
+    serviceNames = [];
     super.initState();
   }
 
@@ -195,56 +228,51 @@ class _InstaOrderHistoryState extends ConsumerState<InstaOrderHistory>
                       ref.read(instaOrderController.notifier).toGetAllOrders(),
                   builder: ((context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.done) {
-                      if (_currentOrders != null) {
-                        return ListView.builder(
-                          itemCount: _currentOrders?.length ?? 0,
-                          itemBuilder: ((context, index) {
-                            ref
-                                .read(instaCategoriesController)
-                                .getOneServiceName(
-                                    _currentOrders?[index].serviceId);
-                            return OrderHistoryViewModel(
-                              idText:
-                                  _currentOrders?[index].id.toString() ?? '',
-                              dateHere:
-                                  _currentOrders?[index].createdAt.toString() ??
+                      return ListView.builder(
+                        itemCount: _currentOrders?.length ?? 1,
+                        itemBuilder: ((context, index) {
+                          getServices();
+                          ref.read(instaCategoriesController).getOneServiceName(
+                              _currentOrders?[index].serviceId);
+                          print("Xurrent order is ${_currentOrders?.length}");
+                          return _currentOrders?.length != []
+                              ? OrderHistoryViewModel(
+                                  idText:
+                                      _currentOrders?[index].id.toString() ??
+                                          '',
+                                  dateHere: _currentOrders?[index]
+                                          .createdAt
+                                          .toString() ??
                                       '',
-                              linkHere: _currentOrders?[index].link ?? '',
-                              priceHere: formatBalance(
-                                  _currentOrders?[index].price ?? '0'),
-                              digitHere:
-                                  _currentOrders?[index].startCounter ?? '',
-                              quantity: _currentOrders?[index].quantity ?? '',
-                              serviceHere: ref
-                                      .read(instaCategoriesController)
-                                      .getOneServiceDetailsModel
-                                      .data
-                                      ?.name ??
-                                  '',
-                              remNant: _currentOrders?[index].remain ?? '',
-                              status: StatusContainer(
-                                status: _currentOrders?[index].status ??
-                                    Status.PENDING,
-                              ),
-                            ).afmGetFuture(Future.delayed(Duration.zero, () {
-                              return ref
-                                  .read(instaCategoriesController)
-                                  .getOneServiceName(
-                                      _currentOrders?[index].serviceId);
-                            }));
-                          }),
-                        );
-                      } else {
-                        return Lottie.asset(
-                          "assets/animation/null-animation.json",
-                          controller: _controller,
-                          onLoaded: (composition) {
-                            _controller
-                              ..duration = composition.duration
-                              ..repeat();
-                          },
-                        );
-                      }
+                                  linkHere: _currentOrders?[index].link ?? '',
+                                  priceHere: formatBalance(
+                                      _currentOrders?[index].price ?? '0'),
+                                  digitHere:
+                                      _currentOrders?[index].startCounter ?? '',
+                                  quantity:
+                                      _currentOrders?[index].quantity ?? '',
+                                  serviceHere: serviceNames[index],
+                                  remNant: _currentOrders?[index].remain ?? '',
+                                  status: StatusContainer(
+                                    status: _currentOrders?[index].status ??
+                                        Status.PENDING,
+                                  ),
+                                )
+                              : SizedBox(
+                                  height: 200.h,
+                                  width: 200.w,
+                                  child: Lottie.asset(
+                                    "assets/animation/null-animation.json",
+                                    controller: _controller,
+                                    onLoaded: (composition) {
+                                      _controller
+                                        ..duration = composition.duration
+                                        ..repeat();
+                                    },
+                                  ),
+                                );
+                        }),
+                      );
                     } else {
                       return const TransparentLoadingScreen();
                     }

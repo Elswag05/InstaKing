@@ -13,6 +13,7 @@ import 'package:insta_king/presentation/controllers/base_controller.dart';
 import 'package:insta_king/presentation/model/get_all_order_model.dart';
 import 'package:insta_king/presentation/model/get_order_details_model.dart';
 import 'package:insta_king/presentation/model/place_order_model.dart';
+import 'package:oktoast/oktoast.dart';
 
 final instaOrderController =
     ChangeNotifierProvider<OrderController>((ref) => OrderController());
@@ -23,6 +24,7 @@ class OrderController extends BaseChangeNotifier {
   final GetOrderDetails getOrderDetails = GetOrderDetails();
   late GetAllOrderModel getAllOrderModel = GetAllOrderModel();
   late PlaceOrderModel placeOrderModel = PlaceOrderModel();
+  late final List<String> neededServiceIds;
 
   final SecureStorageService secureStorageService =
       SecureStorageService(secureStorage: const FlutterSecureStorage());
@@ -69,6 +71,24 @@ class OrderController extends BaseChangeNotifier {
     return getAllOrderModel.data!
         .where((order) => order.status == status)
         .toList();
+  }
+
+  Future<List<String>> getAllOrderIds() async {
+    try {
+      // Assuming that `toGetAllOrders` is already called before this function
+      if (getAllOrderModel.data == null) {
+        showToast('Please go back and try again!');
+      }
+      // Extract order IDs from GetAllOrderModel
+      neededServiceIds = getAllOrderModel.data!
+          .map((order) => order.serviceId.toString())
+          .toList();
+      return neededServiceIds;
+    } catch (e) {
+      log('Error getting order IDs');
+      ErrorService.handleErrors(e);
+      return [];
+    }
   }
 
   Future<bool> toGetAllOrders() async {
