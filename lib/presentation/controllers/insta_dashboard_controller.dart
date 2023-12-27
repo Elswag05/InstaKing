@@ -18,6 +18,8 @@ class DashBoardController extends BaseChangeNotifier {
   bool get isLoggedIn => _isLoggedIn;
   String _userEmail = "";
   String get userEmail => _userEmail;
+  bool _deviceHasInternet = true;
+  bool get checkDeviceInternet => _deviceHasInternet;
 
   // set isLoggedIn(bool value) {
   //   isLoggedIn = value;
@@ -59,6 +61,20 @@ class DashBoardController extends BaseChangeNotifier {
       return email;
     }
   }
+
+  // Future<bool> checkInternetConnection() async {
+  //   var connectivityResult = await Connectivity().checkConnectivity();
+  //   if (connectivityResult == ConnectivityResult.mobile ||
+  //       connectivityResult == ConnectivityResult.wifi) {
+  //     debugPrint('Connectivity is true');
+  //     _deviceHasInternet = true;
+  //     return true;
+  //   } else {
+  //     debugPrint('Connectivity is false');
+  //     _deviceHasInternet = false;
+  //     return false;
+  //   }
+  // }
 
   Future<bool> getKey(String key) async {
     String? stringn = await secureStorageService.read(key: key);

@@ -58,8 +58,8 @@ class _InstaLoginState extends ConsumerState<InstaLogin>
         Future dash = ref.read(dashBoardControllerProvider.notifier).getEmail();
         dash;
 
-        bool userloggedIn = false;
-        ref.read(dashBoardControllerProvider.notifier).isLoggedIn;
+        bool userloggedIn =
+            ref.read(dashBoardControllerProvider.notifier).isLoggedIn;
         // final bool userloggedIn =
         //     ref.read(dashBoardControllerProvider.notifier).isLoggedIn;
         final instaLoginState = ref.watch(instaLoginController);
