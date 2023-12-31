@@ -29,15 +29,6 @@ class PlaceOrder extends ConsumerStatefulWidget {
 
 class PlaceOrderState extends ConsumerState<PlaceOrder> {
   late TextEditingController linkController = TextEditingController();
-  late CategoriesController categoriesController =
-      ref.read(instaCategoriesController);
-  late OrderController orderController =
-      ref.read(instaOrderController.notifier);
-  late TextEditingController quantityController =
-      ref.read(textControllerProvider);
-  late TextValueNotifier textValueNotifier = ref.read(textValueProvider);
-
-  late final user = ref.read(instaProfileController.notifier).model.user;
 
   String categoryText() {
     String showCategoryText = 'Choose Category';
@@ -69,7 +60,6 @@ class PlaceOrderState extends ConsumerState<PlaceOrder> {
   void initState() {
     super.initState();
     linkController = TextEditingController();
-    textValueNotifier = ref.read(textValueProvider);
     //LocalNotificationService.initialize();
     // FirebaseMessaging.instance.getInitialMessage().then((message) {});
     // FirebaseMessaging.onMessageOpenedApp.listen((message) {
@@ -80,8 +70,6 @@ class PlaceOrderState extends ConsumerState<PlaceOrder> {
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (context, ref, child) {
-      late final OrderController instaPlaceOrderState;
-      instaPlaceOrderState = ref.watch(instaOrderController);
       return Stack(
         children: [
           Scaffold(
@@ -126,26 +114,29 @@ class PlaceOrderState extends ConsumerState<PlaceOrder> {
                           leadTitle: "Quantity",
                           hintT: '1',
                           isPasswordT: false,
-                          controller: quantityController,
+                          controller: ref.read(textControllerProvider),
                           isdigit: [FilteringTextInputFormatter.digitsOnly],
                           onChanged: (value) {
-                            textValueNotifier.textValue = value;
+                            ref.read(textValueProvider).textValue = value;
                           },
                         ),
                         Column(
                           children: [
                             CustomButton(
                               height: 35,
-                              color: Theme.of(context).shadowColor,
-                              buttonTextColor: Theme.of(context).cardColor,
+                              color: InstaColors.darkColor,
+                              buttonTextColor: InstaColors.lightColor,
                               pageCTA: "Charge: ${formatBalance(
-                                categoriesController.calculatePricePerUnit(
-                                    categoriesController
-                                            .getOneServiceDetailsModel
-                                            .data
-                                            ?.price ??
-                                        '0.0',
-                                    ref.watch(textValueProvider).textValue),
+                                ref
+                                    .read(instaCategoriesController)
+                                    .calculatePricePerUnit(
+                                        ref
+                                                .read(instaCategoriesController)
+                                                .getOneServiceDetailsModel
+                                                .data
+                                                ?.price ??
+                                            '0.0',
+                                        ref.watch(textValueProvider).textValue),
                               )}",
                             ),
                           ],
@@ -158,11 +149,14 @@ class PlaceOrderState extends ConsumerState<PlaceOrder> {
                         CustomButton(
                           pageCTA: 'Place Order',
                           toSignOrLogin: () {
-                            orderController
+                            ref
+                                .read(instaOrderController.notifier)
                                 .toPlaceOrder(
-                                    categoriesController.selectedService,
+                                    ref
+                                        .read(instaCategoriesController)
+                                        .selectedService,
                                     linkController.text,
-                                    quantityController.text)
+                                    ref.read(textControllerProvider).text)
                                 .then(
                               (value) {
                                 if (value == true) {
@@ -182,7 +176,35 @@ class PlaceOrderState extends ConsumerState<PlaceOrder> {
                                   LocalNotification.showPurchaseNotification(
                                     title: 'Insta King ♛ \nOrder Successful',
                                     body:
-                                        'Dear ${user?.fullname},\nYour purchase of ${formatBalance(categoriesController.calculatePricePerUnit(categoriesController.getOneServiceDetailsModel.data?.price ?? '0.0', ref.watch(textValueProvider).textValue))} is successful.\nYour available insta balance is ₦${user?.balance}.\nPurchase Details  ::: \nName: ${categoriesController.selectedServiceName}\nCategory: ${categoriesController.selectedCategoryName}\nAmount: ${formatBalance(categoriesController.calculatePricePerUnit(categoriesController.getOneServiceDetailsModel.data?.price ?? '0.0', ref.watch(textValueProvider).textValue))}',
+                                        'Dear ${ref.read(instaProfileController.notifier).model.user?.fullname},\nYour purchase of ${formatBalance(
+                                      ref
+                                          .read(instaCategoriesController)
+                                          .calculatePricePerUnit(
+                                              ref
+                                                      .read(
+                                                          instaCategoriesController)
+                                                      .getOneServiceDetailsModel
+                                                      .data
+                                                      ?.price ??
+                                                  '0.0',
+                                              ref
+                                                  .watch(textValueProvider)
+                                                  .textValue),
+                                    )} is successful.\nYour available insta balance is ₦${ref.read(instaProfileController.notifier).model.user?.balance}.\nPurchase Details  ::: \nName: ${ref.read(instaCategoriesController).selectedServiceName}\nCategory: ${ref.read(instaCategoriesController).selectedCategoryName}\nAmount: ${formatBalance(
+                                      ref
+                                          .read(instaCategoriesController)
+                                          .calculatePricePerUnit(
+                                              ref
+                                                      .read(
+                                                          instaCategoriesController)
+                                                      .getOneServiceDetailsModel
+                                                      .data
+                                                      ?.price ??
+                                                  '0.0',
+                                              ref
+                                                  .watch(textValueProvider)
+                                                  .textValue),
+                                    )}',
                                     payload: 'payload',
                                   );
                                 } else {
@@ -214,7 +236,8 @@ class PlaceOrderState extends ConsumerState<PlaceOrder> {
               ).afmNeverScroll,
             ),
           ),
-          if (instaPlaceOrderState.loadingState == LoadingState.loading)
+          if (ref.watch(instaOrderController).loadingState ==
+              LoadingState.loading)
             const TransparentLoadingScreen(),
         ],
       );

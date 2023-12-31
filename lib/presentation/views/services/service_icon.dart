@@ -34,7 +34,7 @@ class ServicesIconTabs extends StatelessWidget {
               EnvAssets.getIconPath(imageIconPath),
               // width: 15.w,
               // height: 15.h,
-              color: isTapped ? null : InstaColors.mildGrey,
+              color: isTapped ? null : Theme.of(context).unselectedWidgetColor,
             ),
           ),
           Text(

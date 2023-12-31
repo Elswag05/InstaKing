@@ -33,23 +33,13 @@ class OrderController extends BaseChangeNotifier {
       String serviceId, String link, String quantity) async {
     try {
       loadingState = LoadingState.loading;
-      print(loadingState);
+      debugPrint('$loadingState');
       final res = await placeOrder.placeOrder(serviceId, link, quantity);
       if (res.statusCode == 201) {
         debugPrint("INFO: Bearer ${res.data}");
         placeOrderModel = PlaceOrderModel.fromJson(res.data);
-        // if ( rememberMe) {
-        //   await locator<SecureStorageService>().write(key: EnvStrings.us, value: value)
-        // }
-
-        // locator<ToastService>().showSuccessToast(
-        //   'Order Purchased Successfully',
-        // );
-        //print("INFO: Success converting data to model");
-        //if (data.status == 'success') {
         loadingState = LoadingState.idle;
         return true;
-        //}
       } else {
         debugPrint('${res.statusMessage}');
         debugPrint('${res.statusCode}');
@@ -75,11 +65,9 @@ class OrderController extends BaseChangeNotifier {
 
   Future<List<String>> getAllOrderIds() async {
     try {
-      // Assuming that `toGetAllOrders` is already called before this function
       if (getAllOrderModel.data == null) {
         showToast('Please go back and try again!');
       }
-      // Extract order IDs from GetAllOrderModel
       neededServiceIds = getAllOrderModel.data!
           .map((order) => order.serviceId.toString())
           .toList();
@@ -95,10 +83,8 @@ class OrderController extends BaseChangeNotifier {
     try {
       loadingState = LoadingState.loading;
       final res = await getOrder.getAllOrders();
-      //debugPrint('This is the response ${res.data.toString()}');
       if (res.statusCode == 200 || res.statusCode == 201) {
         getAllOrderModel = GetAllOrderModel.fromJson(res.data);
-        //debugPrint(getAllOrderModel.data.toString());
         debugPrint('All orders so far have been gotten');
         loadingState = LoadingState.idle;
         return true;
@@ -122,18 +108,8 @@ class OrderController extends BaseChangeNotifier {
       final res =
           await getOrderDetails.getFilteredOrderDetails(orderId: orderId);
       if (res.statusCode == 200) {
-        // print("INFO: Bearer ${res..data}");
         final data = GetOrderDetailsModel.fromJson(res.data);
-
-        // if ( rememberMe) {
-        //   await locator<SecureStorageService>().write(key: EnvStrings.us, value: value)
-        // }
-
         loadingState = LoadingState.idle;
-        // locator<ToastService>().showSuccessToast(
-        //   'Categories loaded successfully',
-        // );
-        //print("INFO: Success converting data to model");
         if (data.status == 'success') {
           return true;
         }

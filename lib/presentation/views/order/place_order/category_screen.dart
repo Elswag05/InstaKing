@@ -95,6 +95,7 @@ class _MyWidgetState extends ConsumerState<CategoryScreen> {
                           fontFamily: 'Monteserrat',
                           fontWeight: FontWeight.w500,
                           fontSize: 13.sp,
+                          color: Theme.of(context).colorScheme.scrim,
                         ),
                       ),
                     ),

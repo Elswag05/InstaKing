@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -24,7 +22,6 @@ class InstaOrderHistory extends ConsumerStatefulWidget {
 
 class _InstaOrderHistoryState extends ConsumerState<InstaOrderHistory>
     with TickerProviderStateMixin {
-  // late TabController _tabController;
   late final AnimationController _controller;
   late TextEditingController textController;
   bool _isAllSelected = true;
@@ -43,53 +40,68 @@ class _InstaOrderHistoryState extends ConsumerState<InstaOrderHistory>
   late List<String> allOrderId;
   late List<String> serviceNames;
 
-  late final order = ref.read(instaOrderController.notifier);
+  Future<void> _updateChipSelection(String chipKey) async {
+    bool isAllSelected = false;
+    bool isCompletedSelected = false;
+    bool isRunningSelected = false;
+    bool isPartialDoneSelected = false;
+    bool isInProgressSelected = false;
+    bool isCancelledSelected = false;
 
-  _updateChipSelection(String chipKey) {
+    switch (chipKey) {
+      case 'one':
+        _currentOrders = _allOrders ??
+            ref.read(instaOrderController.notifier).getAllOrderModel.data;
+        isAllSelected = true;
+        break;
+      case 'completed':
+        _currentOrders = _completedOrders ??
+            ref
+                .read(instaOrderController.notifier)
+                .getOrdersByStatus(Status.COMPLETED);
+        isCompletedSelected = true;
+        break;
+      case 'running':
+        _currentOrders = _runningOrders ??
+            ref
+                .read(instaOrderController.notifier)
+                .getOrdersByStatus(Status.PARTIAL);
+        isRunningSelected = true;
+        break;
+      case 'partialDone':
+        _currentOrders = _partialDoneOrders ??
+            ref
+                .read(instaOrderController.notifier)
+                .getOrdersByStatus(Status.PENDING);
+        isPartialDoneSelected = true;
+        break;
+      case 'inProgress':
+        _currentOrders = _inProgressOrders ??
+            ref
+                .read(instaOrderController.notifier)
+                .getOrdersByStatus(Status.PROCESSING);
+        isInProgressSelected = true;
+        break;
+      case 'cancelled':
+        _currentOrders = _cancelledOrders ??
+            ref
+                .read(instaOrderController.notifier)
+                .getOrdersByStatus(Status.CANCELED);
+        isCancelledSelected = true;
+        break;
+    }
+
     setState(() {
-      _isAllSelected = false;
-      _isCompletedSelected = false;
-      _isRunningSelected = false;
-      _isPartialDoneSelected = false;
-      _isInProgressSelected = false;
-      _isCancelledSelected = false;
-
-      switch (chipKey) {
-        case 'one':
-          _currentOrders = _allOrders ?? order.getAllOrderModel.data;
-          _isAllSelected = true;
-          setState(() {});
-          break;
-        case 'completed':
-          _currentOrders =
-              _completedOrders ?? order.getOrdersByStatus(Status.COMPLETED);
-          _isCompletedSelected = true;
-          break;
-        case 'running':
-          _currentOrders =
-              _runningOrders ?? order.getOrdersByStatus(Status.PARTIAL);
-          _isRunningSelected = true;
-          break;
-        case 'partialDone':
-          _currentOrders =
-              _partialDoneOrders ?? order.getOrdersByStatus(Status.PENDING);
-          _isPartialDoneSelected = true;
-          break;
-        case 'inProgress':
-          _currentOrders =
-              _inProgressOrders ?? order.getOrdersByStatus(Status.PROCESSING);
-          _isInProgressSelected = true;
-          break;
-        case 'cancelled':
-          _currentOrders =
-              _cancelledOrders ?? order.getOrdersByStatus(Status.CANCELED);
-          _isCancelledSelected = true;
-          break;
-      }
+      _isAllSelected = isAllSelected;
+      _isCompletedSelected = isCompletedSelected;
+      _isRunningSelected = isRunningSelected;
+      _isPartialDoneSelected = isPartialDoneSelected;
+      _isInProgressSelected = isInProgressSelected;
+      _isCancelledSelected = isCancelledSelected;
     });
   }
 
-  void getServices() {
+  getServices() {
     for (int i = 0; i < _currentOrders!.length; i++) {
       allOrderId.add(_currentOrders![i].serviceId!);
     }
@@ -224,55 +236,56 @@ class _InstaOrderHistoryState extends ConsumerState<InstaOrderHistory>
           SizedBox(
               height: MediaQuery.of(context).size.height - 180.h,
               child: FutureBuilder(
-                  future:
-                      ref.read(instaOrderController.notifier).toGetAllOrders(),
+                  future: Future.wait([
+                    ref.read(instaOrderController.notifier).toGetAllOrders(),
+                    Future(() => getServices())
+                  ]),
                   builder: ((context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.done) {
-                      return ListView.builder(
-                        itemCount: _currentOrders?.length ?? 1,
-                        itemBuilder: ((context, index) {
-                          getServices();
-                          ref.read(instaCategoriesController).getOneServiceName(
-                              _currentOrders?[index].serviceId);
-                          print("Xurrent order is ${_currentOrders?.length}");
-                          return _currentOrders?.length != []
-                              ? OrderHistoryViewModel(
-                                  idText:
-                                      _currentOrders?[index].id.toString() ??
-                                          '',
-                                  dateHere: _currentOrders?[index]
-                                          .createdAt
-                                          .toString() ??
+                      if (_currentOrders?.isNotEmpty == true) {
+                        return ListView.builder(
+                          itemCount: _currentOrders?.length ?? 1,
+                          itemBuilder: ((context, index) {
+                            // ref
+                            //     .read(instaCategoriesController)
+                            //     .getOneServiceName(
+                            //         _currentOrders?[index].serviceId);
+                            return OrderHistoryViewModel(
+                              idText:
+                                  _currentOrders?[index].id.toString() ?? '',
+                              dateHere:
+                                  _currentOrders?[index].createdAt.toString() ??
                                       '',
-                                  linkHere: _currentOrders?[index].link ?? '',
-                                  priceHere: formatBalance(
-                                      _currentOrders?[index].price ?? '0'),
-                                  digitHere:
-                                      _currentOrders?[index].startCounter ?? '',
-                                  quantity:
-                                      _currentOrders?[index].quantity ?? '',
-                                  serviceHere: serviceNames[index],
-                                  remNant: _currentOrders?[index].remain ?? '',
-                                  status: StatusContainer(
-                                    status: _currentOrders?[index].status ??
-                                        Status.PENDING,
-                                  ),
-                                )
-                              : SizedBox(
-                                  height: 200.h,
-                                  width: 200.w,
-                                  child: Lottie.asset(
-                                    "assets/animation/null-animation.json",
-                                    controller: _controller,
-                                    onLoaded: (composition) {
-                                      _controller
-                                        ..duration = composition.duration
-                                        ..repeat();
-                                    },
-                                  ),
-                                );
-                        }),
-                      );
+                              linkHere: _currentOrders?[index].link ?? '',
+                              priceHere: formatBalance(
+                                  _currentOrders?[index].price ?? '0'),
+                              digitHere:
+                                  _currentOrders?[index].startCounter ?? '',
+                              quantity: _currentOrders?[index].quantity ?? '',
+                              serviceHere: serviceNames[index],
+                              remNant: _currentOrders?[index].remain ?? '',
+                              status: StatusContainer(
+                                status: _currentOrders?[index].status ??
+                                    Status.PENDING,
+                              ),
+                            );
+                          }),
+                        );
+                      } else {
+                        return SizedBox(
+                          height: 200.h,
+                          width: 200.w,
+                          child: Lottie.asset(
+                            "assets/animation/null-animation.json",
+                            controller: _controller,
+                            onLoaded: (composition) {
+                              _controller
+                                ..duration = composition.duration
+                                ..repeat();
+                            },
+                          ),
+                        );
+                      }
                     } else {
                       return const TransparentLoadingScreen();
                     }

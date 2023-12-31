@@ -50,16 +50,16 @@ class _InstaTransactionsState extends State<InstaTransactions>
                 const ServicesSearchBar(
                   searchText: 'Search Transactions',
                 ),
-                TransactionViewModel(
-                  no: trx.data?.status ?? 'null',
-                  status: Text(trx.data?.the0?.id?.toString() ?? 'null'),
-                  type: Text(trx.data?.the0?.id?.toString() ?? 'null'),
-                  service: Text(trx.data?.the0?.id?.toString() ?? 'null'),
-                  trxCode: trx.data?.the0?.id?.toString() ?? 'null',
-                  date: trx.data?.the0?.id?.toString() ?? 'null',
-                  amount: trx.data?.the0?.id?.toString() ?? 'null',
-                  message: trx.data?.the0?.id?.toString() ?? 'null',
-                ),
+                // TransactionViewModel(
+                //   no: trx.data?.status ?? 'null',
+                //   status: Text(trx.data?.the0?.id?.toString() ?? 'null'),
+                //   type: Text(trx.data?.the0?.id?.toString() ?? 'null'),
+                //   service: Text(trx.data?.the0?.id?.toString() ?? 'null'),
+                //   trxCode: trx.data?.the0?.id?.toString() ?? 'null',
+                //   date: trx.data?.the0?.id?.toString() ?? 'null',
+                //   amount: trx.data?.the0?.id?.toString() ?? 'null',
+                //   message: trx.data?.the0?.id?.toString() ?? 'null',
+                // ),
                 SizedBox(
                   height: MediaQuery.of(context).size.height - 180.h,
                   child: FutureBuilder(
@@ -77,20 +77,20 @@ class _InstaTransactionsState extends State<InstaTransactions>
                             itemCount: 0,
                             itemBuilder: ((context, index) {
                               return TransactionViewModel(
-                                no: trx.data?.the0?.id?.toString() ?? '',
+                                no: trx.data?[index].id.toString() ?? '',
                                 status:
-                                    Text(trx.data?.the0?.id?.toString() ?? ''),
+                                    Text(trx.data?[index].id.toString() ?? ''),
                                 type: Text(
-                                    trx.data?.the0?.id?.toString() ?? 'null'),
+                                    trx.data?[index].id.toString() ?? 'null'),
                                 service:
-                                    Text(trx.data?.the0?.id?.toString() ?? ''),
+                                    Text(trx.data?[index].id.toString() ?? ''),
                                 trxCode:
-                                    trx.data?.the0?.id?.toString() ?? 'null',
-                                date: trx.data?.the0?.id?.toString() ?? 'null',
+                                    trx.data?[index].id.toString() ?? 'null',
+                                date: trx.data?[index].id.toString() ?? 'null',
                                 amount:
-                                    trx.data?.the0?.id?.toString() ?? 'null',
+                                    trx.data?[index].id.toString() ?? 'null',
                                 message:
-                                    trx.data?.the0?.id?.toString() ?? 'null',
+                                    trx.data?[index].id.toString() ?? 'null',
                               );
                             }),
                           );

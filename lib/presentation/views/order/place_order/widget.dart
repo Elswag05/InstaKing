@@ -40,6 +40,7 @@ Column noticeBoard(BuildContext context) {
                   fontFamily: 'Montesserat',
                   fontSize: 11.sp,
                   fontWeight: FontWeight.w600,
+                  color: Theme.of(context).colorScheme.scrim,
                 ),
               ),
               SizedBox(
@@ -51,6 +52,7 @@ Column noticeBoard(BuildContext context) {
                   fontFamily: 'Montesserat',
                   fontSize: 11.sp,
                   fontWeight: FontWeight.w600,
+                  color: Theme.of(context).colorScheme.scrim,
                 ),
               ),
               SizedBox(
@@ -62,6 +64,7 @@ Column noticeBoard(BuildContext context) {
                   fontFamily: 'Montesserat',
                   fontSize: 11.sp,
                   fontWeight: FontWeight.w600,
+                  color: Theme.of(context).colorScheme.scrim,
                 ),
               ),
             ],
