@@ -3,9 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insta_king/presentation/controllers/insta_categories_controller.dart';
 import 'package:insta_king/presentation/controllers/insta_order_controller.dart';
+import 'package:insta_king/presentation/controllers/insta_transactions_controller.dart';
 import 'package:insta_king/presentation/views/profile/sub_profile_views.dart/refer_and_earn/refer_and_earn.dart';
 import 'package:lottie/lottie.dart';
-
 import 'package:insta_king/core/constants/env_colors.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
 import 'package:insta_king/presentation/controllers/insta_dashboard_controller.dart';
@@ -54,9 +54,6 @@ class _InstaHomeState extends State<InstaHome> with TickerProviderStateMixin {
           if (!hasFetchedDetails) {
             // Fetch details only if they haven't been fetched yet
             Future(() async {
-              //await ref.read(instaTransactionController).getTransactions();
-              await ref.read(instaCategoriesController).toGetAllServiceDetail();
-              await ref.read(instaOrderController).toGetAllOrders();
               await ref
                   .read(instaProfileController.notifier)
                   .getProfileDetails()
@@ -64,9 +61,11 @@ class _InstaHomeState extends State<InstaHome> with TickerProviderStateMixin {
                 setState(() {});
                 hasFetchedDetails = true;
               });
-              ref.read(instaCategoriesController.notifier).toGetAllCategories;
               debugPrint(
                   '${ref.read(instaProfileController.notifier).model.user?.profilePicture}');
+            });
+            Future.delayed(Duration.zero, () async {
+              ref.read(instaCategoriesController.notifier).toGetAllCategories;
             });
           }
           return RefreshIndicator(

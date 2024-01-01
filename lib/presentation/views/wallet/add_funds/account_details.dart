@@ -42,7 +42,6 @@ class AccountDetails extends StatelessWidget {
                       fontFamily: 'Montesserat',
                       fontSize: 11.sp,
                       fontWeight: FontWeight.w600,
-                      color: InstaColors.mildGrey,
                     ),
                   ),
                   Text(
@@ -65,7 +64,6 @@ class AccountDetails extends StatelessWidget {
                       fontFamily: 'Montesserat',
                       fontSize: 11.sp,
                       fontWeight: FontWeight.w600,
-                      color: InstaColors.mildGrey,
                     ),
                   ),
                   Text(
@@ -89,7 +87,6 @@ class AccountDetails extends StatelessWidget {
                   fontFamily: 'Montesserat',
                   fontSize: 11.sp,
                   fontWeight: FontWeight.w600,
-                  color: InstaColors.mildGrey,
                 ),
               ),
               Row(

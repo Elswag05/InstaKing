@@ -53,11 +53,10 @@ class _HomeHeaderWidgetState extends State<HomeHeaderWidget> {
                     EnvAssets.getImagePath('user-image'),
                   ),
                   foregroundImage: NetworkImage(
-                    widget.foregroundImageUrl ??
-                        'https://images.app.goo.gl/kQXQGDhGmgvrVVWCA',
+                    widget.foregroundImageUrl ?? '',
                   ),
-                  onForegroundImageError: (_, __) {},
-                  onBackgroundImageError: (_, __) {},
+                  onForegroundImageError: ((exception, stackTrace) {}),
+                  onBackgroundImageError: ((exception, stackTrace) {}),
                 ),
               ),
             ),

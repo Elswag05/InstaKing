@@ -26,7 +26,7 @@ class _InstaLoginState extends ConsumerState<InstaLogin>
   late final TextEditingController userEmailController;
   late final TextEditingController passwordController;
   late final LocalAuthentication auth;
-  bool _supportState = false;
+//  bool _supportState = false;
   late final AnimationController _controller;
 
   @override
@@ -36,9 +36,9 @@ class _InstaLoginState extends ConsumerState<InstaLogin>
     userEmailController = TextEditingController();
     passwordController = TextEditingController();
     auth = LocalAuthentication();
-    auth.isDeviceSupported().then((bool isSupported) => setState(() {
-          _supportState = isSupported;
-        }));
+    // auth.isDeviceSupported().then((bool isSupported) => setState(() {
+    //       _supportState = isSupported;
+    //     }));
     userEmailController.text =
         ref.read(dashBoardControllerProvider.notifier).userEmail;
   }

@@ -26,8 +26,7 @@ class InstaWalletController extends BaseChangeNotifier {
 
   Future<bool> checkUserAccounts(ref) async {
     loadingState = LoadingState.loading;
-    if (ref.user?.virtualBanks == [] ||
-        ref.user?.virtualBanks?[0].accountName == null) {
+    if (ref == [] || ref?[0].accountName == null) {
       accountIsGen = false;
       notifyListeners();
     } else {

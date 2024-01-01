@@ -29,7 +29,8 @@ class _WalletCard1State extends ConsumerState<WalletCard1>
   }
 
   Future<void> _loadData() async {
-    await generatedAccounts.generateAccountDetails();
+    await generatedAccounts
+        .checkUserAccounts(ref.read(instaProfileController).model);
     _controller.dispose();
     setState(() {});
   }
@@ -37,8 +38,8 @@ class _WalletCard1State extends ConsumerState<WalletCard1>
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: generatedAccounts
-            .checkUserAccounts(ref.read(instaProfileController.notifier).model),
+        future: generatedAccounts.checkUserAccounts(
+            ref.read(instaProfileController.notifier).model.user?.virtualBanks),
         builder: ((context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             if (generatedAccounts.userHasGeneratedAccount ||
@@ -74,52 +75,39 @@ class _WalletCard1State extends ConsumerState<WalletCard1>
                             bottom: 10.sp,
                           ),
                         ),
-                        FutureBuilder(
-                          future: generatedAccounts.generateAccountDetails(),
-                          builder: (context, snapshot) {
-                            if (snapshot.connectionState ==
-                                ConnectionState.done) {
-                              if (generatedAccounts.model.data?.isNotEmpty ??
-                                  generatedAccounts.accountIsGen) {
-                                return SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width - 40.sp,
-                                  height: 240.h,
-                                  child: ListView.builder(
-                                    itemCount:
-                                        generatedAccounts.model.data?.length,
-                                    itemBuilder: (((context, index) {
-                                      return AccountDetails(
-                                        accountName: generatedAccounts.model
-                                                .data?[index].accountName ??
-                                            'Loading...',
-                                        bankName: generatedAccounts
-                                                .model.data?[index].bankName ??
-                                            'Loading...',
-                                        accountNumber: generatedAccounts.model
-                                                .data?[index].accountNumber ??
-                                            'Loading...',
-                                      );
-                                    })),
-                                  ),
-                                );
-                              } else {
-                                return Lottie.asset(
-                                  "assets/animation/null-animation.json",
-                                  controller: _controller,
-                                  onLoaded: (composition) {
-                                    _controller
-                                      ..duration = composition.duration
-                                      ..repeat();
-                                  },
-                                );
-                              }
-                            } else {
-                              return const Center(
-                                  child: TransparentLoadingScreen());
-                            }
-                          },
-                        ),
+                        (generatedAccounts.model.data?.isNotEmpty ??
+                                generatedAccounts.accountIsGen)
+                            ? SizedBox(
+                                width:
+                                    MediaQuery.of(context).size.width - 40.sp,
+                                height: 240.h,
+                                child: ListView.builder(
+                                  itemCount:
+                                      generatedAccounts.model.data?.length,
+                                  itemBuilder: (((context, index) {
+                                    return AccountDetails(
+                                      accountName: generatedAccounts
+                                              .model.data?[index].accountName ??
+                                          'Loading...',
+                                      bankName: generatedAccounts
+                                              .model.data?[index].bankName ??
+                                          'Loading...',
+                                      accountNumber: generatedAccounts.model
+                                              .data?[index].accountNumber ??
+                                          'Loading...',
+                                    );
+                                  })),
+                                ),
+                              )
+                            : Lottie.asset(
+                                "assets/animation/null-animation.json",
+                                controller: _controller,
+                                onLoaded: (composition) {
+                                  _controller
+                                    ..duration = composition.duration
+                                    ..repeat();
+                                },
+                              )
                       ],
                     ),
                   ],

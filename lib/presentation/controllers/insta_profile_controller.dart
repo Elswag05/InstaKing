@@ -111,15 +111,14 @@ class ProfileController extends BaseChangeNotifier {
   }
 
   Future<ProfileModel> getProfileDetails() async {
-    loadingState = LoadingState.loading;
     try {
+      loadingState = LoadingState.loading;
       final res = await _getProfileService.getProfileDetails();
       if (res.statusCode == 200) {
         // locator<ToastService>().showSuccessToast(
         //   'Gotten Profile Details',
         // );
         model = ProfileModel.fromJson(res.data);
-        notifyListeners();
         log('model has been gotten');
         loadingState = LoadingState.idle;
         return model;

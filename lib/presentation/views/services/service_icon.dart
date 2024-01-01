@@ -26,8 +26,7 @@ class ServicesIconTabs extends StatelessWidget {
             width: 50.w,
             height: 45.h,
             decoration: BoxDecoration(
-              color:
-                  InstaColors.containerGradient.elementAt(2).withOpacity(0.2),
+              color: Theme.of(context).cardColor,
               borderRadius: BorderRadius.circular(5.r),
             ),
             child: Image.asset(

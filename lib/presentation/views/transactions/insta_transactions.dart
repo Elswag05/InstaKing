@@ -19,6 +19,7 @@ class InstaTransactions extends StatefulWidget {
 class _InstaTransactionsState extends State<InstaTransactions>
     with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
+  late final List<int> numbers = [];
 
   @override
   void initState() {
@@ -73,24 +74,29 @@ class _InstaTransactionsState extends State<InstaTransactions>
                                 .instaTransactionsModel
                                 .data !=
                             null) {
+                          for (int? i = 0; i! < trx.data!.length; i++) {
+                            numbers.add(i + 1);
+                          }
                           return ListView.builder(
-                            itemCount: 0,
+                            itemCount: trx.data?.length,
                             itemBuilder: ((context, index) {
                               return TransactionViewModel(
-                                no: trx.data?[index].id.toString() ?? '',
-                                status:
-                                    Text(trx.data?[index].id.toString() ?? ''),
-                                type: Text(
-                                    trx.data?[index].id.toString() ?? 'null'),
-                                service:
-                                    Text(trx.data?[index].id.toString() ?? ''),
-                                trxCode:
-                                    trx.data?[index].id.toString() ?? 'null',
-                                date: trx.data?[index].id.toString() ?? 'null',
-                                amount:
-                                    trx.data?[index].id.toString() ?? 'null',
-                                message:
-                                    trx.data?[index].id.toString() ?? 'null',
+                                no: numbers[index].toString(),
+                                status: Text(trx.data?[index].id.toString() ??
+                                    'loading...'),
+                                type: Text(trx.data?[index].type.toString() ??
+                                    'loading...'),
+                                service: Text(
+                                    trx.data?[index].service.toString() ??
+                                        'loading...'),
+                                trxCode: trx.data?[index].code.toString() ??
+                                    'loading...',
+                                date: trx.data?[index].createdAt.toString() ??
+                                    'loading...',
+                                amount: trx.data?[index].amount.toString() ??
+                                    'loading...',
+                                message: trx.data?[index].message.toString() ??
+                                    'loading...',
                               );
                             }),
                           );

@@ -18,7 +18,8 @@ class InstaServices extends StatefulWidget {
 }
 
 class InstaServicesState extends State<InstaServices> {
-  late String selectedService;
+  late String selectedService = '';
+  late int service = 0;
   void setOnlyOneTrue(String tappedItem, WidgetRef ref) {
     resetAllBooleanVariables();
     switch (tappedItem) {
@@ -100,6 +101,7 @@ class InstaServicesState extends State<InstaServices> {
     hasAudiomackBeenTapped = false;
     hasTiktokBeenTapped = false;
     hasDeezerBeenTapped = false;
+    setState(() {});
   }
 
   @override
@@ -114,8 +116,10 @@ class InstaServicesState extends State<InstaServices> {
       body: SafeArea(
         child: Consumer(
           builder: (context, ref, child) {
-            final service =
-                ref.watch(instaCategoriesController).servicesModel.length;
+            // Future(() {
+            //   service =
+            //       ref.watch(instaCategoriesController).servicesModel.length;
+            // });
             return Column(
               children: [
                 const RecurringAppBar(appBarTitle: "Services")
@@ -125,7 +129,7 @@ class InstaServicesState extends State<InstaServices> {
                 ),
                 _buildServiceRows(context, ref),
                 _buildAllServicesContainer(context, ref),
-                _buildServiceList(context, ref, service).afmPadding(
+                _buildServiceList(context, ref).afmPadding(
                   EdgeInsets.only(bottom: 20.h),
                 ),
               ],
@@ -215,7 +219,7 @@ class InstaServicesState extends State<InstaServices> {
         borderRadius: BorderRadius.circular(10.r),
       ),
       child: Text(
-        ref.read(instaCategoriesController).hasTappedStatus
+        ref.watch(instaCategoriesController).hasTappedStatus
             ? selectedService
             : 'All Services',
         style: TextStyle(
@@ -228,8 +232,7 @@ class InstaServicesState extends State<InstaServices> {
     ).afmPadding(EdgeInsets.only(bottom: 20.sp));
   }
 
-  Widget _buildServiceList(
-      BuildContext context, WidgetRef ref, dynamic service) {
+  Widget _buildServiceList(BuildContext context, WidgetRef ref) {
     return FutureBuilder(
       future: ref.read(instaCategoriesController).toGetAllServiceDetail(),
       builder: (context, snapshot) {
@@ -238,7 +241,8 @@ class InstaServicesState extends State<InstaServices> {
             height: 340.h,
             width: MediaQuery.of(context).size.width - 40.sp,
             child: ListView.builder(
-              itemCount: service,
+              itemCount:
+                  ref.read(instaCategoriesController).servicesModel.length,
               shrinkWrap: true,
               itemBuilder: (context, index) {
                 return _buildServiceDemoWidget(index, ref).afmPadding(

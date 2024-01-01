@@ -86,6 +86,8 @@ class _ProfileCardState extends State<ProfileCard> {
                           foregroundImage: NetworkImage(
                             widget.foregroundImageUrl,
                           ),
+                          onForegroundImageError: ((exception, stackTrace) {}),
+                          onBackgroundImageError: ((exception, stackTrace) {}),
                         ),
                       ),
                     ).afmPadding(EdgeInsets.only(right: 10.w)),

@@ -6,6 +6,8 @@ import 'package:insta_king/core/constants/env_colors.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
 import 'package:insta_king/presentation/controllers/insta_categories_controller.dart';
 import 'package:insta_king/presentation/controllers/insta_dashboard_controller.dart';
+import 'package:insta_king/presentation/controllers/insta_order_controller.dart';
+import 'package:insta_king/presentation/controllers/insta_transactions_controller.dart';
 import 'package:insta_king/presentation/views/order/place_order/place_order.dart';
 import 'package:insta_king/presentation/views/profile/sub_profile_views.dart/refer_and_earn/refer_and_earn.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -91,6 +93,11 @@ class ShortcutsTheWidget extends ConsumerWidget {
                   shortcutIcon: 'Place Order',
                   shortcutText: 'Place Order',
                   onTap: () {
+                    Future.delayed(Duration.zero, () async {
+                      ref
+                          .read(instaCategoriesController.notifier)
+                          .toGetAllCategories;
+                    });
                     ref.read(instaCategoriesController).toGetAllCategories();
                     Navigator.of(context).push(
                       MaterialPageRoute(
@@ -128,6 +135,11 @@ class ShortcutsTheWidget extends ConsumerWidget {
                   shortcutIcon: 'Transactioons',
                   shortcutText: 'Transactions',
                   onTap: () {
+                    Future.delayed(Duration.zero, () async {
+                      await ref
+                          .read(instaTransactionController)
+                          .getTransactions();
+                    });
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) => const InstaTransactions(),
@@ -151,6 +163,11 @@ class ShortcutsTheWidget extends ConsumerWidget {
                   shortcutText: 'Services',
                   services: true,
                   onTap: () {
+                    Future.delayed(Duration.zero, () async {
+                      await ref
+                          .read(instaCategoriesController)
+                          .toGetAllServiceDetail();
+                    });
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) => const InstaServices(),

@@ -20,25 +20,23 @@ class TransactionsController extends BaseChangeNotifier {
   TransactionsService transactionsService = TransactionsService();
 
   Future<InstaTransactionsModel> getTransactions() async {
-    loadingState = LoadingState.loading;
     try {
+      loadingState = LoadingState.loading;
       final response = await transactionsService.getTransacations();
       if (response.statusCode == 200) {
         log('Error Note: Transations Has Been Fetched');
-        log('INFO: We have transactions --> ${response.data}');
+        // log('INFO: We have transactions --> ${response.data}');
         try {
           debugPrint('Starting out the map!');
           //debugPrint('${response.data.runtimeType}');
-          //final jsonObject = json.decode(response.data);
+          //final jsonObject = json.decode(response.data);s
           //debugPrint('Starting out the map! 001');
           instaTransactionsModel =
               InstaTransactionsModel.fromJson(response.data);
-          debugPrint('Starting out the map! 002');
-          debugPrint('${instaTransactionsModel.data}');
+          debugPrint('the map! has been gotten!');
         } catch (e) {
           log(' Error 101: $e');
         }
-        notifyListeners();
         loadingState = LoadingState.idle;
         return instaTransactionsModel;
       } else {

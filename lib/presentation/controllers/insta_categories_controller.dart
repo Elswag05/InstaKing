@@ -103,8 +103,8 @@ class CategoriesController extends BaseChangeNotifier {
       SecureStorageService(secureStorage: const FlutterSecureStorage());
 
   Future<bool> toGetAllCategories() async {
-    loadingState = LoadingState.loading;
     try {
+      loadingState = LoadingState.loading;
       final res = await categoriesService.getAllCategories();
       toGetAllServiceDetail();
       toGetDropdownItemsById(_selectedCategoryValue);
@@ -121,10 +121,6 @@ class CategoriesController extends BaseChangeNotifier {
             <CategoryItem>[];
 
         loadingState = LoadingState.idle;
-        notifyListeners();
-        // locator<ToastService>().showSuccessToast(
-        //   'Categories loaded successfully',
-        // );
         debugPrint("INFO: Success converting data to model");
         if (getCategoriesModel.status == 'success') {
           return true;
@@ -209,11 +205,12 @@ class CategoriesController extends BaseChangeNotifier {
 // }
 
   Future<List<ServiceItem>> toGetAllServiceDetail() async {
-    loadingState = LoadingState.loading;
+    // loadingState = LoadingState.loading;
     bool _hasTappedStatus() {
-      notifyListeners();
+      // notifyListeners();
       return hasInstagramBeenTapped ||
           hasFacebookBeenTapped ||
+          hasBoomplayBeenTapped ||
           hasYoutubeBeenTapped ||
           hasSpotifyBeenTapped ||
           hasSnapchatBeenTapped ||
@@ -225,12 +222,46 @@ class CategoriesController extends BaseChangeNotifier {
 
     hasTappedStatus = _hasTappedStatus();
     debugPrint('Has Any Button Been Tapped? => $hasTappedStatus');
+    debugPrint('This is current data => ${getAllServicesModel.data}');
 
-    try {
-      final res = await getAllServiceDetails.getAllServicesDetails();
-      if (res.statusCode == 200) {
-        getAllServicesModel = GetAllServicesModel.fromJson(res.data);
-        // If filteredData is not null, use it instead of getAllServicesModel.data
+    if (getAllServicesModel.data == null || getAllServicesModel.data == []) {
+      try {
+        loadingState = LoadingState.loading;
+        final res = await getAllServiceDetails.getAllServicesDetails();
+        if (res.statusCode == 200) {
+          getAllServicesModel = GetAllServicesModel.fromJson(res.data);
+          // If filteredData is not null, use it instead of getAllServicesModel.data
+          servicesData =
+              hasTappedStatus ? filteredData : getAllServicesModel.data;
+          servicesModel = servicesData
+                  ?.map((category) => ServiceItem(
+                        id: category.id.toString(),
+                        name: category.name ?? "",
+                        min: category.min ?? "00.00",
+                        max: category.max ?? "00.00",
+                        price: category.price ?? "00.00",
+                      ))
+                  .toList() ??
+              [];
+
+          loadingState = LoadingState.idle;
+          notifyListeners();
+          return servicesModel;
+          // loadingState = LoadingState.idle;
+          // notifyListeners();
+          // return getAllServicesModel;
+        } else {
+          // throw Error();
+        }
+      } on DioException catch (e) {
+        loadingState = LoadingState.error;
+        ErrorService.handleErrors(e);
+      } catch (e) {
+        loadingState = LoadingState.error;
+        ErrorService.handleErrors(e);
+      }
+    } else {
+      try {
         servicesData =
             hasTappedStatus ? filteredData : getAllServicesModel.data;
         servicesModel = servicesData
@@ -243,22 +274,10 @@ class CategoriesController extends BaseChangeNotifier {
                     ))
                 .toList() ??
             [];
-
-        loadingState = LoadingState.idle;
-        notifyListeners();
-        return servicesModel;
-        // loadingState = LoadingState.idle;
-        // notifyListeners();
-        // return getAllServicesModel;
-      } else {
-        // throw Error();
+      } catch (e) {
+        debugPrint('We have Error => $e');
       }
-    } on DioException catch (e) {
-      loadingState = LoadingState.error;
-      ErrorService.handleErrors(e);
-    } catch (e) {
-      loadingState = LoadingState.error;
-      ErrorService.handleErrors(e);
+      return servicesModel;
     }
     return servicesModel;
   }

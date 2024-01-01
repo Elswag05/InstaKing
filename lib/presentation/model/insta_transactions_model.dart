@@ -1,15 +1,16 @@
+// To parse this JSON data, do
+//
+//     final instaTransactionsModel = instaTransactionsModelFromJson(jsonString);
+
 import 'dart:convert';
 
-class InstaTransactionsModel {
-  String? status;
-  String? message;
-  List<Datum>? data;
-  int? total;
-  int? currentPage;
-  dynamic previousPage;
-  String? nextPage;
-  int? lastPage;
+InstaTransactionsModel instaTransactionsModelFromJson(String str) =>
+    InstaTransactionsModel.fromJson(json.decode(str));
 
+String instaTransactionsModelToJson(InstaTransactionsModel data) =>
+    json.encode(data.toJson());
+
+class InstaTransactionsModel {
   InstaTransactionsModel({
     this.status,
     this.message,
@@ -21,39 +22,20 @@ class InstaTransactionsModel {
     this.lastPage,
   });
 
-  InstaTransactionsModel copyWith({
-    String? status,
-    String? message,
-    List<Datum>? data,
-    int? total,
-    int? currentPage,
-    dynamic previousPage,
-    String? nextPage,
-    int? lastPage,
-  }) =>
-      InstaTransactionsModel(
-        status: status ?? this.status,
-        message: message ?? this.message,
-        data: data ?? this.data,
-        total: total ?? this.total,
-        currentPage: currentPage ?? this.currentPage,
-        previousPage: previousPage ?? this.previousPage,
-        nextPage: nextPage ?? this.nextPage,
-        lastPage: lastPage ?? this.lastPage,
-      );
+  String? status;
+  String? message;
+  List<Datum>? data;
+  int? total;
+  int? currentPage;
+  dynamic previousPage;
+  dynamic nextPage;
+  int? lastPage;
 
-  factory InstaTransactionsModel.fromJson(String str) =>
-      InstaTransactionsModel.fromMap(json.decode(str));
-
-  String toJson() => json.encode(toMap());
-
-  factory InstaTransactionsModel.fromMap(Map<String, dynamic> json) =>
+  factory InstaTransactionsModel.fromJson(Map<String, dynamic> json) =>
       InstaTransactionsModel(
         status: json["status"],
         message: json["message"],
-        data: json["data"] == null
-            ? []
-            : List<Datum>.from(json["data"]!.map((x) => Datum.fromMap(x))),
+        data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
         total: json["total"],
         currentPage: json["current_page"],
         previousPage: json["previous_page"],
@@ -61,36 +43,42 @@ class InstaTransactionsModel {
         lastPage: json["last_page"],
       );
 
-  Map<String, dynamic> toMap() => {
+  Map<String, dynamic> toJson() => {
         "status": status,
         "message": message,
-        "data":
-            data == null ? [] : List<dynamic>.from(data!.map((x) => x.toMap())),
+        "data": List<dynamic>.from(data!.map((x) => x.toJson())),
         "total": total,
         "current_page": currentPage,
         "previous_page": previousPage,
         "next_page": nextPage,
         "last_page": lastPage,
       };
+
+  // CopyWith method to create a new instance with some fields updated
+  InstaTransactionsModel copyWith({
+    String? status,
+    String? message,
+    List<Datum>? data,
+    int? total,
+    int? currentPage,
+    dynamic previousPage,
+    dynamic nextPage,
+    int? lastPage,
+  }) {
+    return InstaTransactionsModel(
+      status: status ?? this.status,
+      message: message ?? this.message,
+      data: data ?? this.data,
+      total: total ?? this.total,
+      currentPage: currentPage ?? this.currentPage,
+      previousPage: previousPage ?? this.previousPage,
+      nextPage: nextPage ?? this.nextPage,
+      lastPage: lastPage ?? this.lastPage,
+    );
+  }
 }
 
 class Datum {
-  int? id;
-  String? userId;
-  String? type;
-  Service? service;
-  String? status;
-  String? code;
-  String? amount;
-  String? charge;
-  String? oldBalance;
-  String? newBalance;
-  String? message;
-  String? response;
-  DateTime? createdAt;
-  DateTime? updatedAt;
-  dynamic deletedAt;
-
   Datum({
     this.id,
     this.userId,
@@ -109,50 +97,27 @@ class Datum {
     this.deletedAt,
   });
 
-  Datum copyWith({
-    int? id,
-    String? userId,
-    String? type,
-    Service? service,
-    String? status,
-    String? code,
-    String? amount,
-    String? charge,
-    String? oldBalance,
-    String? newBalance,
-    String? message,
-    String? response,
-    DateTime? createdAt,
-    DateTime? updatedAt,
-    dynamic deletedAt,
-  }) =>
-      Datum(
-        id: id ?? this.id,
-        userId: userId ?? this.userId,
-        type: type ?? this.type,
-        service: service ?? this.service,
-        status: status ?? this.status,
-        code: code ?? this.code,
-        amount: amount ?? this.amount,
-        charge: charge ?? this.charge,
-        oldBalance: oldBalance ?? this.oldBalance,
-        newBalance: newBalance ?? this.newBalance,
-        message: message ?? this.message,
-        response: response ?? this.response,
-        createdAt: createdAt ?? this.createdAt,
-        updatedAt: updatedAt ?? this.updatedAt,
-        deletedAt: deletedAt ?? this.deletedAt,
-      );
+  int? id;
+  String? userId;
+  String? type;
+  String? service;
+  String? status;
+  String? code;
+  String? amount;
+  String? charge;
+  String? oldBalance;
+  String? newBalance;
+  String? message;
+  String? response;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  dynamic deletedAt;
 
-  factory Datum.fromJson(String str) => Datum.fromMap(json.decode(str));
-
-  String toJson() => json.encode(toMap());
-
-  factory Datum.fromMap(Map<String, dynamic> json) => Datum(
+  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
         id: json["id"],
         userId: json["user_id"],
         type: json["type"],
-        service: serviceValues.map[json["service"]]!,
+        service: json["service"],
         status: json["status"],
         code: json["code"],
         amount: json["amount"],
@@ -161,20 +126,16 @@ class Datum {
         newBalance: json["new_balance"],
         message: json["message"],
         response: json["response"],
-        createdAt: json["created_at"] == null
-            ? null
-            : DateTime.parse(json["created_at"]),
-        updatedAt: json["updated_at"] == null
-            ? null
-            : DateTime.parse(json["updated_at"]),
+        createdAt: DateTime.parse(json["created_at"]),
+        updatedAt: DateTime.parse(json["updated_at"]),
         deletedAt: json["deleted_at"],
       );
 
-  Map<String, dynamic> toMap() => {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "user_id": userId,
         "type": type,
-        "service": serviceValues.reverse[service],
+        "service": service,
         "status": status,
         "code": code,
         "amount": amount,
@@ -183,25 +144,8 @@ class Datum {
         "new_balance": newBalance,
         "message": message,
         "response": response,
-        "created_at": createdAt?.toIso8601String(),
-        "updated_at": updatedAt?.toIso8601String(),
+        "created_at": createdAt!.toIso8601String(),
+        "updated_at": updatedAt!.toIso8601String(),
         "deleted_at": deletedAt,
       };
-}
-
-enum Service { ORDER, REFERRAL }
-
-final serviceValues =
-    EnumValues({"order": Service.ORDER, "referral": Service.REFERRAL});
-
-class EnumValues<T> {
-  Map<String, T> map;
-  late Map<T, String> reverseMap;
-
-  EnumValues(this.map);
-
-  Map<T, String> get reverse {
-    reverseMap = map.map((k, v) => MapEntry(v, k));
-    return reverseMap;
-  }
 }
