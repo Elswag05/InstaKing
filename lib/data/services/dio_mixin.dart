@@ -38,9 +38,11 @@ mixin DioMixin {
         onError: (DioError e, handler) {
           log('Dio Error 00: ${e.response}', error: e);
           String message = e.response?.data.toString() ?? '';
-          locator<ToastService>().showErrorToast(
-            message,
-          );
+          if (message != '') {
+            locator<ToastService>().showErrorToast(
+              message,
+            );
+          }
           return handler.next(e);
         },
       ),
@@ -58,9 +60,11 @@ mixin DioMixin {
     } on DioError catch (e) {
       // Handle Dio errors (e.g., network issues, non-200 status codes)
       String message = e.message.toString();
-      locator<ToastService>().showErrorToast(
-        message,
-      );
+      if (message != '') {
+        locator<ToastService>().showErrorToast(
+          message,
+        );
+      }
       log('Dio Error 01: $e', error: e);
 
       rethrow;

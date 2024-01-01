@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insta_king/core/constants/env_colors.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
 
+// ignore: must_be_immutable
 class CustomButton extends StatelessWidget {
   final bool agreeTC;
   final void Function()? toSignOrLogin;
@@ -26,29 +27,30 @@ class CustomButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // ignore: avoid_print
-        print('INFO: $pageCTA button has been pressed');
+        debugPrint('INFO: $pageCTA button has been pressed');
         toSignOrLogin!();
       },
-      child: Container(
-        height: height.h,
-        width: MediaQuery.of(context).size.width - 40.w,
-        decoration: BoxDecoration(
-          color: color,
-          borderRadius: BorderRadius.circular(10.r),
-        ),
-        child: Text(
-          pageCTA,
-          style: TextStyle(
-            fontFamily: 'Montesserat',
-            color: buttonTextColor,
-            fontSize: 14.sp,
-            fontWeight: FontWeight.w600,
-          ),
-        ).afmCenter,
-      ).afmBorderRadius(
-        BorderRadius.circular(10.r),
-      ),
+      child: agreeTC
+          ? const SizedBox()
+          : Container(
+              height: height.h,
+              width: MediaQuery.of(context).size.width - 40.w,
+              decoration: BoxDecoration(
+                color: color,
+                borderRadius: BorderRadius.circular(10.r),
+              ),
+              child: Text(
+                pageCTA,
+                style: TextStyle(
+                  fontFamily: 'Montesserat',
+                  color: buttonTextColor,
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w600,
+                ),
+              ).afmCenter,
+            ).afmBorderRadius(
+              BorderRadius.circular(10.r),
+            ),
     );
   }
 }

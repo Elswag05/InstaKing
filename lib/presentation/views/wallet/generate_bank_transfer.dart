@@ -8,7 +8,6 @@ import 'package:insta_king/presentation/controllers/insta_wallet_controller.dart
 import 'package:insta_king/presentation/views/shared_widgets/cta_button.dart';
 import 'package:insta_king/presentation/views/shared_widgets/shared_loading.dart';
 import 'package:insta_king/presentation/views/wallet/add_funds/account_details.dart';
-import 'package:lottie/lottie.dart';
 
 class WalletCard1 extends ConsumerStatefulWidget {
   const WalletCard1({super.key});
@@ -19,31 +18,38 @@ class WalletCard1 extends ConsumerStatefulWidget {
 
 class _WalletCard1State extends ConsumerState<WalletCard1>
     with SingleTickerProviderStateMixin {
-  late final generatedAccounts = ref.watch(instaWalletController);
+  late ProfileController generatedAccounts;
   late final AnimationController _controller;
+
   @override
   void initState() {
     _controller = AnimationController(vsync: this);
+    generatedAccounts = ref.read(instaProfileController);
     super.initState();
-    _loadData();
   }
 
-  Future<void> _loadData() async {
-    await generatedAccounts
-        .checkUserAccounts(ref.read(instaProfileController).model);
+  @override
+  void dispose() {
     _controller.dispose();
-    setState(() {});
+    generatedAccounts.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    debugPrint('${generatedAccounts.model.user?.virtualBanks}');
     return FutureBuilder(
-        future: generatedAccounts.checkUserAccounts(
-            ref.read(instaProfileController.notifier).model.user?.virtualBanks),
+        future: ref.read(instaWalletController).checkUserAccounts(
+              ref
+                  .read(instaProfileController.notifier)
+                  .model
+                  .user
+                  ?.virtualBanks,
+            ),
         builder: ((context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
-            if (generatedAccounts.userHasGeneratedAccount ||
-                generatedAccounts.accountIsGen) {
+            if (ref.read(instaWalletController).userHasGeneratedAccount ||
+                ref.read(instaWalletController).accountIsGen) {
               return Container(
                 color: Theme.of(context).cardColor,
                 child: Column(
@@ -75,39 +81,40 @@ class _WalletCard1State extends ConsumerState<WalletCard1>
                             bottom: 10.sp,
                           ),
                         ),
-                        (generatedAccounts.model.data?.isNotEmpty ??
-                                generatedAccounts.accountIsGen)
-                            ? SizedBox(
-                                width:
-                                    MediaQuery.of(context).size.width - 40.sp,
-                                height: 240.h,
-                                child: ListView.builder(
-                                  itemCount:
-                                      generatedAccounts.model.data?.length,
-                                  itemBuilder: (((context, index) {
-                                    return AccountDetails(
-                                      accountName: generatedAccounts
-                                              .model.data?[index].accountName ??
-                                          'Loading...',
-                                      bankName: generatedAccounts
-                                              .model.data?[index].bankName ??
-                                          'Loading...',
-                                      accountNumber: generatedAccounts.model
-                                              .data?[index].accountNumber ??
-                                          'Loading...',
-                                    );
-                                  })),
-                                ),
-                              )
-                            : Lottie.asset(
-                                "assets/animation/null-animation.json",
-                                controller: _controller,
-                                onLoaded: (composition) {
-                                  _controller
-                                    ..duration = composition.duration
-                                    ..repeat();
-                                },
-                              )
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width - 40.sp,
+                          height: 240.h,
+                          child: ListView.builder(
+                            itemCount: ref
+                                .read(instaProfileController)
+                                .model
+                                .user
+                                ?.virtualBanks
+                                ?.length,
+                            itemBuilder: (((context, index) {
+                              return AccountDetails(
+                                accountName: ref
+                                        .read(instaProfileController)
+                                        .model
+                                        .user
+                                        ?.accName ??
+                                    'Loading...',
+                                bankName: ref
+                                        .read(instaProfileController)
+                                        .model
+                                        .user
+                                        ?.bankname ??
+                                    'Loading...',
+                                accountNumber: ref
+                                        .read(instaProfileController)
+                                        .model
+                                        .user
+                                        ?.accNumber ??
+                                    'Loading...',
+                              );
+                            })),
+                          ),
+                        ),
                       ],
                     ),
                   ],
@@ -171,7 +178,9 @@ class _WalletCard1State extends ConsumerState<WalletCard1>
                     CustomButton(
                       pageCTA: 'Generate Accounts',
                       toSignOrLogin: () async {
-                        await generatedAccounts.generateAccountDetails();
+                        await ref
+                            .read(instaWalletController)
+                            .generateAccountDetails();
                         setState(() {});
                       },
                     ),

@@ -9,7 +9,7 @@ import 'package:insta_king/presentation/views/authentication/login/login.dart';
 import 'package:insta_king/presentation/views/dashboard/insta_dashboard.dart';
 
 class SignUp extends StatefulWidget {
-  const SignUp({Key? key}) : super(key: key);
+  const SignUp({super.key});
 
   @override
   State<SignUp> createState() => _SignUpState();
@@ -51,8 +51,8 @@ class _SignUpState extends State<SignUp> {
           checked: ref.watch(instaSignUpController.notifier).isBoxChecked,
           onChanged: (value) {
             setState(() {
-              ref.watch(instaSignUpController.notifier).toCheckBox(value);
-              print(value.toString());
+              ref.read(instaSignUpController).toCheckBox(value);
+              debugPrint(value.toString());
             });
           },
           anyWidget: AuthTextField(

@@ -26,7 +26,6 @@ class LoginController extends BaseChangeNotifier {
 
   void toCheckBox(value) {
     _rememberMe = !_rememberMe;
-    log(_rememberMe.toString());
     notifyListeners();
   }
 
@@ -46,17 +45,6 @@ class LoginController extends BaseChangeNotifier {
         key: 'userHasGeneratedAccount',
         value: 'true',
       );
-    }
-  }
-
-  Future loginWithFingerprint() async {
-    bool isBiometricsAvailable = await _localAuthentication.canCheckBiometrics;
-    try {
-      bool isAuthenticated = await _localAuthentication.authenticate(
-        localizedReason: 'Authenticate with fingerprint',
-      );
-    } catch (e) {
-      debugPrint('$e');
     }
   }
 
@@ -82,11 +70,16 @@ class LoginController extends BaseChangeNotifier {
             value: data.user?.email ?? '',
           );
         }
-
-        locator<ToastService>().showSuccessToast(
-          'Successfully logged you in',
-        );
+        if (data.status == 'error') {
+          locator<ToastService>().showSuccessToast(
+            '${data.message}',
+          );
+          return false;
+        }
         if (data.status == 'success') {
+          locator<ToastService>().showSuccessToast(
+            'Successfully logged you in',
+          );
           return true;
         }
         loadingState = LoadingState.idle;

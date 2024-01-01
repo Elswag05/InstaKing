@@ -23,8 +23,7 @@ class WalletAppBar extends StatelessWidget {
         ),
         GestureDetector(
           onTap: () {
-            // ignore: avoid_print
-            print('INFO: You just prompted search');
+            debugPrint('INFO: You just prompted search');
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) => const TransactionHistory(),

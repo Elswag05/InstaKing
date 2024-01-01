@@ -138,22 +138,11 @@ class _BaseAuthViewState extends State<BaseAuthView> {
                     children: [
                       Image.asset(
                         EnvAssets.getImagePath('fingerprint-scan'),
-                        width: 50.w,
-                        height: 50.h,
+                        width: 40.w,
+                        height: 40.h,
                         // ignore: deprecated_member_use
                         color: Theme.of(context).unselectedWidgetColor,
                         semanticLabel: 'Use Fingerprint To Login',
-                      ),
-                      SizedBox(
-                        height: 5.h,
-                      ),
-                      Text(
-                        'Login with fingerprint',
-                        style: TextStyle(
-                          fontFamily: 'Montesserat',
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w500,
-                        ),
                       ),
                     ],
                   ),

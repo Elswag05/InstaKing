@@ -8,8 +8,8 @@ import 'package:insta_king/core/theme/env_theme_manager.dart';
 import 'package:insta_king/data/services/notification.dart';
 import 'package:insta_king/no_internet.dart';
 import 'package:insta_king/presentation/controllers/insta_dashboard_controller.dart';
-import 'package:insta_king/presentation/controllers/insta_login_controller.dart';
 import 'package:insta_king/presentation/controllers/insta_network_controller.dart';
+import 'package:insta_king/presentation/views/authentication/login/insta_login_with_fingerprint.dart';
 import 'package:insta_king/presentation/views/shared_widgets/shared_loading.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:insta_king/presentation/views/authentication/login/login.dart';
@@ -52,8 +52,6 @@ class _InstaKing extends ConsumerState<InstaKingGuide> {
       ref.read(dashBoardControllerProvider);
 
   late Future<String> getEmailFuture;
-  late final weRememberPass =
-      ref.read(instaLoginController.notifier).isBoxChecked;
   late bool isConnected;
   @override
   void initState() {
@@ -107,11 +105,10 @@ class _InstaKing extends ConsumerState<InstaKingGuide> {
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.done) {
                         String? email = snapshot.data;
-
-                        if (email == null || email.isEmpty || !weRememberPass) {
+                        if (email == null || email.isEmpty) {
                           return const InstaLogin();
-                        } else {
-                          return const InstaLogin();
+                        } else if (email.isNotEmpty) {
+                          return const InstaLoginWithFingerprint();
                         }
                       }
                       return const TransparentLoadingScreen();

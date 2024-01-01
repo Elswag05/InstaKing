@@ -48,7 +48,8 @@ class AccountDetails extends StatelessWidget {
                     bankName,
                     style: TextStyle(
                       fontFamily: 'Montesserat',
-                      fontSize: 14.sp,
+                      fontSize: 12.sp,
+                      overflow: TextOverflow.ellipsis,
                       fontWeight: FontWeight.bold,
                     ),
                   )
@@ -63,6 +64,7 @@ class AccountDetails extends StatelessWidget {
                     style: TextStyle(
                       fontFamily: 'Montesserat',
                       fontSize: 11.sp,
+                      overflow: TextOverflow.ellipsis,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -70,7 +72,7 @@ class AccountDetails extends StatelessWidget {
                     accountName,
                     style: TextStyle(
                       fontFamily: 'Montesserat',
-                      fontSize: 14.sp,
+                      fontSize: 12.sp,
                       fontWeight: FontWeight.bold,
                     ),
                   ),

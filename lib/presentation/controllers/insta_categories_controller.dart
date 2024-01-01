@@ -119,7 +119,6 @@ class CategoriesController extends BaseChangeNotifier {
               );
             }).toList() ??
             <CategoryItem>[];
-
         loadingState = LoadingState.idle;
         debugPrint("INFO: Success converting data to model");
         if (getCategoriesModel.status == 'success') {

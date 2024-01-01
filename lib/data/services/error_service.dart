@@ -38,7 +38,7 @@ class ErrorService {
       //   e.toString(),
       // );
       debugPrint('${e.runtimeType} Things 001');
-      debugPrint('${e.toString()} Things 001');
+      debugPrint('${e.toString()} ');
     } else if (e is Exception) {
       // Handle general exceptions
       message = errorService.defaultErrorMessage;

@@ -43,8 +43,9 @@ class DashBoardController extends BaseChangeNotifier {
   Future<String> getEmail() async {
     String? email = await secureStorageService.read(key: "email");
     String? tokenOx = await secureStorageService.read(key: "token");
-    debugPrint('User Token ==> $tokenOx');
-    log('User Token ==> $tokenOx');
+    tokenOx == null
+        ? debugPrint('Token is empty -- So user is Logged Out')
+        : debugPrint('User Token ==> $tokenOx');
     if (email == null) {
       _isLoggedIn = false;
       return '';

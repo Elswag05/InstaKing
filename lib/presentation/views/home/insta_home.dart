@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insta_king/presentation/controllers/insta_categories_controller.dart';
-import 'package:insta_king/presentation/controllers/insta_order_controller.dart';
-import 'package:insta_king/presentation/controllers/insta_transactions_controller.dart';
 import 'package:insta_king/presentation/views/profile/sub_profile_views.dart/refer_and_earn/refer_and_earn.dart';
 import 'package:lottie/lottie.dart';
 import 'package:insta_king/core/constants/env_colors.dart';
@@ -15,16 +13,17 @@ import 'package:insta_king/presentation/views/home/home_container_widget.dart';
 import 'package:insta_king/presentation/views/home/home_head.dart';
 import 'package:insta_king/presentation/views/home/home_shortcut_widgets.dart';
 
-class InstaHome extends StatefulWidget {
+class InstaHome extends ConsumerStatefulWidget {
   const InstaHome({
     super.key,
   });
 
   @override
-  State<InstaHome> createState() => _InstaHomeState();
+  ConsumerState<InstaHome> createState() => _InstaHomeState();
 }
 
-class _InstaHomeState extends State<InstaHome> with TickerProviderStateMixin {
+class _InstaHomeState extends ConsumerState<InstaHome>
+    with TickerProviderStateMixin {
   late final AnimationController _controller;
   bool hasFetchedDetails = false;
   bool toCallWallet = false;
@@ -32,6 +31,10 @@ class _InstaHomeState extends State<InstaHome> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+    ref.read(instaProfileController.notifier).getProfileDetails().then((value) {
+      setState(() {});
+      hasFetchedDetails = true;
+    });
     _controller = AnimationController(vsync: this);
   }
 
@@ -51,28 +54,22 @@ class _InstaHomeState extends State<InstaHome> with TickerProviderStateMixin {
             value.switchPage(numberHere);
           }
 
-          if (!hasFetchedDetails) {
-            // Fetch details only if they haven't been fetched yet
-            Future(() async {
-              await ref
+          if (!hasFetchedDetails) {}
+          return RefreshIndicator(
+            onRefresh: () async {
+              // Future.delayed(Duration.zero, () async {
+              // });
+              ref.read(instaCategoriesController.notifier).toGetAllCategories;
+              ref
                   .read(instaProfileController.notifier)
                   .getProfileDetails()
                   .then((value) {
                 setState(() {});
                 hasFetchedDetails = true;
               });
-              debugPrint(
-                  '${ref.read(instaProfileController.notifier).model.user?.profilePicture}');
-            });
-            Future.delayed(Duration.zero, () async {
-              ref.read(instaCategoriesController.notifier).toGetAllCategories;
-            });
-          }
-          return RefreshIndicator(
-            onRefresh: () async {
-              setState(() {
-                hasFetchedDetails = false;
-              });
+              // setState(() {
+              //   hasFetchedDetails = false;
+              // });
             },
             child: SingleChildScrollView(
               child: Column(

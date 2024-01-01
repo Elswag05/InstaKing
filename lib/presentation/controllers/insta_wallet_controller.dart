@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:insta_king/core/constants/enum.dart';
@@ -25,14 +26,13 @@ class InstaWalletController extends BaseChangeNotifier {
   late bool accountIsGen = false;
 
   Future<bool> checkUserAccounts(ref) async {
-    loadingState = LoadingState.loading;
     if (ref == [] || ref?[0].accountName == null) {
+      debugPrint('$ref');
       accountIsGen = false;
-      notifyListeners();
+      userHasGeneratedAccount = false;
     } else {
       accountIsGen == true;
       userHasGeneratedAccount = true;
-      notifyListeners();
     }
     return accountIsGen;
   }
