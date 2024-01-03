@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:insta_king/core/constants/env_colors.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
 import 'package:insta_king/presentation/views/shared_widgets/cta_button.dart';
 import 'package:insta_king/presentation/views/shared_widgets/input_data_viewmodel.dart';
@@ -36,7 +35,7 @@ class SelectPaymentOptions extends StatelessWidget {
           ),
           CustomButton(
             pageCTA: 'Pay',
-            toSignOrLogin: () {},
+            buttonOnPressed: () {},
           )
         ],
       ).afmPadding(

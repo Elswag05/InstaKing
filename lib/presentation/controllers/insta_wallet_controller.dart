@@ -26,7 +26,7 @@ class InstaWalletController extends BaseChangeNotifier {
   late bool accountIsGen = false;
 
   Future<bool> checkUserAccounts(ref) async {
-    if (ref == [] || ref?[0].accountName == null) {
+    if (ref == [] || ref?[0].accountName == null || ref == null) {
       debugPrint('$ref');
       accountIsGen = false;
       userHasGeneratedAccount = false;

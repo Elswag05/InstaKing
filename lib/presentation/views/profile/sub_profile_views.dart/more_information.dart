@@ -44,7 +44,7 @@ class MoreInformation extends StatelessWidget {
                 ),
                 CustomButton(
                   pageCTA: 'Save',
-                  toSignOrLogin: () {},
+                  buttonOnPressed: () {},
                 ).afmPadding(EdgeInsets.symmetric(vertical: 10.h))
               ],
             ).afmPadding(

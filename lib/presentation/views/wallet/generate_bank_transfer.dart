@@ -31,13 +31,12 @@ class _WalletCard1State extends ConsumerState<WalletCard1>
   @override
   void dispose() {
     _controller.dispose();
-    generatedAccounts.dispose();
+    //generatedAccounts.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('${generatedAccounts.model.user?.virtualBanks}');
     return FutureBuilder(
         future: ref.read(instaWalletController).checkUserAccounts(
               ref
@@ -59,7 +58,7 @@ class _WalletCard1State extends ConsumerState<WalletCard1>
                       'Bank Transfer',
                       style: TextStyle(
                         fontFamily: 'Montesserat',
-                        fontSize: 15.sp,
+                        fontSize: 13.sp,
                         fontWeight: FontWeight.bold,
                       ),
                     ).afmPadding(
@@ -73,7 +72,7 @@ class _WalletCard1State extends ConsumerState<WalletCard1>
                           'Make transfer into the account number below to fund your wallet automatically',
                           style: TextStyle(
                             fontFamily: 'Montesserat',
-                            fontSize: 15.sp,
+                            fontSize: 13.sp,
                             fontWeight: FontWeight.w500,
                           ),
                         ).afmPadding(
@@ -83,7 +82,7 @@ class _WalletCard1State extends ConsumerState<WalletCard1>
                         ),
                         SizedBox(
                           width: MediaQuery.of(context).size.width - 40.sp,
-                          height: 240.h,
+                          height: 200.h,
                           child: ListView.builder(
                             itemCount: ref
                                 .read(instaProfileController)
@@ -97,19 +96,22 @@ class _WalletCard1State extends ConsumerState<WalletCard1>
                                         .read(instaProfileController)
                                         .model
                                         .user
-                                        ?.accName ??
+                                        ?.virtualBanks?[index]
+                                        .accountName ??
                                     'Loading...',
                                 bankName: ref
                                         .read(instaProfileController)
                                         .model
                                         .user
-                                        ?.bankname ??
+                                        ?.virtualBanks?[index]
+                                        .bankName ??
                                     'Loading...',
                                 accountNumber: ref
                                         .read(instaProfileController)
                                         .model
                                         .user
-                                        ?.accNumber ??
+                                        ?.virtualBanks?[index]
+                                        .accountNumber ??
                                     'Loading...',
                               );
                             })),
@@ -177,11 +179,13 @@ class _WalletCard1State extends ConsumerState<WalletCard1>
                     ),
                     CustomButton(
                       pageCTA: 'Generate Accounts',
-                      toSignOrLogin: () async {
+                      buttonOnPressed: () async {
                         await ref
                             .read(instaWalletController)
-                            .generateAccountDetails();
-                        setState(() {});
+                            .generateAccountDetails()
+                            .then((value) {
+                          setState(() {});
+                        });
                       },
                     ),
                   ],
@@ -189,11 +193,11 @@ class _WalletCard1State extends ConsumerState<WalletCard1>
                   EdgeInsets.all(20.sp),
                 ),
               )
-                  .afmPadding(
-                    EdgeInsets.only(bottom: 20.sp, left: 20.sp, right: 20.sp),
-                  )
                   .afmBorderRadius(
                     BorderRadius.circular(10.r),
+                  )
+                  .afmPadding(
+                    EdgeInsets.only(bottom: 20.sp, left: 20.sp, right: 20.sp),
                   );
             }
           } else {

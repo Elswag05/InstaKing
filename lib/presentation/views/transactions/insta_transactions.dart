@@ -6,7 +6,9 @@ import 'package:insta_king/presentation/controllers/insta_transactions_controlle
 import 'package:insta_king/presentation/views/services/service_widgets.dart';
 import 'package:insta_king/presentation/views/shared_widgets/recurring_appbar.dart';
 import 'package:insta_king/presentation/views/shared_widgets/shared_loading.dart';
+import 'package:insta_king/presentation/views/shared_widgets/small_cta.dart';
 import 'package:insta_king/presentation/views/transactions/transactions_view_model.dart';
+import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 
 class InstaTransactions extends StatefulWidget {
@@ -38,9 +40,8 @@ class _InstaTransactionsState extends State<InstaTransactions>
     return Scaffold(
       body: Consumer(
         builder: (context, ref, child) {
-          final trx = ref
-              .read(instaTransactionController.notifier)
-              .instaTransactionsModel;
+          final trx =
+              ref.read(instaTransactionController).instaTransactionsModel;
           ref.read(instaTransactionController.notifier).getTransactions;
           return SafeArea(
             child: Column(
@@ -51,16 +52,6 @@ class _InstaTransactionsState extends State<InstaTransactions>
                 const ServicesSearchBar(
                   searchText: 'Search Transactions',
                 ),
-                // TransactionViewModel(
-                //   no: trx.data?.status ?? 'null',
-                //   status: Text(trx.data?.the0?.id?.toString() ?? 'null'),
-                //   type: Text(trx.data?.the0?.id?.toString() ?? 'null'),
-                //   service: Text(trx.data?.the0?.id?.toString() ?? 'null'),
-                //   trxCode: trx.data?.the0?.id?.toString() ?? 'null',
-                //   date: trx.data?.the0?.id?.toString() ?? 'null',
-                //   amount: trx.data?.the0?.id?.toString() ?? 'null',
-                //   message: trx.data?.the0?.id?.toString() ?? 'null',
-                // ),
                 SizedBox(
                   height: MediaQuery.of(context).size.height - 180.h,
                   child: FutureBuilder(
@@ -74,25 +65,33 @@ class _InstaTransactionsState extends State<InstaTransactions>
                                 .instaTransactionsModel
                                 .data !=
                             null) {
-                          for (int? i = 0; i! < trx.data!.length; i++) {
-                            numbers.add(i + 1);
-                          }
+                          // for (int? i = 0; i! < trx.data!.length; i++) {
+                          //   numbers.add(i + 1);
+                          // }
                           return ListView.builder(
                             itemCount: trx.data?.length,
                             itemBuilder: ((context, index) {
                               return TransactionViewModel(
-                                no: numbers[index].toString(),
+                                //  no: numbers[index].toString(),
                                 status: Text(trx.data?[index].id.toString() ??
                                     'loading...'),
                                 type: Text(trx.data?[index].type.toString() ??
                                     'loading...'),
-                                service: Text(
-                                    trx.data?[index].service.toString() ??
-                                        'loading...'),
+                                service: SmallCTA(
+                                  width: 70.w,
+                                  height: 20.h,
+                                  backgroundColor:
+                                      Theme.of(context).colorScheme.scrim,
+                                  text: trx.data?[index].service.toString() ??
+                                      'loading...',
+                                ).afmBorderRadius(
+                                  BorderRadius.circular(5.r),
+                                ),
                                 trxCode: trx.data?[index].code.toString() ??
                                     'loading...',
-                                date: trx.data?[index].createdAt.toString() ??
-                                    'loading...',
+                                date: formatDate(
+                                    trx.data?[index].createdAt.toString() ??
+                                        ''),
                                 amount: trx.data?[index].amount.toString() ??
                                     'loading...',
                                 message: trx.data?[index].message.toString() ??
@@ -125,4 +124,17 @@ class _InstaTransactionsState extends State<InstaTransactions>
       ),
     );
   }
+}
+
+String formatDate(String date) {
+  String formattedDateTime = '';
+  if (date.isEmpty || date == '') return '';
+  try {
+    DateTime dateTime = DateTime.parse(date);
+    formattedDateTime = DateFormat("dd MMM, yyyy hh:mm:ss a").format(dateTime);
+    return formattedDateTime;
+  } catch (e) {
+    debugPrint('$e');
+  }
+  return formattedDateTime;
 }

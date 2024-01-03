@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -50,43 +52,33 @@ class _InstaOrderHistoryState extends ConsumerState<InstaOrderHistory>
 
     switch (chipKey) {
       case 'one':
-        _currentOrders = _allOrders ??
-            ref.read(instaOrderController.notifier).getAllOrderModel.data;
+        _currentOrders =
+            _allOrders ?? ref.read(instaOrderController).getAllOrderModel.data;
         isAllSelected = true;
         break;
       case 'completed':
         _currentOrders = _completedOrders ??
-            ref
-                .read(instaOrderController.notifier)
-                .getOrdersByStatus(Status.COMPLETED);
+            ref.read(instaOrderController).getOrdersByStatus(Status.COMPLETED);
         isCompletedSelected = true;
         break;
       case 'running':
         _currentOrders = _runningOrders ??
-            ref
-                .read(instaOrderController.notifier)
-                .getOrdersByStatus(Status.PARTIAL);
+            ref.read(instaOrderController).getOrdersByStatus(Status.PARTIAL);
         isRunningSelected = true;
         break;
       case 'partialDone':
         _currentOrders = _partialDoneOrders ??
-            ref
-                .read(instaOrderController.notifier)
-                .getOrdersByStatus(Status.PENDING);
+            ref.read(instaOrderController).getOrdersByStatus(Status.PENDING);
         isPartialDoneSelected = true;
         break;
       case 'inProgress':
         _currentOrders = _inProgressOrders ??
-            ref
-                .read(instaOrderController.notifier)
-                .getOrdersByStatus(Status.PROCESSING);
+            ref.read(instaOrderController).getOrdersByStatus(Status.PROCESSING);
         isInProgressSelected = true;
         break;
       case 'cancelled':
         _currentOrders = _cancelledOrders ??
-            ref
-                .read(instaOrderController.notifier)
-                .getOrdersByStatus(Status.CANCELED);
+            ref.read(instaOrderController).getOrdersByStatus(Status.CANCELED);
         isCancelledSelected = true;
         break;
     }
@@ -101,9 +93,32 @@ class _InstaOrderHistoryState extends ConsumerState<InstaOrderHistory>
     });
   }
 
-  getServices() {
+  // void getServices() {
+  //   for (int i = 0; i < _currentOrders!.length; i++) {
+  //     allOrderId.add(_currentOrders![i].serviceId!);
+  //   }
+  //   log('Services ID ==> $allOrderId');
+  //   getServiceNames(allOrderId);
+  // }
+
+  List<String> extractFourDigitNumbers(String input) {
+    RegExp regex = RegExp(r'\b\d{2,4}\b');
+    Iterable<Match> matches = regex.allMatches(input);
+
+    List<String> fourDigitNumbers =
+        matches.map((match) => match.group(0)!).toList();
+
+    return fourDigitNumbers;
+  }
+
+  void getServices() {
+    allOrderId = [];
     for (int i = 0; i < _currentOrders!.length; i++) {
-      allOrderId.add(_currentOrders![i].serviceId!);
+      String serviceId = _currentOrders![i].serviceId!;
+      List<String> fourDigitNumbers = extractFourDigitNumbers(serviceId);
+
+      // Add only the 4-digit numbers to allOrderId
+      allOrderId.addAll(fourDigitNumbers);
     }
     //log('Services ID ==> $allOrderId');
     getServiceNames(allOrderId);
@@ -122,9 +137,8 @@ class _InstaOrderHistoryState extends ConsumerState<InstaOrderHistory>
             .where((service) => service.id.toString().contains(allOrderId[i]))
             .map((service) => service.name ?? ""),
       );
-      // debugPrint('Service Names ==> $serviceNames');
+      debugPrint('Service Names ==> $serviceNames');
     }
-
     return serviceNames;
   }
 
@@ -149,154 +163,169 @@ class _InstaOrderHistoryState extends ConsumerState<InstaOrderHistory>
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-          child: Column(
-        children: [
-          OrderAppBar(
-            text: 'Order History',
-            textController: textController,
-            onSearch: (value) {},
-          ).afmPadding(
-            EdgeInsets.symmetric(horizontal: 20.w),
-          ),
-          SizedBox(
-            height: 50.h,
-            width: double.infinity,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: [
-                Row(
-                  children: [
-                    OrderChips(
-                      key: const Key('one'),
-                      icon: Icons.filter_alt,
-                      isSelected: _isAllSelected,
-                      onSelected: (one) {
-                        Future(() async {
-                          await _updateChipSelection('one');
-                        });
-                      },
-                      label: 'All Orders',
-                    ),
-                    OrderChips(
-                      icon: Icons.done,
-                      isSelected: _isCompletedSelected,
-                      onSelected: (_) {
-                        Future(() async {
-                          await _updateChipSelection('completed');
-                        });
-                      },
-                      label: 'Completed',
-                    ),
-                    OrderChips(
-                      icon: Icons.change_circle_outlined,
-                      isSelected: _isRunningSelected,
-                      onSelected: (_) {
-                        Future(() async {
-                          await _updateChipSelection('running');
-                        });
-                      },
-                      label: 'In Progress',
-                    ),
-                    OrderChips(
-                      icon: Icons.timelapse_rounded,
-                      isSelected: _isPartialDoneSelected,
-                      onSelected: (_) {
-                        Future(() async {
-                          await _updateChipSelection('partialDone');
-                        });
-                      },
-                      label: 'Pending',
-                    ),
-                    OrderChips(
-                      icon: Icons.download,
-                      isSelected: _isInProgressSelected,
-                      onSelected: (_) {
-                        Future(() async {
-                          await _updateChipSelection('inProgress');
-                        });
-                      },
-                      label: 'Processing',
-                    ),
-                    OrderChips(
-                      icon: Icons.cancel,
-                      isSelected: _isCancelledSelected,
-                      onSelected: (_) {
-                        Future(() async {
-                          await _updateChipSelection('cancelled');
-                        });
-                      },
-                      label: 'Cancelled',
-                    ),
-                  ],
-                ).afmPadding(
-                    EdgeInsets.symmetric(vertical: 10.sp, horizontal: 20.sp)),
-              ],
+        child: Column(
+          children: [
+            OrderAppBar(
+              text: 'Order History',
+              textController: textController,
+              onSearch: (value) {},
+            ).afmPadding(
+              EdgeInsets.symmetric(horizontal: 20.w),
             ),
-          ),
-          SizedBox(
-              height: MediaQuery.of(context).size.height - 180.h,
-              child: FutureBuilder(
-                  future: Future.wait([
-                    ref.read(instaOrderController.notifier).toGetAllOrders(),
-                    Future(() => getServices())
-                  ]),
-                  builder: ((context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.done) {
-                      if (_currentOrders?.isNotEmpty == true) {
-                        return ListView.builder(
-                          itemCount: _currentOrders?.length ?? 1,
-                          itemBuilder: ((context, index) {
-                            // ref
-                            //     .read(instaCategoriesController)
-                            //     .getOneServiceName(
-                            //         _currentOrders?[index].serviceId);
-                            return OrderHistoryViewModel(
-                              idText:
-                                  _currentOrders?[index].id.toString() ?? '',
-                              dateHere:
-                                  _currentOrders?[index].createdAt.toString() ??
-                                      '',
-                              linkHere: _currentOrders?[index].link ?? '',
-                              priceHere: formatBalance(
-                                  _currentOrders?[index].price ?? '0'),
-                              digitHere:
-                                  _currentOrders?[index].startCounter ?? '',
-                              quantity: _currentOrders?[index].quantity ?? '',
-                              serviceHere: serviceNames[index],
-                              remNant: _currentOrders?[index].remain ?? '',
-                              status: StatusContainer(
-                                status: _currentOrders?[index].status ??
-                                    Status.PENDING,
-                              ),
-                            );
-                          }),
-                        );
-                      } else {
-                        return SizedBox(
-                          height: 200.h,
-                          width: 200.w,
-                          child: Lottie.asset(
-                            "assets/animation/null-animation.json",
-                            controller: _controller,
-                            onLoaded: (composition) {
-                              _controller
-                                ..duration = composition.duration
-                                ..repeat();
-                            },
-                          ),
-                        );
-                      }
-                    } else {
-                      return const TransparentLoadingScreen();
-                    }
-                  }))).afmPadding(
-              EdgeInsets.symmetric(vertical: 10.h, horizontal: 20.h)),
-        ],
-      )
-              .afmPadding(
-                EdgeInsets.only(top: 10.sp),
-              )
-              .afmNeverScroll),
+            SizedBox(
+              height: 50.h,
+              width: double.infinity,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: [
+                  Row(
+                    children: [
+                      OrderChips(
+                        key: const Key('one'),
+                        icon: Icons.filter_alt,
+                        isSelected: _isAllSelected,
+                        onSelected: (one) {
+                          Future(() async {
+                            await _updateChipSelection('one');
+                          });
+                        },
+                        label: 'All Orders',
+                      ),
+                      OrderChips(
+                        icon: Icons.done,
+                        isSelected: _isCompletedSelected,
+                        onSelected: (_) {
+                          Future(() async {
+                            await _updateChipSelection('completed');
+                          });
+                        },
+                        label: 'Completed',
+                      ),
+                      OrderChips(
+                        icon: Icons.change_circle_outlined,
+                        isSelected: _isRunningSelected,
+                        onSelected: (_) {
+                          Future(() async {
+                            await _updateChipSelection('running');
+                          });
+                        },
+                        label: 'In Progress',
+                      ),
+                      OrderChips(
+                        icon: Icons.timelapse_rounded,
+                        isSelected: _isPartialDoneSelected,
+                        onSelected: (_) {
+                          Future(() async {
+                            await _updateChipSelection('partialDone');
+                          });
+                        },
+                        label: 'Pending',
+                      ),
+                      OrderChips(
+                        icon: Icons.download,
+                        isSelected: _isInProgressSelected,
+                        onSelected: (_) {
+                          Future(() async {
+                            await _updateChipSelection('inProgress');
+                          });
+                        },
+                        label: 'Processing',
+                      ),
+                      OrderChips(
+                        icon: Icons.cancel,
+                        isSelected: _isCancelledSelected,
+                        onSelected: (_) {
+                          Future(() async {
+                            await _updateChipSelection('cancelled');
+                          });
+                        },
+                        label: 'Cancelled',
+                      ),
+                    ],
+                  ).afmPadding(
+                      EdgeInsets.symmetric(vertical: 10.sp, horizontal: 20.sp)),
+                ],
+              ),
+            ),
+            Consumer(
+              builder: ((context, ref, child) {
+                return SizedBox(
+                    height: MediaQuery.of(context).size.height - 180.h,
+                    child: FutureBuilder(
+                        future: ref.read(instaOrderController).toGetAllOrders(),
+                        builder: ((context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.done) {
+                            if (_currentOrders != null ||
+                                _currentOrders != []) {
+                              debugPrint('${_currentOrders?.length}');
+                              return ListView.builder(
+                                itemCount: _currentOrders?.length ?? 0,
+                                itemBuilder: ((context, index) {
+                                  return OrderHistoryViewModel(
+                                    idText:
+                                        _currentOrders?[index].id.toString() ??
+                                            '',
+                                    dateHere: _currentOrders?[index]
+                                            .createdAt
+                                            .toString() ??
+                                        '',
+                                    linkHere: _currentOrders?[index].link ?? '',
+                                    priceHere: formatBalance(
+                                        _currentOrders?[index].price ?? '0'),
+                                    digitHere:
+                                        _currentOrders?[index].startCounter ??
+                                            '',
+                                    quantity:
+                                        _currentOrders?[index].quantity ?? '',
+                                    serviceHere: ref
+                                            .read(instaCategoriesController)
+                                            .getOneServiceDetailsModel
+                                            .data
+                                            ?.name ??
+                                        '',
+                                    remNant:
+                                        _currentOrders?[index].remain ?? '',
+                                    status: StatusContainer(
+                                      status: _currentOrders?[index].status ??
+                                          Status.PENDING,
+                                    ),
+                                  ).afmGetFuture(
+                                    Future(
+                                      () => ref
+                                          .read(instaCategoriesController)
+                                          .getOneServiceName(
+                                              _currentOrders?[index].serviceId),
+                                    ),
+                                  );
+                                }),
+                              );
+                            } else {
+                              return Lottie.asset(
+                                "assets/animation/null-animation.json",
+                                controller: _controller,
+                                onLoaded: (composition) {
+                                  _controller
+                                    ..duration = composition.duration
+                                    ..repeat();
+                                },
+                              );
+                            }
+                          } else {
+                            return const TransparentLoadingScreen();
+                          }
+                        }))).afmPadding(
+                  EdgeInsets.symmetric(vertical: 10.h, horizontal: 20.h),
+                );
+              }),
+            )
+          ],
+        )
+            .afmPadding(
+              EdgeInsets.only(top: 10.sp),
+            )
+            .afmNeverScroll,
+      ),
     );
   }
 }

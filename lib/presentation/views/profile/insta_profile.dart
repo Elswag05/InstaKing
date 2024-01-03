@@ -3,9 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
 import 'package:insta_king/data/local/secure_storage_service.dart';
+import 'package:insta_king/presentation/controllers/insta_categories_controller.dart';
 import 'package:insta_king/presentation/controllers/insta_dashboard_controller.dart';
 import 'package:insta_king/presentation/controllers/insta_login_controller.dart';
+import 'package:insta_king/presentation/controllers/insta_order_controller.dart';
 import 'package:insta_king/presentation/controllers/insta_profile_controller.dart';
+import 'package:insta_king/presentation/controllers/insta_transactions_controller.dart';
 import 'package:insta_king/presentation/views/authentication/login/login.dart';
 import 'package:insta_king/presentation/views/profile/account_profile_card.dart';
 import 'package:insta_king/presentation/views/profile/profile_view_model.dart';
@@ -34,6 +37,15 @@ class _InstaProfileState extends State<InstaProfile> {
       builder: ((context, ref, child) {
         //final themeController = ref.watch(themeControllerProvider);
         //bool isChangeBool = themeController.isDarkTheme;
+
+        void toDispose() {
+          ref.read(instaTransactionController).disposeTrx();
+          ref.read(instaCategoriesController).disposeCategries();
+          ref.read(instaProfileController).disposeProf();
+          ref.read(instaOrderController).disposeOrders();
+          super.dispose();
+        }
+
         return Scaffold(
           body: SafeArea(
             child: Column(
@@ -181,6 +193,7 @@ class _InstaProfileState extends State<InstaProfile> {
                           );
                           locator<SecureStorageService>().delete(key: 'token');
                           locator<SecureStorageService>().delete(key: 'email');
+                          toDispose();
                         } else {}
                       },
                     );

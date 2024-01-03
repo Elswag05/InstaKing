@@ -83,7 +83,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                     ),
                     CustomButton(
                       pageCTA: 'Save',
-                      toSignOrLogin: () {
+                      buttonOnPressed: () {
                         print({
                           "fname": firstName.text,
                           "lname": lastName.text,

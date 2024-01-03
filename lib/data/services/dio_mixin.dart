@@ -36,13 +36,11 @@ mixin DioMixin {
           return handler.next(options);
         },
         onError: (DioError e, handler) {
-          log('Dio Error 00: ${e.response}', error: e);
-          String message = e.response?.data.toString() ?? '';
-          if (message != '') {
-            locator<ToastService>().showErrorToast(
-              message,
-            );
-          }
+          log('Dio Error 00: ${e.response?.statusMessage}', error: e);
+          String errorMessage = _extractErrorMessage(e);
+          locator<ToastService>().showErrorToast(
+            errorMessage,
+          );
           return handler.next(e);
         },
       ),
@@ -60,6 +58,7 @@ mixin DioMixin {
     } on DioError catch (e) {
       // Handle Dio errors (e.g., network issues, non-200 status codes)
       String message = e.message.toString();
+      message = _extractErrorMessage(e);
       if (message != '') {
         locator<ToastService>().showErrorToast(
           message,
@@ -74,4 +73,21 @@ mixin DioMixin {
       rethrow;
     }
   }
+}
+
+String _extractErrorMessage(DioError e) {
+  String errorMessage = '';
+
+  try {
+    Map<String, dynamic>? responseData =
+        e.response?.data as Map<String, dynamic>?;
+
+    if (responseData != null && responseData.containsKey('message')) {
+      errorMessage = responseData['message'].toString();
+    }
+  } catch (error) {
+    log('Error extracting error message: $error');
+  }
+
+  return errorMessage;
 }

@@ -100,7 +100,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                     ),
                     CustomButton(
                       pageCTA: 'Save New Password',
-                      toSignOrLogin: () {
+                      buttonOnPressed: () {
                         ref
                             .read(instaLoginController.notifier)
                             .changePassword(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insta_king/presentation/controllers/insta_categories_controller.dart';
+import 'package:insta_king/presentation/controllers/insta_order_controller.dart';
 import 'package:insta_king/presentation/views/profile/sub_profile_views.dart/refer_and_earn/refer_and_earn.dart';
 import 'package:lottie/lottie.dart';
 import 'package:insta_king/core/constants/env_colors.dart';
@@ -34,6 +35,7 @@ class _InstaHomeState extends ConsumerState<InstaHome>
     ref.read(instaProfileController.notifier).getProfileDetails().then((value) {
       setState(() {});
       hasFetchedDetails = true;
+      ref.read(instaOrderController).toGetAllOrders();
     });
     _controller = AnimationController(vsync: this);
   }

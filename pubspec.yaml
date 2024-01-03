@@ -61,6 +61,9 @@ dependencies:
   path_provider: ^2.1.1
   connectivity_plus: ^5.0.2
   cached_network_image: ^3.3.0
+  onboarding: ^3.1.0
+  confetti: ^0.7.0
+  text_3d: ^0.0.4
 
 dev_dependencies:
   flutter_test:

@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart' show Response;
+import 'package:flutter/material.dart';
 import 'dio_mixin.dart';
 
 ///This is to get all categories. It returns a rather short response in this form  id, name, and two other things
@@ -67,7 +68,7 @@ class GetOneServiceDetails with DioMixin {
     final response = await connect(customHeaders: customHeaders).get(
       '/services/$serviceId',
     );
-    print(response.data);
+    debugPrint('${response.data}');
     return response;
   }
 }

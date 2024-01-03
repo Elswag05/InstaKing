@@ -12,4 +12,9 @@ class BaseChangeNotifier extends ChangeNotifier {
   }
 
   // Other methods and properties can remain as needed for your application.
+  void disposeControllers(List<ChangeNotifier> controllers) {
+    for (var controller in controllers) {
+      controller.dispose();
+    }
+  }
 }

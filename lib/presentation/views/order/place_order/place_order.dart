@@ -148,7 +148,7 @@ class PlaceOrderState extends ConsumerState<PlaceOrder> {
                             .afmPadding(EdgeInsets.only(bottom: 10.sp)),
                         CustomButton(
                           pageCTA: 'Place Order',
-                          toSignOrLogin: () {
+                          buttonOnPressed: () {
                             ref
                                 .read(instaOrderController.notifier)
                                 .toPlaceOrder(

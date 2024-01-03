@@ -83,7 +83,7 @@ class _ReferralCopyCardState extends State<ReferralCopyCard> {
             ),
             CustomButton(
               pageCTA: 'Copy Link',
-              toSignOrLogin: () {
+              buttonOnPressed: () {
                 Navigator.pop(context);
                 Clipboard.setData(
                   ClipboardData(

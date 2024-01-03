@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:insta_king/core/constants/env_assets.dart';
-import 'package:insta_king/core/constants/env_colors.dart';
-import 'package:insta_king/presentation/views/wallet/transaction_history.dart';
+import 'package:insta_king/presentation/controllers/insta_transactions_controller.dart';
+import 'package:insta_king/presentation/views/wallet/transaction_deposit_history.dart';
 
 class WalletAppBar extends StatelessWidget {
   const WalletAppBar({super.key});
@@ -21,32 +22,37 @@ class WalletAppBar extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-        GestureDetector(
-          onTap: () {
-            debugPrint('INFO: You just prompted search');
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => const TransactionHistory(),
+        Consumer(
+          builder: (context, ref, child) {
+            return GestureDetector(
+              onTap: () {
+                debugPrint('INFO: You just prompted search');
+                ref.read(instaTransactionController).getTransactions();
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const TransactionDepositHistory(),
+                  ),
+                );
+              },
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.history,
+                    size: 30.sp,
+                  ),
+                  SvgPicture.asset(
+                    EnvAssets.getSvgPath('arrow-right'),
+                    width: 20.w,
+                    height: 20.h,
+                    // ignore: deprecated_member_use
+                    color: Theme.of(context).unselectedWidgetColor,
+                    semanticsLabel: 'Search',
+                  ),
+                ],
               ),
             );
           },
-          child: Row(
-            children: [
-              Icon(
-                Icons.history,
-                size: 30.sp,
-              ),
-              SvgPicture.asset(
-                EnvAssets.getSvgPath('arrow-right'),
-                width: 20.w,
-                height: 20.h,
-                // ignore: deprecated_member_use
-                color: Theme.of(context).unselectedWidgetColor,
-                semanticsLabel: 'Search',
-              ),
-            ],
-          ),
-        ),
+        )
       ],
     );
   }

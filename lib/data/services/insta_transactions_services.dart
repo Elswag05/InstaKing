@@ -18,7 +18,7 @@ class TransactionsService with DioMixin {
     };
     // Use the configured Dio instance from the mixin
     final response = await connect(customHeaders: customHeaders).get(
-      '/user/transactions',
+      '/user/transactions/',
     );
 
     return response;

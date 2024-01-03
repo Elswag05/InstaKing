@@ -33,7 +33,6 @@ class AccountDetails extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Column(
-                //mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
@@ -103,41 +102,40 @@ class AccountDetails extends StatelessWidget {
                     ),
                   ), //.afmPadding(EdgeInsets.only(left: 40.w)),
                   const SizedBox(),
-                  Positioned(
-                    right: 40,
-                    top: 10,
-                    child: GestureDetector(
-                      onTap: () {
-                        Clipboard.setData(
-                          ClipboardData(text: accountNumber),
-                        ).then(
-                          (value) {
-                            debugPrint(
-                                'data copied successfully $accountNumber');
-                            locator<ToastService>().showSuccessToast(
-                              'You have the account number to your clip board',
-                            );
-                          },
-                        );
-                      },
-                      child: Container(
-                        height: 25.h,
-                        width: 30.w,
-                        decoration: BoxDecoration(
-                          color: InstaColors.primaryColor,
-                          borderRadius: BorderRadius.circular(4.r),
+                  //  Positioned(
+                  // right: 40,
+                  // top: 10,
+                  // child:
+                  GestureDetector(
+                    onTap: () {
+                      Clipboard.setData(
+                        ClipboardData(text: accountNumber),
+                      ).then(
+                        (value) {
+                          debugPrint('data copied successfully $accountNumber');
+                          locator<ToastService>().showSuccessToast(
+                            'You have the account number to your clip board',
+                          );
+                        },
+                      );
+                    },
+                    child: Container(
+                      height: 25.h,
+                      width: 30.w,
+                      decoration: BoxDecoration(
+                        color: InstaColors.primaryColor,
+                        borderRadius: BorderRadius.circular(4.r),
+                      ),
+                      child: Center(
+                        child: Icon(
+                          Icons.copy,
+                          size: 16.sp,
+                          color: Theme.of(context).colorScheme.onInverseSurface,
                         ),
-                        child: Center(
-                          child: Icon(
-                            Icons.copy,
-                            size: 16.sp,
-                            color:
-                                Theme.of(context).colorScheme.onInverseSurface,
-                          ),
-                        ),
-                      ).afmPadding(EdgeInsets.only(left: 4.sp)),
-                    ),
+                      ),
+                    ).afmPadding(EdgeInsets.only(left: 4.sp)),
                   ),
+                  // ),
                 ],
               )
             ],

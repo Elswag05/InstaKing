@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:intl/intl.dart';
+
 InstaTransactionsModel instaTransactionsModelFromJson(String str) =>
     InstaTransactionsModel.fromJson(json.decode(str));
 
@@ -148,4 +150,13 @@ class Datum {
         "updated_at": updatedAt!.toIso8601String(),
         "deleted_at": deletedAt,
       };
+
+  // Method to get formatted created date string
+  String formattedCreatedAt() {
+    if (createdAt != null) {
+      return DateFormat("dd MMM, yyyy hh:mm:ss a").format(createdAt!);
+    } else {
+      return '';
+    }
+  }
 }

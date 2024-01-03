@@ -155,7 +155,7 @@ class _BaseAuthViewState extends State<BaseAuthView> {
           ),
           CustomButton(
             pageCTA: widget.pageCTA,
-            toSignOrLogin: widget.toSignOrLogin,
+            buttonOnPressed: widget.toSignOrLogin,
             agreeTC: widget.isLogin ? false : !widget.checked,
           ),
           SizedBox(

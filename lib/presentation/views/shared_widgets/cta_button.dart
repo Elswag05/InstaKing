@@ -8,7 +8,7 @@ import 'package:insta_king/core/extensions/widget_extension.dart';
 // ignore: must_be_immutable
 class CustomButton extends StatelessWidget {
   final bool agreeTC;
-  final void Function()? toSignOrLogin;
+  final void Function()? buttonOnPressed;
   final String pageCTA;
   final Color color;
   final Color buttonTextColor;
@@ -16,7 +16,7 @@ class CustomButton extends StatelessWidget {
   CustomButton({
     super.key,
     this.agreeTC = false,
-    this.toSignOrLogin,
+    this.buttonOnPressed,
     required this.pageCTA,
     this.color = InstaColors.primaryColor,
     this.height = 45,
@@ -28,7 +28,7 @@ class CustomButton extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         debugPrint('INFO: $pageCTA button has been pressed');
-        toSignOrLogin!();
+        buttonOnPressed!();
       },
       child: agreeTC
           ? const SizedBox()

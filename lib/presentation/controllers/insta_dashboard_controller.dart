@@ -43,13 +43,14 @@ class DashBoardController extends BaseChangeNotifier {
   Future<String> getEmail() async {
     String? email = await secureStorageService.read(key: "email");
     String? tokenOx = await secureStorageService.read(key: "token");
-    tokenOx == null
-        ? debugPrint('Token is empty -- So user is Logged Out')
-        : debugPrint('User Token ==> $tokenOx');
-    if (email == null) {
+    if (email == null || tokenOx == null) {
       _isLoggedIn = false;
+      debugPrint('Email is null -- So user is Logged Out');
+      debugPrint('Token is null -- So user is Logged Out');
       return '';
-    } else if (email.isEmpty) {
+    } else if (email.isEmpty || tokenOx.isEmpty) {
+      debugPrint('Token is empty -- So user is Logged Out');
+      debugPrint('Email is empty -- So user is Logged Out');
       return '';
     } else {
       try {
@@ -66,20 +67,6 @@ class DashBoardController extends BaseChangeNotifier {
       return email;
     }
   }
-
-  // Future<bool> checkInternetConnection() async {
-  //   var connectivityResult = await Connectivity().checkConnectivity();
-  //   if (connectivityResult == ConnectivityResult.mobile ||
-  //       connectivityResult == ConnectivityResult.wifi) {
-  //     debugPrint('Connectivity is true');
-  //     _deviceHasInternet = true;
-  //     return true;
-  //   } else {
-  //     debugPrint('Connectivity is false');
-  //     _deviceHasInternet = false;
-  //     return false;
-  //   }
-  // }
 
   Future<bool> getKey(String key) async {
     String? stringn = await secureStorageService.read(key: key);

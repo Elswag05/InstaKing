@@ -34,6 +34,11 @@ class ProfileController extends BaseChangeNotifier {
   final SecureStorageService secureStorageService =
       SecureStorageService(secureStorage: const FlutterSecureStorage());
 
+  void disposeProf() {
+    model = ProfileModel();
+    super.dispose();
+  }
+
   void saveGalleryImage(File? galleryImage) {
     image = galleryImage;
     notifyListeners();
@@ -120,6 +125,7 @@ class ProfileController extends BaseChangeNotifier {
         // );
         model = ProfileModel.fromJson(res.data);
         log('model has been gotten');
+        //log('model  == > ${res.data}');
         //loadingState = LoadingState.idle;
         return model;
       } else {

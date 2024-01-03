@@ -29,6 +29,12 @@ class OrderController extends BaseChangeNotifier {
   final SecureStorageService secureStorageService =
       SecureStorageService(secureStorage: const FlutterSecureStorage());
 
+  void disposeOrders() {
+    getAllOrderModel.data = [];
+    placeOrderModel = PlaceOrderModel();
+    neededServiceIds = [];
+  }
+
   Future<bool> toPlaceOrder(
       String serviceId, String link, String quantity) async {
     try {
@@ -80,36 +86,40 @@ class OrderController extends BaseChangeNotifier {
   }
 
   Future<bool> toGetAllOrders() async {
-    try {
-      loadingState = LoadingState.loading;
-      final res = await getOrder.getAllOrders();
-      if (res.statusCode == 200 || res.statusCode == 201) {
-        getAllOrderModel = GetAllOrderModel.fromJson(res.data);
-        debugPrint('All orders so far have been gotten');
-        loadingState = LoadingState.idle;
-        return true;
-      } else {
-        log('All orders not gotten');
-        throw Error();
+    if (getAllOrderModel.data == [] || getAllOrderModel.data == null) {
+      try {
+        // loadingState = LoadingState.loading;
+        final res = await getOrder.getAllOrders();
+        if (res.statusCode == 200 || res.statusCode == 201) {
+          getAllOrderModel = GetAllOrderModel.fromJson(res.data);
+          debugPrint('All orders so far have been gotten');
+          // loadingState = LoadingState.idle;
+          return true;
+        } else {
+          log('All orders not gotten');
+          throw Error();
+        }
+      } on DioException catch (e) {
+        loadingState = LoadingState.error;
+        ErrorService.handleErrors(e);
+      } catch (e) {
+        loadingState = LoadingState.error;
+        ErrorService.handleErrors(e);
       }
-    } on DioException catch (e) {
-      loadingState = LoadingState.error;
-      ErrorService.handleErrors(e);
-    } catch (e) {
-      loadingState = LoadingState.error;
-      ErrorService.handleErrors(e);
+    } else {
+      return true;
     }
     return false;
   }
 
   Future<bool> toGetOrderDetails(orderId) async {
     try {
-      loadingState = LoadingState.loading;
+      // loadingState = LoadingState.loading;
       final res =
           await getOrderDetails.getFilteredOrderDetails(orderId: orderId);
       if (res.statusCode == 200) {
         final data = GetOrderDetailsModel.fromJson(res.data);
-        loadingState = LoadingState.idle;
+        // loadingState = LoadingState.idle;
         if (data.status == 'success') {
           return true;
         }

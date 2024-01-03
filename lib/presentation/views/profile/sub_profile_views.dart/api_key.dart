@@ -27,7 +27,7 @@ class ApiKeyPage extends StatelessWidget {
                 ),
                 CustomButton(
                   pageCTA: 'Generate New',
-                  toSignOrLogin: () {},
+                  buttonOnPressed: () {},
                 ).afmPadding(EdgeInsets.symmetric(vertical: 10.h))
               ],
             ).afmPadding(

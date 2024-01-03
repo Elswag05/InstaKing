@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -69,6 +68,17 @@ class CategoriesController extends BaseChangeNotifier {
   bool get isServiceSet => _isServiceSet;
   late bool hasTappedStatus = false;
 
+  void disposeCategries() {
+    allServicesModel = [];
+    getAllServicesModel.data = [];
+    getCategoriesModel.data = [];
+    getOneServiceDetailsModel.data = Data();
+    filteredData = [];
+    servicesData = [];
+    filteredServiceData = [];
+    super.dispose();
+  }
+
   void setCatValue(String newValue, String name) {
     _selectedCategoryValue = newValue;
     _selectedCategoryName = name;
@@ -104,7 +114,7 @@ class CategoriesController extends BaseChangeNotifier {
 
   Future<bool> toGetAllCategories() async {
     try {
-      loadingState = LoadingState.loading;
+      //loadingState = LoadingState.loading;
       final res = await categoriesService.getAllCategories();
       toGetAllServiceDetail();
       toGetDropdownItemsById(_selectedCategoryValue);
@@ -119,7 +129,7 @@ class CategoriesController extends BaseChangeNotifier {
               );
             }).toList() ??
             <CategoryItem>[];
-        loadingState = LoadingState.idle;
+        // loadingState = LoadingState.idle;
         debugPrint("INFO: Success converting data to model");
         if (getCategoriesModel.status == 'success') {
           return true;
@@ -156,17 +166,10 @@ class CategoriesController extends BaseChangeNotifier {
       final res = await getCategoriesService.getSpecificCategoriesServices(
           categoryId: categoryId);
       if (res.statusCode == 200) {
-        //final data = GetspecificCategoriesModel.fromJson(res.data);
-        //debugPrint('${res.data}');
-        //if (data.status == 'success') {
         loadingState = LoadingState.idle;
         notifyListeners();
         return true;
-        //
-        // }
-      } else {
-        // throw Error();
-      }
+      } else {}
     } on DioException catch (e) {
       loadingState = LoadingState.error;
       ErrorService.handleErrors(e);
@@ -176,32 +179,6 @@ class CategoriesController extends BaseChangeNotifier {
     }
     return false;
   }
-
-//   Future<List<String>> getServiceNamesByIds(List<String> serviceIds) async {
-//   try {
-//     // Ensure that toGetAllServiceDetail has been called previously
-//     if (getAllServicesModel == null || getAllServicesModel.data == null) {
-//       throw Error();
-//     }
-
-//     // Map service IDs to corresponding service names
-//     final Map<String, String> serviceIdToNameMap = {};
-//     for (GetAllServicesModel service in getAllServicesModel!.data?) {
-//       serviceIdToNameMap[service.data?.toString()] = service.data?. ?? "";
-//     }
-
-//     // Collect service names based on the order of service IDs
-//     final List<String> serviceNames = serviceIds.map((id) {
-//       return serviceIdToNameMap[id] ?? ""; // Use an empty string if not found
-//     }).toList();
-
-//     return serviceNames;
-//   } catch (e) {
-//     log('Error getting service names by IDs');
-//     ErrorService.handleErrors(e);
-//     return [];
-//   }
-// }
 
   Future<List<ServiceItem>> toGetAllServiceDetail() async {
     // loadingState = LoadingState.loading;
@@ -365,14 +342,14 @@ class CategoriesController extends BaseChangeNotifier {
   }
 
   Future<bool> toGetOneServiceDetail(String serviceId) async {
-    loadingState = LoadingState.loading;
+    //loadingState = LoadingState.loading;
     try {
       final res = await getOneServiceDetails.getOneServicesDetails(serviceId);
       if (res.statusCode == 200) {
         getOneServiceDetailsModel =
             GetOneServiceDetailsModel.fromJson(res.data);
-        loadingState = LoadingState.idle;
-        notifyListeners();
+        // loadingState = LoadingState.idle;
+        // notifyListeners();
         if (getOneServiceDetailsModel.status == 'success') {
           return true;
         }

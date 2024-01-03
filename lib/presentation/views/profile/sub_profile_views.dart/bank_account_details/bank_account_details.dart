@@ -22,7 +22,7 @@ class BankAccountLink extends StatelessWidget {
               children: [
                 const ChooseContainerFromDropDown(
                   headerText: 'Bank Name',
-                  hintText: 'Select Bank',
+                  hintText: 'Loading...',
                 ),
                 const CollectPersonalDetailModel(
                   leadTitle: "Account Number",
@@ -31,7 +31,7 @@ class BankAccountLink extends StatelessWidget {
                 ),
                 CustomButton(
                   pageCTA: 'Save',
-                  toSignOrLogin: () {},
+                  buttonOnPressed: () {},
                 ).afmPadding(EdgeInsets.symmetric(vertical: 10.h))
               ],
             ).afmPadding(

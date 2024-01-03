@@ -9,11 +9,15 @@ import 'package:insta_king/data/services/notification.dart';
 import 'package:insta_king/no_internet.dart';
 import 'package:insta_king/presentation/controllers/insta_dashboard_controller.dart';
 import 'package:insta_king/presentation/controllers/insta_network_controller.dart';
+import 'package:insta_king/presentation/views/authentication/auth_shared/navigation_page.dart';
 import 'package:insta_king/presentation/views/authentication/login/insta_login_with_fingerprint.dart';
+import 'package:insta_king/presentation/views/onboarding/insta_onboarding.dart';
 import 'package:insta_king/presentation/views/shared_widgets/shared_loading.dart';
+import 'package:insta_king/presentation/views/splash_screen/insta_splash.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:insta_king/presentation/views/authentication/login/login.dart';
 import 'package:insta_king/utils/locator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,8 +29,16 @@ Future<void> main() async {
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
       overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom]).then(
     (_) => runApp(
-      const ProviderScope(
-        child: InstaKingGuide(),
+      ProviderScope(
+        child: MaterialApp(
+          title: 'Insta King',
+          themeMode: ThemeMode.system,
+          theme: EnvThemeManager.lightTheme,
+          darkTheme: EnvThemeManager.darkTheme,
+          navigatorKey: navigatorKey,
+          debugShowCheckedModeBanner: false,
+          home: const InstaSplash(),
+        ),
       ),
     ),
   );
@@ -47,6 +59,11 @@ class _InstaKing extends ConsumerState<InstaKingGuide> {
   Map _source = {ConnectivityResult.none: false};
   final NetworkConnectivity networkConnectivity = NetworkConnectivity.instance;
   late bool yourBool = false;
+
+  Future<bool> isOnboardingComplete() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getBool('showOnboarding') == false;
+  }
 
   late final DashBoardController screenController =
       ref.read(dashBoardControllerProvider);
@@ -94,29 +111,43 @@ class _InstaKing extends ConsumerState<InstaKingGuide> {
             themeMode: ThemeMode.system,
             theme: EnvThemeManager.lightTheme,
             darkTheme: EnvThemeManager.darkTheme,
-            navigatorKey: navigatorKey,
+            //   navigatorKey: navigatorKey,
             debugShowCheckedModeBanner: false,
             home: Scaffold(
               body: SafeArea(
-                  child: Stack(
-                children: [
-                  FutureBuilder<String?>(
-                    future: getEmailFuture,
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.done) {
+                child: Stack(
+                  children: [
+                    FutureBuilder<String?>(
+                      future: getEmailFuture,
+                      builder: (context, snapshot) {
                         String? email = snapshot.data;
-                        if (email == null || email.isEmpty) {
-                          return const InstaLogin();
-                        } else if (email.isNotEmpty) {
-                          return const InstaLoginWithFingerprint();
-                        }
-                      }
-                      return const TransparentLoadingScreen();
-                    },
-                  ),
-                  if (!yourBool) const NoInternet(),
-                ],
-              )),
+                        return FutureBuilder<bool>(
+                          future: isOnboardingComplete(),
+                          builder: (context, onboardingSnapshot) {
+                            if (snapshot.connectionState ==
+                                    ConnectionState.done &&
+                                onboardingSnapshot.connectionState ==
+                                    ConnectionState.done) {
+                              bool onboardingComplete =
+                                  onboardingSnapshot.data ?? false;
+                              if (!onboardingComplete) {
+                                debugPrint('Onboarding screen is active');
+                                return const InstaOnboarding(); // Show onboarding screen
+                              } else if (email == null || email.isEmpty) {
+                                return const InstaAuthNavigator();
+                              } else if (email.isNotEmpty) {
+                                return const InstaLoginWithFingerprint();
+                              }
+                            }
+                            return const TransparentLoadingScreen();
+                          },
+                        );
+                      },
+                    ),
+                    if (!yourBool) const NoInternet(),
+                  ],
+                ),
+              ),
             ),
           );
         },
@@ -124,3 +155,13 @@ class _InstaKing extends ConsumerState<InstaKingGuide> {
     );
   }
 }
+
+// if (snapshot.connectionState == ConnectionState.done) {
+//                           String? email = snapshot.data;
+//                           if (email == null || email.isEmpty) {
+//                             return const InstaLogin();
+//                           } else if (email.isNotEmpty) {
+//                             return const InstaLoginWithFingerprint();
+//                           }
+//                         }
+//                         return const TransparentLoadingScreen();

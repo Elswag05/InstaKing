@@ -6,7 +6,6 @@ import 'package:insta_king/core/constants/env_colors.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
 import 'package:insta_king/presentation/controllers/insta_categories_controller.dart';
 import 'package:insta_king/presentation/controllers/insta_dashboard_controller.dart';
-import 'package:insta_king/presentation/controllers/insta_order_controller.dart';
 import 'package:insta_king/presentation/controllers/insta_transactions_controller.dart';
 import 'package:insta_king/presentation/views/order/place_order/place_order.dart';
 import 'package:insta_king/presentation/views/profile/sub_profile_views.dart/refer_and_earn/refer_and_earn.dart';
@@ -62,7 +61,7 @@ class HomeColumn extends StatelessWidget {
 }
 
 class ShortcutsTheWidget extends ConsumerWidget {
-  const ShortcutsTheWidget({Key? key}) : super(key: key);
+  const ShortcutsTheWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -139,12 +138,13 @@ class ShortcutsTheWidget extends ConsumerWidget {
                       await ref
                           .read(instaTransactionController)
                           .getTransactions();
-                    });
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => const InstaTransactions(),
-                      ),
-                    );
+                    }).then((value) => {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => const InstaTransactions(),
+                            ),
+                          )
+                        });
                   },
                 ),
                 HomeColumn(
