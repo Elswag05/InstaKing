@@ -31,7 +31,7 @@ class RecurringAppBar extends StatelessWidget {
             appBarTitle,
             style: TextStyle(
               fontFamily: 'Montesserat',
-              fontSize: 20.sp,
+              fontSize: 17.sp,
               fontWeight: FontWeight.bold,
             ),
           ),

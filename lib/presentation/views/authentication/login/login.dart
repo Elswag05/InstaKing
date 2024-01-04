@@ -270,7 +270,7 @@ class _InstaLoginState extends ConsumerState<InstaLogin>
                   pageName: ' Sign In',
                   pageCTA: 'Log in',
                   isLogin: true,
-                  callToActionText: 'Forgot Password',
+                  callToActionText: 'Forgot Password ?',
                   callToActionFooterText: "Don't have an account yet?",
                   checkBoxText: "Remember me",
                   inversePageName: ' Sign Up',
@@ -278,9 +278,7 @@ class _InstaLoginState extends ConsumerState<InstaLogin>
                   isForgotPassword: false,
                   onChanged: (value) {
                     setState(() {
-                      ref
-                          .watch(instaLoginController.notifier)
-                          .toCheckBox(value);
+                      ref.watch(instaLoginController).toCheckBox(value);
                       debugPrint('Checkbox Value: $value');
                     });
                   },

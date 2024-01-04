@@ -14,7 +14,10 @@ class InstaWallet extends StatelessWidget {
         body: Column(
           children: [
             const WalletAppBar().afmPadding(
-              EdgeInsets.only(left: 20.sp, right: 20.sp, bottom: 20.h),
+              EdgeInsets.symmetric(
+                horizontal: 20.w,
+                vertical: 10.h,
+              ),
             ),
             const WalletCard1(),
           ],

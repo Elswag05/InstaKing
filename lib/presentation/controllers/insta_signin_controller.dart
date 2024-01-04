@@ -32,6 +32,7 @@ class SignUpController extends BaseChangeNotifier {
   Future<bool> signUp(String firstName, lastName, email, userName, passWord,
       phone, referralCode) async {
     loadingState = LoadingState.loading;
+    notifyListeners();
     try {
       final res = await signUpService.signUp(
           email: email,

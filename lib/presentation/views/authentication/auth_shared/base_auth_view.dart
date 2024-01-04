@@ -125,6 +125,7 @@ class _BaseAuthViewState extends State<BaseAuthView> {
                             fontFamily: 'Montesserat',
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w500,
+                            color: InstaColors.primaryColor,
                           ),
                         ),
                       )
@@ -151,7 +152,7 @@ class _BaseAuthViewState extends State<BaseAuthView> {
                 )
               : const SizedBox(),
           SizedBox(
-            height: 40.h,
+            height: 20.h,
           ),
           CustomButton(
             pageCTA: widget.pageCTA,

@@ -170,7 +170,10 @@ class _InstaOrderHistoryState extends ConsumerState<InstaOrderHistory>
               textController: textController,
               onSearch: (value) {},
             ).afmPadding(
-              EdgeInsets.symmetric(horizontal: 20.w),
+              EdgeInsets.symmetric(
+                horizontal: 20.w,
+                vertical: 5.h,
+              ),
             ),
             SizedBox(
               height: 50.h,
@@ -257,8 +260,10 @@ class _InstaOrderHistoryState extends ConsumerState<InstaOrderHistory>
                           if (snapshot.connectionState ==
                               ConnectionState.done) {
                             if (_currentOrders != null ||
-                                _currentOrders != []) {
-                              debugPrint('${_currentOrders?.length}');
+                                _currentOrders != [] ||
+                                _currentOrders!.isEmpty) {
+                              debugPrint(
+                                  'Length of orders ==> ${_currentOrders?.length}');
                               return ListView.builder(
                                 itemCount: _currentOrders?.length ?? 0,
                                 itemBuilder: ((context, index) {
@@ -295,7 +300,8 @@ class _InstaOrderHistoryState extends ConsumerState<InstaOrderHistory>
                                       () => ref
                                           .read(instaCategoriesController)
                                           .getOneServiceName(
-                                              _currentOrders?[index].serviceId),
+                                            _currentOrders?[index].serviceId,
+                                          ),
                                     ),
                                   );
                                 }),

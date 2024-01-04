@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:insta_king/core/constants/env_colors.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
 import 'package:insta_king/data/local/secure_storage_service.dart';
 import 'package:insta_king/presentation/controllers/insta_categories_controller.dart';
@@ -137,6 +138,73 @@ class _InstaProfileState extends State<InstaProfile> {
                                 );
                               },
                             ).afmPadding(),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Use Biometric Lock',
+                                  style: TextStyle(
+                                    fontFamily: 'Montesserat',
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                //TODO://///////////////////////////////////////////
+                                // GestureDetector(
+                                //   onTap: () {
+                                //     ref
+                                //             .read(
+                                //               instaLoginController,
+                                //             )
+                                //             .isBoxChecked
+                                //         ? {
+                                //             ref.read(instaLoginController)
+                                //               ..toCheckBox(true)
+                                //               ..doRememberMe()
+                                //               ..writeLoggedIn()
+                                //           }
+                                //         : {};
+                                //   },
+                                //   child: Switch(
+                                //     activeColor: InstaColors.primaryColor,
+                                //     activeTrackColor:
+                                //         InstaColors.mildLightColor,
+                                //     inactiveThumbColor: InstaColors.mildGrey,
+                                //     inactiveTrackColor:
+                                //         InstaColors.mildLightColor,
+                                //     splashRadius: 70.0,
+                                //     value: !ref
+                                //         .read(
+                                //           instaLoginController,
+                                //         )
+                                //         .isBoxChecked,
+                                //     onChanged: (value) {
+                                //       if (value == true) {
+                                //         debugPrint('User Biometric is active');
+                                //         ref
+                                //             .read(instaLoginController)
+                                //             .setUserToUSeBiometric();
+                                //         setState(() {
+                                //           ref
+                                //               .read(instaLoginController)
+                                //               .toCheckBox(true);
+                                //         });
+                                //       } else {
+                                //         debugPrint(
+                                //             'User Biometric is NOTactive');
+                                //         // ref
+                                //         //     .read(instaLoginController)
+                                //         //     .removeUserFromBiometric();
+                                //       }
+                                //     },
+                                //   ),
+                                // ),
+                              ],
+                            ).afmPadding(
+                              EdgeInsets.only(
+                                left: 15.w,
+                              ),
+                            ),
                             // Row(
                             //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             //   children: [

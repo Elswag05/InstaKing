@@ -137,7 +137,7 @@ class ShortcutsTheWidget extends ConsumerWidget {
                     Future.delayed(Duration.zero, () async {
                       await ref
                           .read(instaTransactionController)
-                          .getTransactions();
+                          .getTransactions(1);
                     }).then((value) => {
                           Navigator.of(context).push(
                             MaterialPageRoute(

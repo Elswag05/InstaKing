@@ -4,7 +4,6 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:insta_king/core/constants/enum.dart';
 import 'package:insta_king/data/services/error_service.dart';
 import 'package:insta_king/data/services/insta_transactions_services.dart';
 import 'package:insta_king/presentation/controllers/base_controller.dart';
@@ -41,20 +40,73 @@ class TransactionsController extends BaseChangeNotifier {
   TransactionsService transactionsService = TransactionsService();
   late List<dynamic>? depositData = [];
   late List<DepositItem> depositModel = [];
+  bool isThereNextPage = false;
+  bool isTherePreviousPage = false;
+  int instaCurrentPage = 1;
+  int instaNextPage = 0;
+  int instaLastPage = 0;
+  int instaValue = 1;
+  bool loadStraight = false;
 
   void disposeTrx() {
     instaTransactionsModel.data = null;
+    instaTransactionsModel.data = [];
     depositData = [];
     depositModel = [];
     super.dispose();
   }
 
-  Future<InstaTransactionsModel> getTransactions() async {
+  getNextScreen() {
+    instaLastPage = instaTransactionsModel.lastPage ?? 0;
+    instaCurrentPage = instaTransactionsModel.currentPage!;
+    instaNextPage = getLastNumber(instaTransactionsModel.nextPage);
+    instaValue = instaNextPage;
+    debugPrint('CurrentPage ==> $instaCurrentPage');
+    if (instaCurrentPage < instaLastPage &&
+        instaLastPage != 0 &&
+        instaCurrentPage != instaLastPage) {
+      loadStraight = true;
+      getTransactions(instaValue);
+    }
+  }
+
+  getPreviousScreen() {
+    instaLastPage = instaTransactionsModel.lastPage ?? 0;
+    instaCurrentPage = instaTransactionsModel.currentPage!;
+    instaNextPage = getLastNumber(
+      instaTransactionsModel.nextPage,
+    );
+    instaValue = instaLastPage;
+    debugPrint('CurrentPage ==> $instaCurrentPage');
+    if (instaCurrentPage > 1 &&
+        instaCurrentPage < instaLastPage &&
+        instaCurrentPage == instaNextPage - 1) {
+      loadStraight = true;
+      getTransactions(instaValue);
+    }
+  }
+
+  int getLastNumber(String input) {
+    RegExp regex = RegExp(r'\d+$');
+    Match? match = regex.firstMatch(input);
+
+    if (match != null) {
+      String numberString = match.group(0)!;
+      return int.parse(numberString);
+    }
+
+    // Return a default value or handle the case where no number is found
+    return 1;
+  }
+
+  Future<InstaTransactionsModel> getTransactions(int valueHere) async {
     if (instaTransactionsModel.data == null ||
-        instaTransactionsModel.data == []) {
+        instaTransactionsModel.data == [] ||
+        loadStraight) {
       try {
         //loadingState = LoadingState.loading;
-        final response = await transactionsService.getTransacations();
+        final response = await transactionsService.getTransacations(valueHere);
+
         if (response.statusCode == 200) {
           log('Error Note: Transations Has Been Fetched');
           //log('INFO: We have transactions --> ${response.data}');
@@ -63,6 +115,18 @@ class TransactionsController extends BaseChangeNotifier {
             instaTransactionsModel =
                 InstaTransactionsModel.fromJson(response.data);
             debugPrint('the map! has been gotten!');
+            instaLastPage = instaTransactionsModel.lastPage ?? 0;
+            instaCurrentPage = instaTransactionsModel.currentPage!;
+            instaNextPage = getLastNumber(instaTransactionsModel.nextPage);
+            if (instaCurrentPage != 1 || instaLastPage != 0) {
+              isTherePreviousPage = true;
+              notifyListeners();
+            }
+            if (instaCurrentPage != instaLastPage || instaLastPage != 0) {
+              isThereNextPage = true;
+              notifyListeners();
+            }
+            loadStraight = false;
           } catch (e) {
             log(' Error 101: $e');
           }
@@ -96,7 +160,6 @@ class TransactionsController extends BaseChangeNotifier {
         .toList();
     debugPrint("Deposited Data ==> $depositData");
     try {
-      //TODO: Implement the colorful container class
       final resData = depositData ?? instaTransactionsModel.data;
       depositModel = resData!
           .map((deposit) => DepositItem(

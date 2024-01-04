@@ -10,7 +10,7 @@ import 'dio_mixin.dart';
 /// Send search="value" to search for transactions
 
 class TransactionsService with DioMixin {
-  Future<Response<dynamic>> getTransacations() async {
+  Future<Response<dynamic>> getTransacations(int pageNumberHere) async {
     final customHeaders = {
       'Accept': 'application/vnd.api+json',
       'Content-Type': 'application/json',
@@ -18,7 +18,7 @@ class TransactionsService with DioMixin {
     };
     // Use the configured Dio instance from the mixin
     final response = await connect(customHeaders: customHeaders).get(
-      '/user/transactions/',
+      '/user/transactions?page=$pageNumberHere',
     );
 
     return response;

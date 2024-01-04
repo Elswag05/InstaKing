@@ -6,7 +6,13 @@ import 'package:insta_king/core/extensions/widget_extension.dart';
 class ProfileViewModel extends StatelessWidget {
   final String modelText;
   final void Function()? onTap;
-  const ProfileViewModel({super.key, required this.modelText, this.onTap});
+  final Widget loadWidget;
+  const ProfileViewModel({
+    super.key,
+    required this.modelText,
+    this.onTap,
+    this.loadWidget = const SizedBox(),
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -23,10 +29,14 @@ class ProfileViewModel extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
-          Icon(
-            Icons.arrow_forward_ios_rounded,
-            size: 20.sp,
-          ).afmPadding(EdgeInsets.only(right: 6.h)),
+          loadWidget == const SizedBox()
+              ? Icon(
+                  Icons.arrow_forward_ios_rounded,
+                  size: 20.sp,
+                ).afmPadding(
+                  EdgeInsets.only(right: 6.h),
+                )
+              : loadWidget
         ],
       ),
     );

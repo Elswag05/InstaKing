@@ -158,7 +158,11 @@ class _PostSignUpState extends State<PostSignUp> with TickerProviderStateMixin {
                           buttonTextColor: InstaColors.darkColor,
                           buttonOnPressed: () {
                             setState(() {
-                              ref.read(instaLoginController).toCheckBox(true);
+                              ref.read(instaLoginController)
+                                ..toCheckBox(true)
+                                ..doRememberMe()
+                                ..writeLoggedIn();
+
                               debugPrint('user has decided to remember me');
                             });
                             Navigator.pushReplacement(

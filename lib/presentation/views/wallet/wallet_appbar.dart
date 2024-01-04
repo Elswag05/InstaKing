@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:insta_king/core/constants/env_assets.dart';
 import 'package:insta_king/presentation/controllers/insta_transactions_controller.dart';
-import 'package:insta_king/presentation/views/wallet/transaction_deposit_history.dart';
+import 'package:insta_king/presentation/views/transactions/insta_transactions.dart';
 
 class WalletAppBar extends StatelessWidget {
   const WalletAppBar({super.key});
@@ -18,7 +18,7 @@ class WalletAppBar extends StatelessWidget {
           'Fund Wallet',
           style: TextStyle(
             fontFamily: 'Montesserat',
-            fontSize: 20.sp,
+            fontSize: 17.sp,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -26,11 +26,10 @@ class WalletAppBar extends StatelessWidget {
           builder: (context, ref, child) {
             return GestureDetector(
               onTap: () {
-                debugPrint('INFO: You just prompted search');
-                ref.read(instaTransactionController).getTransactions();
+                // ref.read(instaTransactionController).getTransactions();
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => const TransactionDepositHistory(),
+                    builder: (context) => const InstaTransactions(),
                   ),
                 );
               },

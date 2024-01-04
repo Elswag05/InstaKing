@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:insta_king/core/constants/env_colors.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
 import 'package:insta_king/presentation/controllers/insta_transactions_controller.dart';
-import 'package:insta_king/presentation/views/services/service_widgets.dart';
 import 'package:insta_king/presentation/views/shared_widgets/recurring_appbar.dart';
 import 'package:insta_king/presentation/views/shared_widgets/shared_loading.dart';
 import 'package:insta_king/presentation/views/shared_widgets/small_cta.dart';
@@ -40,43 +40,101 @@ class _InstaTransactionsState extends State<InstaTransactions>
     return Scaffold(
       body: Consumer(
         builder: (context, ref, child) {
+          final tx = ref.read(instaTransactionController);
           final trx =
               ref.read(instaTransactionController).instaTransactionsModel;
           ref.read(instaTransactionController.notifier).getTransactions;
+          debugPrint(
+              'Next Page ${tx.isThereNextPage} Previous Page ${tx.isTherePreviousPage}');
           return SafeArea(
             child: Column(
               children: [
-                const RecurringAppBar(appBarTitle: 'Transactions').afmPadding(
-                  EdgeInsets.only(bottom: 5.h, top: 10.h),
-                ),
-                const ServicesSearchBar(
-                  searchText: 'Search Transactions',
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const RecurringAppBar(
+                      appBarTitle: 'Transactions',
+                    ).afmPadding(
+                      EdgeInsets.only(
+                        top: 10.h,
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        tx.isTherePreviousPage
+                            ? GestureDetector(
+                                onTap: () {
+                                  setState(() {});
+                                  tx.getPreviousScreen();
+                                },
+                                child: Icon(
+                                  Icons.navigate_before_outlined,
+                                  semanticLabel:
+                                      'Navigate to previous page url if any',
+                                  size: 30.sp,
+                                ),
+                              )
+                            : GestureDetector(
+                                child: Icon(
+                                  Icons.navigate_before_outlined,
+                                  semanticLabel:
+                                      'Unable to navigate,  because there is no previous page',
+                                  color: InstaColors.mildGrey.withOpacity(0.5),
+                                  size: 30.sp,
+                                ),
+                              ),
+                        tx.isThereNextPage
+                            ? GestureDetector(
+                                onTap: () {
+                                  setState(() {});
+                                  tx.getNextScreen();
+                                },
+                                child: Icon(
+                                  Icons.navigate_next_rounded,
+                                  semanticLabel: 'Navigate to next page url',
+                                  size: 30.sp,
+                                ),
+                              )
+                            : GestureDetector(
+                                child: Icon(
+                                  Icons.navigate_next_rounded,
+                                  semanticLabel:
+                                      'Unable to navigate,  because there is no next page',
+                                  color: InstaColors.mildGrey.withOpacity(0.5),
+                                  size: 30.sp,
+                                ),
+                              ),
+                      ],
+                    ).afmPadding(
+                      EdgeInsets.only(
+                        right: 20.w,
+                      ),
+                    ),
+                  ],
                 ),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height - 180.h,
+                  height: MediaQuery.of(context).size.height - 100.h,
                   child: FutureBuilder(
                     future: ref
                         .read(instaTransactionController.notifier)
-                        .getTransactions(),
+                        .getTransactions(tx.instaValue),
                     builder: ((context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.done) {
                         if (ref
-                                .read(instaTransactionController.notifier)
+                                .read(instaTransactionController)
                                 .instaTransactionsModel
                                 .data !=
                             null) {
-                          // for (int? i = 0; i! < trx.data!.length; i++) {
-                          //   numbers.add(i + 1);
-                          // }
                           return ListView.builder(
                             itemCount: trx.data?.length,
                             itemBuilder: ((context, index) {
                               return TransactionViewModel(
                                 //  no: numbers[index].toString(),
-                                status: Text(trx.data?[index].id.toString() ??
-                                    'loading...'),
-                                type: Text(trx.data?[index].type.toString() ??
-                                    'loading...'),
+                                // status: Text(trx.data?[index].id.toString() ??
+                                //     'loading...'),
+                                // type: Text(trx.data?[index].type.toString() ??
+                                //     'loading...'),
                                 service: SmallCTA(
                                   width: 70.w,
                                   height: 20.h,

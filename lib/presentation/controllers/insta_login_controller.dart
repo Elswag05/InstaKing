@@ -25,7 +25,10 @@ class LoginController extends BaseChangeNotifier {
   bool get isBoxChecked => _rememberMe;
 
   void toCheckBox(value) {
-    _rememberMe = !_rememberMe;
+    _rememberMe = value;
+    _rememberMe == true
+        ? debugPrint('User biometric Auth set to true || $_rememberMe')
+        : debugPrint('This value is false || $_rememberMe... Biometric Auth');
     notifyListeners();
   }
 
@@ -48,8 +51,46 @@ class LoginController extends BaseChangeNotifier {
     }
   }
 
+  Future setUserToUSeBiometric() async {
+    try {
+      if (_rememberMe) {
+        doRememberMe();
+      }
+    } catch (e) {
+      debugPrint('$e');
+    }
+  }
+
+  Future removeUserFromBiometric() async {
+    try {
+      if (!_rememberMe) {
+        debugPrint('User detail has been removed from system');
+        await locator<SecureStorageService>().delete(key: InstaStrings.email);
+      }
+    } catch (e) {
+      debugPrint('$e');
+    }
+  }
+
+  writeLoggedIn() async {
+    await locator<SecureStorageService>().write(
+      key: 'loggedIn',
+      value: 'true',
+    );
+  }
+
+  doRememberMe() async {
+    debugPrint(_rememberMe.toString());
+    debugPrint('Remember me logic is called');
+    await locator<SecureStorageService>().write(
+      key: InstaStrings.email,
+      value: data.user?.email ?? '',
+    );
+  }
+
   Future<bool> signIn(String email, password) async {
     loadingState = LoadingState.loading;
+    notifyListeners();
     try {
       final res = await loginService.signIn(email: email, password: password);
       if (res.statusCode == 200) {
@@ -58,17 +99,9 @@ class LoginController extends BaseChangeNotifier {
           key: InstaStrings.token,
           value: data.token ?? '',
         );
-        await locator<SecureStorageService>().write(
-          key: 'loggedIn',
-          value: 'true',
-        );
-
+        writeLoggedIn();
         if (_rememberMe) {
-          debugPrint(_rememberMe.toString());
-          await locator<SecureStorageService>().write(
-            key: InstaStrings.email,
-            value: data.user?.email ?? '',
-          );
+          doRememberMe();
         }
         if (data.status == 'error') {
           locator<ToastService>().showSuccessToast(
