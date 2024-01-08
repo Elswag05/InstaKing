@@ -108,10 +108,13 @@ class _BaseAuthViewState extends State<BaseAuthView> {
                           ),
                     Text(
                       widget.checkBoxText,
+                      softWrap: true,
+                      maxLines: 3,
                       style: TextStyle(
                         fontFamily: 'Montesserat',
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w500,
+                        // overflow: TextOverflow.clip,
                       ),
                     ),
                   ],

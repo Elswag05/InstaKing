@@ -122,11 +122,14 @@ class InstaServicesState extends State<InstaServices> {
             // });
             return Column(
               children: [
-                const RecurringAppBar(appBarTitle: "Services")
-                    .afmPadding(EdgeInsets.only(bottom: 5.h, top: 10.h)),
-                const ServicesSearchBar(
-                  searchText: 'Search Services',
+                const RecurringAppBar(appBarTitle: "Services").afmPadding(
+                  EdgeInsets.only(
+                    top: 10.h,
+                  ),
                 ),
+                // const ServicesSearchBar(
+                //   searchText: 'Search Services',
+                // ),
                 _buildServiceRows(context, ref),
                 _buildAllServicesContainer(context, ref),
                 _buildServiceList(context, ref).afmPadding(

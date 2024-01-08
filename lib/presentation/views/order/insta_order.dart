@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -101,46 +99,46 @@ class _InstaOrderHistoryState extends ConsumerState<InstaOrderHistory>
   //   getServiceNames(allOrderId);
   // }
 
-  List<String> extractFourDigitNumbers(String input) {
-    RegExp regex = RegExp(r'\b\d{2,4}\b');
-    Iterable<Match> matches = regex.allMatches(input);
+  // List<String> extractFourDigitNumbers(String input) {
+  //   RegExp regex = RegExp(r'\b\d{2,4}\b');
+  //   Iterable<Match> matches = regex.allMatches(input);
 
-    List<String> fourDigitNumbers =
-        matches.map((match) => match.group(0)!).toList();
+  //   List<String> fourDigitNumbers =
+  //       matches.map((match) => match.group(0)!).toList();
 
-    return fourDigitNumbers;
-  }
+  //   return fourDigitNumbers;
+  // }
 
-  void getServices() {
-    allOrderId = [];
-    for (int i = 0; i < _currentOrders!.length; i++) {
-      String serviceId = _currentOrders![i].serviceId!;
-      List<String> fourDigitNumbers = extractFourDigitNumbers(serviceId);
+  // void getServices() {
+  //   allOrderId = [];
+  //   for (int i = 0; i < _currentOrders!.length; i++) {
+  //     String serviceId = _currentOrders![i].serviceId!;
+  //     List<String> fourDigitNumbers = extractFourDigitNumbers(serviceId);
 
-      // Add only the 4-digit numbers to allOrderId
-      allOrderId.addAll(fourDigitNumbers);
-    }
-    //log('Services ID ==> $allOrderId');
-    getServiceNames(allOrderId);
-  }
+  //     // Add only the 4-digit numbers to allOrderId
+  //     allOrderId.addAll(fourDigitNumbers);
+  //   }
+  //   //log('Services ID ==> $allOrderId');
+  //   getServiceNames(allOrderId);
+  // }
 
-  List<String> getServiceNames(List<String> allOrderId) {
-    // Initialize serviceNames as an empty list
+  // List<String> getServiceNames(List<String> allOrderId) {
+  //   // Initialize serviceNames as an empty list
 
-    for (int i = 0; i < _currentOrders!.length; i++) {
-      // Append to the existing serviceNames list
-      serviceNames.addAll(
-        ref
-            .read(instaCategoriesController.notifier)
-            .getAllServicesModel
-            .data!
-            .where((service) => service.id.toString().contains(allOrderId[i]))
-            .map((service) => service.name ?? ""),
-      );
-      debugPrint('Service Names ==> $serviceNames');
-    }
-    return serviceNames;
-  }
+  //   for (int i = 0; i < _currentOrders!.length; i++) {
+  //     // Append to the existing serviceNames list
+  //     serviceNames.addAll(
+  //       ref
+  //           .read(instaCategoriesController.notifier)
+  //           .getAllServicesModel
+  //           .data!
+  //           .where((service) => service.id.toString().contains(allOrderId[i]))
+  //           .map((service) => service.name ?? ""),
+  //     );
+  //     debugPrint('Service Names ==> $serviceNames');
+  //   }
+  //   return serviceNames;
+  // }
 
   @override
   void initState() {
@@ -283,12 +281,8 @@ class _InstaOrderHistoryState extends ConsumerState<InstaOrderHistory>
                                             '',
                                     quantity:
                                         _currentOrders?[index].quantity ?? '',
-                                    serviceHere: ref
-                                            .read(instaCategoriesController)
-                                            .getOneServiceDetailsModel
-                                            .data
-                                            ?.name ??
-                                        '',
+                                    serviceHere:
+                                        _currentOrders?[index].serviceId ?? '',
                                     remNant:
                                         _currentOrders?[index].remain ?? '',
                                     status: StatusContainer(
@@ -296,13 +290,13 @@ class _InstaOrderHistoryState extends ConsumerState<InstaOrderHistory>
                                           Status.PENDING,
                                     ),
                                   ).afmGetFuture(
-                                    Future(
-                                      () => ref
-                                          .read(instaCategoriesController)
-                                          .getOneServiceName(
-                                            _currentOrders?[index].serviceId,
-                                          ),
-                                    ),
+                                    Future(() => null
+                                        // ref
+                                        //     .read(instaCategoriesController)
+                                        //     .getOneServiceName(
+                                        //       _currentOrders?[index].serviceId,
+                                        //     ),
+                                        ),
                                   );
                                 }),
                               );

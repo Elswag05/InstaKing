@@ -61,12 +61,12 @@ class GetOneServiceDetails with DioMixin {
   Future<Response<dynamic>> getOneServicesDetails(String serviceId) async {
     final customHeaders = {
       'Accept': 'application/vnd.api+json',
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/vnd.api+json',
       'Connection': 'keep-alive',
     };
     // Use the configured Dio instance from the mixin
     final response = await connect(customHeaders: customHeaders).get(
-      '/services/$serviceId',
+      '/services/{$serviceId}',
     );
     debugPrint('${response.data}');
     return response;

@@ -39,7 +39,6 @@ class _InstaOnboardingState extends State<InstaOnboarding> {
   int _currentPage = 0;
   List colors = const [
     Color(0xffDAD3C8),
-    Color(0xffFFE5DE),
     Color.fromARGB(255, 218, 203, 230),
     Color(0xffFFE5DE),
   ];
@@ -99,6 +98,7 @@ class _InstaOnboardingState extends State<InstaOnboarding> {
                             fontFamily: "Monteserrat",
                             fontWeight: FontWeight.w600,
                             fontSize: (width <= 550) ? 30 : 35,
+                            color: Theme.of(context).colorScheme.scrim,
                           ),
                         ),
                         const SizedBox(height: 15),
@@ -108,6 +108,7 @@ class _InstaOnboardingState extends State<InstaOnboarding> {
                             fontFamily: "Monteserrat",
                             fontWeight: FontWeight.w300,
                             fontSize: (width <= 550) ? 17 : 25,
+                            color: Theme.of(context).colorScheme.scrim,
                           ),
                           textAlign: TextAlign.center,
                         )

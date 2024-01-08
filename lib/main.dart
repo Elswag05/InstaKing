@@ -8,6 +8,7 @@ import 'package:insta_king/core/theme/env_theme_manager.dart';
 import 'package:insta_king/data/services/notification.dart';
 import 'package:insta_king/no_internet.dart';
 import 'package:insta_king/presentation/controllers/insta_dashboard_controller.dart';
+import 'package:insta_king/presentation/controllers/insta_login_controller.dart';
 import 'package:insta_king/presentation/controllers/insta_network_controller.dart';
 import 'package:insta_king/presentation/views/authentication/auth_shared/navigation_page.dart';
 import 'package:insta_king/presentation/views/authentication/login/insta_login_with_fingerprint.dart';
@@ -15,7 +16,6 @@ import 'package:insta_king/presentation/views/onboarding/insta_onboarding.dart';
 import 'package:insta_king/presentation/views/shared_widgets/shared_loading.dart';
 import 'package:insta_king/presentation/views/splash_screen/insta_splash.dart';
 import 'package:oktoast/oktoast.dart';
-import 'package:insta_king/presentation/views/authentication/login/login.dart';
 import 'package:insta_king/utils/locator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -31,7 +31,7 @@ Future<void> main() async {
     (_) => runApp(
       ProviderScope(
         child: MaterialApp(
-          title: 'Insta King',
+          title: 'InstaKing',
           themeMode: ThemeMode.system,
           theme: EnvThemeManager.lightTheme,
           darkTheme: EnvThemeManager.darkTheme,
@@ -89,6 +89,7 @@ class _InstaKing extends ConsumerState<InstaKingGuide> {
       }
       setState(() {});
     });
+    ref.read(instaLoginController).initBiomLoginAuth();
     super.initState();
   }
 
@@ -107,7 +108,7 @@ class _InstaKing extends ConsumerState<InstaKingGuide> {
         splitScreenMode: true,
         builder: (_, __) {
           return MaterialApp(
-            title: 'Insta King',
+            title: 'InstaKing',
             themeMode: ThemeMode.system,
             theme: EnvThemeManager.lightTheme,
             darkTheme: EnvThemeManager.darkTheme,

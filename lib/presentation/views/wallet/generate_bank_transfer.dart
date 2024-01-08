@@ -35,6 +35,10 @@ class _WalletCard1State extends ConsumerState<WalletCard1>
     super.dispose();
   }
 
+  double calculateListViewHeight(int itemCount, double itemHeight) {
+    return itemCount * itemHeight;
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -82,7 +86,15 @@ class _WalletCard1State extends ConsumerState<WalletCard1>
                         ),
                         SizedBox(
                           width: MediaQuery.of(context).size.width - 40.sp,
-                          height: 200.h,
+                          height: calculateListViewHeight(
+                              ref
+                                      .read(instaProfileController)
+                                      .model
+                                      .user
+                                      ?.virtualBanks
+                                      ?.length ??
+                                  2,
+                              120.h),
                           child: ListView.builder(
                             itemCount: ref
                                 .read(instaProfileController)
@@ -176,6 +188,8 @@ class _WalletCard1State extends ConsumerState<WalletCard1>
                           )
                         ],
                       ),
+                    ).afmPadding(
+                      EdgeInsets.only(bottom: 10.h),
                     ),
                     CustomButton(
                       pageCTA: 'Generate Accounts',

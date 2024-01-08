@@ -16,6 +16,7 @@ final instaSignUpController =
     ChangeNotifierProvider<SignUpController>((ref) => SignUpController());
 
 class SignUpController extends BaseChangeNotifier {
+  late InstaSignUpModel data;
   late bool checkedBox = false;
   bool get isBoxChecked => checkedBox;
 
@@ -29,21 +30,29 @@ class SignUpController extends BaseChangeNotifier {
   final SecureStorageService secureStorageService =
       SecureStorageService(secureStorage: const FlutterSecureStorage());
 
-  Future<bool> signUp(String firstName, lastName, email, userName, passWord,
-      phone, referralCode) async {
+  Future<bool> signUp(
+    String firstName,
+    lastName,
+    email,
+    userName,
+    passWord,
+    phone,
+    referralCode,
+  ) async {
     loadingState = LoadingState.loading;
     notifyListeners();
     try {
       final res = await signUpService.signUp(
-          email: email,
-          firstName: firstName,
-          lastName: lastName,
-          userName: userName,
-          phone: phone,
-          password: passWord,
-          referralID: referralCode);
+        email: email,
+        firstName: firstName,
+        lastName: lastName,
+        userName: userName,
+        phone: phone,
+        password: passWord,
+        referralID: referralCode,
+      );
       if (res.statusCode == 200) {
-        final data = InstaSignUpModel.fromJson(res.data);
+        data = InstaSignUpModel.fromJson(res.data);
         await locator<SecureStorageService>().write(
           key: InstaStrings.token,
           value: data.token ?? '',
@@ -53,6 +62,7 @@ class SignUpController extends BaseChangeNotifier {
           'You are signed in',
         );
         loadingState = LoadingState.idle;
+        notifyListeners();
         return true;
       } else {
         throw Error();

@@ -9,6 +9,7 @@ import 'package:insta_king/presentation/controllers/insta_dashboard_controller.d
 import 'package:insta_king/presentation/controllers/insta_login_controller.dart';
 import 'package:insta_king/presentation/controllers/insta_order_controller.dart';
 import 'package:insta_king/presentation/controllers/insta_profile_controller.dart';
+import 'package:insta_king/presentation/controllers/insta_signin_controller.dart';
 import 'package:insta_king/presentation/controllers/insta_transactions_controller.dart';
 import 'package:insta_king/presentation/views/authentication/login/login.dart';
 import 'package:insta_king/presentation/views/profile/account_profile_card.dart';
@@ -149,56 +150,63 @@ class _InstaProfileState extends State<InstaProfile> {
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                //TODO://///////////////////////////////////////////
-                                // GestureDetector(
-                                //   onTap: () {
-                                //     ref
-                                //             .read(
-                                //               instaLoginController,
-                                //             )
-                                //             .isBoxChecked
-                                //         ? {
-                                //             ref.read(instaLoginController)
-                                //               ..toCheckBox(true)
-                                //               ..doRememberMe()
-                                //               ..writeLoggedIn()
-                                //           }
-                                //         : {};
-                                //   },
-                                //   child: Switch(
-                                //     activeColor: InstaColors.primaryColor,
-                                //     activeTrackColor:
-                                //         InstaColors.mildLightColor,
-                                //     inactiveThumbColor: InstaColors.mildGrey,
-                                //     inactiveTrackColor:
-                                //         InstaColors.mildLightColor,
-                                //     splashRadius: 70.0,
-                                //     value: !ref
-                                //         .read(
-                                //           instaLoginController,
-                                //         )
-                                //         .isBoxChecked,
-                                //     onChanged: (value) {
-                                //       if (value == true) {
-                                //         debugPrint('User Biometric is active');
-                                //         ref
-                                //             .read(instaLoginController)
-                                //             .setUserToUSeBiometric();
-                                //         setState(() {
-                                //           ref
-                                //               .read(instaLoginController)
-                                //               .toCheckBox(true);
-                                //         });
-                                //       } else {
-                                //         debugPrint(
-                                //             'User Biometric is NOTactive');
-                                //         // ref
-                                //         //     .read(instaLoginController)
-                                //         //     .removeUserFromBiometric();
-                                //       }
-                                //     },
-                                //   ),
-                                // ),
+                                GestureDetector(
+                                  child: Switch(
+                                    activeColor: InstaColors.primaryColor,
+                                    activeTrackColor:
+                                        InstaColors.mildLightColor,
+                                    inactiveThumbColor: InstaColors.mildGrey,
+                                    inactiveTrackColor:
+                                        InstaColors.mildLightColor,
+                                    splashRadius: 70.0,
+                                    value: ref
+                                        .read(
+                                          instaLoginController,
+                                        )
+                                        .isBoxChecked,
+                                    onChanged: (value) {
+                                      debugPrint("$value is valueeeee!");
+                                      ref
+                                          .read(
+                                            instaLoginController,
+                                          )
+                                          .toCheckBox(value);
+                                      setState(() {
+                                        value = !value;
+                                      });
+
+                                      if (ref
+                                          .read(
+                                            instaLoginController,
+                                          )
+                                          .isBoxChecked) {
+                                        debugPrint('User Biometric is active');
+                                        ref
+                                            .read(instaLoginController)
+                                            .setUserToUSeBiometric(
+                                              ref
+                                                      .read(
+                                                          instaProfileController)
+                                                      .model
+                                                      .user
+                                                      ?.email ??
+                                                  '',
+                                            );
+                                        setState(() {
+                                          ref
+                                              .read(instaLoginController)
+                                              .toCheckBox(true);
+                                        });
+                                      } else {
+                                        debugPrint(
+                                            'User Biometric is NOTactive');
+                                        ref
+                                            .read(instaLoginController)
+                                            .removeUserFromBiometric();
+                                      }
+                                    },
+                                  ),
+                                ),
                               ],
                             ).afmPadding(
                               EdgeInsets.only(
@@ -251,9 +259,9 @@ class _InstaProfileState extends State<InstaProfile> {
                     ref.read(instaLoginController.notifier).signOut().then(
                       (value) {
                         if (value == true) {
-                          ref
-                              .read(dashBoardControllerProvider.notifier)
-                              .setPage(0);
+                          // ref
+                          //     .read(dashBoardControllerProvider.notifier)
+                          //     .setPage(0);
                           Navigator.of(context).pushReplacement(
                             MaterialPageRoute(
                               builder: (context) => const InstaLogin(),
@@ -261,7 +269,9 @@ class _InstaProfileState extends State<InstaProfile> {
                           );
                           locator<SecureStorageService>().delete(key: 'token');
                           locator<SecureStorageService>().delete(key: 'email');
-                          toDispose();
+                          Future(
+                            () => toDispose(),
+                          );
                         } else {}
                       },
                     );

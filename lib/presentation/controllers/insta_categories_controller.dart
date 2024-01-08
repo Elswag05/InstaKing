@@ -4,7 +4,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:insta_king/core/constants/enum.dart';
 import 'package:insta_king/data/local/secure_storage_service.dart';
 import 'package:insta_king/data/services/categories_services.dart';
 import 'package:insta_king/data/services/error_service.dart';
@@ -67,6 +66,7 @@ class CategoriesController extends BaseChangeNotifier {
   bool get isCatSet => _isCatSet;
   bool get isServiceSet => _isServiceSet;
   late bool hasTappedStatus = false;
+  late bool getServiceAnyhow = false;
 
   void disposeCategries() {
     allServicesModel = [];
@@ -83,6 +83,7 @@ class CategoriesController extends BaseChangeNotifier {
     _selectedCategoryValue = newValue;
     _selectedCategoryName = name;
     _isCatSet = true;
+
     notifyListeners();
   }
 
@@ -100,7 +101,7 @@ class CategoriesController extends BaseChangeNotifier {
 
     // Calculate the price per unit
     double pricePerUnit = (intakePrice / 1000) * quantity;
-    notifyListeners();
+    //notifyListeners();
     // Return the result as a string
     return pricePerUnit.toString();
   }
@@ -117,7 +118,7 @@ class CategoriesController extends BaseChangeNotifier {
       //loadingState = LoadingState.loading;
       final res = await categoriesService.getAllCategories();
       toGetAllServiceDetail();
-      toGetDropdownItemsById(_selectedCategoryValue);
+      // toGetDropdownItemsById(_selectedCategoryValue);
       //debugPrint('${res.data}');
       if (res.statusCode == 200) {
         final getCategoriesModel =
@@ -138,10 +139,10 @@ class CategoriesController extends BaseChangeNotifier {
         // throw Error();
       }
     } on DioException catch (e) {
-      loadingState = LoadingState.error;
+      //loadingState = LoadingState.error;
       ErrorService.handleErrors(e);
     } catch (e) {
-      loadingState = LoadingState.error;
+      // loadingState = LoadingState.error;
       ErrorService.handleErrors(e);
     }
     return false;
@@ -155,26 +156,26 @@ class CategoriesController extends BaseChangeNotifier {
     filteredData = getAllServicesModel.data!
         .where((datum) => datum.name?.toLowerCase().contains(keyword) == true)
         .toList();
-    notifyListeners();
+    //notifyListeners();
     debugPrint(filteredData.toString());
     return filteredData;
   }
 
   Future<bool> getSpecificCategories(String categoryId) async {
-    loadingState = LoadingState.loading;
+    //loadingState = LoadingState.loading;
     try {
       final res = await getCategoriesService.getSpecificCategoriesServices(
           categoryId: categoryId);
       if (res.statusCode == 200) {
-        loadingState = LoadingState.idle;
-        notifyListeners();
+        //loadingState = LoadingState.idle;
+        //notifyListeners();
         return true;
       } else {}
     } on DioException catch (e) {
-      loadingState = LoadingState.error;
+      // loadingState = LoadingState.error;
       ErrorService.handleErrors(e);
     } catch (e) {
-      loadingState = LoadingState.error;
+      // loadingState = LoadingState.error;
       ErrorService.handleErrors(e);
     }
     return false;
@@ -202,7 +203,7 @@ class CategoriesController extends BaseChangeNotifier {
 
     if (getAllServicesModel.data == null || getAllServicesModel.data == []) {
       try {
-        loadingState = LoadingState.loading;
+        //loadingState = LoadingState.loading;
         final res = await getAllServiceDetails.getAllServicesDetails();
         if (res.statusCode == 200) {
           getAllServicesModel = GetAllServicesModel.fromJson(res.data);
@@ -220,8 +221,8 @@ class CategoriesController extends BaseChangeNotifier {
                   .toList() ??
               [];
 
-          loadingState = LoadingState.idle;
-          notifyListeners();
+          //loadingState = LoadingState.idle;
+          //notifyListeners();
           return servicesModel;
           // loadingState = LoadingState.idle;
           // notifyListeners();
@@ -230,10 +231,10 @@ class CategoriesController extends BaseChangeNotifier {
           // throw Error();
         }
       } on DioException catch (e) {
-        loadingState = LoadingState.error;
+        //  loadingState = LoadingState.error;
         ErrorService.handleErrors(e);
       } catch (e) {
-        loadingState = LoadingState.error;
+        //  loadingState = LoadingState.error;
         ErrorService.handleErrors(e);
       }
     } else {
@@ -261,8 +262,8 @@ class CategoriesController extends BaseChangeNotifier {
   Future<List<ServiceItem>> toGetDropdownItemsById(
     String targetId,
   ) async {
-    loadingState = LoadingState.loading;
-    if (allServicesModel.isNotEmpty) {
+    //loadingState = LoadingState.loading;
+    if (allServicesModel.isNotEmpty || allServicesModel != []) {
       // Filter the data based on the specified id
       final filteredServiceData = getAllServicesModel.data
           ?.where((category) => category.categoryId == targetId)
@@ -285,12 +286,12 @@ class CategoriesController extends BaseChangeNotifier {
                   ))
               .toList() ??
           [];
-      loadingState = LoadingState.idle;
+      //loadingState = LoadingState.idle;
       toGetOneServiceDetail(_selectedServiceValue);
-      notifyListeners();
+      //notifyListeners();
       return allServicesModel;
     }
-    loadingState = LoadingState.loading;
+    //loadingState = LoadingState.loading;
     try {
       final res = await getAllServiceDetails.getAllServicesDetails();
       if (res.statusCode == 200) {
@@ -318,17 +319,17 @@ class CategoriesController extends BaseChangeNotifier {
                 .toList() ??
             [];
 
-        loadingState = LoadingState.idle;
-        notifyListeners();
+        // loadingState = LoadingState.idle;
+        // notifyListeners();
         return allServicesModel;
       } else {
         // throw Error();
       }
     } on DioException catch (e) {
-      loadingState = LoadingState.error;
+      // loadingState = LoadingState.error;
       ErrorService.handleErrors(e);
     } catch (e) {
-      loadingState = LoadingState.error;
+      //  loadingState = LoadingState.error;
       ErrorService.handleErrors(e);
     }
     return [];
@@ -357,10 +358,10 @@ class CategoriesController extends BaseChangeNotifier {
         // throw Error();
       }
     } on DioException catch (e) {
-      loadingState = LoadingState.error;
+      // loadingState = LoadingState.error;
       ErrorService.handleErrors(e);
     } catch (e) {
-      loadingState = LoadingState.error;
+      // loadingState = LoadingState.error;
       ErrorService.handleErrors(e);
     }
     return false;

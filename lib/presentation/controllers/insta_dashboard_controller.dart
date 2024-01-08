@@ -5,6 +5,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:insta_king/data/local/secure_storage_service.dart';
 import 'package:insta_king/presentation/controllers/base_controller.dart';
+import 'package:insta_king/presentation/controllers/insta_login_controller.dart';
 import 'package:insta_king/utils/locator.dart';
 
 final dashBoardControllerProvider = ChangeNotifierProvider<DashBoardController>(
@@ -59,6 +60,9 @@ class DashBoardController extends BaseChangeNotifier {
           value: email,
         );
         _userEmail = await secureStorageService.read(key: 'loginMail') ?? '';
+        Provider((ref) {
+          ref.read(instaLoginController).toCheckBox(true);
+        });
       } catch (e) {
         debugPrint('$e');
       }

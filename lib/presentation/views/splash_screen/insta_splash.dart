@@ -84,7 +84,7 @@ class InstaSplashState extends State<InstaSplash>
                   duration: const Duration(milliseconds: 1000),
                   opacity: _textOpacity,
                   child: AutoSizeText(
-                    'INSTA KING ♛',
+                    'INSTAKING ♛',
                     minFontSize: 10,
                     maxFontSize: 14,
                     stepGranularity: 2,

@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:insta_king/presentation/controllers/insta_dashboard_controller.dart';
+import 'package:insta_king/presentation/controllers/insta_login_controller.dart';
 import 'package:insta_king/presentation/views/authentication/auth_shared/base_auth_view.dart';
 import 'package:insta_king/presentation/views/authentication/login/login.dart';
 import 'package:insta_king/presentation/views/dashboard/insta_dashboard.dart';
+import 'package:insta_king/presentation/views/splash_screen/insta_splash.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:lottie/lottie.dart';
 
@@ -19,7 +21,6 @@ class InstaLoginWithFingerprint extends ConsumerStatefulWidget {
 class _InstaLoginWithFingerprintState
     extends ConsumerState<InstaLoginWithFingerprint>
     with TickerProviderStateMixin {
-  late final LocalAuthentication auth;
   late final AnimationController _controller;
   DashBoardController dash = DashBoardController();
 
@@ -27,14 +28,36 @@ class _InstaLoginWithFingerprintState
   void initState() {
     super.initState();
     _controller = AnimationController(vsync: this);
-    auth = LocalAuthentication();
     dash = ref.read(dashBoardControllerProvider.notifier);
+    checkBiometricsAndNavigate();
   }
 
   @override
   void dispose() {
     _controller.dispose();
     super.dispose();
+  }
+
+  void checkBiometricsAndNavigate() async {
+    await dash.getEmail();
+    bool canCheckBiometrics = ref.read(instaLoginController).canCheckBiometrics;
+    List<BiometricType> availableBiometrics =
+        ref.read(instaLoginController).availableBiometrics;
+    if (canCheckBiometrics && availableBiometrics.isEmpty) {
+      // Navigate to the next screen if conditions are met
+      try {
+        setState(() {
+          Navigator.pushReplacement(
+            context,
+            PageTransition(
+              const InstaDashboard(),
+            ),
+          );
+        });
+      } catch (e) {
+        debugPrint('$e');
+      }
+    }
   }
 
   @override
@@ -64,7 +87,10 @@ class _InstaLoginWithFingerprintState
                   inversePageName: ' Use details instead',
                   isLoginWithFingerPrint: true,
                   toSignOrLogin: () {
-                    _authenticate().then((value) {
+                    ref
+                        .read(instaLoginController)
+                        .toAuthenticate()
+                        .then((value) {
                       if (value) {
                         Navigator.of(context).pushReplacement(MaterialPageRoute(
                           builder: (context) => const InstaDashboard(),
@@ -89,21 +115,5 @@ class _InstaLoginWithFingerprintState
         );
       },
     );
-  }
-
-  Future<bool> _authenticate() async {
-    late bool authenticated = false;
-    try {
-      authenticated = await auth.authenticate(
-        localizedReason: 'Authenticate to log in',
-        options: const AuthenticationOptions(
-          stickyAuth: true,
-        ),
-      );
-      debugPrint('User is authenticated ==> $authenticated');
-    } on PlatformException catch (e) {
-      debugPrint('$e');
-    }
-    return authenticated;
   }
 }

@@ -54,16 +54,18 @@ class _NoInternetState extends ConsumerState<NoInternet>
           children: [
             Center(
               child: SizedBox(
-                width: 300.w,
-                height: 300.h,
-                child: Lottie.asset(
-                  "assets/animation/no_internet.json",
-                  controller: _controller,
-                  onLoaded: (composition) {
-                    _controller
-                      ..duration = composition.duration
-                      ..repeat();
-                  },
+                width: 150.w,
+                height: 150.h,
+                child: Center(
+                  child: Lottie.asset(
+                    "assets/animation/no_internet.json",
+                    controller: _controller,
+                    onLoaded: (composition) {
+                      _controller
+                        ..duration = composition.duration
+                        ..repeat();
+                    },
+                  ),
                 ),
               ),
             ),

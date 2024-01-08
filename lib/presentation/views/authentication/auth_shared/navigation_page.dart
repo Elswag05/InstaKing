@@ -29,7 +29,7 @@ class InstaAuthNavigator extends StatelessWidget {
                     height: 60,
                   ),
                   Text(
-                    'Insta King',
+                    'InstaKing',
                     style: TextStyle(
                       fontFamily: 'Monteserrat',
                       fontSize: 35.sp,

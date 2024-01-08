@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart' show Options, Response;
 
 import 'dio_mixin.dart';
@@ -13,7 +15,7 @@ class SignUpService with DioMixin {
     required String referralID,
   }) async {
     final response = await connect().post(
-      '/auth/signup',
+      '/auth/signup?ref={$referralID}',
       data: {
         'first_name': firstName,
         'last_name': lastName,
@@ -29,6 +31,15 @@ class SignUpService with DioMixin {
         },
       ),
     );
+    log({
+      'first_name': firstName,
+      'last_name': lastName,
+      'email': email,
+      'username': userName,
+      'password': password,
+      'phone': phone,
+      'referral_code': referralID,
+    }.toString());
     return response;
   }
 }

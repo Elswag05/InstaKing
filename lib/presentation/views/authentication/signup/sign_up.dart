@@ -18,15 +18,27 @@ class SignUp extends ConsumerStatefulWidget {
 }
 
 class _SignUpState extends ConsumerState<SignUp> {
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController firstNameController = TextEditingController();
-  final TextEditingController lastNameController = TextEditingController();
-  final TextEditingController userNameController = TextEditingController();
-  final TextEditingController phoneNumberController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-  final TextEditingController referralController = TextEditingController();
+  late final TextEditingController emailController;
+  late final TextEditingController firstNameController;
+  late final TextEditingController lastNameController;
+  late final TextEditingController userNameController;
+  late final TextEditingController phoneNumberController;
+  late final TextEditingController passwordController;
+  late final TextEditingController referralController;
   late final instaSignInState = ref.watch(instaSignUpController);
   late final LoadingState loadingState = instaSignInState.loadingState;
+
+  @override
+  void initState() {
+    emailController = TextEditingController();
+    firstNameController = TextEditingController();
+    lastNameController = TextEditingController();
+    userNameController = TextEditingController();
+    phoneNumberController = TextEditingController();
+    passwordController = TextEditingController();
+    referralController = TextEditingController();
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -51,7 +63,7 @@ class _SignUpState extends ConsumerState<SignUp> {
               callToActionFooterText: "Do you have an account?",
               inversePageName: " Sign in",
               callToActionText: '',
-              checkBoxText: "I agree to the terms and policy",
+              checkBoxText: "I have read agreed to the terms and\n policy",
               pageCTA: "Create Account",
               isLogin: false,
               checked: ref.watch(instaSignUpController.notifier).isBoxChecked,
@@ -121,7 +133,7 @@ class _SignUpState extends ConsumerState<SignUp> {
               },
               toSignOrLogin: () {
                 debugPrint(
-                  'INFO: To Create an account with email:${emailController.text} and password: ${passwordController.text}',
+                  'INFO: To Create an account with email:${emailController.text} and password: ${passwordController.text} and ID: ${referralController.text}',
                 );
                 ref
                     .read(instaSignUpController.notifier)

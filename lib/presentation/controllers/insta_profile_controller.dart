@@ -157,7 +157,7 @@ class ProfileController extends BaseChangeNotifier {
         phone: phone,
         country: country,
       );
-      print(res.data);
+      debugPrint(res.data);
       if (res.statusCode == 200) {
         loadingState = LoadingState.idle;
         locator<ToastService>().showSuccessToast(

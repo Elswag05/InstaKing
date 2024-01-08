@@ -8,6 +8,7 @@ import 'package:insta_king/core/constants/env_assets.dart';
 import 'package:insta_king/core/constants/env_colors.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
 import 'package:insta_king/presentation/controllers/insta_login_controller.dart';
+import 'package:insta_king/presentation/controllers/insta_signin_controller.dart';
 import 'package:insta_king/presentation/views/dashboard/insta_dashboard.dart';
 import 'package:insta_king/presentation/views/shared_widgets/cta_button.dart';
 import 'package:text_3d/text_3d.dart';
@@ -20,50 +21,18 @@ class PostSignUp extends StatefulWidget {
 }
 
 class _PostSignUpState extends State<PostSignUp> with TickerProviderStateMixin {
-  late final AnimationController _controller;
-  late final Animation<double> _animation;
   int animationCount = 0;
   bool isPlaying = false;
   final controller = ConfettiController();
 
   @override
   void initState() {
-    controller.addListener(() {
-      setState(() {
-        isPlaying = controller.state == ConfettiControllerState.playing;
-      });
-    });
-    _controller = AnimationController(
-      duration: const Duration(seconds: 4),
-      vsync: this,
-    );
-
-    _animation = CurvedAnimation(
-      parent: _controller,
-      curve: Curves.fastOutSlowIn,
-    );
-
-    _playAnimation();
+    controller.play();
     super.initState();
-  }
-
-  void _playAnimation() {
-    _controller.forward().then((_) {
-      _controller.reverse().then((_) {
-        if (animationCount < 4) {
-          animationCount++;
-          _playAnimation();
-          isPlaying = true;
-        } else {
-          isPlaying = false;
-        }
-      });
-    });
   }
 
   @override
   void dispose() {
-    _controller.dispose();
     controller.dispose();
     super.dispose();
   }
@@ -79,36 +48,34 @@ class _PostSignUpState extends State<PostSignUp> with TickerProviderStateMixin {
             flex: 5,
             child: Stack(
               children: [
-                SizeTransition(
-                  sizeFactor: _animation,
-                  axis: Axis.horizontal,
-                  axisAlignment: 2,
-                  child: Align(
-                    alignment: Alignment.topCenter,
-                    child: ThreeDText(
-                      text: 'Congratulations!!!',
-                      textStyle: TextStyle(
-                        fontFamily: 'Monteserrat',
-                        fontSize: 30.sp,
-                        color: Theme.of(context).primaryColor,
-                        fontWeight: FontWeight.w700,
-                      ),
-                      depth: 7,
-                      style: ThreeDStyle.standard,
-                    ),
-                  ),
-                ).afmPadding(
-                  EdgeInsets.only(top: 40.h),
-                ),
                 Image.asset(
                   EnvAssets.getImagePath('congratulations'),
                   width: 400.w,
                   height: 400.h,
                 ),
-                ConfettiWidget(
-                  confettiController: controller,
-                  shouldLoop: true,
-                  blastDirection: pi / 2,
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: ConfettiWidget(
+                    confettiController: controller,
+                    shouldLoop: true,
+                    blastDirection: pi / 2,
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  //bottom: 20.h,
+                  child: ThreeDText(
+                    text: 'Registration Successful',
+                    depth: 5.h,
+                    textStyle: TextStyle(
+                      fontFamily: 'Monteserrat',
+                      fontSize: 20.sp,
+                      fontWeight: FontWeight.w600,
+                      color: Theme.of(context).colorScheme.onBackground,
+                    ),
+                  ).afmPadding(
+                    EdgeInsets.only(bottom: 20.h),
+                  ),
                 ),
               ],
             ).afmPadding(
@@ -160,7 +127,14 @@ class _PostSignUpState extends State<PostSignUp> with TickerProviderStateMixin {
                             setState(() {
                               ref.read(instaLoginController)
                                 ..toCheckBox(true)
-                                ..doRememberMe()
+                                ..doRememberMe(
+                                  ref
+                                          .read(instaSignUpController)
+                                          .data
+                                          .user
+                                          ?.email ??
+                                      '',
+                                )
                                 ..writeLoggedIn();
 
                               debugPrint('user has decided to remember me');

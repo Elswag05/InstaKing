@@ -33,10 +33,8 @@ class PlaceOrderState extends ConsumerState<PlaceOrder> {
   String categoryText() {
     String showCategoryText = 'Choose Category';
     if (ref.watch(instaCategoriesController).isCatSet) {
-      // setState(() {
       showCategoryText =
           ref.watch(instaCategoriesController).selectedCategoryName;
-      //  });
     } else {
       showCategoryText = 'Choose Category';
     }
@@ -46,20 +44,19 @@ class PlaceOrderState extends ConsumerState<PlaceOrder> {
   String servicesText() {
     String showServiceText = 'Choose service';
     if (ref.watch(instaCategoriesController).isServiceSet) {
-      // setState(() {
       showServiceText =
           ref.watch(instaCategoriesController).selectedServiceName;
-      //  });
     } else {
       showServiceText = 'Choose Service';
     }
+
     return showServiceText;
   }
 
   @override
   void initState() {
-    super.initState();
     linkController = TextEditingController();
+    super.initState();
     //LocalNotificationService.initialize();
     // FirebaseMessaging.instance.getInitialMessage().then((message) {});
     // FirebaseMessaging.onMessageOpenedApp.listen((message) {
@@ -76,8 +73,7 @@ class PlaceOrderState extends ConsumerState<PlaceOrder> {
             body: SafeArea(
               child: Column(
                 children: [
-                  const RecurringAppBar(appBarTitle: "Place Order")
-                      .afmPadding(EdgeInsets.only(bottom: 10.h)),
+                  const RecurringAppBar(appBarTitle: "Place Order"),
                   Container(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -174,7 +170,7 @@ class PlaceOrderState extends ConsumerState<PlaceOrder> {
                                     },
                                   ).show();
                                   LocalNotification.showPurchaseNotification(
-                                    title: 'Insta King ♛ \nOrder Successful',
+                                    title: 'InstaKing ♛ \nOrder Successful',
                                     body:
                                         'Dear ${ref.read(instaProfileController.notifier).model.user?.fullname},\nYour purchase of ${formatBalance(
                                       ref
@@ -205,7 +201,7 @@ class PlaceOrderState extends ConsumerState<PlaceOrder> {
                                                   .watch(textValueProvider)
                                                   .textValue),
                                     )}',
-                                    payload: 'payload',
+                                    payload: '',
                                   );
                                 } else {
                                   // Handle failure or other cases
@@ -244,37 +240,3 @@ class PlaceOrderState extends ConsumerState<PlaceOrder> {
     });
   }
 }
-
-// SharedDropDown(
-//   key: GlobalKey<FormFieldState<String>>(),
-//   future: Future.delayed(Durations.long4, () {
-//     return categoriesController.toGetAllCategories();
-//   }),
-//   text: 'Choose Category',
-//   selectedValue: selectedCategoryValue,
-//   dropdownItems: categoryDropDownItems,
-//   onChanged: (String? newCategoryValue) {
-//     setState(() {
-//       categoriesController
-//           .setSelectedValue(newCategoryValue ?? '');
-//       categoriesController
-//           .toGetDropdownItemsById(newCategoryValue!);
-//     });
-//   },
-// ),
-// SharedDropDown(
-//   key: GlobalKey<FormFieldState<String>>(),
-//   future: Future.wait([
-//     categoriesController.toGetAllCategories(),
-//     categoriesController
-//         .setSelectedValue(selectedCategoryValue),
-//   ]),
-//   text: 'Choose Service',
-//   selectedValue: selectedServiceValue,
-//   dropdownItems: servicesDropDownItems,
-//   onChanged: (String? newServiceValue) {
-//     setState(() {
-//       categoriesController.setNewValue(newServiceValue);
-//     });
-//   },
-// ),

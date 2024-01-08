@@ -15,14 +15,15 @@ class CategoryScreen extends ConsumerStatefulWidget {
 
 class _MyWidgetState extends ConsumerState<CategoryScreen> {
   late final CategoriesController categoriesControllerScreen =
-      ref.read(instaCategoriesController.notifier);
+      ref.watch(instaCategoriesController);
 
   @override
   Widget build(BuildContext context) {
-    Future(() async {
-      await ref.read(instaCategoriesController.notifier).toGetDropdownItemsById(
-          ref.read(instaCategoriesController.notifier).selectedCategory);
-    });
+    // Future(() async {
+    //   await ref.read(instaCategoriesController).toGetDropdownItemsById(
+    //         ref.read(instaCategoriesController).selectedCategory,
+    //       );
+    // });
     return FutureBuilder(
       future: categoriesControllerScreen.toGetAllCategories(),
       builder: ((context, snapshot) {
@@ -40,7 +41,10 @@ class _MyWidgetState extends ConsumerState<CategoryScreen> {
             backgroundColor: Theme.of(context).colorScheme.background,
             appBar: AppBar(
               leading: GestureDetector(
-                onTap: () => Navigator.pop(context),
+                onTap: () {
+                  Navigator.pop(context);
+                  // setState(() {});
+                },
                 child: const Icon(
                   Icons.arrow_back_ios_new_rounded,
                 ),
@@ -66,8 +70,8 @@ class _MyWidgetState extends ConsumerState<CategoryScreen> {
                           category.id, category.name);
                       debugPrint(
                           'ID: ${category.id.toString()} and NAME: ${category.name.toString()}');
-                      categoriesControllerScreen
-                          .toGetDropdownItemsById(category.id);
+                      // categoriesControllerScreen
+                      //     .toGetDropdownItemsById(category.id);
                       Navigator.pop(context);
                     },
                     child: Container(

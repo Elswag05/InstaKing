@@ -1,8 +1,8 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:insta_king/core/constants/enum.dart';
@@ -22,7 +22,12 @@ final instaLoginController =
 class LoginController extends BaseChangeNotifier {
   late bool _rememberMe = false;
 
+  late bool authenticated = false;
+  late bool canCheckBiometrics;
+
   bool get isBoxChecked => _rememberMe;
+  final LocalAuthentication auth = LocalAuthentication();
+  late List<BiometricType> availableBiometrics;
 
   void toCheckBox(value) {
     _rememberMe = value;
@@ -32,12 +37,19 @@ class LoginController extends BaseChangeNotifier {
     notifyListeners();
   }
 
+  initBiomLoginAuth() async {
+    canCheckBiometrics = await auth.canCheckBiometrics;
+    availableBiometrics = await auth.getAvailableBiometrics();
+    debugPrint(
+        'This device can check for user biometrics == $canCheckBiometrics');
+    debugPrint('List of auth available == $availableBiometrics');
+  }
+
   final loginService = LoginService();
   final logOutService = SignOutService();
   final changePasswordService = ChangePasswordService();
   final resetPasswordService = ResetPasswordService();
   late InstaLoginModel data;
-  final LocalAuthentication _localAuthentication = LocalAuthentication();
 
   final SecureStorageService secureStorageService =
       SecureStorageService(secureStorage: const FlutterSecureStorage());
@@ -51,10 +63,37 @@ class LoginController extends BaseChangeNotifier {
     }
   }
 
-  Future setUserToUSeBiometric() async {
+  Future<bool> toAuthenticate() async {
+    try {
+      debugPrint('Starting biometric auth process');
+      if (canCheckBiometrics == true || availableBiometrics != []) {
+        String message = "Sorry! You do not have Biometric bnlock available";
+        locator<ToastService>().showErrorToast(
+          message,
+        );
+      } else {
+        authenticated = await auth.authenticate(
+          localizedReason: 'Authenticate to log in',
+          options: const AuthenticationOptions(
+            stickyAuth: true,
+          ),
+        );
+        debugPrint('User is authenticated ==> $authenticated');
+      }
+    } on PlatformException catch (e) {
+      debugPrint('$e');
+      debugPrint(e.code);
+      debugPrint('${e.details}');
+      debugPrint('${e.message}');
+    }
+    return authenticated;
+  }
+
+  Future setUserToUSeBiometric(emailHere) async {
     try {
       if (_rememberMe) {
-        doRememberMe();
+        doRememberMe(emailHere);
+        toCheckBox(true);
       }
     } catch (e) {
       debugPrint('$e');
@@ -66,6 +105,7 @@ class LoginController extends BaseChangeNotifier {
       if (!_rememberMe) {
         debugPrint('User detail has been removed from system');
         await locator<SecureStorageService>().delete(key: InstaStrings.email);
+        toCheckBox(false);
       }
     } catch (e) {
       debugPrint('$e');
@@ -79,12 +119,12 @@ class LoginController extends BaseChangeNotifier {
     );
   }
 
-  doRememberMe() async {
+  doRememberMe(String email) async {
     debugPrint(_rememberMe.toString());
     debugPrint('Remember me logic is called');
     await locator<SecureStorageService>().write(
       key: InstaStrings.email,
-      value: data.user?.email ?? '',
+      value: email,
     );
   }
 
@@ -101,7 +141,7 @@ class LoginController extends BaseChangeNotifier {
         );
         writeLoggedIn();
         if (_rememberMe) {
-          doRememberMe();
+          doRememberMe(data.user?.email ?? '');
         }
         if (data.status == 'error') {
           locator<ToastService>().showSuccessToast(
@@ -116,6 +156,7 @@ class LoginController extends BaseChangeNotifier {
           return true;
         }
         loadingState = LoadingState.idle;
+        notifyListeners();
       } else {
         throw Error();
       }
@@ -130,7 +171,7 @@ class LoginController extends BaseChangeNotifier {
   }
 
   Future<bool> signOut() async {
-    loadingState = LoadingState.loading;
+    //loadingState = LoadingState.loading;
     try {
       final res = await logOutService.logOut();
       if (res.statusCode == 200) {
@@ -143,10 +184,10 @@ class LoginController extends BaseChangeNotifier {
         throw Error();
       }
     } on DioException catch (e) {
-      loadingState = LoadingState.error;
+      // loadingState = LoadingState.error;
       ErrorService.handleErrors(e);
     } catch (e) {
-      loadingState = LoadingState.error;
+      //  loadingState = LoadingState.error;
       ErrorService.handleErrors(e);
     }
     return false;

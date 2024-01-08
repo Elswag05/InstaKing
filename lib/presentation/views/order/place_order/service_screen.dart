@@ -17,13 +17,14 @@ class ServiceScreen extends ConsumerStatefulWidget {
 
 class _MyWidgetState extends ConsumerState<ServiceScreen> {
   late final CategoriesController servicesControllerScreen =
-      ref.read(instaCategoriesController.notifier);
+      ref.watch(instaCategoriesController);
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: servicesControllerScreen.toGetOneServiceDetail(
-          ref.read(instaCategoriesController).selectedCategory),
+        ref.read(instaCategoriesController).selectedCategory,
+      ),
       builder: ((context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Scaffold(
