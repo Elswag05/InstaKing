@@ -114,7 +114,7 @@ class InstaSplashState extends State<InstaSplash>
                   ),
                   child: Center(
                     child: Image.asset(
-                      EnvAssets.getImagePath('crown'),
+                      EnvAssets.getImagePath('instaking-logo'),
                       width: 50,
                       height: 50,
                     ),

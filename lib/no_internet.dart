@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
 import 'package:insta_king/presentation/controllers/insta_network_controller.dart';
+import 'package:insta_king/presentation/views/shared_widgets/cta_button.dart';
 import 'package:lottie/lottie.dart';
 
 class NoInternet extends ConsumerStatefulWidget {
@@ -51,24 +52,39 @@ class _NoInternetState extends ConsumerState<NoInternet>
         triggerMode: RefreshIndicatorTriggerMode.anywhere,
         onRefresh: _handleRefresh,
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Center(
-              child: SizedBox(
-                width: 150.w,
-                height: 150.h,
-                child: Center(
-                  child: Lottie.asset(
-                    "assets/animation/no_internet.json",
-                    controller: _controller,
-                    onLoaded: (composition) {
-                      _controller
-                        ..duration = composition.duration
-                        ..repeat();
-                    },
-                  ),
+            SizedBox(
+              width: 150.w,
+              height: 150.h,
+              child: Center(
+                child: Lottie.asset(
+                  "assets/animation/no_internet.json",
+                  controller: _controller,
+                  onLoaded: (composition) {
+                    _controller
+                      ..duration = composition.duration
+                      ..repeat();
+                  },
                 ),
               ),
             ),
+            Text(
+              'Please check your internet connection\n',
+              style: TextStyle(
+                fontFamily: 'Monteserrat',
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w500,
+                color: Theme.of(context).colorScheme.onBackground,
+              ),
+            ),
+            CustomButton(
+                pageCTA: 'Refresh',
+                buttonOnPressed: () {
+                  _handleRefresh();
+                  setState(() {});
+                }),
           ],
         ).afmNeverScroll,
       ),
