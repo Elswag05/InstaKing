@@ -7,6 +7,7 @@ import 'package:insta_king/core/extensions/widget_extension.dart';
 import 'package:insta_king/presentation/controllers/insta_categories_controller.dart';
 import 'package:insta_king/presentation/views/home/home_card_widgets.dart';
 import 'package:insta_king/presentation/views/shared_widgets/shared_loading.dart';
+import 'package:lottie/lottie.dart';
 
 class ServiceScreen extends ConsumerStatefulWidget {
   const ServiceScreen({super.key});
@@ -15,23 +16,43 @@ class ServiceScreen extends ConsumerStatefulWidget {
   ConsumerState<ServiceScreen> createState() => _MyWidgetState();
 }
 
-class _MyWidgetState extends ConsumerState<ServiceScreen> {
+class _MyWidgetState extends ConsumerState<ServiceScreen>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
   late final CategoriesController servicesControllerScreen =
       ref.watch(instaCategoriesController);
 
   @override
+  void initState() {
+    _controller = AnimationController(vsync: this);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: servicesControllerScreen.toGetOneServiceDetail(
-        ref.read(instaCategoriesController).selectedCategory,
-      ),
+      future: Future.delayed(Durations.long1, () {}),
       builder: ((context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Scaffold(
             body: Center(child: TransparentLoadingScreen()),
           ); // Show loading indicator while fetching data
         } else if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
+          return Lottie.asset(
+            "assets/animation/null-animation.json",
+            controller: _controller,
+            onLoaded: (composition) {
+              _controller
+                ..duration = composition.duration
+                ..repeat();
+            },
+          );
         } else {
           // Use ListView.builder with the data returned by toGetAllCategories
           List<ServiceItem> services =
@@ -50,7 +71,7 @@ class _MyWidgetState extends ConsumerState<ServiceScreen> {
                   fontFamily: 'Monteserrat',
                   fontWeight: FontWeight.w600,
                   fontSize: 18.sp,
-                  color: Theme.of(context).colorScheme.onBackground,
+                  color: Theme.of(context).colorScheme.onSurface,
                 ),
               ),
             ),
@@ -63,7 +84,10 @@ class _MyWidgetState extends ConsumerState<ServiceScreen> {
                     onTap: () {
                       setState(() {
                         servicesControllerScreen.setServiceValue(
-                            servicesItem.id, servicesItem.name);
+                          servicesItem.id,
+                          servicesItem.name,
+                          servicesItem.price,
+                        );
                       });
                       debugPrint(
                           'ID: ${servicesItem.id} and the service NAME: ${servicesItem.name}');

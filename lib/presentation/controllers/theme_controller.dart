@@ -25,7 +25,7 @@ class ThemeController extends BaseChangeNotifier {
     currentTheme =
         isDarkTheme ? EnvThemeManager.lightTheme : EnvThemeManager.darkTheme;
     //log('Your current theme is ${currentTheme.toString()}');
-    print('Theme changed, value is now: ${isDarkTheme.toString()}');
+    debugPrint('Theme changed, value is now: ${isDarkTheme.toString()}');
     notifyListeners();
   }
 

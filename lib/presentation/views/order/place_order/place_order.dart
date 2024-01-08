@@ -29,6 +29,7 @@ class PlaceOrder extends ConsumerStatefulWidget {
 
 class PlaceOrderState extends ConsumerState<PlaceOrder> {
   late TextEditingController linkController = TextEditingController();
+  late TextValueNotifier textValueNotifier = ref.read(textValueProvider);
 
   String categoryText() {
     String showCategoryText = 'Choose Category';
@@ -56,6 +57,7 @@ class PlaceOrderState extends ConsumerState<PlaceOrder> {
   @override
   void initState() {
     linkController = TextEditingController();
+    textValueNotifier = ref.read(textValueProvider);
     super.initState();
     //LocalNotificationService.initialize();
     // FirebaseMessaging.instance.getInitialMessage().then((message) {});
@@ -87,6 +89,7 @@ class PlaceOrderState extends ConsumerState<PlaceOrder> {
                           child: buildLoadingContainer(
                             categoryText(),
                             'Category',
+                            context,
                           ),
                         ),
                         GestureDetector(
@@ -98,6 +101,7 @@ class PlaceOrderState extends ConsumerState<PlaceOrder> {
                           child: buildLoadingContainer(
                             servicesText(),
                             'Services',
+                            context,
                           ),
                         ),
                         CollectPersonalDetailModel(
@@ -113,7 +117,9 @@ class PlaceOrderState extends ConsumerState<PlaceOrder> {
                           controller: ref.read(textControllerProvider),
                           isdigit: [FilteringTextInputFormatter.digitsOnly],
                           onChanged: (value) {
+                            textValueNotifier.textValue = value;
                             ref.read(textValueProvider).textValue = value;
+                            setState(() {});
                           },
                         ),
                         Column(
@@ -124,15 +130,13 @@ class PlaceOrderState extends ConsumerState<PlaceOrder> {
                               buttonTextColor: InstaColors.lightColor,
                               pageCTA: "Charge: ${formatBalance(
                                 ref
-                                    .read(instaCategoriesController)
+                                    .watch(instaCategoriesController)
                                     .calculatePricePerUnit(
-                                        ref
-                                                .read(instaCategoriesController)
-                                                .getOneServiceDetailsModel
-                                                .data
-                                                ?.price ??
-                                            '0.0',
-                                        ref.watch(textValueProvider).textValue),
+                                      ref
+                                          .read(instaCategoriesController)
+                                          .selectedServicePrice,
+                                      ref.watch(textValueProvider).textValue,
+                                    ),
                               )}",
                             ),
                           ],
@@ -174,29 +178,23 @@ class PlaceOrderState extends ConsumerState<PlaceOrder> {
                                     body:
                                         'Dear ${ref.read(instaProfileController.notifier).model.user?.fullname},\nYour purchase of ${formatBalance(
                                       ref
-                                          .read(instaCategoriesController)
+                                          .watch(instaCategoriesController)
                                           .calculatePricePerUnit(
                                               ref
-                                                      .read(
-                                                          instaCategoriesController)
-                                                      .getOneServiceDetailsModel
-                                                      .data
-                                                      ?.price ??
-                                                  '0.0',
+                                                  .read(
+                                                      instaCategoriesController)
+                                                  .selectedServicePrice,
                                               ref
                                                   .watch(textValueProvider)
                                                   .textValue),
                                     )} is successful.\nYour available insta balance is ₦${ref.read(instaProfileController.notifier).model.user?.balance}.\nPurchase Details  ::: \nName: ${ref.read(instaCategoriesController).selectedServiceName}\nCategory: ${ref.read(instaCategoriesController).selectedCategoryName}\nAmount: ${formatBalance(
                                       ref
-                                          .read(instaCategoriesController)
+                                          .watch(instaCategoriesController)
                                           .calculatePricePerUnit(
                                               ref
-                                                      .read(
-                                                          instaCategoriesController)
-                                                      .getOneServiceDetailsModel
-                                                      .data
-                                                      ?.price ??
-                                                  '0.0',
+                                                  .read(
+                                                      instaCategoriesController)
+                                                  .selectedServicePrice,
                                               ref
                                                   .watch(textValueProvider)
                                                   .textValue),

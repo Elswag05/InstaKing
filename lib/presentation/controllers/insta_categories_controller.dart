@@ -55,10 +55,12 @@ class CategoriesController extends BaseChangeNotifier {
   late List<dynamic>? filteredServiceData = [];
   late String _selectedServiceValue = '9486';
   late String _selectedServiceName;
+  late String _selectedServicePrice = '0.0';
   late String _selectedCategoryValue = '703';
   late String _selectedCategoryName;
   String get selectedService => _selectedServiceValue;
   String get selectedServiceName => _selectedServiceName;
+  String get selectedServicePrice => _selectedServicePrice;
   String get selectedCategory => _selectedCategoryValue;
   String get selectedCategoryName => _selectedCategoryName;
   bool _isCatSet = false;
@@ -87,9 +89,10 @@ class CategoriesController extends BaseChangeNotifier {
     notifyListeners();
   }
 
-  void setServiceValue(String newValue, String name) {
+  void setServiceValue(String newValue, String name, String price) {
     _selectedServiceValue = newValue;
     _selectedServiceName = name;
+    _selectedServicePrice = price;
     _isServiceSet = true;
     notifyListeners();
   }
@@ -103,6 +106,9 @@ class CategoriesController extends BaseChangeNotifier {
     double pricePerUnit = (intakePrice / 1000) * quantity;
     //notifyListeners();
     // Return the result as a string
+    debugPrint('$pricePerUnit');
+    debugPrint('This is the price o $intakePriceStr');
+    debugPrint(' We have to order this amount $quantityStr');
     return pricePerUnit.toString();
   }
 

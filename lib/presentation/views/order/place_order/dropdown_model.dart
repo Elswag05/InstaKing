@@ -78,7 +78,7 @@ import 'package:insta_king/core/extensions/widget_extension.dart';
 //     );
 //   }
 
-Widget buildLoadingContainer(String keyWord, heading) {
+Widget buildLoadingContainer(String keyWord, heading, BuildContext context) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
@@ -88,7 +88,7 @@ Widget buildLoadingContainer(String keyWord, heading) {
           fontFamily: 'Montesserat',
           fontSize: 15.sp,
           fontWeight: FontWeight.w600,
-          color: InstaColors.mildGrey,
+          color: Theme.of(context).colorScheme.onSurface,
         ),
       ),
       Container(

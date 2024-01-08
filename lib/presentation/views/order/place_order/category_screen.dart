@@ -55,7 +55,7 @@ class _MyWidgetState extends ConsumerState<CategoryScreen> {
                   fontFamily: 'Monteserrat',
                   fontWeight: FontWeight.w600,
                   fontSize: 18.sp,
-                  color: Theme.of(context).colorScheme.onBackground,
+                  color: Theme.of(context).colorScheme.onSurface,
                 ),
               ),
             ),
@@ -70,8 +70,8 @@ class _MyWidgetState extends ConsumerState<CategoryScreen> {
                           category.id, category.name);
                       debugPrint(
                           'ID: ${category.id.toString()} and NAME: ${category.name.toString()}');
-                      // categoriesControllerScreen
-                      //     .toGetDropdownItemsById(category.id);
+                      categoriesControllerScreen
+                          .toGetDropdownItemsById(category.id);
                       Navigator.pop(context);
                     },
                     child: Container(
