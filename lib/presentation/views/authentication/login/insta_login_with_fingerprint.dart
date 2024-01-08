@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insta_king/presentation/controllers/insta_dashboard_controller.dart';
 import 'package:insta_king/presentation/controllers/insta_login_controller.dart';
 import 'package:insta_king/presentation/views/authentication/auth_shared/base_auth_view.dart';
@@ -86,7 +87,7 @@ class _InstaLoginWithFingerprintState
                   isForgotPassword: true,
                   inversePageName: ' Use details instead',
                   isLoginWithFingerPrint: true,
-                  toSignOrLogin: () {
+                  toPerformAuthAction: () {
                     ref
                         .read(instaLoginController)
                         .toAuthenticate()
@@ -99,14 +100,21 @@ class _InstaLoginWithFingerprintState
                       debugPrint('INFO: To login with fingerprint');
                     });
                   },
-                  anyWidget1: Lottie.asset(
-                    "assets/animation/fingerprint.json",
-                    controller: _controller,
-                    onLoaded: (composition) {
-                      _controller
-                        ..duration = composition.duration
-                        ..repeat();
-                    },
+                  anyWidget1: Container(
+                    padding: EdgeInsets.only(
+                      top: 60.h,
+                      bottom: 30.h,
+                    ),
+                    child: Lottie.asset(
+                      "assets/animation/fingerprint.json",
+                      width: 300.w,
+                      controller: _controller,
+                      onLoaded: (composition) {
+                        _controller
+                          ..duration = composition.duration
+                          ..repeat();
+                      },
+                    ),
                   ),
                 );
               }),

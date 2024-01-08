@@ -199,7 +199,8 @@ class _InstaProfileState extends State<InstaProfile> {
                                         });
                                       } else {
                                         debugPrint(
-                                            'User Biometric is NOTactive');
+                                          'User Biometric is NOTactive',
+                                        );
                                         ref
                                             .read(instaLoginController)
                                             .removeUserFromBiometric();

@@ -137,6 +137,7 @@ class _InstaKing extends ConsumerState<InstaKingGuide> {
                               } else if (email == null || email.isEmpty) {
                                 return const InstaAuthNavigator();
                               } else if (email.isNotEmpty) {
+                                ref.read(instaLoginController).toCheckBox(true);
                                 return const InstaLoginWithFingerprint();
                               }
                             }

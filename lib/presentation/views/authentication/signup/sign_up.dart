@@ -26,7 +26,6 @@ class _SignUpState extends ConsumerState<SignUp> {
   late final TextEditingController passwordController;
   late final TextEditingController referralController;
   late final instaSignInState = ref.watch(instaSignUpController);
-  late final LoadingState loadingState = instaSignInState.loadingState;
 
   @override
   void initState() {
@@ -54,6 +53,7 @@ class _SignUpState extends ConsumerState<SignUp> {
 
   @override
   Widget build(BuildContext context) {
+    final LoadingState loadingState = instaSignInState.loadingState;
     return Consumer(
       builder: (context, ref, child) {
         return Stack(
@@ -131,10 +131,11 @@ class _SignUpState extends ConsumerState<SignUp> {
                   builder: (context) => const InstaLogin(),
                 ));
               },
-              toSignOrLogin: () {
+              toPerformAuthAction: () {
                 debugPrint(
                   'INFO: To Create an account with email:${emailController.text} and password: ${passwordController.text} and ID: ${referralController.text}',
                 );
+                setState(() {});
                 ref
                     .read(instaSignUpController.notifier)
                     .signUp(

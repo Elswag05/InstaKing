@@ -34,7 +34,7 @@ class LoginController extends BaseChangeNotifier {
     _rememberMe == true
         ? debugPrint('User biometric Auth set to true || $_rememberMe')
         : debugPrint('This value is false || $_rememberMe... Biometric Auth');
-    notifyListeners();
+    // notifyListeners();
   }
 
   initBiomLoginAuth() async {
@@ -67,11 +67,6 @@ class LoginController extends BaseChangeNotifier {
     try {
       debugPrint('Starting biometric auth process');
       if (canCheckBiometrics == true || availableBiometrics != []) {
-        String message = "Sorry! You do not have Biometric bnlock available";
-        locator<ToastService>().showErrorToast(
-          message,
-        );
-      } else {
         authenticated = await auth.authenticate(
           localizedReason: 'Authenticate to log in',
           options: const AuthenticationOptions(
@@ -79,6 +74,11 @@ class LoginController extends BaseChangeNotifier {
           ),
         );
         debugPrint('User is authenticated ==> $authenticated');
+      } else {
+        String message = "Sorry! You do not have Biometric bnlock available";
+        locator<ToastService>().showErrorToast(
+          message,
+        );
       }
     } on PlatformException catch (e) {
       debugPrint('$e');
@@ -130,7 +130,6 @@ class LoginController extends BaseChangeNotifier {
 
   Future<bool> signIn(String email, password) async {
     loadingState = LoadingState.loading;
-    notifyListeners();
     try {
       final res = await loginService.signIn(email: email, password: password);
       if (res.statusCode == 200) {
@@ -156,7 +155,6 @@ class LoginController extends BaseChangeNotifier {
           return true;
         }
         loadingState = LoadingState.idle;
-        notifyListeners();
       } else {
         throw Error();
       }
@@ -227,11 +225,10 @@ class LoginController extends BaseChangeNotifier {
         username: userName,
       );
       if (res.statusCode == 200) {
-        loadingState = LoadingState.idle;
         locator<ToastService>().showSuccessToast(
           'Check your mail to reset password!',
         );
-        return true;
+        loadingState = LoadingState.idle;
       } else {
         // throw Error();
       }

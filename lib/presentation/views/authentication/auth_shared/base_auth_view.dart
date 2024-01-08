@@ -28,7 +28,7 @@ class BaseAuthView extends StatefulWidget {
   final Widget? anyWidget4;
   final Widget? anyWidget5;
   final Widget? anyWidget6;
-  final void Function()? toSignOrLogin;
+  final void Function()? toPerformAuthAction;
 
   const BaseAuthView({
     Key? key,
@@ -52,7 +52,7 @@ class BaseAuthView extends StatefulWidget {
     this.anyWidget4 = const SizedBox(),
     this.anyWidget5 = const SizedBox(),
     this.anyWidget6 = const SizedBox(),
-    this.toSignOrLogin,
+    this.toPerformAuthAction,
   }) : super(key: key);
 
   @override
@@ -159,7 +159,7 @@ class _BaseAuthViewState extends State<BaseAuthView> {
           ),
           CustomButton(
             pageCTA: widget.pageCTA,
-            buttonOnPressed: widget.toSignOrLogin,
+            buttonOnPressed: widget.toPerformAuthAction,
             agreeTC: widget.isLogin ? false : !widget.checked,
           ),
           SizedBox(

@@ -23,7 +23,7 @@ class _InstaLoginState extends ConsumerState<InstaLogin>
   late final TextEditingController userEmailController;
   late final TextEditingController passwordController;
   late final instaLoginState = ref.watch(instaLoginController);
-  late final LoadingState loadingState = instaLoginState.loadingState;
+
   DashBoardController dash = DashBoardController();
 
   @override
@@ -44,6 +44,7 @@ class _InstaLoginState extends ConsumerState<InstaLogin>
 
   @override
   Widget build(BuildContext context) {
+    final LoadingState loadingState = instaLoginState.loadingState;
     return Consumer(
       builder: (context, ref, child) {
         return Stack(
@@ -80,7 +81,8 @@ class _InstaLoginState extends ConsumerState<InstaLogin>
                     ));
                   },
                   isLoginWithFingerPrint: false,
-                  toSignOrLogin: () {
+                  toPerformAuthAction: () {
+                    setState(() {});
                     ref
                         .read(instaLoginController.notifier)
                         .signIn(

@@ -48,9 +48,7 @@ class _NoInternetState extends ConsumerState<NoInternet>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: RefreshIndicator(
-        triggerMode: RefreshIndicatorTriggerMode.anywhere,
-        onRefresh: _handleRefresh,
+      body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -58,16 +56,18 @@ class _NoInternetState extends ConsumerState<NoInternet>
             SizedBox(
               width: 150.w,
               height: 150.h,
-              child: Center(
-                child: Lottie.asset(
-                  "assets/animation/no_internet.json",
-                  controller: _controller,
-                  onLoaded: (composition) {
-                    _controller
-                      ..duration = composition.duration
-                      ..repeat();
-                  },
-                ),
+              child: Lottie.asset(
+                "assets/animation/no_internet.json",
+                controller: _controller,
+                onLoaded: (composition) {
+                  _controller
+                    ..duration = composition.duration
+                    ..repeat();
+                },
+              ),
+            ).afmPadding(
+              EdgeInsets.only(
+                bottom: 50.h,
               ),
             ),
             Text(
@@ -87,6 +87,10 @@ class _NoInternetState extends ConsumerState<NoInternet>
                 }),
           ],
         ).afmNeverScroll,
+      ).afmPadding(
+        EdgeInsets.only(
+          bottom: 50.h,
+        ),
       ),
     );
   }

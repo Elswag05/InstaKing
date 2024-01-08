@@ -21,10 +21,10 @@ class InstaAuthNavigator extends StatelessWidget {
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Image.asset(
-                    EnvAssets.getImagePath('crown'),
+                    EnvAssets.getImagePath('instaking-logo'),
                     width: 60,
                     height: 60,
                   ),
@@ -36,7 +36,10 @@ class InstaAuthNavigator extends StatelessWidget {
                       color: Theme.of(context).colorScheme.onBackground,
                     ),
                   ).afmPadding(
-                    EdgeInsets.only(left: 5.h),
+                    EdgeInsets.only(
+                      left: 5.h,
+                      top: 5.h,
+                    ),
                   ),
                 ],
               ).afmPadding(

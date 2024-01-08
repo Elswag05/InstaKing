@@ -40,7 +40,6 @@ class SignUpController extends BaseChangeNotifier {
     referralCode,
   ) async {
     loadingState = LoadingState.loading;
-    notifyListeners();
     try {
       final res = await signUpService.signUp(
         email: email,
@@ -57,13 +56,13 @@ class SignUpController extends BaseChangeNotifier {
           key: InstaStrings.token,
           value: data.token ?? '',
         );
-
-        locator<ToastService>().showSuccessToast(
-          'You are signed in',
-        );
+        if (data.status == 'success') {
+          locator<ToastService>().showSuccessToast(
+            'You are signed in',
+          );
+          return true;
+        }
         loadingState = LoadingState.idle;
-        notifyListeners();
-        return true;
       } else {
         throw Error();
       }
