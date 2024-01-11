@@ -64,15 +64,17 @@ class SignUpController extends BaseChangeNotifier {
         }
         loadingState = LoadingState.idle;
       } else {
+        loadingState = LoadingState.idle;
         throw Error();
       }
     } on DioException catch (e) {
-      loadingState = LoadingState.error;
+      loadingState = LoadingState.idle;
       ErrorService.handleErrors(e);
     } catch (e) {
-      loadingState = LoadingState.error;
+      loadingState = LoadingState.idle;
       ErrorService.handleErrors(e);
     }
+    loadingState = LoadingState.idle;
     return false;
   }
 }

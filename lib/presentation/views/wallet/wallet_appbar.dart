@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:insta_king/core/constants/env_assets.dart';
-import 'package:insta_king/presentation/controllers/insta_transactions_controller.dart';
 import 'package:insta_king/presentation/views/transactions/insta_transactions.dart';
+import 'package:insta_king/presentation/views/wallet/deposits.dart';
 
 class WalletAppBar extends StatelessWidget {
   const WalletAppBar({super.key});

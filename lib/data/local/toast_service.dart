@@ -8,6 +8,7 @@ class ToastService {
   }
 
   void showErrorToast(String message) {
+    if (message != '') {}
     _showToast(message);
   }
 

@@ -8,19 +8,22 @@ class CollectPersonalDetailModel extends StatefulWidget {
   final String leadTitle;
   final String hintT;
   final bool isPasswordT;
+  final int? numberOfTexts;
   final List<TextInputFormatter>? isdigit;
   final TextEditingController? controller;
   final String? Function(String?)? validator;
   final Function(String)? onChanged;
-  const CollectPersonalDetailModel(
-      {super.key,
-      required this.leadTitle,
-      required this.hintT,
-      this.isPasswordT = false,
-      this.isdigit,
-      this.controller,
-      this.validator,
-      this.onChanged});
+  const CollectPersonalDetailModel({
+    super.key,
+    required this.leadTitle,
+    required this.hintT,
+    this.isPasswordT = false,
+    this.isdigit,
+    this.controller,
+    this.validator,
+    this.onChanged,
+    this.numberOfTexts,
+  });
 
   @override
   State<CollectPersonalDetailModel> createState() =>
@@ -49,6 +52,7 @@ class _CollectPersonalDetailModelState
           validator: widget.validator,
           autovalidateMode: AutovalidateMode.always,
           inputFormatters: widget.isdigit,
+          maxLength: widget.numberOfTexts,
           onChanged: widget.onChanged,
           style: TextStyle(
             fontSize: 13.sp,

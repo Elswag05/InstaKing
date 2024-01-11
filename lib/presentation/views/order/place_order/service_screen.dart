@@ -114,7 +114,7 @@ class _MyWidgetState extends ConsumerState<ServiceScreen>
                           ),
                           child: AutoSizeText(
                             servicesItem.name,
-                            minFontSize: 8.sp,
+                            minFontSize: 12.sp,
                             stepGranularity: 2.sp,
                             style: TextStyle(
                               fontFamily: 'Monteserrat',

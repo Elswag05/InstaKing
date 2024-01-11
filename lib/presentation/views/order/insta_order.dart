@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
 import 'package:insta_king/presentation/controllers/insta_categories_controller.dart';
 import 'package:insta_king/presentation/controllers/insta_order_controller.dart';
@@ -150,12 +151,12 @@ class _InstaOrderHistoryState extends ConsumerState<InstaOrderHistory>
     super.initState();
   }
 
-  @override
-  void dispose() {
-    textController.dispose();
-    _controller.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   textController.dispose();
+  //   _controller.dispose();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -262,43 +263,103 @@ class _InstaOrderHistoryState extends ConsumerState<InstaOrderHistory>
                                 _currentOrders!.isEmpty) {
                               debugPrint(
                                   'Length of orders ==> ${_currentOrders?.length}');
-                              return ListView.builder(
-                                itemCount: _currentOrders?.length ?? 0,
-                                itemBuilder: ((context, index) {
-                                  return OrderHistoryViewModel(
-                                    idText:
-                                        _currentOrders?[index].id.toString() ??
-                                            '',
-                                    dateHere: _currentOrders?[index]
-                                            .createdAt
-                                            .toString() ??
-                                        '',
-                                    linkHere: _currentOrders?[index].link ?? '',
-                                    priceHere: formatBalance(
-                                        _currentOrders?[index].price ?? '0'),
-                                    digitHere:
-                                        _currentOrders?[index].startCounter ??
-                                            '',
-                                    quantity:
-                                        _currentOrders?[index].quantity ?? '',
-                                    serviceHere:
-                                        _currentOrders?[index].serviceId ?? '',
-                                    remNant:
-                                        _currentOrders?[index].remain ?? '',
-                                    status: StatusContainer(
-                                      status: _currentOrders?[index].status ??
-                                          Status.PENDING,
+                              if (ref.read(instaOrderController).callReload) {}
+                              return RefreshIndicator(
+                                onRefresh: () async {
+                                  ref
+                                      .watch(instaOrderController)
+                                      .setReloadTrue();
+                                  ref
+                                      .read(instaOrderController)
+                                      .toGetAllOrders()
+                                      .then((value) {
+                                    ref
+                                        .read(instaOrderController)
+                                        .setRealoadFalse();
+                                  });
+                                },
+                                child: AnimationLimiter(
+                                  child: ListView.builder(
+                                    itemCount: _currentOrders?.length ?? 0,
+                                    physics: const BouncingScrollPhysics(
+                                      parent: AlwaysScrollableScrollPhysics(),
                                     ),
-                                  ).afmGetFuture(
-                                    Future(() => null
-                                        // ref
-                                        //     .read(instaCategoriesController)
-                                        //     .getOneServiceName(
-                                        //       _currentOrders?[index].serviceId,
-                                        //     ),
-                                        ),
-                                  );
-                                }),
+                                    itemBuilder: ((context, index) {
+                                      return AnimationConfiguration
+                                          .staggeredList(
+                                              position: index,
+                                              delay: const Duration(
+                                                milliseconds: 100,
+                                              ),
+                                              child: SlideAnimation(
+                                                duration: const Duration(
+                                                    milliseconds: 2500),
+                                                curve: Curves
+                                                    .fastLinearToSlowEaseIn,
+                                                horizontalOffset: 30,
+                                                verticalOffset: 300.0,
+                                                child: FlipAnimation(
+                                                  duration: const Duration(
+                                                    milliseconds: 3000,
+                                                  ),
+                                                  curve: Curves
+                                                      .fastLinearToSlowEaseIn,
+                                                  flipAxis: FlipAxis.y,
+                                                  child: OrderHistoryViewModel(
+                                                    idText:
+                                                        _currentOrders?[index]
+                                                                .id
+                                                                .toString() ??
+                                                            '',
+                                                    dateHere:
+                                                        _currentOrders?[index]
+                                                                .createdAt
+                                                                .toString() ??
+                                                            '',
+                                                    linkHere:
+                                                        _currentOrders?[index]
+                                                                .link ??
+                                                            '',
+                                                    priceHere: formatBalance(
+                                                        _currentOrders?[index]
+                                                                .price ??
+                                                            '0'),
+                                                    digitHere:
+                                                        _currentOrders?[index]
+                                                                .startCounter ??
+                                                            '',
+                                                    quantity:
+                                                        _currentOrders?[index]
+                                                                .quantity ??
+                                                            '',
+                                                    serviceHere:
+                                                        _currentOrders?[index]
+                                                                .serviceId ??
+                                                            '',
+                                                    remNant:
+                                                        _currentOrders?[index]
+                                                                .remain ??
+                                                            '',
+                                                    status: StatusContainer(
+                                                      status:
+                                                          _currentOrders?[index]
+                                                                  .status ??
+                                                              Status.PENDING,
+                                                    ),
+                                                  ).afmGetFuture(
+                                                    Future(() => null
+                                                        // ref
+                                                        //     .read(instaCategoriesController)
+                                                        //     .getOneServiceName(
+                                                        //       _currentOrders?[index].serviceId,
+                                                        //     ),
+                                                        ),
+                                                  ),
+                                                ),
+                                              ));
+                                    }),
+                                  ),
+                                ),
                               );
                             } else {
                               return Lottie.asset(

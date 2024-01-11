@@ -93,7 +93,7 @@ class _MyWidgetState extends ConsumerState<CategoryScreen> {
                       ),
                       child: AutoSizeText(
                         category.name,
-                        minFontSize: 8.sp,
+                        minFontSize: 12.sp,
                         stepGranularity: 2.sp,
                         style: TextStyle(
                           fontFamily: 'Monteserrat',

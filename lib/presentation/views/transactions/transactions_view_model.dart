@@ -35,7 +35,7 @@ class _OrderHistoryViewModelState extends State<TransactionViewModel> {
     return Container(
       width: MediaQuery.of(context).size.width - 40.sp,
       decoration: BoxDecoration(
-        color: InstaColors.lightColor,
+        color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(10.r),
       ),
       padding: EdgeInsets.all(20.w),
@@ -87,15 +87,6 @@ class _OrderHistoryViewModelState extends State<TransactionViewModel> {
             top: 70.h,
             child: darkText(widget.amount, context),
           ), //₦
-          // Positioned(
-          //   top: 110.h,
-          //   child: lightText('STATUS', context),
-          // ),
-          // Positioned(
-          //   left: MediaQuery.of(context).size.width / 4.w,
-          //   top: 110.h,
-          //   child: widget.status,
-          // ),
           Positioned(
             top: 90.h,
             child: lightText('MESSAGE', context),

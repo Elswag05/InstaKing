@@ -7,6 +7,7 @@ import 'package:insta_king/core/extensions/widget_extension.dart';
 import 'package:insta_king/presentation/controllers/insta_categories_controller.dart';
 import 'package:insta_king/presentation/controllers/insta_dashboard_controller.dart';
 import 'package:insta_king/presentation/controllers/insta_transactions_controller.dart';
+import 'package:insta_king/presentation/views/bill_payment/main_bill_payment.dart';
 import 'package:insta_king/presentation/views/order/place_order/place_order.dart';
 import 'package:insta_king/presentation/views/profile/sub_profile_views.dart/refer_and_earn/refer_and_earn.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -122,7 +123,15 @@ class ShortcutsTheWidget extends ConsumerWidget {
                 HomeColumn(
                   shortcutIcon: 'wifi',
                   shortcutText: 'Bill Payment',
-                  onTap: () {},
+                  onTap: () {
+                    Future.delayed(Duration.zero, () async {}).then((value) => {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => const MainBillPayment(),
+                            ),
+                          )
+                        });
+                  },
                 ),
               ],
             ).afmPadding(EdgeInsets.only(top: 20.sp, right: 25.sp)),

@@ -1,24 +1,28 @@
 // import 'package:flutter/material.dart';
-// import 'package:flutter_riverpod/flutter_riverpod.dart';
 // import 'package:flutter_screenutil/flutter_screenutil.dart';
+// import 'package:hooks_riverpod/hooks_riverpod.dart';
+// import 'package:insta_king/core/constants/env_colors.dart';
 // import 'package:insta_king/core/extensions/widget_extension.dart';
+// import 'package:insta_king/presentation/controllers/insta_deposit_controller.dart';
 // import 'package:insta_king/presentation/controllers/insta_transactions_controller.dart';
+// import 'package:insta_king/presentation/views/shared_widgets/recurring_appbar.dart';
 // import 'package:insta_king/presentation/views/shared_widgets/shared_loading.dart';
 // import 'package:insta_king/presentation/views/shared_widgets/small_cta.dart';
-// import 'package:insta_king/presentation/views/transactions/insta_transactions.dart';
 // import 'package:insta_king/presentation/views/transactions/transactions_view_model.dart';
+// import 'package:intl/intl.dart';
 // import 'package:lottie/lottie.dart';
 
-// class Deposits extends StatefulWidget {
-//   const Deposits({super.key});
+// class InstaDeposit extends StatefulWidget {
+//   const InstaDeposit({super.key});
 
 //   @override
-//   State<Deposits> createState() => _DepositsState();
+//   State<InstaDeposit> createState() => _InstaDepositState();
 // }
 
-// class _DepositsState extends State<Deposits>
+// class _InstaDepositState extends State<InstaDeposit>
 //     with SingleTickerProviderStateMixin {
 //   late final AnimationController _controller;
+//   late final List<int> numbers = [];
 
 //   @override
 //   void initState() {
@@ -34,117 +38,161 @@
 
 //   @override
 //   Widget build(BuildContext context) {
-//     return SizedBox(
-//       width: MediaQuery.of(context).size.width - 40.sp,
-//       child: Column(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: [
-//           Text(
-//             'Wallet Deposits',
-//             style: TextStyle(
-//               fontFamily: 'Montesserat',
-//               fontSize: 15.sp,
-//               fontWeight: FontWeight.bold,
-//             ),
-//           ).afmPadding(
-//             EdgeInsets.only(
-//               bottom: 20.sp,
-//             ),
-//           ),
-//           SizedBox(
-//             height: 510.h,
-//             child: Consumer(
-//               builder: ((context, ref, child) {
-//                 debugPrint(
-//                     '${ref.read(instaTransactionController).depositData}');
-//                 return ListView.builder(
-//                   itemCount: ref
-//                           .read(instaTransactionController)
-//                           .depositData
-//                           ?.length ??
-//                       0,
-//                   itemBuilder: ((context, index) {
-//                     return FutureBuilder(
-//                       future:
-//                           ref.read(instaTransactionController).getDeposits(),
-//                       builder: ((context, snapshot) {
-//                         if (snapshot.connectionState == ConnectionState.done) {
-//                           if (ref
-//                                   .watch(instaTransactionController)
-//                                   .depositData !=
-//                               []) {
-//                             setState(() {});
-//                             return Container(
-//                               color: Theme.of(context).cardColor,
-//                               child: TransactionViewModel(
-//                                 status: Text(ref
-//                                     .read(instaTransactionController)
-//                                     .depositModel[index]
-//                                     .status),
-//                                 type: Text(ref
-//                                     .read(instaTransactionController)
-//                                     .depositModel[index]
-//                                     .type),
+//     return Scaffold(
+//       body: Consumer(
+//         builder: (context, ref, child) {
+//           final tx = ref.read(instaDepositController);
+//           final trx = ref.read(instaDepositController).instaDepositsModel;
+//           ref.read(instaDepositController.notifier).getDeposits(tx.instaValue);
+//           debugPrint(
+//               'Next Page ${tx.isThereNextPage} Previous Page ${tx.isTherePreviousPage}');
+//           return SafeArea(
+//             child: Column(
+//               children: [
+//                 Row(
+//                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                   crossAxisAlignment: CrossAxisAlignment.center,
+//                   children: [
+//                     const RecurringAppBar(
+//                       appBarTitle: 'Transactions',
+//                     ).afmPadding(
+//                       EdgeInsets.only(
+//                         top: 10.h,
+//                       ),
+//                     ),
+//                     Row(
+//                       children: [
+//                         tx.isTherePreviousPage
+//                             ? GestureDetector(
+//                                 onTap: () {
+//                                   setState(() {});
+//                                   tx.getPreviousScreen();
+//                                 },
+//                                 child: Icon(
+//                                   Icons.navigate_before_outlined,
+//                                   semanticLabel:
+//                                       'Navigate to previous page url if any',
+//                                   size: 30.sp,
+//                                 ),
+//                               )
+//                             : GestureDetector(
+//                                 child: Icon(
+//                                   Icons.navigate_before_outlined,
+//                                   semanticLabel:
+//                                       'Unable to navigate,  because there is no previous page',
+//                                   color: InstaColors.mildGrey.withOpacity(0.5),
+//                                   size: 30.sp,
+//                                 ),
+//                               ),
+//                         tx.isThereNextPage
+//                             ? GestureDetector(
+//                                 onTap: () {
+//                                   setState(() {});
+//                                   tx.getNextScreen();
+//                                 },
+//                                 child: Icon(
+//                                   Icons.navigate_next_rounded,
+//                                   semanticLabel: 'Navigate to next page url',
+//                                   size: 30.sp,
+//                                 ),
+//                               )
+//                             : GestureDetector(
+//                                 child: Icon(
+//                                   Icons.navigate_next_rounded,
+//                                   semanticLabel:
+//                                       'Unable to navigate,  because there is no next page',
+//                                   color: InstaColors.mildGrey.withOpacity(0.5),
+//                                   size: 30.sp,
+//                                 ),
+//                               ),
+//                       ],
+//                     ).afmPadding(
+//                       EdgeInsets.only(
+//                         right: 20.w,
+//                       ),
+//                     ),
+//                   ],
+//                 ),
+//                 SizedBox(
+//                   height: MediaQuery.of(context).size.height - 100.h,
+//                   child: FutureBuilder(
+//                     future: ref
+//                         .read(instaTransactionController.notifier)
+//                         .getTransactions(tx.instaValue),
+//                     builder: ((context, snapshot) {
+//                       if (snapshot.connectionState == ConnectionState.done) {
+//                         if (ref
+//                                 .read(instaDepositController)
+//                                 .instaDepositsModel
+//                                 .data !=
+//                             null) {
+//                           return ListView.builder(
+//                             itemCount: trx.data?.length,
+//                             itemBuilder: ((context, index) {
+//                               return TransactionViewModel(
+//                                 //  no: numbers[index].toString(),
+//                                 // status: Text(trx.data?[index].id.toString() ??
+//                                 //     'loading...'),
+//                                 // type: Text(trx.data?[index].type.toString() ??
+//                                 //     'loading...'),
 //                                 service: SmallCTA(
-//                                   width: 70,
-//                                   height: 20,
-//                                   text: ref
-//                                       .read(instaTransactionController)
-//                                       .depositModel[index]
-//                                       .service,
+//                                   width: 70.w,
+//                                   height: 20.h,
 //                                   backgroundColor:
 //                                       Theme.of(context).colorScheme.scrim,
+//                                   text: trx.data?[index].name.toString() ??
+//                                       'loading...',
 //                                 ).afmBorderRadius(
 //                                   BorderRadius.circular(5.r),
 //                                 ),
-//                                 trxCode: ref
-//                                     .read(instaTransactionController)
-//                                     .depositModel[index]
-//                                     .trxCode,
-//                                 date: formatDate(ref
-//                                     .read(instaTransactionController)
-//                                     .depositModel[index]
-//                                     .date),
-//                                 amount: ref
-//                                     .read(instaTransactionController)
-//                                     .depositModel[index]
-//                                     .amount,
-//                                 message: ref
-//                                     .read(instaTransactionController)
-//                                     .depositModel[index]
-//                                     .message,
-//                               ),
-//                             ).afmBorderRadius(
-//                               BorderRadius.circular(10.r),
-//                             );
-//                           } else {
-//                             setState(() {});
-//                             return Lottie.asset(
-//                               "assets/animation/null-animation.json",
-//                               controller: _controller,
-//                               onLoaded: (composition) {
-//                                 _controller
-//                                   ..duration = composition.duration
-//                                   ..repeat();
-//                               },
-//                             );
-//                           }
+//                                 trxCode: trx.data?[index].code.toString() ??
+//                                     'loading...',
+//                                 date: formatDate(
+//                                     trx.data?[index].createdAt.toString() ??
+//                                         ''),
+//                                 amount: trx.data?[index].amount.toString() ??
+//                                     'loading...',
+//                                 message: trx.data?[index].message.toString() ??
+//                                     'loading...',
+//                               );
+//                             }),
+//                           );
 //                         } else {
-//                           return const TransparentLoadingScreen();
+//                           return Lottie.asset(
+//                             "assets/animation/null-animation.json",
+//                             controller: _controller,
+//                             onLoaded: (composition) {
+//                               _controller
+//                                 ..duration = composition.duration
+//                                 ..repeat();
+//                             },
+//                           );
 //                         }
-//                       }),
-//                     );
-//                   }),
-//                 );
-//               }),
-//             ),
-//           )
-//         ],
-//       ),
-//     ).afmPadding(
-//       EdgeInsets.only(
-//         bottom: 20.sp,
+//                       } else {
+//                         return const TransparentLoadingScreen();
+//                       }
+//                     }),
+//                   ),
+//                 ).afmPadding(
+//                     EdgeInsets.symmetric(vertical: 10.h, horizontal: 20.h)),
+//               ],
+//             ).afmNeverScroll,
+//           );
+//         },
 //       ),
 //     );
 //   }
+// }
+
+// String formatDate(String date) {
+//   String formattedDateTime = '';
+//   if (date.isEmpty || date == '') return '';
+//   try {
+//     DateTime dateTime = DateTime.parse(date);
+//     formattedDateTime = DateFormat("dd MMM, yyyy hh:mm:ss a").format(dateTime);
+//     return formattedDateTime;
+//   } catch (e) {
+//     debugPrint('$e');
+//   }
+//   return formattedDateTime;
 // }

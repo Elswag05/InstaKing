@@ -30,12 +30,6 @@ class _TransparentLoadingScreenState extends State<TransparentLoadingScreen>
   // }
 
   @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     //return MediaQuery.of(context).platformBrightness == Brightness.light
     //  ?
@@ -91,5 +85,11 @@ class _TransparentLoadingScreenState extends State<TransparentLoadingScreen>
     //       // Lottie animation in the middle
     //     ],
     //   );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 }

@@ -107,7 +107,7 @@ Widget buildLoadingContainer(String keyWord, heading, BuildContext context) {
               child: AutoSizeText(
                 keyWord,
                 stepGranularity: 2.sp,
-                minFontSize: 4.sp,
+                minFontSize: 12.sp,
                 style: TextStyle(
                   fontFamily: 'Montesserat',
                   fontSize: 13.sp,

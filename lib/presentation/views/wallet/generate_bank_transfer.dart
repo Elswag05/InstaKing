@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:insta_king/core/constants/env_colors.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
@@ -95,40 +96,65 @@ class _WalletCard1State extends ConsumerState<WalletCard1>
                                       ?.length ??
                                   2,
                               120.h),
-                          child: ListView.builder(
-                            itemCount: ref
-                                .read(instaProfileController)
-                                .model
-                                .user
-                                ?.virtualBanks
-                                ?.length,
-                            itemBuilder: (((context, index) {
-                              return AccountDetails(
-                                accountName: ref
-                                        .read(instaProfileController)
-                                        .model
-                                        .user
-                                        ?.virtualBanks?[index]
-                                        .accountName ??
-                                    'Loading...',
-                                bankName: ref
-                                        .read(instaProfileController)
-                                        .model
-                                        .user
-                                        ?.virtualBanks?[index]
-                                        .bankName ??
-                                    'Loading...',
-                                accountNumber: ref
-                                        .read(instaProfileController)
-                                        .model
-                                        .user
-                                        ?.virtualBanks?[index]
-                                        .accountNumber ??
-                                    'Loading...',
-                              );
-                            })),
+                          child: AnimationLimiter(
+                            child: ListView.builder(
+                              itemCount: ref
+                                  .read(instaProfileController)
+                                  .model
+                                  .user
+                                  ?.virtualBanks
+                                  ?.length,
+                              physics: const BouncingScrollPhysics(
+                                parent: AlwaysScrollableScrollPhysics(),
+                              ),
+                              itemBuilder: ((context, index) {
+                                return AnimationConfiguration.staggeredList(
+                                  position: index,
+                                  delay: const Duration(
+                                    milliseconds: 100,
+                                  ),
+                                  child: SlideAnimation(
+                                    duration:
+                                        const Duration(milliseconds: 2500),
+                                    curve: Curves.fastLinearToSlowEaseIn,
+                                    horizontalOffset: 30,
+                                    verticalOffset: 300.0,
+                                    child: FlipAnimation(
+                                      duration: const Duration(
+                                        milliseconds: 3000,
+                                      ),
+                                      curve: Curves.fastLinearToSlowEaseIn,
+                                      flipAxis: FlipAxis.y,
+                                      child: AccountDetails(
+                                        accountName: ref
+                                                .read(instaProfileController)
+                                                .model
+                                                .user
+                                                ?.virtualBanks?[index]
+                                                .accountName ??
+                                            'Loading...',
+                                        bankName: ref
+                                                .read(instaProfileController)
+                                                .model
+                                                .user
+                                                ?.virtualBanks?[index]
+                                                .bankName ??
+                                            'Loading...',
+                                        accountNumber: ref
+                                                .read(instaProfileController)
+                                                .model
+                                                .user
+                                                ?.virtualBanks?[index]
+                                                .accountNumber ??
+                                            'Loading...',
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              }),
+                            ),
                           ),
-                        ),
+                        )
                       ],
                     ),
                   ],

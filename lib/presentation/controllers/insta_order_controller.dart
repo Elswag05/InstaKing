@@ -25,6 +25,7 @@ class OrderController extends BaseChangeNotifier {
   late GetAllOrderModel getAllOrderModel = GetAllOrderModel();
   late PlaceOrderModel placeOrderModel = PlaceOrderModel();
   late final List<String> neededServiceIds;
+  late bool callReload = false;
 
   final SecureStorageService secureStorageService =
       SecureStorageService(secureStorage: const FlutterSecureStorage());
@@ -33,6 +34,14 @@ class OrderController extends BaseChangeNotifier {
     getAllOrderModel.data = [];
     placeOrderModel = PlaceOrderModel();
     neededServiceIds = [];
+  }
+
+  void setReloadTrue() {
+    callReload = true;
+  }
+
+  void setRealoadFalse() {
+    callReload = false;
   }
 
   Future<bool> toPlaceOrder(
@@ -86,7 +95,9 @@ class OrderController extends BaseChangeNotifier {
   }
 
   Future<bool> toGetAllOrders() async {
-    if (getAllOrderModel.data == [] || getAllOrderModel.data == null) {
+    if (getAllOrderModel.data == [] ||
+        getAllOrderModel.data == null ||
+        callReload) {
       try {
         // loadingState = LoadingState.loading;
         final res = await getOrder.getAllOrders();
