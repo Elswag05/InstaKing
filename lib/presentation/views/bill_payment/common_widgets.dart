@@ -13,3 +13,11 @@ Widget blurTheStatusBar(BuildContext context) {
     ),
   );
 }
+
+num? stringToNum(String input) {
+  try {
+    return num.tryParse(input);
+  } catch (e) {
+    return null; // Return null if conversion fails
+  }
+}

@@ -4,8 +4,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insta_king/core/constants/constants.dart';
 import 'dart:ui';
 
-import 'package:insta_king/presentation/views/bill_payment/bill_airtime.dart';
+import 'package:insta_king/presentation/views/bill_payment/airtime/bill_airtime.dart';
 import 'package:insta_king/presentation/views/bill_payment/common_widgets.dart';
+import 'package:insta_king/presentation/views/bill_payment/data/bill_data.dart';
+import 'package:insta_king/presentation/views/bill_payment/electricity/bill_electricity.dart';
 
 /// Feel free to use the code in your projects
 /// but do not forget to give me the credits adding
@@ -92,14 +94,14 @@ class MainBillPaymentState extends State<MainBillPayment>
                 const Color(0xffFF6D6D),
                 Icons.lte_mobiledata_sharp,
                 'Buy Data',
-                const BillAirtime(),
+                const BillData(),
               ),
               homePageCardsGroup(
                 Colors.lightGreen,
                 Icons.lightbulb_outline_rounded,
                 'Pay Electricity Bills',
                 context,
-                const BillAirtime(),
+                const BillElectricity(),
                 const Color(0xffffa700),
                 Icons.bolt_rounded,
                 'Buy Power',

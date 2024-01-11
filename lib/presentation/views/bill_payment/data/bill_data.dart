@@ -1,15 +1,14 @@
-import 'dart:core';
-
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:insta_king/core/constants/enum.dart';
+import 'package:insta_king/core/constants/constants.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
 import 'package:insta_king/data/services/notification.dart';
 import 'package:insta_king/presentation/controllers/insta_profile_controller.dart';
 import 'package:insta_king/presentation/controllers/purchase_airtime_controller.dart';
+import 'package:insta_king/presentation/controllers/purchase_data_controller.dart';
 import 'package:insta_king/presentation/controllers/text_editing_controller.dart';
 import 'package:insta_king/presentation/views/bill_payment/airtime/airtime_widgets.dart';
 import 'package:insta_king/presentation/views/bill_payment/bottom_sheet_modal.dart';
@@ -26,18 +25,17 @@ import 'package:insta_king/presentation/views/shared_widgets/shared_loading.dart
 /// my app (Flutter Animation Gallery) where you are gonna use it.
 /// ---------------------------------->>>>>>>>>>>>>>>>>>>>>>>>
 
-class BillAirtime extends ConsumerStatefulWidget {
-  const BillAirtime({super.key});
+class BillData extends ConsumerStatefulWidget {
+  const BillData({super.key});
 
   @override
-  ConsumerState<BillAirtime> createState() => _BillAirtimeState();
+  ConsumerState<BillData> createState() => _BillDataState();
 }
 
-class _BillAirtimeState extends ConsumerState<BillAirtime> {
+class _BillDataState extends ConsumerState<BillData> {
   final TextEditingController amountController = TextEditingController();
   late TextValueNotifier textValueNotifier = ref.read(textValueProvider);
-  late String network = '';
-  late final networkPr = ref.read(instaAirtimeController).getNetworkModel.data;
+  late bool userHasPickedNetwork = false;
   @override
   void initState() {
     textValueNotifier = ref.read(textValueProvider);
@@ -48,13 +46,13 @@ class _BillAirtimeState extends ConsumerState<BillAirtime> {
   void showReusableBottomSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
-      backgroundColor: Colors.transparent,
       builder: (BuildContext context) {
         return ReusableBottomSheet(
           getLength:
-              ref.read(instaAirtimeController).getNetworkModel.data?.length ??
-                  5,
+              (ref.read(instaDataController).getDataPlanModel.data?.length ??
+                  5),
           title: 'Choose Network',
+          networkPr: [],
           status: 'initialStatus', // Set your initial status here
           onStatusChanged: (newStatus) {
             // Handle the status change here if needed
@@ -74,7 +72,7 @@ class _BillAirtimeState extends ConsumerState<BillAirtime> {
             Column(
               children: [
                 const RecurringAppBar(
-                  appBarTitle: "Purchase Airtime",
+                  appBarTitle: "Buy Data",
                 ).afmPadding(
                   EdgeInsets.only(
                     bottom: 10.h,
@@ -89,12 +87,27 @@ class _BillAirtimeState extends ConsumerState<BillAirtime> {
                       child: const ChooseContainerFromDropDown(
                         headerText: "Network",
                         hintText: "Choose Network",
-                      ),
-                    ).afmPadding(
-                      EdgeInsets.only(
-                        bottom: 20.h,
+                      ).afmPadding(
+                        EdgeInsets.only(
+                          bottom: 20.h,
+                        ),
                       ),
                     ),
+                    userHasPickedNetwork
+                        ? GestureDetector(
+                            onTap: () {
+                              showReusableBottomSheet(context);
+                            },
+                            child: const ChooseContainerFromDropDown(
+                              headerText: "Data Bundle",
+                              hintText: "Choose Data Plan",
+                            ),
+                          ).afmPadding(
+                            EdgeInsets.only(
+                              bottom: 20.h,
+                            ),
+                          )
+                        : const SizedBox(),
                     Stack(
                       children: [
                         CollectPersonalDetailModel(
@@ -121,26 +134,27 @@ class _BillAirtimeState extends ConsumerState<BillAirtime> {
                         ),
                       ],
                     ),
-                    CollectPersonalDetailModel(
-                      leadTitle: "Amount",
-                      hintT: "₦500",
-                      isPasswordT: false,
-                      isdigit: [FilteringTextInputFormatter.digitsOnly],
-                      controller: amountController,
-                      onChanged: (value) {
-                        setState(() {});
-                      },
-                    ),
+                    // CollectPersonalDetailModel(
+                    //   leadTitle: "Amount",
+                    //   hintT: "₦500",
+                    //   isPasswordT: false,
+                    //   isdigit: [FilteringTextInputFormatter.digitsOnly],
+                    //   controller: amountController,
+                    //   onChanged: (value) {
+                    //     setState(() {});
+                    //   },
+                    // ),
                     CustomButton(
                       pageCTA: "Proceed",
                       buttonOnPressed: () {
                         setState(() {});
                         ref
-                            .read(instaAirtimeController)
-                            .toPurchaseAirtime(
-                              network,
-                              textValueNotifier.textValue,
-                              stringToNum(amountController.text),
+                            .read(instaDataController)
+                            .toBuyData(
+                              "MTN",
+                              "08134094579",
+                              "",
+                              "",
                             )
                             .then(
                           (value) {
@@ -159,16 +173,19 @@ class _BillAirtimeState extends ConsumerState<BillAirtime> {
                                 },
                               ).show();
                               LocalNotification.showPurchaseNotification(
+                                //TODO:catgory should be added here
                                 title: 'InstaKing ♛ \nOrder Successful',
                                 body:
-                                    'Dear ${ref.read(instaProfileController.notifier).model.user?.fullname},\nYour airtime purchase of ${formatBalance(stringToNum(amountController.text).toString())} is successful.\nYour available insta balance is ₦${ref.read(instaProfileController.notifier).model.user?.balance}.\nPurchase Details  ::: \nCategory: Airtime Purchase\nAmount: ${formatBalance(amountController.text)}',
+                                    'Dear ${ref.read(instaProfileController.notifier).model.user?.fullname},\nYour data purchase of ${formatBalance(
+                                  amountController.text,
+                                )} is successful.\nYour available insta balance is ₦${ref.read(instaProfileController.notifier).model.user?.balance}.\nPurchase Details  ::: \nName: {selectedServiceName}\nCategory: Data Purchase\nAmount: ${formatBalance(amountController.text)}',
                                 payload: '',
                               );
                             } else {
                               // Handle failure or other cases
                               // Optionally, you can show an error message or take appropriate action
                               setState(() {
-                                ref.read(instaAirtimeController).loadingState ==
+                                ref.read(instaDataController).loadingState ==
                                     LoadingState.idle;
                               });
                               AwesomeDialog(
@@ -198,7 +215,7 @@ class _BillAirtimeState extends ConsumerState<BillAirtime> {
                 ),
               ],
             ).afmNeverScroll,
-            if (ref.read(instaAirtimeController).loadingState ==
+            if (ref.read(instaDataController).loadingState ==
                 LoadingState.loading)
               const TransparentLoadingScreen(),
           ],
