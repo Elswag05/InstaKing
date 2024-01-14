@@ -8,7 +8,7 @@ import 'package:insta_king/presentation/model/get_network_model.dart';
 class ReusableBottomSheet extends StatelessWidget {
   final String title;
   final String status;
-  final List<List<Datum>?>? networkPr;
+  final List<Datum>? networkPr;
   final Function(String) onStatusChanged;
   final int getLength;
 

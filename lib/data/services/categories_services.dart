@@ -33,7 +33,7 @@ class GetCategoriesService with DioMixin {
     final response = await connect(customHeaders: customHeaders).get(
       '/services/category/{$categoryId}',
     );
-    print(response.data);
+    debugPrint(response.data.toString());
     return response;
   }
 }

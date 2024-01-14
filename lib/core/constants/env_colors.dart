@@ -30,7 +30,7 @@ class InstaColors {
     Color.fromARGB(120, 244, 67, 54),
     //add more colors for gradient
   ];
-  static Color darkBackgroundColor = Color.fromARGB(255, 34, 34, 34);
+  static Color darkBackgroundColor = const Color.fromARGB(255, 34, 34, 34);
   static Color darkColor = const Color.fromARGB(255, 0, 0, 0);
   static Color mildLightColor = const Color.fromARGB(255, 214, 214, 214);
   static const MaterialColor errorColor = MaterialColor(

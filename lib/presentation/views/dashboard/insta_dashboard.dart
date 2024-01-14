@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:insta_king/core/constants/constants.dart';
 import 'package:insta_king/presentation/controllers/insta_dashboard_controller.dart';
+import 'package:insta_king/presentation/views/bill_payment/main_bill_payment.dart';
 import 'package:insta_king/presentation/views/wallet/insta_wallet.dart';
 import 'package:insta_king/presentation/views/dashboard/bottom_navigation_bar_item.dart';
 import 'package:insta_king/presentation/views/home/insta_home.dart';
@@ -30,7 +32,11 @@ class InstaHomeDash extends HookConsumerWidget {
     final selectedPageIndex = dashboardController.page;
     final GlobalKey<NavigatorState> homeNavigatorKey =
         GlobalKey<NavigatorState>();
+    final GlobalKey<NavigatorState> billsNavigatorKey =
+        GlobalKey<NavigatorState>();
     final GlobalKey<NavigatorState> walletNavigatorKey =
+        GlobalKey<NavigatorState>();
+    final GlobalKey<NavigatorState> myOrderNavigatorKey =
         GlobalKey<NavigatorState>();
     final GlobalKey<NavigatorState> profileNavigatorKey =
         GlobalKey<NavigatorState>();
@@ -40,6 +46,7 @@ class InstaHomeDash extends HookConsumerWidget {
         onTap: (value) {
           ref.read(dashBoardControllerProvider.notifier).switchPage(value);
         },
+        activeColor: InstaColors.primaryColor,
         backgroundColor: Theme.of(context).colorScheme.onInverseSurface,
         items: <BottomNavigationBarItem>[
           buildBottomNavigationBarItem(
@@ -52,23 +59,30 @@ class InstaHomeDash extends HookConsumerWidget {
           buildBottomNavigationBarItem(
             ref,
             context,
-            iconPath: 'Order-History',
-            label: 'Order History',
+            iconPath: 'wifi',
+            label: 'Bills',
             index: 1,
+          ),
+          buildBottomNavigationBarItem(
+            ref,
+            context,
+            iconPath: 'Order-History',
+            label: 'My Order',
+            index: 2,
           ),
           buildBottomNavigationBarItem(
             ref,
             context,
             iconPath: 'Wallet (1)',
             label: 'Wallet',
-            index: 2,
+            index: 3,
           ),
           buildBottomNavigationBarItem(
             ref,
             context,
             iconPath: 'Profile',
             label: 'Profile',
-            index: 3,
+            index: 4,
           ),
         ],
       ),
@@ -85,6 +99,17 @@ class InstaHomeDash extends HookConsumerWidget {
               },
             );
           case 1:
+            billsNavigatorKey.currentState?.popUntil((route) => route.isFirst);
+            return CupertinoTabView(
+              builder: (context) {
+                return const CupertinoPageScaffold(
+                  child: MainBillPayment(),
+                );
+              },
+            );
+          case 2:
+            myOrderNavigatorKey.currentState
+                ?.popUntil((route) => route.isFirst);
             return CupertinoTabView(
               builder: (context) {
                 return const CupertinoPageScaffold(
@@ -92,7 +117,7 @@ class InstaHomeDash extends HookConsumerWidget {
                 );
               },
             );
-          case 2:
+          case 3:
             walletNavigatorKey.currentState?.popUntil((route) => route.isFirst);
             return CupertinoTabView(
               key: walletNavigatorKey,
@@ -102,7 +127,7 @@ class InstaHomeDash extends HookConsumerWidget {
                 );
               },
             );
-          case 3:
+          case 4:
             profileNavigatorKey.currentState
                 ?.popUntil((route) => route.isFirst);
             return CupertinoTabView(

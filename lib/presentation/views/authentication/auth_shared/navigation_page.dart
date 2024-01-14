@@ -24,26 +24,25 @@ class InstaAuthNavigator extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Image.asset(
-                    EnvAssets.getImagePath('instaking-logo'),
+                    EnvAssets.getImagePath('instaking-white-create'),
                     width: 60,
                     height: 60,
                   ),
-                  Text(
-                    'InstaKing',
-                    style: TextStyle(
-                      fontFamily: 'Monteserrat',
-                      fontSize: 35.sp,
-                      color: Theme.of(context).colorScheme.onBackground,
-                    ),
-                  ).afmPadding(
-                    EdgeInsets.only(
-                      left: 5.h,
-                      top: 5.h,
-                    ),
-                  ),
+                  // Text(
+                  //   'InstaKing',
+                  //   style: TextStyle(
+                  //     fontFamily: 'Monteserrat',
+                  //     fontSize: 35.sp,
+                  //     color: Theme.of(context).colorScheme.onBackground,
+                  //   ),
+                  // ).afmPadding(
+                  //   EdgeInsets.only(
+                  //     bottom: 10.h,
+                  //   ),
+                  // ),
                 ],
               ).afmPadding(
-                EdgeInsets.only(top: 130.h),
+                EdgeInsets.only(top: 100.h),
               ),
               Text(
                 "Africa's No.1 Social Media\n Marketing Service\n Provider.",

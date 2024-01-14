@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insta_king/core/constants/constants.dart';
-import 'dart:ui';
+import 'package:insta_king/core/extensions/widget_extension.dart';
 
 import 'package:insta_king/presentation/views/bill_payment/airtime/bill_airtime.dart';
 import 'package:insta_king/presentation/views/bill_payment/cable/bill_cable.dart';
@@ -88,24 +88,24 @@ class MainBillPaymentState extends State<MainBillPayment>
               ),
               homePageCardsGroup(
                 const Color(0xfff37736),
-                Icons.article,
-                'Purchase Airtime',
+                'phone',
+                'Airtime',
                 context,
                 const BillAirtime(),
                 const Color(0xffFF6D6D),
-                Icons.lte_mobiledata_sharp,
-                'Buy Data',
+                'wifi',
+                'Data',
                 const BillData(),
               ),
               homePageCardsGroup(
                 Colors.lightGreen,
-                Icons.lightbulb_outline_rounded,
-                'Pay Electricity Bills',
+                'monitor',
+                'Electricity',
                 context,
                 const BillElectricity(),
                 const Color(0xffffa700),
-                Icons.live_tv_rounded,
-                'Subscribe Cable',
+                'monitor',
+                'CableTv',
                 const BillCable(),
               ),
               SizedBox(height: w / 20),
@@ -123,12 +123,12 @@ class MainBillPaymentState extends State<MainBillPayment>
 
   Widget homePageCardsGroup(
       Color color,
-      IconData icon,
+      String icon,
       String title,
       BuildContext context,
       Widget route,
       Color color2,
-      IconData icon2,
+      String icon2,
       String title2,
       Widget route2) {
     double w = MediaQuery.of(context).size.width;
@@ -144,7 +144,7 @@ class MainBillPaymentState extends State<MainBillPayment>
     );
   }
 
-  Widget homePageCard(Color color, IconData icon, String title,
+  Widget homePageCard(Color color, String icon, String title,
       BuildContext context, Widget route) {
     double w = MediaQuery.of(context).size.width;
     return Opacity(
@@ -192,10 +192,21 @@ class MainBillPaymentState extends State<MainBillPayment>
                     color: color.withOpacity(.1),
                     shape: BoxShape.circle,
                   ),
-                  child: Icon(
-                    icon,
-                    color: color.withOpacity(.6),
+                  child: Image.asset(
+                    EnvAssets.getImagePath(icon),
+                    // width: 20.w,
+                    // height: 20.h,
+                    // ignore: deprecated_member_use
+                    color:
+                        Theme.of(context).unselectedWidgetColor.withOpacity(.6),
+                    semanticLabel: 'Use Fingerprint To Login',
+                  ).afmPadding(
+                    EdgeInsets.all(10.sp),
                   ),
+                  // child: Icon(
+                  //   icon,
+                  //   color: color.withOpacity(.6),
+                  // ),
                 ),
                 Text(
                   title,

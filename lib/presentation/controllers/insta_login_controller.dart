@@ -195,8 +195,8 @@ class LoginController extends BaseChangeNotifier {
     loadingState = LoadingState.loading;
     try {
       final res = await changePasswordService.changePassword(
-        old_password: oldPassword,
-        new_password: newPassword,
+        oldPassword: oldPassword,
+        newPassword: newPassword,
       );
       if (res.statusCode == 200) {
         loadingState = LoadingState.idle;

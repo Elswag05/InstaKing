@@ -157,13 +157,3 @@ class _InstaKing extends ConsumerState<InstaKingGuide> {
     );
   }
 }
-
-// if (snapshot.connectionState == ConnectionState.done) {
-//                           String? email = snapshot.data;
-//                           if (email == null || email.isEmpty) {
-//                             return const InstaLogin();
-//                           } else if (email.isNotEmpty) {
-//                             return const InstaLoginWithFingerprint();
-//                           }
-//                         }
-//                         return const TransparentLoadingScreen();

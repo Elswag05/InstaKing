@@ -16,7 +16,7 @@ class GetBills with DioMixin {
   }
 
   Future<Response<dynamic>> getDataPlans(
-    String networkID,
+    num networkID,
   ) async {
     final customHeaders = {
       'Accept': 'application/json',
@@ -24,7 +24,7 @@ class GetBills with DioMixin {
       'Connection': 'keep-alive',
     };
     final response = await connect(customHeaders: customHeaders).get(
-      'bills/data/plans?network=$networkID',
+      '/bills/data/plans?network=$networkID',
     );
     return response;
   }

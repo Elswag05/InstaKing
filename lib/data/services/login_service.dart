@@ -38,8 +38,8 @@ class SignOutService with DioMixin {
 
 class ChangePasswordService with DioMixin {
   Future<Response<dynamic>> changePassword({
-    required old_password,
-    required new_password,
+    required oldPassword,
+    required newPassword,
   }) async {
     final header = {
       'Accept': 'application/json',
@@ -49,8 +49,8 @@ class ChangePasswordService with DioMixin {
     final response = await connect(customHeaders: header).put(
       '/user/update-password',
       data: {
-        "old_password": old_password,
-        "new_password": new_password,
+        "old_password": oldPassword,
+        "new_password": newPassword,
       },
     );
 

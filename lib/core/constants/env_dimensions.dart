@@ -4,6 +4,8 @@
 /// For example, rather than declaring SizedBox(height: 16), we can declare SizedBox(height: EnvDimension.tiny.h)
 /// For example, rather than declaring SizedBox(width: 4), we can declare SizedBox(width: EnvDimension.zero.w)
 
+// ignore_for_file: dangling_library_doc_comments
+
 class EnvDimension {
   EnvDimension._();
 

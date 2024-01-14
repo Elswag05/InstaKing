@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -31,15 +32,14 @@ class PurchaseDataController extends BaseChangeNotifier {
     if (getDataPlanModel.data != null) return;
 
     try {
-      debugPrint('To Data');
-      final res = await getBills.getDataPlans(networkID);
-
+      debugPrint('To Get Data');
+      final res = await getBills.getDataPlans(1);
+      log(res.toString());
+      debugPrint('Got Data plans');
       if (res.statusCode == 200) {
         debugPrint("INFO: Bearer ${res.data}");
         getDataPlanModel = GetDataPlanModel.fromJson(res.data.toString());
       } else {
-        debugPrint('${res.statusMessage}');
-        debugPrint('${res.statusCode}');
         debugPrint(res.toString());
         throw Error();
       }

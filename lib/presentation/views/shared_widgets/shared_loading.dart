@@ -7,11 +7,11 @@ class TransparentLoadingScreen extends StatefulWidget {
   const TransparentLoadingScreen({super.key});
 
   @override
-  _TransparentLoadingScreenState createState() =>
-      _TransparentLoadingScreenState();
+  TransparentLoadingScreenState createState() =>
+      TransparentLoadingScreenState();
 }
 
-class _TransparentLoadingScreenState extends State<TransparentLoadingScreen>
+class TransparentLoadingScreenState extends State<TransparentLoadingScreen>
     with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
 

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -21,6 +19,7 @@ class DashBoardController extends BaseChangeNotifier {
   bool get isLoggedIn => _isLoggedIn;
   String _userEmail = "";
   String get userEmail => _userEmail;
+  // ignore: prefer_final_fields
   bool _deviceHasInternet = true;
   bool get checkDeviceInternet => _deviceHasInternet;
 

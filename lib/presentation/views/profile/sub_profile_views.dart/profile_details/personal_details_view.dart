@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:insta_king/core/constants/constants.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
 import 'package:insta_king/presentation/controllers/insta_profile_controller.dart';
 import 'package:insta_king/presentation/views/shared_widgets/input_data_viewmodel.dart';
@@ -84,13 +83,13 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                     CustomButton(
                       pageCTA: 'Save',
                       buttonOnPressed: () {
-                        print({
+                        debugPrint({
                           "fname": firstName.text,
                           "lname": lastName.text,
                           "address": address.text,
                           "phone": phone.text,
                           "country": country.text,
-                        });
+                        }.toString());
 
                         ref
                             .read(instaProfileController.notifier)

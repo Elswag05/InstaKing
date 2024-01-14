@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:insta_king/core/constants/constants.dart';
 import 'package:insta_king/presentation/views/authentication/auth_shared/navigation_page.dart';
-import 'package:insta_king/presentation/views/authentication/signup/sign_up.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:insta_king/presentation/views/onboarding/insta_onboarding_content.dart';
 import 'package:insta_king/presentation/views/onboarding/size_config.dart';
@@ -16,6 +15,7 @@ class InstaOnboarding extends StatefulWidget {
 class _InstaOnboardingState extends State<InstaOnboarding> {
   late PageController _controller;
   late SharedPreferences _prefs;
+  // ignore: unused_field
   bool _showOnboarding = true; // Default to show onboarding
 
   @override
@@ -38,9 +38,8 @@ class _InstaOnboardingState extends State<InstaOnboarding> {
 
   int _currentPage = 0;
   List colors = const [
-    Color(0xffDAD3C8),
+    Color.fromARGB(255, 255, 255, 255),
     Color.fromARGB(255, 218, 203, 230),
-    Color(0xffFFE5DE),
   ];
 
   AnimatedContainer _buildDots({
@@ -161,7 +160,7 @@ class _InstaOnboardingState extends State<InstaOnboarding> {
                                   TextStyle(fontSize: (width <= 550) ? 13 : 17),
                             ),
                             child: Text(
-                              "START",
+                              "GET STARTED",
                               style: TextStyle(
                                 color: Theme.of(context)
                                     .colorScheme

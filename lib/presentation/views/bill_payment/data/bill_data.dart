@@ -12,7 +12,6 @@ import 'package:insta_king/presentation/controllers/purchase_data_controller.dar
 import 'package:insta_king/presentation/controllers/text_editing_controller.dart';
 import 'package:insta_king/presentation/views/bill_payment/airtime/airtime_widgets.dart';
 import 'package:insta_king/presentation/views/bill_payment/bottom_sheet_modal.dart';
-import 'package:insta_king/presentation/views/bill_payment/common_widgets.dart';
 import 'package:insta_king/presentation/views/home/home_card_widgets.dart';
 import 'package:insta_king/presentation/views/profile/sub_profile_views.dart/bank_account_details/bank_account_details.dart';
 import 'package:insta_king/presentation/views/shared_widgets/cta_button.dart';
@@ -35,15 +34,19 @@ class BillData extends ConsumerStatefulWidget {
 class _BillDataState extends ConsumerState<BillData> {
   final TextEditingController amountController = TextEditingController();
   late TextValueNotifier textValueNotifier = ref.read(textValueProvider);
-  late bool userHasPickedNetwork = false;
+
+  //TODO: set to true
+  late bool userHasPickedNetwork = true;
+
   @override
   void initState() {
     textValueNotifier = ref.read(textValueProvider);
-    ref.read(instaAirtimeController).toGetNetworks();
+    //ref.read(instaAirtimeController).toGetNetworks();
+    ref.read(instaDataController).toGetDataPlan(1);
     super.initState();
   }
 
-  void showReusableBottomSheet(BuildContext context) {
+  void showReusableBottomSheet(BuildContext context, dataList) {
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
@@ -53,7 +56,7 @@ class _BillDataState extends ConsumerState<BillData> {
               (ref.read(instaDataController).getDataPlanModel.data?.length ??
                   5),
           title: 'Choose Network',
-          networkPr: [],
+          networkPr: dataList,
           status: 'initialStatus', // Set your initial status here
           onStatusChanged: (newStatus) {
             // Handle the status change here if needed
@@ -83,7 +86,10 @@ class _BillDataState extends ConsumerState<BillData> {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        showReusableBottomSheet(context);
+                        showReusableBottomSheet(
+                          context,
+                          ref.read(instaAirtimeController).getNetworkModel,
+                        );
                       },
                       child: const ChooseContainerFromDropDown(
                         headerText: "Network",
@@ -97,7 +103,18 @@ class _BillDataState extends ConsumerState<BillData> {
                     userHasPickedNetwork
                         ? GestureDetector(
                             onTap: () {
-                              showReusableBottomSheet(context);
+                              showReusableBottomSheet(
+                                context,
+                                ref
+                                    .read(instaDataController)
+                                    .getDataPlanModel
+                                    .data,
+                              );
+                              debugPrint(ref
+                                  .read(instaDataController)
+                                  .getDataPlanModel
+                                  .data
+                                  .toString());
                             },
                             child: const ChooseContainerFromDropDown(
                               headerText: "Data Bundle",

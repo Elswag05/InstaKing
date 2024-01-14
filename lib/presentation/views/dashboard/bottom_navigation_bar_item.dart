@@ -27,14 +27,6 @@ BottomNavigationBarItem buildBottomNavigationBarItem(
           : Theme.of(context).colorScheme.onSurface,
       semanticsLabel: label,
     ),
-    // icon: Image.asset(
-    //   InstaAssets.getIconPath(iconPath),
-    //   width: 25.w,
-    //   height: 25.h,
-    //   color: selectedPageIndex == index
-    //       ? InstaColors.primaryColor
-    //       : EnvColors.darkColor,
-    // ),
     label: label,
   );
 }

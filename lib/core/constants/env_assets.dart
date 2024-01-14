@@ -1,9 +1,4 @@
 // ignore_for_file: unused_element
-/// SVGs
-/// These are string variables that hold the paths of the different Svg assets in the project.
-/// They can be called by declaring SvgPicture.asset(EnvImages.stringName) eg SvgPicture.asset(EnvImages.add)
-/// e.g static String addCircleSvg = _getSvgPath('add_circle');
-///
 
 class EnvAssets {
   static const String _baseSvg = "assets/svgs/";
@@ -26,6 +21,12 @@ class EnvAssets {
     pathName = "$pathName.png";
     return _baseIcon + pathName;
   }
+
+  /// SVGs
+  /// These are string variables that hold the paths of the different Svg assets in the project.
+  /// They can be called by declaring SvgPicture.asset(EnvImages.stringName) eg SvgPicture.asset(EnvImages.add)
+  /// e.g static String addCircleSvg = _getSvgPath('add_circle');
+  ///
 
   /// PNGs
   /// These are string variables that hold the paths of the different png assets in the project.
