@@ -54,8 +54,8 @@ class _NoInternetState extends ConsumerState<NoInternet>
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(
-              width: 150.w,
-              height: 150.h,
+              width: 200.w,
+              height: 200.h,
               child: Lottie.asset(
                 "assets/animation/no_internet.json",
                 controller: _controller,

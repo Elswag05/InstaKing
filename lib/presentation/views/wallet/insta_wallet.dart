@@ -26,7 +26,3 @@ class InstaWallet extends StatelessWidget {
     );
   }
 }
-
-            //const ReferralCopyCard(),
-            //const SelectPaymentOptions(),
-            //const RecentDeposits(),

@@ -33,6 +33,7 @@ class ProfileViewModel extends StatelessWidget {
               ? Icon(
                   Icons.arrow_forward_ios_rounded,
                   size: 20.sp,
+                  color: Theme.of(context).colorScheme.onSurface,
                 ).afmPadding(
                   EdgeInsets.only(right: 6.h),
                 )

@@ -32,6 +32,7 @@ class OrderController extends BaseChangeNotifier {
 
   void disposeOrders() {
     getAllOrderModel.data = [];
+    getAllOrderModel.data = null;
     placeOrderModel = PlaceOrderModel();
     neededServiceIds = [];
   }

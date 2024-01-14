@@ -77,6 +77,9 @@ class Datum {
   dynamic name;
   DateTime? createdAt;
   DateTime? updatedAt;
+  String? serviceName;
+  Type? serviceType;
+  Service? service;
 
   Datum({
     this.id,
@@ -110,6 +113,9 @@ class Datum {
     this.name,
     this.createdAt,
     this.updatedAt,
+    this.serviceName,
+    this.serviceType,
+    this.service,
   });
 
   Datum copyWith({
@@ -144,6 +150,9 @@ class Datum {
     dynamic name,
     DateTime? createdAt,
     DateTime? updatedAt,
+    String? serviceName,
+    Type? serviceType,
+    Service? service,
   }) =>
       Datum(
         id: id ?? this.id,
@@ -177,6 +186,9 @@ class Datum {
         name: name ?? this.name,
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt ?? this.updatedAt,
+        serviceName: serviceName ?? this.serviceName,
+        serviceType: serviceType ?? this.serviceType,
+        service: service ?? this.service,
       );
 
   factory Datum.fromRawJson(String str) => Datum.fromJson(json.decode(str));
@@ -219,6 +231,10 @@ class Datum {
         updatedAt: json["updated_at"] == null
             ? null
             : DateTime.parse(json["updated_at"]),
+        serviceName: json["service_name"],
+        serviceType: typeValues.map[json["service_type"]]!,
+        service:
+            json["service"] == null ? null : Service.fromMap(json["service"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -253,8 +269,136 @@ class Datum {
         "name": name,
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),
+        "service_name": serviceName,
+        "service_type": typeValues.reverse[serviceType],
+        "service": service?.toMap(),
       };
 }
+
+class Service {
+  int? id;
+  String? categoryId;
+  String? apiProviderId;
+  String? apiServiceId;
+  String? manualApi;
+  String? name;
+  String? description;
+  String? min;
+  String? max;
+  String? price;
+  SType? sType;
+  String? status;
+  Type? type;
+  String? dripfeed;
+  String? refill;
+
+  Service({
+    this.id,
+    this.categoryId,
+    this.apiProviderId,
+    this.apiServiceId,
+    this.manualApi,
+    this.name,
+    this.description,
+    this.min,
+    this.max,
+    this.price,
+    this.sType,
+    this.status,
+    this.type,
+    this.dripfeed,
+    this.refill,
+  });
+
+  Service copyWith({
+    int? id,
+    String? categoryId,
+    String? apiProviderId,
+    String? apiServiceId,
+    String? manualApi,
+    String? name,
+    String? description,
+    String? min,
+    String? max,
+    String? price,
+    SType? sType,
+    String? status,
+    Type? type,
+    String? dripfeed,
+    String? refill,
+  }) =>
+      Service(
+        id: id ?? this.id,
+        categoryId: categoryId ?? this.categoryId,
+        apiProviderId: apiProviderId ?? this.apiProviderId,
+        apiServiceId: apiServiceId ?? this.apiServiceId,
+        manualApi: manualApi ?? this.manualApi,
+        name: name ?? this.name,
+        description: description ?? this.description,
+        min: min ?? this.min,
+        max: max ?? this.max,
+        price: price ?? this.price,
+        sType: sType ?? this.sType,
+        status: status ?? this.status,
+        type: type ?? this.type,
+        dripfeed: dripfeed ?? this.dripfeed,
+        refill: refill ?? this.refill,
+      );
+
+  factory Service.fromJson(String str) => Service.fromMap(json.decode(str));
+
+  String toJson() => json.encode(toMap());
+
+  factory Service.fromMap(Map<String, dynamic> json) => Service(
+        id: json["id"],
+        categoryId: json["category_id"],
+        apiProviderId: json["api_provider_id"],
+        apiServiceId: json["api_service_id"],
+        manualApi: json["manual_api"],
+        name: json["name"],
+        description: json["description"],
+        min: json["min"],
+        max: json["max"],
+        price: json["price"],
+        sType: sTypeValues.map[json["s_type"]]!,
+        status: json["status"],
+        type: typeValues.map[json["type"]]!,
+        dripfeed: json["dripfeed"],
+        refill: json["refill"],
+      );
+
+  Map<String, dynamic> toMap() => {
+        "id": id,
+        "category_id": categoryId,
+        "api_provider_id": apiProviderId,
+        "api_service_id": apiServiceId,
+        "manual_api": manualApi,
+        "name": name,
+        "description": description,
+        "min": min,
+        "max": max,
+        "price": price,
+        "s_type": sTypeValues.reverse[sType],
+        "status": status,
+        "type": typeValues.reverse[type],
+        "dripfeed": dripfeed,
+        "refill": refill,
+      };
+}
+
+enum Type { COMMENT_LIKES, CUSTOM_COMMENTS, DEFAULT, SUBSCRIPTIONS }
+
+final typeValues = EnumValues({
+  "comment likes": Type.COMMENT_LIKES,
+  "custom comments": Type.CUSTOM_COMMENTS,
+  "default": Type.DEFAULT,
+  "subscriptions": Type.SUBSCRIPTIONS
+});
+
+enum SType { NORMAL, SPECIAL }
+
+final sTypeValues =
+    EnumValues({"normal": SType.NORMAL, "special": SType.SPECIAL});
 
 enum Comments { EMPTY, HELP_US }
 

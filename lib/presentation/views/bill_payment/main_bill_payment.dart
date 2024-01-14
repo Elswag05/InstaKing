@@ -5,6 +5,7 @@ import 'package:insta_king/core/constants/constants.dart';
 import 'dart:ui';
 
 import 'package:insta_king/presentation/views/bill_payment/airtime/bill_airtime.dart';
+import 'package:insta_king/presentation/views/bill_payment/cable/bill_cable.dart';
 import 'package:insta_king/presentation/views/bill_payment/common_widgets.dart';
 import 'package:insta_king/presentation/views/bill_payment/data/bill_data.dart';
 import 'package:insta_king/presentation/views/bill_payment/electricity/bill_electricity.dart';
@@ -103,60 +104,15 @@ class MainBillPaymentState extends State<MainBillPayment>
                 context,
                 const BillElectricity(),
                 const Color(0xffffa700),
-                Icons.bolt_rounded,
-                'Buy Power',
-                const BillAirtime(),
+                Icons.live_tv_rounded,
+                'Subscribe Cable',
+                const BillCable(),
               ),
               SizedBox(height: w / 20),
             ],
           ),
 
           /// SETTING ICON
-          Padding(
-            padding: EdgeInsets.fromLTRB(0, w / 7.5, w / 15, 0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                InkWell(
-                  highlightColor: Colors.transparent,
-                  splashColor: Colors.transparent,
-                  onTap: () {
-                    HapticFeedback.lightImpact();
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     builder: (context) {
-                    //       return const BillAirtime();
-                    //     },
-                    //   ),
-                    // );
-                  },
-                  child: ClipRRect(
-                    borderRadius: const BorderRadius.all(Radius.circular(99)),
-                    child: BackdropFilter(
-                      filter: ImageFilter.blur(sigmaY: 5, sigmaX: 5),
-                      child: Container(
-                        height: w / 8.5,
-                        width: w / 8.5,
-                        decoration: BoxDecoration(
-                          color: Theme.of(context)
-                              .colorScheme
-                              .onBackground
-                              .withOpacity(.05),
-                          shape: BoxShape.circle,
-                        ),
-                        child: Center(
-                          child: Image.asset(
-                            EnvAssets.getImagePath('instaking-logo'),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
 
           // Blur the Status bar
           blurTheStatusBar(context),

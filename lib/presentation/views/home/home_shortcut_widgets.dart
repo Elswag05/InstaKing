@@ -111,12 +111,6 @@ class ShortcutsTheWidget extends ConsumerWidget {
                   shortcutText: 'Fund Wallet',
                   onTap: () {
                     setPageIndexToTwo();
-                    // Navigator.of(context).push(
-                    //   MaterialPageRoute(
-                    //     builder: (context) => const InstaWallet(),
-                    //   ),
-                    // );
-                    // ignore: avoid_print
                     debugPrint('Going to the Wallet screen');
                   },
                 ),

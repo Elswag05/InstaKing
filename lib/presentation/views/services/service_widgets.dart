@@ -26,15 +26,17 @@ Text lightText(String lightText, BuildContext context) {
   );
 }
 
-AutoSizeText darkText(String darkText, BuildContext context) {
+AutoSizeText darkText(String darkText, BuildContext context, {int? givenNum}) {
   return AutoSizeText(
     darkText,
-    minFontSize: 8.sp,
+    minFontSize: 10.sp,
     stepGranularity: 2.sp,
+    maxLines: givenNum,
     style: TextStyle(
       fontFamily: 'Montesserat',
       fontWeight: FontWeight.w500,
       fontSize: 11.sp,
+
       //color: Theme.of(context).colorScheme.scrim,
     ),
   );

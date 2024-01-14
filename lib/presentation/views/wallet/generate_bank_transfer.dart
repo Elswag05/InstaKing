@@ -108,48 +108,28 @@ class _WalletCard1State extends ConsumerState<WalletCard1>
                                 parent: AlwaysScrollableScrollPhysics(),
                               ),
                               itemBuilder: ((context, index) {
-                                return AnimationConfiguration.staggeredList(
-                                  position: index,
-                                  delay: const Duration(
-                                    milliseconds: 100,
-                                  ),
-                                  child: SlideAnimation(
-                                    duration:
-                                        const Duration(milliseconds: 2500),
-                                    curve: Curves.fastLinearToSlowEaseIn,
-                                    horizontalOffset: 30,
-                                    verticalOffset: 300.0,
-                                    child: FlipAnimation(
-                                      duration: const Duration(
-                                        milliseconds: 3000,
-                                      ),
-                                      curve: Curves.fastLinearToSlowEaseIn,
-                                      flipAxis: FlipAxis.y,
-                                      child: AccountDetails(
-                                        accountName: ref
-                                                .read(instaProfileController)
-                                                .model
-                                                .user
-                                                ?.virtualBanks?[index]
-                                                .accountName ??
-                                            'Loading...',
-                                        bankName: ref
-                                                .read(instaProfileController)
-                                                .model
-                                                .user
-                                                ?.virtualBanks?[index]
-                                                .bankName ??
-                                            'Loading...',
-                                        accountNumber: ref
-                                                .read(instaProfileController)
-                                                .model
-                                                .user
-                                                ?.virtualBanks?[index]
-                                                .accountNumber ??
-                                            'Loading...',
-                                      ),
-                                    ),
-                                  ),
+                                return AccountDetails(
+                                  accountName: ref
+                                          .read(instaProfileController)
+                                          .model
+                                          .user
+                                          ?.virtualBanks?[index]
+                                          .accountName ??
+                                      'Loading...',
+                                  bankName: ref
+                                          .read(instaProfileController)
+                                          .model
+                                          .user
+                                          ?.virtualBanks?[index]
+                                          .bankName ??
+                                      'Loading...',
+                                  accountNumber: ref
+                                          .read(instaProfileController)
+                                          .model
+                                          .user
+                                          ?.virtualBanks?[index]
+                                          .accountNumber ??
+                                      'Loading...',
                                 );
                               }),
                             ),

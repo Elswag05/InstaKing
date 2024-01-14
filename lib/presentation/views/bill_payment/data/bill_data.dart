@@ -46,6 +46,7 @@ class _BillDataState extends ConsumerState<BillData> {
   void showReusableBottomSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
+      backgroundColor: Colors.transparent,
       builder: (BuildContext context) {
         return ReusableBottomSheet(
           getLength:

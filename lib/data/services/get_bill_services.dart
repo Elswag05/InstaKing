@@ -42,7 +42,7 @@ class GetBills with DioMixin {
   }
 
   Future<Response<dynamic>> getCablePlans(
-    String cableID,
+    num cableID,
   ) async {
     final customHeaders = {
       'Accept': 'application/json',

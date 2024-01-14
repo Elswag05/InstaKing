@@ -17,6 +17,7 @@ class OrderHistoryViewModel extends StatefulWidget {
   final String serviceHere;
   final String remNant;
   final Widget status;
+  final void Function()? onLinkTap;
   const OrderHistoryViewModel(
       {super.key,
       required this.idText,
@@ -27,7 +28,8 @@ class OrderHistoryViewModel extends StatefulWidget {
       required this.quantity,
       required this.serviceHere,
       required this.remNant,
-      required this.status});
+      required this.status,
+      this.onLinkTap});
 
   @override
   State<OrderHistoryViewModel> createState() => _OrderHistoryViewModelState();
@@ -97,16 +99,20 @@ class _OrderHistoryViewModelState extends State<OrderHistoryViewModel> {
             child: SizedBox(
               height: 50.h,
               width: 250.w,
-              child: darkText(widget.serviceHere, context),
+              child: darkText(
+                widget.serviceHere,
+                context,
+                givenNum: 1,
+              ),
             ),
           ),
           Positioned(
-            top: 60.h,
+            top: 40.h,
             child: lightText('DATE', context),
           ),
           Positioned(
             left: MediaQuery.of(context).size.width / 4.w,
-            top: 60.h,
+            top: 40.h,
             child: SizedBox(
               height: 47.h,
               width: 200,
@@ -114,33 +120,38 @@ class _OrderHistoryViewModelState extends State<OrderHistoryViewModel> {
             ),
           ),
           Positioned(
-            top: 80.h,
+            top: 60.h,
             child: lightText('LINK', context),
           ),
           Positioned(
             left: MediaQuery.of(context).size.width / 4.w,
-            top: 80.h,
+            top: 60.h,
             child: SizedBox(
               height: 20.h,
               width: 250,
-              child: Text(
-                widget.linkHere,
-                style: TextStyle(
-                  fontFamily: 'Montesserat',
-                  fontWeight: FontWeight.w500,
-                  fontSize: 11.sp,
-                  overflow: TextOverflow.ellipsis,
+              child: GestureDetector(
+                onTap: widget.onLinkTap,
+                child: Text(
+                  widget.linkHere,
+                  style: TextStyle(
+                    fontFamily: 'Montesserat',
+                    fontWeight: FontWeight.w500,
+                    fontSize: 11.sp,
+                    overflow: TextOverflow.ellipsis,
+                    color: Colors.blue,
+                    decoration: TextDecoration.underline,
+                  ),
                 ),
               ),
             ),
           ),
           Positioned(
-            top: 100.h,
+            top: 80.h,
             child: lightText('PRICE', context),
           ),
           Positioned(
             left: MediaQuery.of(context).size.width / 4.w,
-            top: 100.h,
+            top: 80.h,
             child: SizedBox(
               height: 47.h,
               width: 150,
@@ -148,12 +159,12 @@ class _OrderHistoryViewModelState extends State<OrderHistoryViewModel> {
             ),
           ),
           Positioned(
-            top: 120.h,
+            top: 100.h,
             child: lightText('START', context),
           ),
           Positioned(
             left: MediaQuery.of(context).size.width / 4.w,
-            top: 120.h,
+            top: 100.h,
             child: SizedBox(
               height: 20.h,
               width: 80.w,
@@ -161,22 +172,22 @@ class _OrderHistoryViewModelState extends State<OrderHistoryViewModel> {
             ),
           ), //₦
           Positioned(
-            top: 140.h,
+            top: 120.h,
             child: lightText('QUANTITY', context),
           ),
           Positioned(
             left: MediaQuery.of(context).size.width / 4.w,
-            top: 140.h,
+            top: 120.h,
             child: darkText(widget.quantity, context),
           ),
 
           Positioned(
-            top: 160.h,
+            top: 140.h,
             child: lightText('REMAINING', context),
           ),
           Positioned(
             left: MediaQuery.of(context).size.width / 4.w,
-            top: 160.h,
+            top: 140.h,
             child: SizedBox(
               height: 20.h,
               width: 80.w,
@@ -184,27 +195,18 @@ class _OrderHistoryViewModelState extends State<OrderHistoryViewModel> {
             ),
           ),
           Positioned(
-            top: 180.h,
+            top: 160.h,
             child: lightText('STATUS', context),
           ),
           Positioned(
             left: MediaQuery.of(context).size.width / 4.w,
-            top: 180.h,
+            top: 160.h,
             child: SizedBox(
               height: 20.h,
               width: 100.w,
               child: widget.status,
             ),
           ),
-          // Positioned(
-          //   bottom: 0.sp,
-          //   child: Container(
-          //     width: MediaQuery.of(context).size.width - 40.sp,
-          //     height: 1.sp,
-          //     color: InstaColors.primaryColor,
-          //     margin: EdgeInsets.symmetric(vertical: 10.sp),
-          //   ),
-          // )
         ],
       ),
     );

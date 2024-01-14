@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
-import 'package:insta_king/presentation/controllers/insta_categories_controller.dart';
 import 'package:insta_king/presentation/controllers/insta_order_controller.dart';
 import 'package:insta_king/presentation/model/get_all_order_model.dart';
 import 'package:insta_king/presentation/views/home/home_card_widgets.dart';
@@ -11,6 +10,7 @@ import 'package:insta_king/presentation/views/order/order_appbar.dart';
 import 'package:insta_king/presentation/views/order/order_history_status.dart';
 import 'package:insta_king/presentation/views/order/order_history_transactions_view_model.dart';
 import 'package:insta_king/presentation/views/order/order_tabs/main_order_tabs.dart';
+import 'package:insta_king/presentation/views/shared_widgets/insta_webview.dart';
 import 'package:insta_king/presentation/views/shared_widgets/shared_loading.dart';
 import 'package:lottie/lottie.dart';
 
@@ -92,55 +92,6 @@ class _InstaOrderHistoryState extends ConsumerState<InstaOrderHistory>
     });
   }
 
-  // void getServices() {
-  //   for (int i = 0; i < _currentOrders!.length; i++) {
-  //     allOrderId.add(_currentOrders![i].serviceId!);
-  //   }
-  //   log('Services ID ==> $allOrderId');
-  //   getServiceNames(allOrderId);
-  // }
-
-  // List<String> extractFourDigitNumbers(String input) {
-  //   RegExp regex = RegExp(r'\b\d{2,4}\b');
-  //   Iterable<Match> matches = regex.allMatches(input);
-
-  //   List<String> fourDigitNumbers =
-  //       matches.map((match) => match.group(0)!).toList();
-
-  //   return fourDigitNumbers;
-  // }
-
-  // void getServices() {
-  //   allOrderId = [];
-  //   for (int i = 0; i < _currentOrders!.length; i++) {
-  //     String serviceId = _currentOrders![i].serviceId!;
-  //     List<String> fourDigitNumbers = extractFourDigitNumbers(serviceId);
-
-  //     // Add only the 4-digit numbers to allOrderId
-  //     allOrderId.addAll(fourDigitNumbers);
-  //   }
-  //   //log('Services ID ==> $allOrderId');
-  //   getServiceNames(allOrderId);
-  // }
-
-  // List<String> getServiceNames(List<String> allOrderId) {
-  //   // Initialize serviceNames as an empty list
-
-  //   for (int i = 0; i < _currentOrders!.length; i++) {
-  //     // Append to the existing serviceNames list
-  //     serviceNames.addAll(
-  //       ref
-  //           .read(instaCategoriesController.notifier)
-  //           .getAllServicesModel
-  //           .data!
-  //           .where((service) => service.id.toString().contains(allOrderId[i]))
-  //           .map((service) => service.name ?? ""),
-  //     );
-  //     debugPrint('Service Names ==> $serviceNames');
-  //   }
-  //   return serviceNames;
-  // }
-
   @override
   void initState() {
     _updateChipSelection('one');
@@ -151,13 +102,6 @@ class _InstaOrderHistoryState extends ConsumerState<InstaOrderHistory>
     super.initState();
   }
 
-  // @override
-  // void dispose() {
-  //   textController.dispose();
-  //   _controller.dispose();
-  //   super.dispose();
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -165,7 +109,7 @@ class _InstaOrderHistoryState extends ConsumerState<InstaOrderHistory>
         child: Column(
           children: [
             OrderAppBar(
-              text: 'Order History',
+              text: 'My Orders',
               textController: textController,
               onSearch: (value) {},
             ).afmPadding(
@@ -334,7 +278,7 @@ class _InstaOrderHistoryState extends ConsumerState<InstaOrderHistory>
                                                             '',
                                                     serviceHere:
                                                         _currentOrders?[index]
-                                                                .serviceId ??
+                                                                .serviceName ??
                                                             '',
                                                     remNant:
                                                         _currentOrders?[index]
@@ -346,14 +290,25 @@ class _InstaOrderHistoryState extends ConsumerState<InstaOrderHistory>
                                                                   .status ??
                                                               Status.PENDING,
                                                     ),
-                                                  ).afmGetFuture(
-                                                    Future(() => null
-                                                        // ref
-                                                        //     .read(instaCategoriesController)
-                                                        //     .getOneServiceName(
-                                                        //       _currentOrders?[index].serviceId,
-                                                        //     ),
+                                                    onLinkTap: () {
+                                                      Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              WebViewKit(
+                                                            linkString:
+                                                                _currentOrders?[
+                                                                            index]
+                                                                        .link ??
+                                                                    'jayflash.com.com',
+                                                            linkDesc: _currentOrders?[
+                                                                        index]
+                                                                    .serviceName ??
+                                                                'Page Not Found!',
+                                                          ),
                                                         ),
+                                                      );
+                                                    },
                                                   ),
                                                 ),
                                               ));

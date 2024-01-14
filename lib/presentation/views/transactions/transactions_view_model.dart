@@ -40,7 +40,7 @@ class _OrderHistoryViewModelState extends State<TransactionViewModel> {
       ),
       padding: EdgeInsets.all(20.w),
       margin: EdgeInsets.only(bottom: 10.h),
-      height: 160.h,
+      height: 190.h,
       child: Stack(
         children: [
           // Positioned(
