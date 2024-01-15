@@ -15,6 +15,7 @@ final SecureStorageService secureStorageService =
 
 class DashBoardController extends BaseChangeNotifier {
   int page = 0;
+  int get myPage => page;
   bool _isLoggedIn = false;
   bool get isLoggedIn => _isLoggedIn;
   String _userEmail = "";
@@ -98,6 +99,10 @@ class DashBoardController extends BaseChangeNotifier {
   }
 
   void switchPage(int index) {
+    myPage = index;
+  }
+
+  set myPage(int index) {
     page = index;
     notifyListeners();
   }
