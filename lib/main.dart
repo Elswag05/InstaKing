@@ -10,6 +10,7 @@ import 'package:insta_king/no_internet.dart';
 import 'package:insta_king/presentation/controllers/insta_dashboard_controller.dart';
 import 'package:insta_king/presentation/controllers/insta_login_controller.dart';
 import 'package:insta_king/presentation/controllers/insta_network_controller.dart';
+import 'package:insta_king/presentation/controllers/theme_controller.dart';
 import 'package:insta_king/presentation/views/authentication/auth_shared/navigation_page.dart';
 import 'package:insta_king/presentation/views/authentication/login/insta_login_with_fingerprint.dart';
 import 'package:insta_king/presentation/views/onboarding/insta_onboarding.dart';
@@ -101,6 +102,8 @@ class _InstaKing extends ConsumerState<InstaKingGuide> {
 
   @override
   Widget build(BuildContext context) {
+    // ref.read(themeControllerProvider).brightnessOfDevice =
+    //     MediaQuery.of(context).platformBrightness;
     return OKToast(
       child: ScreenUtilInit(
         designSize: ScreenUtil.defaultSize,
@@ -110,6 +113,7 @@ class _InstaKing extends ConsumerState<InstaKingGuide> {
           return MaterialApp(
             title: 'InstaKing',
             themeMode: ThemeMode.system,
+            // ThemeMode.values[ref.read(themeControllerProvider).themeValue],
             theme: EnvThemeManager.lightTheme,
             darkTheme: EnvThemeManager.darkTheme,
             //   navigatorKey: navigatorKey,

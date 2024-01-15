@@ -15,10 +15,6 @@ class InstaDashboard extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // final dashboardController = ref.watch(dashBoardControllerProvider);
-    // final selectedPageIndex = dashboardController.page;
-    // // ref.read(instaOrderController).toGetAllOrders();
-
     return const InstaHomeDash();
   }
 }
@@ -28,8 +24,6 @@ class InstaHomeDash extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final dashboardController = ref.watch(dashBoardControllerProvider);
-    final selectedPageIndex = dashboardController.page;
     final GlobalKey<NavigatorState> homeNavigatorKey =
         GlobalKey<NavigatorState>();
     final GlobalKey<NavigatorState> billsNavigatorKey =
@@ -40,113 +34,124 @@ class InstaHomeDash extends HookConsumerWidget {
         GlobalKey<NavigatorState>();
     final GlobalKey<NavigatorState> profileNavigatorKey =
         GlobalKey<NavigatorState>();
-    return CupertinoTabScaffold(
-      tabBar: CupertinoTabBar(
-        currentIndex: selectedPageIndex,
-        onTap: (value) {
-          ref.read(dashBoardControllerProvider.notifier).switchPage(value);
-        },
-        activeColor: InstaColors.primaryColor,
-        backgroundColor: Theme.of(context).colorScheme.onInverseSurface,
-        items: <BottomNavigationBarItem>[
-          buildBottomNavigationBarItem(
-            ref,
-            context,
-            iconPath: 'Home',
-            label: 'Home',
-            index: 0,
+    return Consumer(
+      builder: (context, ref, child) {
+        // Access the InstaDashboardController using the provider
+        final dashboardController = ref.watch(dashBoardControllerProvider);
+        final selectedPageIndex = dashboardController.page;
+        return CupertinoTabScaffold(
+          tabBar: CupertinoTabBar(
+            currentIndex: selectedPageIndex,
+            onTap: (value) {
+              dashboardController.switchPage(value);
+            },
+            activeColor: InstaColors.primaryColor,
+            backgroundColor: Theme.of(context).colorScheme.onInverseSurface,
+            items: <BottomNavigationBarItem>[
+              buildBottomNavigationBarItem(
+                ref,
+                context,
+                iconPath: 'Home',
+                label: 'Home',
+                index: 0,
+              ),
+              buildBottomNavigationBarItem(
+                ref,
+                context,
+                iconPath: 'wifi',
+                label: 'Bills',
+                index: 1,
+              ),
+              buildBottomNavigationBarItem(
+                ref,
+                context,
+                iconPath: 'Order-History',
+                label: 'My Order',
+                index: 2,
+              ),
+              buildBottomNavigationBarItem(
+                ref,
+                context,
+                iconPath: 'Wallet (1)',
+                label: 'Wallet',
+                index: 3,
+              ),
+              buildBottomNavigationBarItem(
+                ref,
+                context,
+                iconPath: 'Profile',
+                label: 'Profile',
+                index: 4,
+              ),
+            ],
           ),
-          buildBottomNavigationBarItem(
-            ref,
-            context,
-            iconPath: 'wifi',
-            label: 'Bills',
-            index: 1,
-          ),
-          buildBottomNavigationBarItem(
-            ref,
-            context,
-            iconPath: 'Order-History',
-            label: 'My Order',
-            index: 2,
-          ),
-          buildBottomNavigationBarItem(
-            ref,
-            context,
-            iconPath: 'Wallet (1)',
-            label: 'Wallet',
-            index: 3,
-          ),
-          buildBottomNavigationBarItem(
-            ref,
-            context,
-            iconPath: 'Profile',
-            label: 'Profile',
-            index: 4,
-          ),
-        ],
-      ),
-      tabBuilder: (context, index) {
-        switch (index) {
-          case 0:
-            homeNavigatorKey.currentState?.popUntil((route) => route.isFirst);
-            return CupertinoTabView(
-              key: homeNavigatorKey,
-              builder: (context) {
-                return const CupertinoPageScaffold(
-                  child: InstaHome(),
+          tabBuilder: (context, index) {
+            switch (index) {
+              case 0:
+                homeNavigatorKey.currentState?.popUntil(
+                  (route) => route.isFirst,
                 );
-              },
-            );
-          case 1:
-            billsNavigatorKey.currentState?.popUntil((route) => route.isFirst);
-            return CupertinoTabView(
-              builder: (context) {
-                return const CupertinoPageScaffold(
-                  child: MainBillPayment(),
+                return CupertinoTabView(
+                  key: homeNavigatorKey,
+                  builder: (context) {
+                    return const CupertinoPageScaffold(
+                      child: InstaHome(),
+                    );
+                  },
                 );
-              },
-            );
-          case 2:
-            myOrderNavigatorKey.currentState
-                ?.popUntil((route) => route.isFirst);
-            return CupertinoTabView(
-              builder: (context) {
-                return const CupertinoPageScaffold(
-                  child: InstaOrderHistory(),
+              case 1:
+                billsNavigatorKey.currentState
+                    ?.popUntil((route) => route.isFirst);
+                return CupertinoTabView(
+                  builder: (context) {
+                    return const CupertinoPageScaffold(
+                      child: MainBillPayment(),
+                    );
+                  },
                 );
-              },
-            );
-          case 3:
-            walletNavigatorKey.currentState?.popUntil((route) => route.isFirst);
-            return CupertinoTabView(
-              key: walletNavigatorKey,
-              builder: (context) {
-                return const CupertinoPageScaffold(
-                  child: InstaWallet(),
+              case 2:
+                myOrderNavigatorKey.currentState
+                    ?.popUntil((route) => route.isFirst);
+                return CupertinoTabView(
+                  builder: (context) {
+                    return const CupertinoPageScaffold(
+                      child: InstaOrderHistory(),
+                    );
+                  },
                 );
-              },
-            );
-          case 4:
-            profileNavigatorKey.currentState
-                ?.popUntil((route) => route.isFirst);
-            return CupertinoTabView(
-              builder: (context) {
-                return const CupertinoPageScaffold(
-                  child: InstaProfile(),
+              case 3:
+                walletNavigatorKey.currentState
+                    ?.popUntil((route) => route.isFirst);
+                return CupertinoTabView(
+                  key: walletNavigatorKey,
+                  builder: (context) {
+                    return const CupertinoPageScaffold(
+                      child: InstaWallet(),
+                    );
+                  },
                 );
-              },
-            );
-          default:
-            return CupertinoTabView(
-              key: profileNavigatorKey,
-              builder: (context) {
-                return const CupertinoPageScaffold(
-                  child: InstaHome(),
+              case 4:
+                profileNavigatorKey.currentState
+                    ?.popUntil((route) => route.isFirst);
+                return CupertinoTabView(
+                  builder: (context) {
+                    return const CupertinoPageScaffold(
+                      child: InstaProfile(),
+                    );
+                  },
                 );
-              },
-            );
-        }
+              default:
+                return CupertinoTabView(
+                  key: profileNavigatorKey,
+                  builder: (context) {
+                    return const CupertinoPageScaffold(
+                      child: InstaHome(),
+                    );
+                  },
+                );
+            }
+          },
+        );
       },
     );
   }

@@ -68,7 +68,7 @@ class ShortcutsTheWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     void setPageIndexToTwo() {
       final value = ref.watch(dashBoardControllerProvider);
-      value.switchPage(2);
+      value.switchPage(3);
       //value.dispose();
     }
 

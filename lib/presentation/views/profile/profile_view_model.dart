@@ -6,6 +6,7 @@ class ProfileViewModel extends StatelessWidget {
   final String modelText;
   final void Function()? onTap;
   final Widget loadWidget;
+
   const ProfileViewModel({
     super.key,
     required this.modelText,
@@ -28,15 +29,13 @@ class ProfileViewModel extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
-          loadWidget == const SizedBox()
-              ? Icon(
-                  Icons.arrow_forward_ios_rounded,
-                  size: 20.sp,
-                  color: Theme.of(context).colorScheme.onSurface,
-                ).afmPadding(
-                  EdgeInsets.only(right: 6.h),
-                )
-              : loadWidget
+          Icon(
+            Icons.arrow_forward_ios_rounded,
+            size: 20.sp,
+            color: Theme.of(context).colorScheme.onSurface,
+          ).afmPadding(
+            EdgeInsets.only(right: 6.h),
+          ),
         ],
       ),
     );

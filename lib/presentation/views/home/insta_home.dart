@@ -96,7 +96,8 @@ class _InstaHomeState extends ConsumerState<InstaHome>
                         .user
                         ?.profilePicture,
                     onProfileTap: () {
-                      setPageIndexToTwo(3);
+                      setPageIndexToTwo(4);
+                      setState(() {});
                     },
                   ).afmPadding(
                     EdgeInsets.only(

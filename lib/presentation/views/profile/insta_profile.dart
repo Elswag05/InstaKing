@@ -9,6 +9,7 @@ import 'package:insta_king/presentation/controllers/insta_login_controller.dart'
 import 'package:insta_king/presentation/controllers/insta_order_controller.dart';
 import 'package:insta_king/presentation/controllers/insta_profile_controller.dart';
 import 'package:insta_king/presentation/controllers/insta_transactions_controller.dart';
+import 'package:insta_king/presentation/controllers/theme_controller.dart';
 import 'package:insta_king/presentation/views/authentication/login/login.dart';
 import 'package:insta_king/presentation/views/profile/account_profile_card.dart';
 import 'package:insta_king/presentation/views/profile/profile_view_model.dart';
@@ -35,8 +36,8 @@ class _InstaProfileState extends State<InstaProfile> {
   Widget build(BuildContext context) {
     return Consumer(
       builder: ((context, ref, child) {
-        //final themeController = ref.watch(themeControllerProvider);
-        //bool isChangeBool = themeController.isDarkTheme;
+        // final themeController = ref.watch(themeControllerProvider);
+        // bool isChangeBool = themeController.themeValue == 1 ? false : true;
 
         void toDispose() {
           ref.read(instaTransactionController).disposeTrx();
@@ -137,6 +138,8 @@ class _InstaProfileState extends State<InstaProfile> {
                                 );
                               },
                             ).afmPadding(),
+                            const ProfileViewModel(modelText: 'Support')
+                                .afmPadding(),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -225,10 +228,11 @@ class _InstaProfileState extends State<InstaProfile> {
                             //     ),
                             //     GestureDetector(
                             //       onTap: () {
-                            //         isChangeBool = themeController.isDarkTheme;
+                            //         isChangeBool = ref
+                            //             .read(themeControllerProvider)
+                            //             .setDarkTheme;
                             //       },
                             //       child: Switch(
-                            //         // thumb color (round icon)
                             //         activeColor: InstaColors.primaryColor,
                             //         activeTrackColor:
                             //             InstaColors.mildLightColor,
@@ -236,6 +240,43 @@ class _InstaProfileState extends State<InstaProfile> {
                             //         inactiveTrackColor:
                             //             InstaColors.mildLightColor,
                             //         splashRadius: 70.0,
+                            //         value: isChangeBool,
+                            //         onChanged: (value) {
+                            //           setState(() {
+                            //             value = !value;
+                            //             ref
+                            //                 .read(themeControllerProvider)
+                            //                 .toggleTheme(value);
+                            //             //isChangeBool = !isChangeBool;
+                            //           });
+                            //           debugPrint("$isChangeBool is valu!");
+                            //         },
+                            //       ),
+                            //     ),
+                            //   ],
+                            // ).afmPadding(
+                            //   EdgeInsets.only(
+                            //     left: 15.w,
+                            //   ),
+                            // ),
+                            // Row(
+                            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            //   children: [
+                            //     Text(
+                            //       'Dark Mode',
+                            //       style: TextStyle(
+                            //         fontFamily: 'Montesserat',
+                            //         fontSize: 14.sp,
+                            //         fontWeight: FontWeight.bold,
+                            //       ),
+                            //     ),
+                            //     GestureDetector(
+                            //       onTap: () {
+                            //         isChangeBool = themeController.isDarkTheme;
+                            //       },
+                            //       child: Switch(
+                            //         // thumb color (round icon)
+
                             //         // boolean variable value
                             //         value: isChangeBool,
                             //         // changes the state of the switch
@@ -248,8 +289,6 @@ class _InstaProfileState extends State<InstaProfile> {
                             //     ),
                             //   ],
                             // ).afmPadding(),
-                            const ProfileViewModel(modelText: 'Support')
-                                .afmPadding(),
                           ],
                         ).afmPadding(EdgeInsets.all(10.sp)))
                     .afmBorderRadius(BorderRadius.circular(10.r)),

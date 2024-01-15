@@ -129,7 +129,9 @@ class _HomeCardListState extends State<HomeCardList> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          ref.read(dashBoardControllerProvider).switchPage(2);
+                          ref
+                              .read(dashBoardControllerProvider.notifier)
+                              .switchPage(3);
                           debugPrint('Fund Wallet Button Tapped');
                         },
                         child: const SmallCTA(
