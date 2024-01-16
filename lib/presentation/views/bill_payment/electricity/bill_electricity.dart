@@ -10,8 +10,8 @@ import 'package:insta_king/presentation/controllers/insta_profile_controller.dar
 import 'package:insta_king/presentation/controllers/purchase_data_controller.dart';
 import 'package:insta_king/presentation/controllers/purchase_electricity_controller.dart';
 import 'package:insta_king/presentation/views/home/home_card_widgets.dart';
-import 'package:insta_king/presentation/views/profile/sub_profile_views.dart/bank_account_details/bank_account_details.dart';
 import 'package:insta_king/presentation/views/shared_widgets/bottom_sheet_modal.dart';
+import 'package:insta_king/presentation/views/shared_widgets/choose_container.dart';
 import 'package:insta_king/presentation/views/shared_widgets/cta_button.dart';
 import 'package:insta_king/presentation/views/shared_widgets/input_data_viewmodel.dart';
 import 'package:insta_king/presentation/views/shared_widgets/recurring_appbar.dart';
@@ -21,6 +21,17 @@ import 'package:insta_king/presentation/views/shared_widgets/shared_loading.dart
 /// but do not forget to give me the credits adding
 /// my app (Flutter Animation Gallery) where you are gonna use it.
 /// ---------------------------------->>>>>>>>>>>>>>>>>>>>>>>>
+///
+class Network {
+  String name;
+
+  Network(this.name);
+}
+
+List<dynamic> networkData = [
+  Network('Prepaid'),
+  Network('Postpaid'),
+];
 
 class BillElectricity extends ConsumerStatefulWidget {
   const BillElectricity({super.key});
@@ -46,56 +57,17 @@ class _BillElectricityState extends ConsumerState<BillElectricity> {
     super.initState();
   }
 
-  void showReusableBottomSheet(BuildContext context) {
+  void showReusableBottomSheet(BuildContext context, dataList, func) {
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
       builder: (BuildContext context) {
         return ReusableBottomSheet(
-          getLength: ref
-                  .read(instaElectricityController)
-                  .getPowerPlanModel
-                  .data
-                  ?.length ??
-              5,
+          getLength: dataList?.length ?? 5,
           title: 'Choose Disco Name',
-          networkPr:
-              ref.read(instaElectricityController).getPowerPlanModel.data,
+          networkPr: dataList,
           status: 'initialStatus', // Set your initial status here
-          onStatusChanged: (newStatus, val) {
-            // Handle the status change here if needed
-            setState(() {
-              discoName = newStatus?[val].name ?? '';
-              discoId = newStatus?[val].id ?? 0;
-            });
-            debugPrint('New Status: $discoId && $discoName');
-          },
-        );
-      },
-    );
-  }
-
-  void showTypeReusableBottomSheet(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      backgroundColor: Colors.transparent,
-      builder: (BuildContext context) {
-        return ReusableBottomSheet(
-          getLength: ref
-                  .read(instaElectricityController)
-                  .getPowerPlanModel
-                  .data
-                  ?.length ??
-              5,
-          title: 'Choose Disco Name',
-          status: 'initialStatus', // Set your initial status here
-          onStatusChanged: (newStatus, val) {
-            // Handle the status change here if needed
-            setState(() {
-              meterType = newStatus?[val] ?? '';
-            });
-            debugPrint('New Status: $newStatus');
-          },
+          onStatusChanged: func,
         );
       },
     );
@@ -120,7 +92,22 @@ class _BillElectricityState extends ConsumerState<BillElectricity> {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        showReusableBottomSheet(context);
+                        showReusableBottomSheet(
+                          context,
+                          ref
+                              .read(instaElectricityController)
+                              .getPowerPlanModel
+                              .data,
+                          (newStatus, val) {
+                            // Handle the status change here if needed
+                            setState(() {
+                              meterType = '';
+                              discoName = newStatus?[val].name ?? '';
+                              discoId = newStatus?[val].id ?? 0;
+                            });
+                            debugPrint('New Status: $discoId && $discoName');
+                          },
+                        );
                       },
                       child: ChooseContainerFromDropDown(
                         headerText: "Disco Name",
@@ -133,7 +120,17 @@ class _BillElectricityState extends ConsumerState<BillElectricity> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        showTypeReusableBottomSheet(context);
+                        showReusableBottomSheet(
+                          context,
+                          networkData,
+                          (newStatus, val) {
+                            // Handle the status change here if needed
+                            setState(() {
+                              meterType = newStatus?[val] ?? '';
+                            });
+                            debugPrint('New Status: $newStatus');
+                          },
+                        );
                       },
                       child: ChooseContainerFromDropDown(
                         headerText: "Meter Type",

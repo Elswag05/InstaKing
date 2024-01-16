@@ -11,7 +11,7 @@ import 'package:insta_king/data/services/notification.dart';
 import 'package:insta_king/presentation/controllers/insta_profile_controller.dart';
 import 'package:insta_king/presentation/controllers/subscribe_cable_controller.dart';
 import 'package:insta_king/presentation/views/shared_widgets/bottom_sheet_modal.dart';
-import 'package:insta_king/presentation/views/profile/sub_profile_views.dart/bank_account_details/bank_account_details.dart';
+import 'package:insta_king/presentation/views/shared_widgets/choose_container.dart';
 import 'package:insta_king/presentation/views/shared_widgets/cta_button.dart';
 import 'package:insta_king/presentation/views/shared_widgets/input_data_viewmodel.dart';
 import 'package:insta_king/presentation/views/shared_widgets/recurring_appbar.dart';

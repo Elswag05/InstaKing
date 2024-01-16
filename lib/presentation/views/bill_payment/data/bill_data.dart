@@ -10,10 +10,9 @@ import 'package:insta_king/presentation/controllers/insta_profile_controller.dar
 import 'package:insta_king/presentation/controllers/purchase_airtime_controller.dart';
 import 'package:insta_king/presentation/controllers/purchase_data_controller.dart';
 import 'package:insta_king/presentation/controllers/text_editing_controller.dart';
-import 'package:insta_king/presentation/views/bill_payment/airtime/airtime_widgets.dart';
 import 'package:insta_king/presentation/views/shared_widgets/bottom_sheet_modal.dart';
 import 'package:insta_king/presentation/views/home/home_card_widgets.dart';
-import 'package:insta_king/presentation/views/profile/sub_profile_views.dart/bank_account_details/bank_account_details.dart';
+import 'package:insta_king/presentation/views/shared_widgets/choose_container.dart';
 import 'package:insta_king/presentation/views/shared_widgets/cta_button.dart';
 import 'package:insta_king/presentation/views/shared_widgets/input_data_viewmodel.dart';
 import 'package:insta_king/presentation/views/shared_widgets/recurring_appbar.dart';
@@ -153,31 +152,17 @@ class _BillDataState extends ConsumerState<BillData> {
                             ),
                           )
                         : const SizedBox(),
-                    Stack(
-                      children: [
-                        CollectPersonalDetailModel(
-                          leadTitle: "Phone Number",
-                          hintT: "080 XXX XXXX",
-                          isPasswordT: false,
-                          isdigit: [FilteringTextInputFormatter.digitsOnly],
-                          numberOfTexts: 11,
-                          controller: ref.read(textControllerProvider),
-                          onChanged: (value) {
-                            textValueNotifier.dataTextValue = value;
-                            setState(() {});
-                          },
-                        ),
-                        Positioned(
-                          bottom: 10.h,
-                          left: 10.w,
-                          child: Text(
-                            'Network: ${getNetworkProvider(ref.watch(textValueProvider).dataTextValue)}',
-                            style: TextStyle(
-                              fontSize: 13.sp,
-                            ),
-                          ),
-                        ),
-                      ],
+                    CollectPersonalDetailModel(
+                      leadTitle: "Phone Number",
+                      hintT: "080 XXX XXXX",
+                      isPasswordT: false,
+                      isdigit: [FilteringTextInputFormatter.digitsOnly],
+                      numberOfTexts: 11,
+                      controller: ref.read(textControllerProvider),
+                      onChanged: (value) {
+                        textValueNotifier.dataTextValue = value;
+                        setState(() {});
+                      },
                     ),
                     CustomButton(
                       pageCTA: "Proceed",
@@ -260,7 +245,7 @@ class _BillDataState extends ConsumerState<BillData> {
 
   @override
   void dispose() {
-    textValueNotifier.dispose();
+    // textValueNotifier.dispose();
     amountController.dispose();
     super.dispose();
   }

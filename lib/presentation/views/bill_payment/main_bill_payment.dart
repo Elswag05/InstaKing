@@ -99,7 +99,7 @@ class MainBillPaymentState extends State<MainBillPayment>
               ),
               homePageCardsGroup(
                 Colors.lightGreen,
-                'electricity',
+                'flash',
                 'Electricity',
                 context,
                 const BillElectricity(),
@@ -235,37 +235,3 @@ class MainBillPaymentState extends State<MainBillPayment>
     super.dispose();
   }
 }
-
-
-
-
-/// homePageCardsGroup(
-              //     const Color(0xff63ace5),
-              //     Icons.ad_units_outlined,
-              //     'Example example example',
-              //     context,
-              //     const BillAirtime(),
-              //     const Color(0xfff37736),
-              //     Icons.article_sharp,
-              //     'Example example',
-              //     const BillAirtime()),
-              // homePageCardsGroup(
-              //     const Color(0xffFF6D6D),
-              //     Icons.android,
-              //     'Example example',
-              //     context,
-              //     const BillAirtime(),
-              //     Colors.lightGreen,
-              //     Icons.text_format,
-              //     'Example',
-              //     const BillAirtime()),
-              // homePageCardsGroup(
-              //     const Color(0xffffa700),
-              //     Icons.text_fields,
-              //     'Example',
-              //     context,
-              //     const BillAirtime(),
-              //     const Color(0xff63ace5),
-              //     Icons.calendar_today_sharp,
-              //     'Example example',
-              //     const BillAirtime()),

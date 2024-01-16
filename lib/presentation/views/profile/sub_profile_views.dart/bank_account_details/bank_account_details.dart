@@ -1,8 +1,8 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:insta_king/core/extensions/widget_extension.dart';
+import 'package:insta_king/presentation/views/shared_widgets/choose_container.dart';
 import 'package:insta_king/presentation/views/shared_widgets/cta_button.dart';
 import 'package:insta_king/presentation/views/shared_widgets/input_data_viewmodel.dart';
 import 'package:insta_king/presentation/views/shared_widgets/recurring_appbar.dart';
@@ -51,64 +51,6 @@ class BankAccountLink extends StatelessWidget {
               )
         ],
       ),
-    );
-  }
-}
-
-class ChooseContainerFromDropDown extends StatelessWidget {
-  final String headerText;
-  final String hintText;
-  final IconData displayIcon;
-  const ChooseContainerFromDropDown(
-      {super.key,
-      required this.headerText,
-      required this.hintText,
-      this.displayIcon = Icons.keyboard_arrow_down_rounded});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        AutoSizeText(
-          headerText,
-          minFontSize: 14.sp,
-          stepGranularity: 2.sp,
-          style: TextStyle(
-            fontFamily: 'Montesserat',
-            fontSize: 16.sp,
-            fontWeight: FontWeight.w500,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ),
-        Container(
-          height: 40.h,
-          decoration: BoxDecoration(
-            border: Border.all(
-              width: 1.sp,
-              color: Theme.of(context).unselectedWidgetColor,
-            ),
-            borderRadius: BorderRadius.circular(10.r),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                hintText,
-                style: TextStyle(
-                  fontFamily: 'Montesserat',
-                  fontSize: 13.sp,
-                  fontWeight: FontWeight.w500,
-                ),
-              ).afmPadding(EdgeInsets.only(left: 10.w)),
-              Icon(
-                displayIcon,
-                size: 20.sp,
-              ).afmPadding(EdgeInsets.only(right: 6.h)),
-            ],
-          ),
-        ).afmPadding(EdgeInsets.only(top: 10.sp, bottom: 10.sp)),
-      ],
     );
   }
 }

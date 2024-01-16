@@ -56,7 +56,6 @@ class _CollectPersonalDetailModelState
           onChanged: widget.onChanged,
           style: TextStyle(
             fontSize: 13.sp,
-            color: InstaColors.darkColor,
           ),
           decoration: InputDecoration(
             contentPadding:
@@ -65,9 +64,8 @@ class _CollectPersonalDetailModelState
             hintStyle: TextStyle(
               fontFamily: 'Montesserat',
               fontSize: 13.sp,
-              color: InstaColors.mildGrey,
             ),
-            fillColor: InstaColors.lightColor,
+            fillColor: Theme.of(context).cardColor,
             filled: true,
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10.r),
@@ -103,63 +101,3 @@ class _CollectPersonalDetailModelState
     );
   }
 }
-
-
-
-        // widget.isDesciptionT
-        //     ? SizedBox(
-        //         height: 100.h,
-        //         width: MediaQuery.of(context).size.width - 20.sp,
-        //         child: TextField(
-        //           readOnly: true, // Prevents user input
-        //           maxLines: null,
-        //           expands: true,
-        //           controller: widget.controller,
-        //           keyboardType: TextInputType.multiline,
-        //           textAlignVertical:
-        //               TextAlignVertical.top, // Align text to the top
-        //           decoration: InputDecoration(
-        //             contentPadding:
-        //                 EdgeInsets.symmetric(vertical: 12.h, horizontal: 12.w),
-        //             hintText: widget.hintT,
-        //             hintStyle: TextStyle(
-        //               fontFamily: 'Montesserat',
-        //               fontSize: 13.sp,
-        //               color: InstaColors.mildGrey,
-        //             ),
-        //             fillColor: InstaColors.lightColor,
-        //             filled: true,
-        //             enabledBorder: OutlineInputBorder(
-        //               borderRadius: BorderRadius.circular(10.r),
-        //               borderSide: BorderSide(
-        //                 width: 0.5.sp,
-        //                 color: InstaColors.darkColor.withOpacity(0.3),
-        //               ),
-        //             ),
-        //             focusedBorder: OutlineInputBorder(
-        //               borderRadius: BorderRadius.circular(10.r),
-        //               borderSide: BorderSide(
-        //                 width: 0.5.sp,
-        //                 color: InstaColors.darkColor,
-        //               ),
-        //             ),
-        //             disabledBorder: OutlineInputBorder(
-        //               borderRadius: BorderRadius.circular(10.r),
-        //               borderSide: BorderSide(
-        //                 width: 0.5.sp,
-        //                 color: InstaColors.darkColor.withOpacity(0.5),
-        //               ),
-        //             ),
-        //             errorBorder: OutlineInputBorder(
-        //               borderRadius: BorderRadius.circular(10.r),
-        //               borderSide: BorderSide(
-        //                 width: 0.5.sp,
-        //                 color: InstaColors.errorColor,
-        //               ),
-        //             ),
-        //           ),
-        //         ),
-        //       ).afmPadding(
-        //         EdgeInsets.only(top: 10.sp, bottom: 10.sp),
-        //       )
-        //     :
