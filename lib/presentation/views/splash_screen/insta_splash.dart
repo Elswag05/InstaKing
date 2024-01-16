@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:insta_king/core/constants/constants.dart';
-import 'package:insta_king/core/constants/env_assets.dart';
 import 'package:insta_king/main.dart';
 
 class InstaSplash extends StatefulWidget {

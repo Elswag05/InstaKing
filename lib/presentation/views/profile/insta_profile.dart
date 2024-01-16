@@ -9,7 +9,6 @@ import 'package:insta_king/presentation/controllers/insta_login_controller.dart'
 import 'package:insta_king/presentation/controllers/insta_order_controller.dart';
 import 'package:insta_king/presentation/controllers/insta_profile_controller.dart';
 import 'package:insta_king/presentation/controllers/insta_transactions_controller.dart';
-import 'package:insta_king/presentation/controllers/theme_controller.dart';
 import 'package:insta_king/presentation/views/authentication/login/login.dart';
 import 'package:insta_king/presentation/views/profile/account_profile_card.dart';
 import 'package:insta_king/presentation/views/profile/profile_view_model.dart';
