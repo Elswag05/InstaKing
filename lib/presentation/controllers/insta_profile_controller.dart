@@ -124,7 +124,7 @@ class ProfileController extends BaseChangeNotifier {
         //   'Gotten Profile Details',
         // );
         model = ProfileModel.fromJson(res.data);
-        log('model has been gotten ==> ${res.data}');
+        //log('model has been gotten ==> ${res.data}');
         //log('model  == > ${res.data}');
         //loadingState = LoadingState.idle;
         return model;

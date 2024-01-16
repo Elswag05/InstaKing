@@ -11,31 +11,43 @@ class GetNetworkModel {
     this.data,
   });
 
-  factory GetNetworkModel.fromJson(String str) =>
-      GetNetworkModel.fromMap(json.decode(str));
+  GetNetworkModel copyWith({
+    String? status,
+    String? message,
+    List<Datum>? data,
+  }) =>
+      GetNetworkModel(
+        status: status ?? this.status,
+        message: message ?? this.message,
+        data: data ?? this.data,
+      );
+
+  factory GetNetworkModel.fromJson(Map<String, dynamic> json) =>
+      GetNetworkModel.fromMap(json);
 
   String toJson() => json.encode(toMap());
 
   factory GetNetworkModel.fromMap(Map<String, dynamic> json) => GetNetworkModel(
         status: json["status"],
         message: json["message"],
-        data: List<Datum>.from(
-          json["data"]?.map((x) => Datum.fromMap(x)) ?? [],
-        ),
+        data: json["data"] == null
+            ? []
+            : List<Datum>.from(json["data"]!.map((x) => Datum.fromMap(x))),
       );
 
   Map<String, dynamic> toMap() => {
         "status": status,
         "message": message,
-        "data": data?.map((x) => x.toMap()).toList(),
+        "data":
+            data == null ? [] : List<dynamic>.from(data!.map((x) => x.toMap())),
       };
 }
 
 class Datum {
   int? id;
   String? image;
-  int? airtime;
-  int? data; // Update this line
+  String? airtime;
+  String? data;
   String? name;
   String? airtimeDiscount;
   String? airtimeMinimum;
@@ -49,6 +61,25 @@ class Datum {
     this.airtimeDiscount,
     this.airtimeMinimum,
   });
+
+  Datum copyWith({
+    int? id,
+    String? image,
+    String? airtime,
+    String? data,
+    String? name,
+    String? airtimeDiscount,
+    String? airtimeMinimum,
+  }) =>
+      Datum(
+        id: id ?? this.id,
+        image: image ?? this.image,
+        airtime: airtime ?? this.airtime,
+        data: data ?? this.data,
+        name: name ?? this.name,
+        airtimeDiscount: airtimeDiscount ?? this.airtimeDiscount,
+        airtimeMinimum: airtimeMinimum ?? this.airtimeMinimum,
+      );
 
   factory Datum.fromJson(String str) => Datum.fromMap(json.decode(str));
 

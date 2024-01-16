@@ -22,8 +22,8 @@ class GetCablePlanModel {
         data: data ?? this.data,
       );
 
-  factory GetCablePlanModel.fromJson(String str) =>
-      GetCablePlanModel.fromMap(json.decode(str));
+  factory GetCablePlanModel.fromJson(Map<String, dynamic> json) =>
+      GetCablePlanModel.fromMap(json);
 
   String toJson() => json.encode(toMap());
 

@@ -3,6 +3,7 @@ import 'package:dio/dio.dart' show Response;
 import 'dio_mixin.dart';
 
 class GetBills with DioMixin {
+  ///To get the networks available and their corresponding ID
   Future<Response<dynamic>> getNetworks() async {
     final customHeaders = {
       'Accept': 'application/json',
@@ -15,6 +16,7 @@ class GetBills with DioMixin {
     return response;
   }
 
+  ///To get the data plans available based on the provided networks
   Future<Response<dynamic>> getDataPlans(
     num networkID,
   ) async {
@@ -50,7 +52,7 @@ class GetBills with DioMixin {
       'Connection': 'keep-alive',
     };
     final response = await connect(customHeaders: customHeaders).get(
-      '/bills/cable/plans?cable=1',
+      '/bills/cable/plans?cable=$cableID',
     );
     return response;
   }

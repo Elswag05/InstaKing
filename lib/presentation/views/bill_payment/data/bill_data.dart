@@ -11,7 +11,7 @@ import 'package:insta_king/presentation/controllers/purchase_airtime_controller.
 import 'package:insta_king/presentation/controllers/purchase_data_controller.dart';
 import 'package:insta_king/presentation/controllers/text_editing_controller.dart';
 import 'package:insta_king/presentation/views/bill_payment/airtime/airtime_widgets.dart';
-import 'package:insta_king/presentation/views/bill_payment/bottom_sheet_modal.dart';
+import 'package:insta_king/presentation/views/shared_widgets/bottom_sheet_modal.dart';
 import 'package:insta_king/presentation/views/home/home_card_widgets.dart';
 import 'package:insta_king/presentation/views/profile/sub_profile_views.dart/bank_account_details/bank_account_details.dart';
 import 'package:insta_king/presentation/views/shared_widgets/cta_button.dart';
@@ -32,21 +32,26 @@ class BillData extends ConsumerStatefulWidget {
 }
 
 class _BillDataState extends ConsumerState<BillData> {
-  final TextEditingController amountController = TextEditingController();
-  late TextValueNotifier textValueNotifier = ref.read(textValueProvider);
-
-  //TODO: set to true
-  late bool userHasPickedNetwork = true;
+  late final TextEditingController amountController;
+  late TextValueNotifier textValueNotifier;
+  late String networkID = '';
+  late String networkName = '';
+  late String dataType = '';
+  late String dataPlan = '';
+  late String dataName = '';
+  late bool userHasPickedNetwork;
 
   @override
   void initState() {
     textValueNotifier = ref.read(textValueProvider);
-    //ref.read(instaAirtimeController).toGetNetworks();
-    ref.read(instaDataController).toGetDataPlan(1);
+    userHasPickedNetwork = false;
+    ref.read(instaAirtimeController).toGetNetworks();
+    amountController = TextEditingController();
     super.initState();
   }
 
-  void showReusableBottomSheet(BuildContext context, dataList) {
+  void showReusableBottomSheet(
+      BuildContext context, dataList, onStatusChanged) {
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
@@ -58,10 +63,7 @@ class _BillDataState extends ConsumerState<BillData> {
           title: 'Choose Network',
           networkPr: dataList,
           status: 'initialStatus', // Set your initial status here
-          onStatusChanged: (newStatus) {
-            // Handle the status change here if needed
-            debugPrint('New Status: $newStatus');
-          },
+          onStatusChanged: onStatusChanged,
         );
       },
     );
@@ -88,12 +90,28 @@ class _BillDataState extends ConsumerState<BillData> {
                       onTap: () {
                         showReusableBottomSheet(
                           context,
-                          ref.read(instaAirtimeController).getNetworkModel,
+                          ref.read(instaAirtimeController).getNetworkModel.data,
+                          (newStatus, netName) {
+                            // Handle the status change here if needed
+                            debugPrint('New Status: $newStatus');
+                            setState(() {
+                              networkID =
+                                  newStatus?[netName].id.toString() ?? '';
+                              networkName =
+                                  newStatus?[netName].name.toString() ?? '';
+                              userHasPickedNetwork =
+                                  newStatus == '' ? false : true;
+                              ref
+                                  .read(instaDataController)
+                                  .toGetDataPlan(networkID);
+                            });
+                          },
                         );
                       },
-                      child: const ChooseContainerFromDropDown(
+                      child: ChooseContainerFromDropDown(
                         headerText: "Network",
-                        hintText: "Choose Network",
+                        hintText:
+                            networkName != '' ? networkName : "Choose Network",
                       ).afmPadding(
                         EdgeInsets.only(
                           bottom: 20.h,
@@ -109,16 +127,25 @@ class _BillDataState extends ConsumerState<BillData> {
                                     .read(instaDataController)
                                     .getDataPlanModel
                                     .data,
+                                (newStatus, index) {
+                                  // Handle the status change here if needed
+                                  debugPrint('New Status: $newStatus');
+                                  setState(() {
+                                    dataType =
+                                        newStatus?[index].type.toString() ?? '';
+                                    dataPlan =
+                                        newStatus?[index].id.toString() ?? '';
+                                    dataName =
+                                        newStatus?[index].name.toString() ?? '';
+                                  });
+                                },
                               );
-                              debugPrint(ref
-                                  .read(instaDataController)
-                                  .getDataPlanModel
-                                  .data
-                                  .toString());
                             },
-                            child: const ChooseContainerFromDropDown(
+                            child: ChooseContainerFromDropDown(
                               headerText: "Data Bundle",
-                              hintText: "Choose Data Plan",
+                              hintText: dataName != ''
+                                  ? dataName
+                                  : "Choose Data Plan",
                             ),
                           ).afmPadding(
                             EdgeInsets.only(
@@ -136,7 +163,7 @@ class _BillDataState extends ConsumerState<BillData> {
                           numberOfTexts: 11,
                           controller: ref.read(textControllerProvider),
                           onChanged: (value) {
-                            textValueNotifier.textValue = value;
+                            textValueNotifier.dataTextValue = value;
                             setState(() {});
                           },
                         ),
@@ -144,7 +171,7 @@ class _BillDataState extends ConsumerState<BillData> {
                           bottom: 10.h,
                           left: 10.w,
                           child: Text(
-                            'Network: ${getNetworkProvider(ref.watch(textValueProvider).airtimeTextValue)}',
+                            'Network: ${getNetworkProvider(ref.watch(textValueProvider).dataTextValue)}',
                             style: TextStyle(
                               fontSize: 13.sp,
                             ),
@@ -152,16 +179,6 @@ class _BillDataState extends ConsumerState<BillData> {
                         ),
                       ],
                     ),
-                    // CollectPersonalDetailModel(
-                    //   leadTitle: "Amount",
-                    //   hintT: "₦500",
-                    //   isPasswordT: false,
-                    //   isdigit: [FilteringTextInputFormatter.digitsOnly],
-                    //   controller: amountController,
-                    //   onChanged: (value) {
-                    //     setState(() {});
-                    //   },
-                    // ),
                     CustomButton(
                       pageCTA: "Proceed",
                       buttonOnPressed: () {
@@ -169,10 +186,10 @@ class _BillDataState extends ConsumerState<BillData> {
                         ref
                             .read(instaDataController)
                             .toBuyData(
-                              "MTN",
-                              "08134094579",
-                              "",
-                              "",
+                              networkID,
+                              textValueNotifier.dataTextValue,
+                              dataType,
+                              dataPlan,
                             )
                             .then(
                           (value) {
@@ -191,12 +208,11 @@ class _BillDataState extends ConsumerState<BillData> {
                                 },
                               ).show();
                               LocalNotification.showPurchaseNotification(
-                                //TODO:catgory should be added here
-                                title: 'InstaKing ♛ \nOrder Successful',
+                                title: 'Order Successful',
                                 body:
                                     'Dear ${ref.read(instaProfileController.notifier).model.user?.fullname},\nYour data purchase of ${formatBalance(
                                   amountController.text,
-                                )} is successful.\nYour available insta balance is ₦${ref.read(instaProfileController.notifier).model.user?.balance}.\nPurchase Details  ::: \nName: {selectedServiceName}\nCategory: Data Purchase\nAmount: ${formatBalance(amountController.text)}',
+                                )} is successful.\nYour available insta balance is ₦${ref.read(instaProfileController.notifier).model.user?.balance}.}',
                                 payload: '',
                               );
                             } else {
@@ -240,5 +256,12 @@ class _BillDataState extends ConsumerState<BillData> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    textValueNotifier.dispose();
+    amountController.dispose();
+    super.dispose();
   }
 }

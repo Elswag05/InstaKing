@@ -22,8 +22,8 @@ class GetCableDecoderModel {
         data: data ?? this.data,
       );
 
-  factory GetCableDecoderModel.fromJson(String str) =>
-      GetCableDecoderModel.fromMap(json.decode(str));
+  factory GetCableDecoderModel.fromJson(Map<String, dynamic> json) =>
+      GetCableDecoderModel.fromMap(json);
 
   String toJson() => json.encode(toMap());
 
@@ -48,7 +48,7 @@ class Datum {
   int? id;
   String? image;
   String? name;
-  int? status;
+  String? status;
 
   Datum({
     this.id,
@@ -61,7 +61,7 @@ class Datum {
     int? id,
     String? image,
     String? name,
-    int? status,
+    String? status,
   }) =>
       Datum(
         id: id ?? this.id,

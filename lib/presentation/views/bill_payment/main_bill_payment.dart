@@ -68,14 +68,14 @@ class MainBillPaymentState extends State<MainBillPayment>
                     Text(
                       'Bill Payments',
                       style: TextStyle(
+                        fontFamily: 'Montesserat',
                         fontSize: 17.sp,
-                        color: Theme.of(context).colorScheme.onBackground,
-                        fontWeight: FontWeight.w700,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                     SizedBox(height: w / 35),
                     Text(
-                      'Sort all your bills here',
+                      'Sort all your bills in one place',
                       style: TextStyle(
                         fontSize: 12,
                         color: Theme.of(context).colorScheme.onBackground,
@@ -99,7 +99,7 @@ class MainBillPaymentState extends State<MainBillPayment>
               ),
               homePageCardsGroup(
                 Colors.lightGreen,
-                'monitor',
+                'electricity',
                 'Electricity',
                 context,
                 const BillElectricity(),
@@ -167,7 +167,7 @@ class MainBillPaymentState extends State<MainBillPayment>
           },
           child: Container(
             padding: const EdgeInsets.all(15),
-            height: w / 2,
+            height: w / 2.4,
             width: w / 2.4,
             decoration: BoxDecoration(
               color: Theme.of(context).cardColor,
@@ -186,8 +186,8 @@ class MainBillPaymentState extends State<MainBillPayment>
               children: [
                 const SizedBox(),
                 Container(
-                  height: w / 8,
-                  width: w / 8,
+                  height: w / 7,
+                  width: w / 7,
                   decoration: BoxDecoration(
                     color: color.withOpacity(.1),
                     shape: BoxShape.circle,
@@ -214,7 +214,7 @@ class MainBillPaymentState extends State<MainBillPayment>
                   softWrap: true,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                    fontSize: 18,
+                    fontSize: 13,
                     color: Theme.of(context).colorScheme.onBackground,
                     fontWeight: FontWeight.w700,
                   ),

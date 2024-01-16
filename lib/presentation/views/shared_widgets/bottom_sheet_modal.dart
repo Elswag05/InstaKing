@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:insta_king/core/constants/constants.dart';
-import 'package:insta_king/presentation/controllers/purchase_airtime_controller.dart';
-import 'package:insta_king/presentation/model/get_network_model.dart';
+import 'package:insta_king/core/extensions/widget_extension.dart';
 
 class ReusableBottomSheet extends StatelessWidget {
   final String title;
   final String status;
-  final List<Datum>? networkPr;
-  final Function(String) onStatusChanged;
+  final List<dynamic>? networkPr;
+  final Function(List<dynamic>?, int) onStatusChanged;
   final int getLength;
 
   const ReusableBottomSheet({
@@ -25,19 +24,15 @@ class ReusableBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer(
       builder: (context, ref, child) {
-        final networkPr = ref.read(instaAirtimeController).getNetworkModel.data;
         return Container(
-          height:
-              (ref.read(instaAirtimeController).getNetworkModel.data?.length ??
-                      5) *
-                  80.h,
+          height: (networkPr?.length ?? 5) * 70.h,
           padding: EdgeInsets.only(
             left: 20.sp,
             right: 20.sp,
             top: 40.sp,
           ),
           decoration: BoxDecoration(
-            color: InstaColors.primaryColor,
+            color: InstaColors.primaryColor.withOpacity(0.8),
             border: Border.all(
               width: 0.5,
             ),
@@ -53,37 +48,32 @@ class ReusableBottomSheet extends StatelessWidget {
           child: Column(
             children: <Widget>[
               SizedBox(
-                height: (ref
-                            .read(instaAirtimeController)
-                            .getNetworkModel
-                            .data
-                            ?.length ??
-                        4) *
-                    50.h,
+                height: (networkPr?.length ?? 4) * 40.h,
                 child: ListView.builder(
-                    itemCount: ref
-                        .read(instaAirtimeController)
-                        .getNetworkModel
-                        .data
-                        ?.length,
+                    itemCount: networkPr?.length,
+                    padding: EdgeInsets.only(
+                      bottom: 5.h,
+                    ),
                     itemBuilder: (context, index) {
                       return ListTile(
-                        leading: const Icon(Icons.play_circle_outline),
+                        visualDensity: VisualDensity.standard,
                         title: Text(
                           networkPr?[index].name ?? 'loading...',
-                          style: const TextStyle(
+                          style: TextStyle(
+                            fontFamily: "Monteserrat",
                             fontWeight: FontWeight.bold,
+                            fontSize: 12.sp,
                           ),
                         ),
                         onTap: () {
-                          onStatusChanged('ON');
+                          onStatusChanged(networkPr, index);
                           Navigator.of(context).pop();
                         },
                       );
                     }),
               ),
             ],
-          ),
+          ).afmNeverScroll,
         );
       },
     );

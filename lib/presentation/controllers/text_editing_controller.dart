@@ -8,9 +8,9 @@ final textControllerProvider =
 
 final textValueProvider = ChangeNotifierProvider<TextValueNotifier>((ref) {
   final controller = ref.watch(textControllerProvider);
-  final dataController = ref.watch(textControllerProvider);
-  final networkController = ref.watch(textControllerProvider);
-  final airtimeController = ref.watch(textControllerProvider);
+  final dataTextController = ref.watch(textControllerProvider);
+  final networkTextController = ref.watch(textControllerProvider);
+  final airtimeTextController = ref.watch(textControllerProvider);
   return TextValueNotifier();
 });
 
@@ -27,9 +27,21 @@ class TextValueNotifier extends ChangeNotifier {
 
   set textValue(String value) {
     _textValue = value;
+    notifyListeners();
+  }
+
+  set airtimeTextValue(String value) {
     _airtimeTextValue = value;
-    _dataTextValue = value;
+    notifyListeners();
+  }
+
+  set networkTextValue(String value) {
     _networkTextValue = value;
+    notifyListeners();
+  }
+
+  set dataTextValue(value) {
+    _dataTextValue = value;
     notifyListeners();
   }
 }

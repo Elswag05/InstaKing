@@ -6,6 +6,7 @@ import 'package:insta_king/core/extensions/widget_extension.dart';
 import 'package:insta_king/presentation/controllers/insta_dashboard_controller.dart';
 import 'package:insta_king/presentation/views/home/home_container_widget.dart';
 import 'package:insta_king/presentation/views/shared_widgets/small_cta.dart';
+import 'package:insta_king/presentation/views/wallet/insta_wallet.dart';
 import 'package:intl/intl.dart';
 
 class HomeCardBalance extends StatefulWidget {
@@ -129,9 +130,18 @@ class _HomeCardListState extends State<HomeCardList> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          ref
-                              .read(dashBoardControllerProvider.notifier)
-                              .switchPage(3);
+                          // ref
+                          //     .read(dashBoardControllerProvider.notifier)
+                          //     .switchPage(3);
+                          Future.delayed(Duration.zero, () async {})
+                              .then((value) => {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const InstaWallet(),
+                                      ),
+                                    )
+                                  });
                           debugPrint('Fund Wallet Button Tapped');
                         },
                         child: const SmallCTA(

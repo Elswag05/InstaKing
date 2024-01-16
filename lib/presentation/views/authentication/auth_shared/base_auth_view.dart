@@ -150,8 +150,6 @@ class _BaseAuthViewState extends State<BaseAuthView> {
                       ),
                     ],
                   ),
-                ).afmPadding(
-                  EdgeInsets.only(top: 80.h),
                 )
               : const SizedBox(),
           SizedBox(

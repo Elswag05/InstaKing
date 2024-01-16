@@ -17,16 +17,31 @@ BottomNavigationBarItem buildBottomNavigationBarItem(
   final selectedPageIndex = dashboardController.page;
 
   return BottomNavigationBarItem(
-    icon: SvgPicture.asset(
-      EnvAssets.getSvgPath(iconPath),
-      width: 20.w,
-      height: 20.h,
-      // ignore: deprecated_member_use
-      color: selectedPageIndex == index
-          ? InstaColors.primaryColor
-          : Theme.of(context).colorScheme.onSurface,
-      semanticsLabel: label,
+    icon: Column(
+      mainAxisAlignment: MainAxisAlignment.end,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        SvgPicture.asset(
+          EnvAssets.getSvgPath(iconPath),
+          width: 23.w,
+          height: 23.h,
+          // ignore: deprecated_member_use
+          color: selectedPageIndex == index
+              ? InstaColors.primaryColor
+              : Theme.of(context).colorScheme.onSurface,
+          semanticsLabel: label,
+        ),
+        SizedBox(
+          height: 5.h,
+        ),
+        Text(
+          label,
+          style: TextStyle(
+            fontSize: 11.sp,
+          ),
+        ),
+      ],
     ),
-    label: label,
+    label: '',
   );
 }

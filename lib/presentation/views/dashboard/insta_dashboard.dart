@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:insta_king/core/constants/constants.dart';
 import 'package:insta_king/presentation/controllers/insta_dashboard_controller.dart';
@@ -25,125 +26,120 @@ class InstaDashboard extends HookConsumerWidget {
         GlobalKey<NavigatorState>();
     final GlobalKey<NavigatorState> profileNavigatorKey =
         GlobalKey<NavigatorState>();
-    return Consumer(
-      builder: (context, ref, child) {
-        print('Consumer rebuilt: ${DateTime.now()}');
-        // Access the InstaDashboardController using the provider
-        final dashboardController = ref.watch(dashBoardControllerProvider);
-        final selectedPageIndex = dashboardController.myPage;
-        return CupertinoTabScaffold(
-          tabBar: CupertinoTabBar(
-            currentIndex: selectedPageIndex,
-            onTap: (value) {
-              dashboardController.switchPage(value);
-            },
-            activeColor: InstaColors.primaryColor,
-            backgroundColor: Theme.of(context).colorScheme.onInverseSurface,
-            items: <BottomNavigationBarItem>[
-              buildBottomNavigationBarItem(
-                ref,
-                context,
-                iconPath: 'Home',
-                label: 'Home',
-                index: 0,
-              ),
-              buildBottomNavigationBarItem(
-                ref,
-                context,
-                iconPath: 'wifi',
-                label: 'Bills',
-                index: 1,
-              ),
-              buildBottomNavigationBarItem(
-                ref,
-                context,
-                iconPath: 'Order-History',
-                label: 'My Order',
-                index: 2,
-              ),
-              buildBottomNavigationBarItem(
-                ref,
-                context,
-                iconPath: 'Wallet (1)',
-                label: 'Wallet',
-                index: 3,
-              ),
-              buildBottomNavigationBarItem(
-                ref,
-                context,
-                iconPath: 'Profile',
-                label: 'Profile',
-                index: 4,
-              ),
-            ],
+    debugPrint('Consumer rebuilt: ${DateTime.now()}');
+    // Access the InstaDashboardController using the provider
+    final dashboardController = ref.watch(dashBoardControllerProvider);
+    final selectedPageIndex = dashboardController.myPage;
+    return CupertinoTabScaffold(
+      tabBar: CupertinoTabBar(
+        currentIndex: selectedPageIndex,
+        onTap: (value) {
+          dashboardController.switchPage(value);
+        },
+        activeColor: InstaColors.primaryColor,
+        backgroundColor: Theme.of(context).colorScheme.onInverseSurface,
+        height: 60.h,
+        items: <BottomNavigationBarItem>[
+          buildBottomNavigationBarItem(
+            ref,
+            context,
+            iconPath: 'Home',
+            label: 'Home',
+            index: 0,
           ),
-          tabBuilder: (context, index) {
-            switch (index) {
-              case 0:
-                homeNavigatorKey.currentState?.popUntil(
-                  (route) => route.isFirst,
+          buildBottomNavigationBarItem(
+            ref,
+            context,
+            iconPath: 'wifi',
+            label: 'Pay Bills',
+            index: 1,
+          ),
+          buildBottomNavigationBarItem(
+            ref,
+            context,
+            iconPath: 'Order-History',
+            label: 'My Orders',
+            index: 2,
+          ),
+          buildBottomNavigationBarItem(
+            ref,
+            context,
+            iconPath: 'Wallet (1)',
+            label: 'Wallet',
+            index: 3,
+          ),
+          buildBottomNavigationBarItem(
+            ref,
+            context,
+            iconPath: 'Profile',
+            label: 'Profile',
+            index: 4,
+          ),
+        ],
+      ),
+      tabBuilder: (context, index) {
+        switch (index) {
+          case 0:
+            homeNavigatorKey.currentState?.popUntil(
+              (route) => route.isFirst,
+            );
+            return CupertinoTabView(
+              key: homeNavigatorKey,
+              builder: (context) {
+                return const CupertinoPageScaffold(
+                  child: InstaHome(),
                 );
-                return CupertinoTabView(
-                  key: homeNavigatorKey,
-                  builder: (context) {
-                    return const CupertinoPageScaffold(
-                      child: InstaHome(),
-                    );
-                  },
+              },
+            );
+          case 1:
+            billsNavigatorKey.currentState?.popUntil((route) => route.isFirst);
+            return CupertinoTabView(
+              builder: (context) {
+                return const CupertinoPageScaffold(
+                  child: MainBillPayment(),
                 );
-              case 1:
-                billsNavigatorKey.currentState
-                    ?.popUntil((route) => route.isFirst);
-                return CupertinoTabView(
-                  builder: (context) {
-                    return const CupertinoPageScaffold(
-                      child: MainBillPayment(),
-                    );
-                  },
+              },
+            );
+          case 2:
+            myOrderNavigatorKey.currentState
+                ?.popUntil((route) => route.isFirst);
+            return CupertinoTabView(
+              builder: (context) {
+                return const CupertinoPageScaffold(
+                  child: InstaOrderHistory(),
                 );
-              case 2:
-                myOrderNavigatorKey.currentState
-                    ?.popUntil((route) => route.isFirst);
-                return CupertinoTabView(
-                  builder: (context) {
-                    return const CupertinoPageScaffold(
-                      child: InstaOrderHistory(),
-                    );
-                  },
+              },
+            );
+          case 3:
+            walletNavigatorKey.currentState?.popUntil((route) => route.isFirst);
+            return CupertinoTabView(
+              key: walletNavigatorKey,
+              builder: (context) {
+                return const CupertinoPageScaffold(
+                  child: InstaWallet(),
                 );
-              case 3:
-                walletNavigatorKey.currentState
-                    ?.popUntil((route) => route.isFirst);
-                return CupertinoTabView(
-                  key: walletNavigatorKey,
-                  builder: (context) {
-                    return const CupertinoPageScaffold(
-                      child: InstaWallet(),
-                    );
-                  },
+              },
+            );
+          case 4:
+            profileNavigatorKey.currentState
+                ?.popUntil((route) => route.isFirst);
+            return CupertinoTabView(
+              builder: (context) {
+                return const CupertinoPageScaffold(
+                  child: InstaProfile(),
                 );
-              case 4:
-                profileNavigatorKey.currentState
-                    ?.popUntil((route) => route.isFirst);
-                return CupertinoTabView(
-                  builder: (context) {
-                    return const CupertinoPageScaffold(
-                      child: InstaProfile(),
-                    );
-                  },
+              },
+            );
+          default:
+            return CupertinoTabView(
+              key: profileNavigatorKey,
+              builder: (context) {
+                return const CupertinoPageScaffold(
+                  child: InstaHome(),
                 );
-              default:
-                return CupertinoTabView(
-                  key: profileNavigatorKey,
-                  builder: (context) {
-                    return const CupertinoPageScaffold(
-                      child: InstaHome(),
-                    );
-                  },
-                );
-            }
-          },
-        );
+              },
+            );
+        }
       },
     );
   }

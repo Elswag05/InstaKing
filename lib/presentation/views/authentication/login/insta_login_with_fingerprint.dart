@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insta_king/presentation/controllers/insta_dashboard_controller.dart';
 import 'package:insta_king/presentation/controllers/insta_login_controller.dart';
+import 'package:insta_king/presentation/controllers/insta_profile_controller.dart';
 import 'package:insta_king/presentation/views/authentication/auth_shared/base_auth_view.dart';
 import 'package:insta_king/presentation/views/authentication/login/login.dart';
 import 'package:insta_king/presentation/views/dashboard/insta_dashboard.dart';
@@ -80,7 +81,8 @@ class _InstaLoginWithFingerprintState
                   checkBoxText: '',
                   callToActionFooterText: 'Alternative?',
                   callToActionText: '',
-                  pageName: ' Sign In',
+                  pageName:
+                      'Welcome back ${ref.read(instaProfileController).model.user?.username ?? ""}',
                   pageCTA: 'Login with fingerprint',
                   isLogin: true,
                   isForgotPassword: true,

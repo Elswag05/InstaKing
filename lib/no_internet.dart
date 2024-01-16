@@ -54,8 +54,8 @@ class _NoInternetState extends ConsumerState<NoInternet>
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(
-              width: 200.w,
-              height: 200.h,
+              width: 300.w,
+              height: 300.h,
               child: Lottie.asset(
                 "assets/animation/no_internet.json",
                 controller: _controller,
@@ -64,10 +64,6 @@ class _NoInternetState extends ConsumerState<NoInternet>
                     ..duration = composition.duration
                     ..repeat();
                 },
-              ),
-            ).afmPadding(
-              EdgeInsets.only(
-                bottom: 50.h,
               ),
             ),
             Text(
@@ -80,7 +76,7 @@ class _NoInternetState extends ConsumerState<NoInternet>
               ),
             ),
             CustomButton(
-                pageCTA: 'Refresh',
+                pageCTA: 'Refresh Page',
                 buttonOnPressed: () {
                   _handleRefresh();
                   setState(() {});

@@ -35,14 +35,11 @@ class PurchaseAirtimeController extends BaseChangeNotifier {
     try {
       debugPrint('To Get Airtime');
       final res = await getBills.getNetworks();
-      log(res.toString());
       if (res.statusCode == 200) {
         debugPrint("INFO: Bearer ${res.data}");
-        getNetworkModel = GetNetworkModel.fromJson(res.data.toString());
+        getNetworkModel = GetNetworkModel.fromMap(res.data);
+        debugPrint("INFO: Done converting network data to dart model");
       } else {
-        debugPrint('${res.statusMessage}');
-        debugPrint('${res.statusCode}');
-        debugPrint(res.toString());
         throw Error();
       }
     } on DioException catch (e) {

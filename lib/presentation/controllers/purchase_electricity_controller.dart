@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +20,7 @@ final instaElectricityController =
 class ElectricityBillController extends BaseChangeNotifier {
   final GetBills getBills = GetBills();
   final PayBills payBills = PayBills();
+  late String userName = '';
   late GetPowerPlanModel getPowerPlanModel = GetPowerPlanModel();
 
   final SecureStorageService secureStorageService =
@@ -32,15 +34,13 @@ class ElectricityBillController extends BaseChangeNotifier {
     if (getPowerPlanModel.data != null) return;
 
     try {
-      debugPrint('To Get Airtime');
-      final res = await getBills.getNetworks();
+      debugPrint('To Get Electricity');
+      final res = await getBills.getPower();
 
       if (res.statusCode == 200) {
         debugPrint("INFO: Bearer ${res.data}");
-        getPowerPlanModel = GetPowerPlanModel.fromJson(res.data.toString());
+        getPowerPlanModel = GetPowerPlanModel.fromMap(res.data);
       } else {
-        debugPrint('${res.statusMessage}');
-        debugPrint('${res.statusCode}');
         debugPrint(res.toString());
         throw Error();
       }
@@ -52,18 +52,21 @@ class ElectricityBillController extends BaseChangeNotifier {
   }
 
   Future<bool> tovalidateUserEligibiity(
-    discoID,
-    meterType,
-    meterNumber,
+    num discoID,
+    String meterType,
+    String meterNumber,
   ) async {
     try {
       loadingState = LoadingState.loading;
       debugPrint('To validate electricity');
       final res =
           await payBills.meterValidation(discoID, meterType, meterNumber);
-
+      Map<String, dynamic> response = res.data;
+      debugPrint(res.data.toString());
       if (res.statusCode == 200) {
+        debugPrint("INFO: Successful validation");
         debugPrint("INFO: Bearer ${res.data}");
+        userName = response['name'];
         loadingState = LoadingState.idle;
         return true;
       } else {
@@ -83,16 +86,15 @@ class ElectricityBillController extends BaseChangeNotifier {
   }
 
   Future<bool> toPurchaseElectricity(
-    discoID,
-    number,
-    type,
-    amount,
-    customerName,
-    phone,
+    num discoID,
+    String number,
+    String type,
+    num amount,
+    String customerName,
   ) async {
     try {
       loadingState = LoadingState.loading;
-      debugPrint('To Purchase Electricity');
+      debugPrint('To Purchase Electricity  && $customerName');
       final res = await payBills.buyPower(
         discoID,
         number,
@@ -100,17 +102,17 @@ class ElectricityBillController extends BaseChangeNotifier {
         amount,
         customerName,
       );
-
-      if (res.statusCode == 200) {
+      debugPrint("INFO: Bearer ${res.data} ");
+      if (res.statusCode == 200 && res.statusMessage == "success") {
         debugPrint("INFO: Bearer ${res.data}");
         loadingState = LoadingState.idle;
         return true;
       } else {
-        loadingState = LoadingState.error;
+        loadingState = LoadingState.idle;
         debugPrint('${res.statusMessage}');
         debugPrint('${res.statusCode}');
         debugPrint(res.toString());
-        throw Error();
+        return false;
       }
     } on DioException catch (e) {
       loadingState = LoadingState.error;

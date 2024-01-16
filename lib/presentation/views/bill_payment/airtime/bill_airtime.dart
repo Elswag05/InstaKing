@@ -12,7 +12,7 @@ import 'package:insta_king/presentation/controllers/insta_profile_controller.dar
 import 'package:insta_king/presentation/controllers/purchase_airtime_controller.dart';
 import 'package:insta_king/presentation/controllers/text_editing_controller.dart';
 import 'package:insta_king/presentation/views/bill_payment/airtime/airtime_widgets.dart';
-import 'package:insta_king/presentation/views/bill_payment/bottom_sheet_modal.dart';
+import 'package:insta_king/presentation/views/shared_widgets/bottom_sheet_modal.dart';
 import 'package:insta_king/presentation/views/bill_payment/common_widgets.dart';
 import 'package:insta_king/presentation/views/home/home_card_widgets.dart';
 import 'package:insta_king/presentation/views/profile/sub_profile_views.dart/bank_account_details/bank_account_details.dart';
@@ -34,14 +34,16 @@ class BillAirtime extends ConsumerStatefulWidget {
 }
 
 class _BillAirtimeState extends ConsumerState<BillAirtime> {
-  final TextEditingController amountController = TextEditingController();
-  late TextValueNotifier textValueNotifier = ref.read(textValueProvider);
-  late String network = '';
+  late final TextEditingController amountController;
+  late TextValueNotifier textValueNotifier;
+  late String networkID = '';
+  late String networkName = '';
   late final networkPr = ref.read(instaAirtimeController).getNetworkModel.data;
   @override
   void initState() {
     textValueNotifier = ref.read(textValueProvider);
     ref.read(instaAirtimeController).toGetNetworks();
+    amountController = TextEditingController();
     super.initState();
   }
 
@@ -56,9 +58,15 @@ class _BillAirtimeState extends ConsumerState<BillAirtime> {
                   5,
           title: 'Choose Network',
           status: 'initialStatus', // Set your initial status here
-          onStatusChanged: (newStatus) {
+          networkPr: ref.read(instaAirtimeController).getNetworkModel.data,
+          onStatusChanged: (newStatus, netName) {
             // Handle the status change here if needed
-            debugPrint('New Status: $newStatus');
+            setState(() {
+              networkID = newStatus?[netName].id.toString() ?? '';
+              networkName = newStatus?[netName].name.toString() ?? '';
+            });
+            debugPrint(
+                'New Status: $newStatus and $networkID, Think Network name? $networkName');
           },
         );
       },
@@ -86,9 +94,10 @@ class _BillAirtimeState extends ConsumerState<BillAirtime> {
                       onTap: () {
                         showReusableBottomSheet(context);
                       },
-                      child: const ChooseContainerFromDropDown(
+                      child: ChooseContainerFromDropDown(
                         headerText: "Network",
-                        hintText: "Choose Network",
+                        hintText:
+                            networkName != '' ? networkName : "Choose Network",
                       ),
                     ).afmPadding(
                       EdgeInsets.only(
@@ -105,7 +114,7 @@ class _BillAirtimeState extends ConsumerState<BillAirtime> {
                           numberOfTexts: 11,
                           controller: ref.read(textControllerProvider),
                           onChanged: (value) {
-                            textValueNotifier.textValue = value;
+                            textValueNotifier.airtimeTextValue = value;
                             setState(() {});
                           },
                         ),
@@ -138,8 +147,8 @@ class _BillAirtimeState extends ConsumerState<BillAirtime> {
                         ref
                             .read(instaAirtimeController)
                             .toPurchaseAirtime(
-                              network,
-                              textValueNotifier.textValue,
+                              networkID,
+                              textValueNotifier.airtimeTextValue,
                               stringToNum(amountController.text),
                             )
                             .then(
@@ -159,9 +168,9 @@ class _BillAirtimeState extends ConsumerState<BillAirtime> {
                                 },
                               ).show();
                               LocalNotification.showPurchaseNotification(
-                                title: 'InstaKing ♛ \nOrder Successful',
+                                title: 'Order Successful',
                                 body:
-                                    'Dear ${ref.read(instaProfileController.notifier).model.user?.fullname},\nYour airtime purchase of ${formatBalance(stringToNum(amountController.text).toString())} is successful.\nYour available insta balance is ₦${ref.read(instaProfileController.notifier).model.user?.balance}.\nPurchase Details  ::: \nCategory: Airtime Purchase\nAmount: ${formatBalance(amountController.text)}',
+                                    'Dear ${ref.read(instaProfileController.notifier).model.user?.fullname},\nYour airtime purchase of ${formatBalance(stringToNum(amountController.text).toString())} is successful.\nYour available insta balance is ₦${ref.read(instaProfileController.notifier).model.user?.balance}.',
                                 payload: '',
                               );
                             } else {
@@ -205,5 +214,11 @@ class _BillAirtimeState extends ConsumerState<BillAirtime> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    amountController.dispose();
+    super.dispose();
   }
 }

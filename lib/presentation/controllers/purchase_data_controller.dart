@@ -38,7 +38,7 @@ class PurchaseDataController extends BaseChangeNotifier {
       debugPrint('Got Data plans');
       if (res.statusCode == 200) {
         debugPrint("INFO: Bearer ${res.data}");
-        getDataPlanModel = GetDataPlanModel.fromJson(res.data.toString());
+        getDataPlanModel = GetDataPlanModel.fromMap(res.data);
       } else {
         debugPrint(res.toString());
         throw Error();

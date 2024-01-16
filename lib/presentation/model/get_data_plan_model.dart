@@ -22,8 +22,8 @@ class GetDataPlanModel {
         data: data ?? this.data,
       );
 
-  factory GetDataPlanModel.fromJson(String str) =>
-      GetDataPlanModel.fromMap(json.decode(str));
+  factory GetDataPlanModel.fromJson(Map<String, dynamic> json) =>
+      GetDataPlanModel.fromMap(json);
 
   String toJson() => json.encode(toMap());
 

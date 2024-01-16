@@ -9,10 +9,9 @@ import 'package:insta_king/data/services/notification.dart';
 import 'package:insta_king/presentation/controllers/insta_profile_controller.dart';
 import 'package:insta_king/presentation/controllers/purchase_data_controller.dart';
 import 'package:insta_king/presentation/controllers/purchase_electricity_controller.dart';
-import 'package:insta_king/presentation/controllers/text_editing_controller.dart';
-import 'package:insta_king/presentation/views/bill_payment/bottom_sheet_modal.dart';
 import 'package:insta_king/presentation/views/home/home_card_widgets.dart';
 import 'package:insta_king/presentation/views/profile/sub_profile_views.dart/bank_account_details/bank_account_details.dart';
+import 'package:insta_king/presentation/views/shared_widgets/bottom_sheet_modal.dart';
 import 'package:insta_king/presentation/views/shared_widgets/cta_button.dart';
 import 'package:insta_king/presentation/views/shared_widgets/input_data_viewmodel.dart';
 import 'package:insta_king/presentation/views/shared_widgets/recurring_appbar.dart';
@@ -31,11 +30,19 @@ class BillElectricity extends ConsumerStatefulWidget {
 }
 
 class _BillElectricityState extends ConsumerState<BillElectricity> {
-  final TextEditingController amountController = TextEditingController();
-  late bool userHasPickedNetwork = false;
+  late final TextEditingController amountController;
+  late final TextEditingController meterNumberController;
+  late String discoName = '';
+  late num discoId = 0;
+  late String meterType = '';
+  late String customerName = '';
+
+  late bool userHasPickedDisco = false;
   @override
   void initState() {
     ref.read(instaElectricityController).toGetPowerPlans();
+    amountController = TextEditingController();
+    meterNumberController = TextEditingController();
     super.initState();
   }
 
@@ -45,12 +52,48 @@ class _BillElectricityState extends ConsumerState<BillElectricity> {
       backgroundColor: Colors.transparent,
       builder: (BuildContext context) {
         return ReusableBottomSheet(
-          getLength:
-              ref.read(instaDataController).getDataPlanModel.data?.length ?? 5,
-          title: 'Choose Disco Type',
+          getLength: ref
+                  .read(instaElectricityController)
+                  .getPowerPlanModel
+                  .data
+                  ?.length ??
+              5,
+          title: 'Choose Disco Name',
+          networkPr:
+              ref.read(instaElectricityController).getPowerPlanModel.data,
           status: 'initialStatus', // Set your initial status here
-          onStatusChanged: (newStatus) {
+          onStatusChanged: (newStatus, val) {
             // Handle the status change here if needed
+            setState(() {
+              discoName = newStatus?[val].name ?? '';
+              discoId = newStatus?[val].id ?? 0;
+            });
+            debugPrint('New Status: $discoId && $discoName');
+          },
+        );
+      },
+    );
+  }
+
+  void showTypeReusableBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (BuildContext context) {
+        return ReusableBottomSheet(
+          getLength: ref
+                  .read(instaElectricityController)
+                  .getPowerPlanModel
+                  .data
+                  ?.length ??
+              5,
+          title: 'Choose Disco Name',
+          status: 'initialStatus', // Set your initial status here
+          onStatusChanged: (newStatus, val) {
+            // Handle the status change here if needed
+            setState(() {
+              meterType = newStatus?[val] ?? '';
+            });
             debugPrint('New Status: $newStatus');
           },
         );
@@ -79,9 +122,9 @@ class _BillElectricityState extends ConsumerState<BillElectricity> {
                       onTap: () {
                         showReusableBottomSheet(context);
                       },
-                      child: const ChooseContainerFromDropDown(
+                      child: ChooseContainerFromDropDown(
                         headerText: "Disco Name",
-                        hintText: "Select type",
+                        hintText: discoName != '' ? discoName : "Select type",
                       ),
                     ).afmPadding(
                       EdgeInsets.only(
@@ -90,11 +133,12 @@ class _BillElectricityState extends ConsumerState<BillElectricity> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        showReusableBottomSheet(context);
+                        showTypeReusableBottomSheet(context);
                       },
-                      child: const ChooseContainerFromDropDown(
+                      child: ChooseContainerFromDropDown(
                         headerText: "Meter Type",
-                        hintText: "Select meter type",
+                        hintText:
+                            meterType != '' ? meterType : "Select meter type",
                       ),
                     ).afmPadding(
                       EdgeInsets.only(
@@ -106,8 +150,7 @@ class _BillElectricityState extends ConsumerState<BillElectricity> {
                       hintT: "XXXX-XXX-XXXX",
                       isPasswordT: false,
                       isdigit: [FilteringTextInputFormatter.digitsOnly],
-                      numberOfTexts: 11,
-                      controller: ref.read(textControllerProvider),
+                      controller: meterNumberController,
                       onChanged: (value) {
                         setState(() {});
                       },
@@ -129,18 +172,20 @@ class _BillElectricityState extends ConsumerState<BillElectricity> {
                         ref
                             .read(instaElectricityController)
                             .tovalidateUserEligibiity(
-                                "discoID", "meterType", "meterNumber")
+                              discoId,
+                              meterType.toLowerCase(),
+                              meterNumberController.text,
+                            )
                             .then((value) {
                           if (value == true) {
                             ref
                                 .read(instaElectricityController)
                                 .toPurchaseElectricity(
-                                  "discoID",
-                                  "number",
-                                  "type",
-                                  "amount",
-                                  "customerName",
-                                  "phone",
+                                  discoId,
+                                  meterNumberController.text,
+                                  meterType.toLowerCase(),
+                                  int.tryParse(amountController.text) ?? 500,
+                                  ref.read(instaElectricityController).userName,
                                 )
                                 .then((value) {
                               if (value == true) {
@@ -158,11 +203,11 @@ class _BillElectricityState extends ConsumerState<BillElectricity> {
                                   },
                                 ).show();
                                 LocalNotification.showPurchaseNotification(
-                                  title: 'InstaKing ♛ \nOrder Successful',
+                                  title: 'Order Successful',
                                   body:
                                       'Dear ${ref.read(instaProfileController.notifier).model.user?.fullname},\nYour Electricity purchase of ${formatBalance(
                                     amountController.text,
-                                  )} is successful.\nYour available insta balance is ₦${ref.read(instaProfileController.notifier).model.user?.balance}.\nPurchase Details  ::: \nName: {selectedServiceName}\nCategory: Data Purchase\nAmount: ${formatBalance(amountController.text)}',
+                                  )} is successful.\nYour available insta balance is ₦${ref.read(instaProfileController.notifier).model.user?.balance}.}',
                                   payload: '',
                                 );
                               }
@@ -205,5 +250,12 @@ class _BillElectricityState extends ConsumerState<BillElectricity> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    meterNumberController.dispose();
+    amountController.dispose();
+    super.dispose();
   }
 }

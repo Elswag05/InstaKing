@@ -13,6 +13,7 @@ import 'package:insta_king/presentation/views/profile/sub_profile_views.dart/ref
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:insta_king/presentation/views/services/insta_services.dart';
 import 'package:insta_king/presentation/views/transactions/insta_transactions.dart';
+import 'package:insta_king/presentation/views/wallet/insta_wallet.dart';
 
 class HomeColumn extends StatelessWidget {
   final String shortcutIcon;
@@ -110,7 +111,14 @@ class ShortcutsTheWidget extends ConsumerWidget {
                   shortcutIcon: 'wallet',
                   shortcutText: 'Fund Wallet',
                   onTap: () {
-                    setPageIndexToTwo();
+                    Future.delayed(Duration.zero, () async {}).then((value) => {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => const InstaWallet(),
+                            ),
+                          )
+                        });
+                    // setPageIndexToTwo();
                     debugPrint('Going to the Wallet screen');
                   },
                 ),

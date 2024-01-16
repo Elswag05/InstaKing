@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -69,12 +70,15 @@ class ChooseContainerFromDropDown extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        AutoSizeText(
           headerText,
+          minFontSize: 14.sp,
+          stepGranularity: 2.sp,
           style: TextStyle(
             fontFamily: 'Montesserat',
             fontSize: 16.sp,
             fontWeight: FontWeight.w500,
+            overflow: TextOverflow.ellipsis,
           ),
         ),
         Container(

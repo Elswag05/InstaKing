@@ -15,11 +15,12 @@ final instaCableController =
 class CableController extends BaseChangeNotifier {
   final GetBills getBills = GetBills();
   final PayBills payBills = PayBills();
+  late String userName = '';
   late GetCableDecoderModel getCableDecoderModel = GetCableDecoderModel();
   late GetCablePlanModel getCablePlanModel = GetCablePlanModel();
 
   void disposeCable() {
-    getCableDecoderModel.data = [];
+    // getCableDecoderModel.data = [];
     getCablePlanModel.data = [];
   }
 
@@ -32,8 +33,7 @@ class CableController extends BaseChangeNotifier {
 
       if (res.statusCode == 200) {
         debugPrint("INFO: Bearer ${res.data}");
-        getCableDecoderModel =
-            GetCableDecoderModel.fromJson(res.data.toString());
+        getCableDecoderModel = GetCableDecoderModel.fromMap(res.data);
       } else {
         debugPrint('${res.statusMessage}');
         debugPrint('${res.statusCode}');
@@ -47,8 +47,8 @@ class CableController extends BaseChangeNotifier {
     }
   }
 
-  Future<void> toGetCablePlans(cableID) async {
-    if (getCablePlanModel.data != null) return;
+  Future<void> toGetCablePlans(num cableID) async {
+    //if (getCablePlanModel.data != null) return;
 
     try {
       debugPrint('To Get Cable Plans');
@@ -56,7 +56,8 @@ class CableController extends BaseChangeNotifier {
 
       if (res.statusCode == 200) {
         debugPrint("INFO: Bearer ${res.data}");
-        getCablePlanModel = GetCablePlanModel.fromJson(res.data.toString());
+        getCablePlanModel = GetCablePlanModel.fromMap(res.data);
+        notifyListeners();
       } else {
         debugPrint('${res.statusMessage}');
         debugPrint('${res.statusCode}');
@@ -71,16 +72,17 @@ class CableController extends BaseChangeNotifier {
   }
 
   Future<bool> tovalidateUserCableEligibiity(
-    cableID,
-    number,
+    num cableID,
+    String number,
   ) async {
     try {
       loadingState = LoadingState.loading;
-      debugPrint('To validate cable ligibility');
+      debugPrint('To validate cable legibility');
       final res = await payBills.cableValidation(cableID, number);
-
-      if (res.statusCode == 200) {
+      Map<String, dynamic> response = res.data;
+      if (res.statusCode == 200 && res.statusMessage == 'success') {
         debugPrint("INFO: Bearer ${res.data}");
+        userName = response['name'];
         loadingState = LoadingState.idle;
         return true;
       } else {
@@ -100,10 +102,10 @@ class CableController extends BaseChangeNotifier {
   }
 
   Future<bool> toPurchaseCable(
-    cablePlanID,
-    number,
-    cable,
-    customerName,
+    num cablePlanID,
+    String number,
+    String cable,
+    String customerName,
   ) async {
     try {
       loadingState = LoadingState.loading;
