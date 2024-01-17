@@ -51,7 +51,7 @@ class _CollectPersonalDetailModelState
         ),
         TextFormField(
           enableInteractiveSelection: true,
-          selectionControls: MaterialTextSelectionControls(),
+          // selectionControls: MaterialTextSelectionControls(),
           selectionHeightStyle: BoxHeightStyle.max,
           obscureText: widget.isPasswordT,
           controller: widget.controller,
@@ -106,7 +106,7 @@ class _CollectPersonalDetailModelState
               (BuildContext context, EditableTextState editableTextState) {
             return CustomContextMenu(
               editableTextState: editableTextState,
-              backgroundColor: Theme.of(context).colorScheme.background,
+              backgroundColor: Theme.of(context).colorScheme.primary,
               disabledColor: Theme.of(context).colorScheme.primary,
               borderRadius: 0,
               buttonPadding: 0,
