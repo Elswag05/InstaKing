@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
+import 'package:insta_king/presentation/controllers/insta_categories_controller.dart';
 import 'package:insta_king/presentation/controllers/insta_order_controller.dart';
 import 'package:insta_king/presentation/model/get_all_order_model.dart';
 import 'package:insta_king/presentation/views/home/home_card_widgets.dart';
@@ -10,6 +11,7 @@ import 'package:insta_king/presentation/views/order/order_appbar.dart';
 import 'package:insta_king/presentation/views/order/order_history_status.dart';
 import 'package:insta_king/presentation/views/order/order_history_transactions_view_model.dart';
 import 'package:insta_king/presentation/views/order/order_tabs/main_order_tabs.dart';
+import 'package:insta_king/presentation/views/order/place_order/place_order.dart';
 import 'package:insta_king/presentation/views/shared_widgets/insta_webview.dart';
 import 'package:insta_king/presentation/views/shared_widgets/shared_loading.dart';
 import 'package:lottie/lottie.dart';
@@ -111,7 +113,19 @@ class _InstaOrderHistoryState extends ConsumerState<InstaOrderHistory>
             OrderAppBar(
               text: 'My Orders',
               textController: textController,
-              onSearch: (value) {},
+              onTap: () {
+                Future.delayed(Duration.zero, () async {
+                  ref
+                      .read(instaCategoriesController.notifier)
+                      .toGetAllCategories;
+                });
+                ref.read(instaCategoriesController).toGetAllCategories();
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const PlaceOrder(),
+                  ),
+                );
+              },
             ).afmPadding(
               EdgeInsets.symmetric(
                 horizontal: 20.w,

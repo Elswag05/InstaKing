@@ -25,20 +25,20 @@ class OrderChips extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(7.r),
       ),
-      padding: EdgeInsets.all(5.sp),
-
+      padding: EdgeInsets.all(2.sp),
       label: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
             icon,
+            size: 11.sp,
           ),
           Text(
             label,
             textAlign: TextAlign.center,
             style: TextStyle(
-              fontSize: 13.sp,
+              fontSize: 11.sp,
               fontWeight: FontWeight.w400,
             ),
           ),

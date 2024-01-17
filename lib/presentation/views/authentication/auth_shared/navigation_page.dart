@@ -24,7 +24,9 @@ class InstaAuthNavigator extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Image.asset(
-                    EnvAssets.getImagePath('instaking-white-create'),
+                    Theme.of(context).brightness == Brightness.light
+                        ? EnvAssets.getImagePath('instaking-black')
+                        : EnvAssets.getImagePath('instaking-white'),
                     width: 150,
                     height: 150,
                     fit: BoxFit.contain,

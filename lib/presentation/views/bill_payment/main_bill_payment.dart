@@ -189,7 +189,7 @@ class MainBillPaymentState extends State<MainBillPayment>
                   height: w / 7,
                   width: w / 7,
                   decoration: BoxDecoration(
-                    color: color.withOpacity(.1),
+                    color: color.withOpacity(.5),
                     shape: BoxShape.circle,
                   ),
                   child: Image.asset(

@@ -174,9 +174,9 @@ class PlaceOrderState extends ConsumerState<PlaceOrder> {
                                     },
                                   ).show();
                                   LocalNotification.showPurchaseNotification(
-                                    title: 'Order Successful',
-                                    body:
-                                        'Dear ${ref.read(instaProfileController.notifier).model.user?.fullname},\nYour purchase of ${formatBalance(
+                                    title:
+                                        'Dear ${ref.read(instaProfileController.notifier).model.user?.fname}',
+                                    body: 'Your purchase of ${formatBalance(
                                       ref
                                           .watch(instaCategoriesController)
                                           .calculatePricePerUnit(
@@ -187,18 +187,7 @@ class PlaceOrderState extends ConsumerState<PlaceOrder> {
                                               ref
                                                   .watch(textValueProvider)
                                                   .textValue),
-                                    )} is successful.\nYour available insta balance is ₦${ref.read(instaProfileController.notifier).model.user?.balance}.\nPurchase Details  ::: \nName: ${ref.read(instaCategoriesController).selectedServiceName}\nCategory: ${ref.read(instaCategoriesController).selectedCategoryName}\nAmount: ${formatBalance(
-                                      ref
-                                          .watch(instaCategoriesController)
-                                          .calculatePricePerUnit(
-                                              ref
-                                                  .read(
-                                                      instaCategoriesController)
-                                                  .selectedServicePrice,
-                                              ref
-                                                  .watch(textValueProvider)
-                                                  .textValue),
-                                    )}',
+                                    )} is successful.\nYour new balance is ₦${ref.read(instaProfileController.notifier).model.user?.balance}.',
                                     payload: '',
                                   );
                                 } else {

@@ -18,11 +18,11 @@ class InstaDashboard extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final GlobalKey<NavigatorState> homeNavigatorKey =
         GlobalKey<NavigatorState>();
+    final GlobalKey<NavigatorState> myOrderNavigatorKey =
+        GlobalKey<NavigatorState>();
     final GlobalKey<NavigatorState> billsNavigatorKey =
         GlobalKey<NavigatorState>();
     final GlobalKey<NavigatorState> walletNavigatorKey =
-        GlobalKey<NavigatorState>();
-    final GlobalKey<NavigatorState> myOrderNavigatorKey =
         GlobalKey<NavigatorState>();
     final GlobalKey<NavigatorState> profileNavigatorKey =
         GlobalKey<NavigatorState>();
@@ -50,15 +50,15 @@ class InstaDashboard extends HookConsumerWidget {
           buildBottomNavigationBarItem(
             ref,
             context,
-            iconPath: 'wifi',
-            label: 'Pay Bills',
+            iconPath: 'Order-History',
+            label: 'My Orders',
             index: 1,
           ),
           buildBottomNavigationBarItem(
             ref,
             context,
-            iconPath: 'Order-History',
-            label: 'My Orders',
+            iconPath: 'wifi',
+            label: 'Pay Bills',
             index: 2,
           ),
           buildBottomNavigationBarItem(
@@ -92,21 +92,21 @@ class InstaDashboard extends HookConsumerWidget {
               },
             );
           case 1:
-            billsNavigatorKey.currentState?.popUntil((route) => route.isFirst);
-            return CupertinoTabView(
-              builder: (context) {
-                return const CupertinoPageScaffold(
-                  child: MainBillPayment(),
-                );
-              },
-            );
-          case 2:
             myOrderNavigatorKey.currentState
                 ?.popUntil((route) => route.isFirst);
             return CupertinoTabView(
               builder: (context) {
                 return const CupertinoPageScaffold(
                   child: InstaOrderHistory(),
+                );
+              },
+            );
+          case 2:
+            billsNavigatorKey.currentState?.popUntil((route) => route.isFirst);
+            return CupertinoTabView(
+              builder: (context) {
+                return const CupertinoPageScaffold(
+                  child: MainBillPayment(),
                 );
               },
             );

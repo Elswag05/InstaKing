@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:insta_king/core/extensions/widget_extension.dart';
+import 'package:insta_king/presentation/views/shared_widgets/small_cta.dart';
 
 class OrderAppBar extends StatefulWidget {
   final String text;
-  final void Function(String) onSearch;
+  final Function()? onTap;
   final TextEditingController textController;
 
   const OrderAppBar(
       {super.key,
       required this.text,
-      required this.onSearch,
+      required this.onTap,
       required this.textController});
 
   @override
@@ -37,6 +39,16 @@ class _OrderAppBarState extends State<OrderAppBar> {
               fontFamily: 'Montesserat',
               fontSize: 17.sp,
               fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        GestureDetector(
+          onTap: widget.onTap,
+          child: const SmallCTA(
+            text: 'New Order',
+          ).afmBorderRadius(
+            BorderRadius.circular(
+              6.r,
             ),
           ),
         ),

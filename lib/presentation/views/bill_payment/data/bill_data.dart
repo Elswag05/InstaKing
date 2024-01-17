@@ -193,11 +193,11 @@ class _BillDataState extends ConsumerState<BillData> {
                                 },
                               ).show();
                               LocalNotification.showPurchaseNotification(
-                                title: 'Order Successful',
-                                body:
-                                    'Dear ${ref.read(instaProfileController.notifier).model.user?.fullname},\nYour data purchase of ${formatBalance(
+                                title:
+                                    'Dear ${ref.read(instaProfileController.notifier).model.user?.fname}',
+                                body: 'Your purchase of ${formatBalance(
                                   amountController.text,
-                                )} is successful.\nYour available insta balance is ₦${ref.read(instaProfileController.notifier).model.user?.balance}.}',
+                                )} is successful.\nYour new balance is ₦${ref.read(instaProfileController.notifier).model.user?.balance}.}',
                                 payload: '',
                               );
                             } else {

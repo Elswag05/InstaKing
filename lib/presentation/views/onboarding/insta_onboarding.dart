@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insta_king/core/constants/constants.dart';
 import 'package:insta_king/presentation/views/authentication/auth_shared/navigation_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -64,14 +65,14 @@ class _InstaOnboardingState extends State<InstaOnboarding> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     double width = SizeConfig.screenW!;
-    double height = SizeConfig.screenH!;
+    // double height = SizeConfig.screenH!;
     return Scaffold(
       backgroundColor: colors[_currentPage],
       body: SafeArea(
         child: Column(
           children: [
             Expanded(
-              flex: 3,
+              flex: 4,
               child: PageView.builder(
                 physics: const BouncingScrollPhysics(),
                 controller: _controller,
@@ -79,40 +80,52 @@ class _InstaOnboardingState extends State<InstaOnboarding> {
                 itemCount: contents
                     .length, // Ensure this matches the length of your contents list
                 itemBuilder: (context, i) {
-                  return Padding(
-                    padding: const EdgeInsets.all(40.0),
-                    child: Column(
-                      children: [
-                        Image.asset(
+                  return Stack(
+                    children: [
+                      Container(
+                        height: 370.h,
+                        width: double.infinity,
+                        color: i == 0 ? Colors.green : InstaColors.primaryColor,
+                        child: Image.asset(
                           contents[i].image,
-                          height: SizeConfig.blockV! * 35,
+                          height: 300.h,
                         ),
-                        SizedBox(
-                          height: (height >= 840) ? 60 : 30,
+                      ),
+                      SizedBox(
+                        height: 20.h,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(40.0),
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: 350.h,
+                            ),
+                            Text(
+                              contents[i].title,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontFamily: "Monteserrat",
+                                fontWeight: FontWeight.w600,
+                                fontSize: (width <= 550) ? 30 : 35,
+                                color: Theme.of(context).colorScheme.scrim,
+                              ),
+                            ),
+                            const SizedBox(height: 15),
+                            Text(
+                              contents[i].desc,
+                              style: TextStyle(
+                                fontFamily: "Monteserrat",
+                                fontWeight: FontWeight.w300,
+                                fontSize: (width <= 550) ? 17 : 25,
+                                color: Theme.of(context).colorScheme.scrim,
+                              ),
+                              textAlign: TextAlign.center,
+                            )
+                          ],
                         ),
-                        Text(
-                          contents[i].title,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontFamily: "Monteserrat",
-                            fontWeight: FontWeight.w600,
-                            fontSize: (width <= 550) ? 30 : 35,
-                            color: Theme.of(context).colorScheme.scrim,
-                          ),
-                        ),
-                        const SizedBox(height: 15),
-                        Text(
-                          contents[i].desc,
-                          style: TextStyle(
-                            fontFamily: "Monteserrat",
-                            fontWeight: FontWeight.w300,
-                            fontSize: (width <= 550) ? 17 : 25,
-                            color: Theme.of(context).colorScheme.scrim,
-                          ),
-                          textAlign: TextAlign.center,
-                        )
-                      ],
-                    ),
+                      ),
+                    ],
                   );
                 },
               ),

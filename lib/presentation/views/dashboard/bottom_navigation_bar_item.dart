@@ -38,6 +38,9 @@ BottomNavigationBarItem buildBottomNavigationBarItem(
           label,
           style: TextStyle(
             fontSize: 11.sp,
+            color: selectedPageIndex == index
+                ? InstaColors.primaryColor
+                : Theme.of(context).colorScheme.onSurface,
           ),
         ),
       ],

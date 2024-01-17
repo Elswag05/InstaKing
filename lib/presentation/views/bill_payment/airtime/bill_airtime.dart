@@ -167,9 +167,10 @@ class _BillAirtimeState extends ConsumerState<BillAirtime> {
                                 },
                               ).show();
                               LocalNotification.showPurchaseNotification(
-                                title: 'Order Successful',
+                                title:
+                                    'Dear ${ref.read(instaProfileController.notifier).model.user?.fname}',
                                 body:
-                                    'Dear ${ref.read(instaProfileController.notifier).model.user?.fullname},\nYour airtime purchase of ${formatBalance(stringToNum(amountController.text).toString())} is successful.\nYour available insta balance is ₦${ref.read(instaProfileController.notifier).model.user?.balance}.',
+                                    'Your purchase of ${formatBalance(stringToNum(amountController.text).toString())} is successful.\nYour new balance is ₦${ref.read(instaProfileController.notifier).model.user?.balance}.',
                                 payload: '',
                               );
                             } else {

@@ -15,13 +15,13 @@ List<InstaOnboardingContents> contents = [
   //   title: "Welcome to InstaKing!",
   //   image: "assets/images/insta-king-welcome.png",
   //   desc:
-  //       "Connect with real people who share your interests. Our platform focuses on authentic connections and organic growth.",
+  //       "Connect with real people who share your interests. Our platform focuses on authentic connections and organic growth.   ",
   // ),
   InstaOnboardingContents(
-    title: "Boost Your Visibility",
+    title: "Most Reliable Platform for SMM",
     image: "assets/images/insta-01.png",
     desc:
-        "Enhance your online presence responsibly. Get more visibility for your content and make meaningful connections with users who genuinely appreciate your work.",
+        "Instaking has proven to be the best SMM platform in Africa and beyond.",
   ),
   // InstaOnboardingContents(
   //   title: "Engage Authentically",
@@ -30,9 +30,8 @@ List<InstaOnboardingContents> contents = [
   //       "Engage with your audience in a meaningful way. Foster genuine interactions, discussions, and build a community around your passion.",
   // ),
   InstaOnboardingContents(
-    title: "Understand the Value of Authenticity",
+    title: "All SMM Services at your fingertips",
     image: "assets/images/insta-02.png",
-    desc:
-        "Authenticity matters. Real followers bring real engagement. Building a genuine audience ensures lasting connections and credibility..",
+    desc: "We offer a wide range of services for all platforms",
   ),
 ];

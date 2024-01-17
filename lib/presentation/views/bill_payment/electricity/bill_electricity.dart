@@ -126,9 +126,9 @@ class _BillElectricityState extends ConsumerState<BillElectricity> {
                           (newStatus, val) {
                             // Handle the status change here if needed
                             setState(() {
-                              meterType = newStatus?[val] ?? '';
+                              meterType = newStatus?[val].name ?? '';
                             });
-                            debugPrint('New Status: $newStatus');
+                            debugPrint('New Meter Type: $meterType');
                           },
                         );
                       },
@@ -154,7 +154,7 @@ class _BillElectricityState extends ConsumerState<BillElectricity> {
                     ),
                     CollectPersonalDetailModel(
                       leadTitle: "Amount",
-                      hintT: "₦5 000",
+                      hintT: "₦1 000",
                       isPasswordT: false,
                       isdigit: [FilteringTextInputFormatter.digitsOnly],
                       controller: amountController,
@@ -200,11 +200,11 @@ class _BillElectricityState extends ConsumerState<BillElectricity> {
                                   },
                                 ).show();
                                 LocalNotification.showPurchaseNotification(
-                                  title: 'Order Successful',
-                                  body:
-                                      'Dear ${ref.read(instaProfileController.notifier).model.user?.fullname},\nYour Electricity purchase of ${formatBalance(
+                                  title:
+                                      'Dear ${ref.read(instaProfileController.notifier).model.user?.fname}',
+                                  body: 'Your purchase of ${formatBalance(
                                     amountController.text,
-                                  )} is successful.\nYour available insta balance is ₦${ref.read(instaProfileController.notifier).model.user?.balance}.}',
+                                  )} is successful.\nYour new balance is ₦${ref.read(instaProfileController.notifier).model.user?.balance}.}',
                                   payload: '',
                                 );
                               }

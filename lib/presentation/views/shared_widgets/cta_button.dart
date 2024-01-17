@@ -13,14 +13,16 @@ class CustomButton extends StatelessWidget {
   final Color color;
   final Color buttonTextColor;
   double height;
+  double width;
   CustomButton({
     super.key,
     this.agreeTC = false,
     this.buttonOnPressed,
     required this.pageCTA,
     this.color = InstaColors.primaryColor,
-    this.height = 45,
     this.buttonTextColor = InstaColors.lightColor,
+    this.height = 45,
+    this.width = 1,
   });
 
   @override
@@ -34,7 +36,9 @@ class CustomButton extends StatelessWidget {
           ? const SizedBox()
           : Container(
               height: height.h,
-              width: MediaQuery.of(context).size.width - 40.w,
+              width: width == 1
+                  ? MediaQuery.of(context).size.width - 40.w
+                  : width.w,
               decoration: BoxDecoration(
                 color: color,
                 borderRadius: BorderRadius.circular(10.r),

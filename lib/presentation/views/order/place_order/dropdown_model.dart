@@ -93,7 +93,7 @@ Widget buildLoadingContainer(String keyWord, heading, BuildContext context) {
       Container(
         height: 40.h,
         decoration: BoxDecoration(
-          color: InstaColors.lightColor,
+          color: Theme.of(context).cardColor,
           border: Border.all(
             width: 0.5.sp,
           ),
@@ -111,7 +111,7 @@ Widget buildLoadingContainer(String keyWord, heading, BuildContext context) {
                   fontFamily: 'Montesserat',
                   fontSize: 13.sp,
                   fontWeight: FontWeight.w500,
-                  color: InstaColors.mildGrey,
+                  color: Theme.of(context).colorScheme.onSurface,
                   overflow: TextOverflow.ellipsis,
                 ),
               ).afmPadding(EdgeInsets.only(left: 10.w)),
