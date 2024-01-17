@@ -1,8 +1,12 @@
+import 'dart:ui';
+
+import 'package:custom_context_menu/custom_context_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insta_king/core/constants/env_colors.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
+import 'package:insta_king/core/theme/env_theme_manager.dart';
 
 class CollectPersonalDetailModel extends StatefulWidget {
   final String leadTitle;
@@ -47,6 +51,8 @@ class _CollectPersonalDetailModelState
         ),
         TextFormField(
           enableInteractiveSelection: true,
+          selectionControls: MaterialTextSelectionControls(),
+          selectionHeightStyle: BoxHeightStyle.max,
           obscureText: widget.isPasswordT,
           controller: widget.controller,
           validator: widget.validator,
@@ -96,6 +102,19 @@ class _CollectPersonalDetailModelState
               ),
             ),
           ),
+          contextMenuBuilder:
+              (BuildContext context, EditableTextState editableTextState) {
+            return CustomContextMenu(
+              editableTextState: editableTextState,
+              backgroundColor: Theme.of(context).colorScheme.background,
+              disabledColor: Theme.of(context).colorScheme.primary,
+              borderRadius: 0,
+              buttonPadding: 0,
+              textStyle: TextStyle(
+                fontSize: 13.sp,
+              ),
+            );
+          },
         ).afmPadding(EdgeInsets.only(top: 10.sp, bottom: 10.sp))
       ],
     );

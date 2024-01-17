@@ -58,27 +58,29 @@ class ElectricityBillController extends BaseChangeNotifier {
     try {
       loadingState = LoadingState.loading;
       debugPrint('To validate electricity');
-      final res =
-          await payBills.meterValidation(discoID, meterType, meterNumber);
+      final res = await payBills.meterValidation(
+        discoID,
+        meterType,
+        meterNumber,
+      );
       Map<String, dynamic> response = res.data;
       debugPrint(res.data.toString());
-      if (res.statusCode == 200) {
+      if (res.statusCode == 200 && response['status'] == "success") {
         debugPrint("INFO: Successful validation");
-        debugPrint("INFO: Bearer ${res.data}");
         userName = response['name'];
         loadingState = LoadingState.idle;
         return true;
       } else {
-        loadingState = LoadingState.error;
+        loadingState = LoadingState.idle;
         debugPrint(res.toString());
         throw Error();
       }
     } on DioException catch (e) {
-      loadingState = LoadingState.error;
+      loadingState = LoadingState.idle;
       ErrorService.handleErrors(e);
       return false;
     } catch (e) {
-      loadingState = LoadingState.error;
+      loadingState = LoadingState.idle;
       ErrorService.handleErrors(e);
       return false;
     }

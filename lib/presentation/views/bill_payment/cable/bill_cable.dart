@@ -195,10 +195,9 @@ class _BillCableState extends ConsumerState<BillCable> {
                                     },
                                   ).show();
                                   LocalNotification.showPurchaseNotification(
-                                    title:
-                                        'Dear ${ref.read(instaProfileController.notifier).model.user?.fname}',
+                                    title: 'Order Successful',
                                     body:
-                                        'Your purchase of $cablePlanName is successful.\nYour new balance is ₦${ref.read(instaProfileController.notifier).model.user?.balance}.}',
+                                        'Dear ${ref.read(instaProfileController.notifier).model.user?.fullname}.\nYour purchase of $cablePlanName is successful.\nYour new balance is ₦${ref.read(instaProfileController.notifier).model.user?.balance}.}',
                                     payload: '',
                                   );
                                 }

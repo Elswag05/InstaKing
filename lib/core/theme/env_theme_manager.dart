@@ -9,13 +9,15 @@ class EnvThemeManager {
   EnvThemeManager._();
 
   static String get _fontFamily => 'Inter';
-  static ThemeData lightTheme = _themeData(_lightColorScheme);
-  static ThemeData darkTheme = _themeData(_darkColorScheme);
+  static ThemeData lightTheme = themeData(_lightColorScheme);
+  static ThemeData darkTheme = themeData(_darkColorScheme);
 
   static final ColorScheme _lightColorScheme =
       const ColorScheme.light().copyWith(
     primary: InstaColors.primaryColor,
     //secondary: EnvColors.secondaryColor,
+    //secondaryContainer: InstaColors.lightColor,
+    //surfaceVariant: InstaColors.lightColor,
     error: const Color.fromARGB(255, 209, 35, 23),
     background: InstaColors.appBackgroundColor,
     inverseSurface: InstaColors.darkBackgroundColor,
@@ -72,17 +74,21 @@ class EnvThemeManager {
     tertiaryContainer: InstaColors.darkColor,
   );
 
-  static ThemeData _themeData(ColorScheme colorScheme) => ThemeData(
+  static ThemeData themeData(ColorScheme colorScheme) => ThemeData(
+      canvasColor: colorScheme.onSurface,
       scaffoldBackgroundColor: colorScheme.background,
       useMaterial3: false,
       colorScheme: colorScheme,
       iconTheme: _iconTheme(colorScheme),
-      fontFamily: _fontFamily,
+      fontFamily: "Monteserrat",
       appBarTheme: _appBarTheme(colorScheme),
       disabledColor: colorScheme.inverseSurface,
       brightness: colorScheme.brightness,
       primaryColor: InstaColors.primaryColor,
       backgroundColor: colorScheme.background,
+      tooltipTheme: TooltipThemeData(
+        height: 1000,
+      ),
       textSelectionTheme: TextSelectionThemeData(
         selectionColor: InstaColors.primaryColor,
         cursorColor: InstaColors.primaryColor,
