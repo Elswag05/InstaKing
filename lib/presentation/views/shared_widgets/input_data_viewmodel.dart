@@ -6,7 +6,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insta_king/core/constants/env_colors.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
-import 'package:insta_king/core/theme/env_theme_manager.dart';
 
 class CollectPersonalDetailModel extends StatefulWidget {
   final String leadTitle;
@@ -111,7 +110,9 @@ class _CollectPersonalDetailModelState
               borderRadius: 0,
               buttonPadding: 0,
               textStyle: TextStyle(
+                fontFamily: 'Monteserrat',
                 fontSize: 13.sp,
+                color: Colors.white,
               ),
             );
           },

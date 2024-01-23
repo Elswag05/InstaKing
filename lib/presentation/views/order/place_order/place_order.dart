@@ -176,7 +176,7 @@ class PlaceOrderState extends ConsumerState<PlaceOrder> {
                                   LocalNotification.showPurchaseNotification(
                                     title: 'Order Successful',
                                     body:
-                                        '.Dear ${ref.read(instaProfileController.notifier).model.user?.fullname}\nYour purchase of ${formatBalance(
+                                        'Dear ${ref.read(instaProfileController.notifier).model.user?.fullname},\nYour purchase of ${formatBalance(
                                       ref
                                           .watch(instaCategoriesController)
                                           .calculatePricePerUnit(

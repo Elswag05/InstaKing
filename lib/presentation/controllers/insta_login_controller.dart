@@ -75,7 +75,7 @@ class LoginController extends BaseChangeNotifier {
         );
         debugPrint('User is authenticated ==> $authenticated');
       } else {
-        String message = "Sorry! You do not have Biometric bnlock available";
+        String message = "Sorry! You do not have Biometric unlock available";
         locator<ToastService>().showErrorToast(
           message,
         );

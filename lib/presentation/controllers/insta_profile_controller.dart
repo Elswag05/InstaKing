@@ -16,6 +16,7 @@ import 'package:insta_king/data/services/edit_details_service.dart';
 import 'package:insta_king/data/services/error_service.dart';
 import 'package:insta_king/data/services/profile_detail_services.dart';
 import 'package:insta_king/presentation/controllers/base_controller.dart';
+import 'package:insta_king/presentation/model/get_referral_model.dart';
 import 'package:insta_king/presentation/model/profile_model.dart';
 import 'package:insta_king/utils/locator.dart';
 
@@ -31,6 +32,7 @@ class ProfileController extends BaseChangeNotifier {
   final EditDetailService editDetailService = EditDetailService();
   final GetProfileService _getProfileService = GetProfileService();
   late ProfileModel model = ProfileModel();
+  late GetReferralsModel refModel = GetReferralsModel();
   final SecureStorageService secureStorageService =
       SecureStorageService(secureStorage: const FlutterSecureStorage());
 
@@ -132,10 +134,31 @@ class ProfileController extends BaseChangeNotifier {
         throw Error();
       }
     } on DioException catch (e) {
-      loadingState = LoadingState.error;
+      // loadingState = LoadingState.error;
       ErrorService.handleErrors(e);
     } catch (e) {
-      loadingState = LoadingState.error;
+      //  loadingState = LoadingState.error;
+      ErrorService.handleErrors(e);
+    }
+    return model;
+  }
+
+  Future<ProfileModel> getReferralDetails() async {
+    try {
+      //loadingState = LoadingState.loading;
+      final res = await _getProfileService.getReferralDetails();
+      if (res.statusCode == 200) {
+        refModel = GetReferralsModel.fromMap(res.data);
+        log(refModel.data.toString());
+        return model;
+      } else {
+        throw Error();
+      }
+    } on DioException catch (e) {
+      // loadingState = LoadingState.error;
+      ErrorService.handleErrors(e);
+    } catch (e) {
+      //loadingState = LoadingState.error;
       ErrorService.handleErrors(e);
     }
     return model;

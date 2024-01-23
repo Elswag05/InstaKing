@@ -21,6 +21,7 @@ class OrderChips extends StatelessWidget {
       selected: isSelected,
       onSelected: onSelected,
       selectedColor: InstaColors.primaryColor,
+      disabledColor: Theme.of(context).cardColor,
       showCheckmark: false,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(7.r),

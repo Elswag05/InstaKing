@@ -98,36 +98,23 @@ class _BillAirtimeState extends ConsumerState<BillAirtime> {
                         hintText:
                             networkName != '' ? networkName : "Choose Network",
                       ),
-                    ).afmPadding(
-                      EdgeInsets.only(
-                        bottom: 20.h,
-                      ),
                     ),
-                    Stack(
-                      children: [
-                        CollectPersonalDetailModel(
-                          leadTitle: "Phone Number",
-                          hintT: "080 XXX XXXX",
-                          isPasswordT: false,
-                          isdigit: [FilteringTextInputFormatter.digitsOnly],
-                          numberOfTexts: 11,
-                          controller: ref.read(textControllerProvider),
-                          onChanged: (value) {
-                            textValueNotifier.airtimeTextValue = value;
-                            setState(() {});
-                          },
-                        ),
-                        // Positioned(
-                        //   bottom: 10.h,
-                        //   left: 10.w,
-                        //   child: Text(
-                        //     'Network: ${getNetworkProvider(ref.watch(textValueProvider).airtimeTextValue)}',
-                        //     style: TextStyle(
-                        //       fontSize: 13.sp,
-                        //     ),
-                        //   ),
-                        // ),
-                      ],
+                    // .afmPadding(
+                    //   EdgeInsets.only(
+                    //     bottom: 10.h,
+                    //   ),
+                    // ),
+                    CollectPersonalDetailModel(
+                      leadTitle: "Phone Number",
+                      hintT: "080 XXX XXXX",
+                      isPasswordT: false,
+                      isdigit: [FilteringTextInputFormatter.digitsOnly],
+                      //  numberOfTexts: 11,
+                      controller: ref.read(textControllerProvider),
+                      onChanged: (value) {
+                        textValueNotifier.airtimeTextValue = value;
+                        setState(() {});
+                      },
                     ),
                     CollectPersonalDetailModel(
                       leadTitle: "Amount",
@@ -169,7 +156,7 @@ class _BillAirtimeState extends ConsumerState<BillAirtime> {
                               LocalNotification.showPurchaseNotification(
                                 title: 'Order Successful',
                                 body:
-                                    'Dear ${ref.read(instaProfileController.notifier).model.user?.fullname}.\nYour purchase of ${formatBalance(stringToNum(amountController.text).toString())} is successful.\nYour new balance is ₦${ref.read(instaProfileController.notifier).model.user?.balance}.',
+                                    'Dear ${ref.read(instaProfileController.notifier).model.user?.fullname},\nYour purchase of ${formatBalance(stringToNum(amountController.text).toString())} is successful.\nYour new balance is ₦${ref.read(instaProfileController.notifier).model.user?.balance}.',
                                 payload: '',
                               );
                             } else {
@@ -195,7 +182,7 @@ class _BillAirtimeState extends ConsumerState<BillAirtime> {
                       },
                     ).afmPadding(
                       EdgeInsets.only(
-                        top: 40.sp,
+                        top: 20.sp,
                       ),
                     ),
                   ],

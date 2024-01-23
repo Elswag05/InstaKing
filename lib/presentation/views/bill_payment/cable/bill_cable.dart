@@ -108,11 +108,12 @@ class _BillCableState extends ConsumerState<BillCable> {
                             ? decoderName
                             : "Choose Decoder Type",
                       ),
-                    ).afmPadding(
-                      EdgeInsets.only(
-                        bottom: 20.h,
-                      ),
                     ),
+                    // .afmPadding(
+                    //   EdgeInsets.only(
+                    //     bottom: 20.h,
+                    //   ),
+                    // ),
                     decoderName == ''
                         ? const SizedBox()
                         : GestureDetector(
@@ -139,24 +140,21 @@ class _BillCableState extends ConsumerState<BillCable> {
                                   ? cablePlanName
                                   : "Choose Decoder Plan",
                             ),
-                          ).afmPadding(
-                            EdgeInsets.only(
-                              bottom: 20.h,
-                            ),
                           ),
-                    Stack(
-                      children: [
-                        CollectPersonalDetailModel(
-                          leadTitle: "Cable Number",
-                          hintT: "XXXX XXX XXXX",
-                          isPasswordT: false,
-                          isdigit: [FilteringTextInputFormatter.digitsOnly],
-                          controller: cableNumberController,
-                          onChanged: (value) {
-                            setState(() {});
-                          },
-                        ),
-                      ],
+                    // .afmPadding(
+                    //   EdgeInsets.only(
+                    //     bottom: 20.h,
+                    //   ),
+                    // ),
+                    CollectPersonalDetailModel(
+                      leadTitle: "Cable Number",
+                      hintT: "XXXX XXX XXXX",
+                      isPasswordT: false,
+                      isdigit: [FilteringTextInputFormatter.digitsOnly],
+                      controller: cableNumberController,
+                      onChanged: (value) {
+                        setState(() {});
+                      },
                     ),
                     CustomButton(
                       pageCTA: "Proceed",
@@ -197,7 +195,7 @@ class _BillCableState extends ConsumerState<BillCable> {
                                   LocalNotification.showPurchaseNotification(
                                     title: 'Order Successful',
                                     body:
-                                        'Dear ${ref.read(instaProfileController.notifier).model.user?.fullname}.\nYour purchase of $cablePlanName is successful.\nYour new balance is ₦${ref.read(instaProfileController.notifier).model.user?.balance}.}',
+                                        'Dear ${ref.read(instaProfileController.notifier).model.user?.fullname},\nYour purchase of $cablePlanName is successful.\nYour new balance is ₦${ref.read(instaProfileController.notifier).model.user?.balance}.}',
                                     payload: '',
                                   );
                                 }
@@ -223,7 +221,7 @@ class _BillCableState extends ConsumerState<BillCable> {
                       },
                     ).afmPadding(
                       EdgeInsets.only(
-                        top: 40.sp,
+                        top: 20.sp,
                       ),
                     ),
                   ],

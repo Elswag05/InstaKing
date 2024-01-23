@@ -8,7 +8,7 @@ import 'package:insta_king/core/constants/env_colors.dart';
 class EnvThemeManager {
   EnvThemeManager._();
 
-  static String get _fontFamily => 'Inter';
+  static String get fontFamily => 'Inter';
   static ThemeData lightTheme = themeData(_lightColorScheme);
   static ThemeData darkTheme = themeData(_darkColorScheme);
 
@@ -75,7 +75,7 @@ class EnvThemeManager {
   );
 
   static ThemeData themeData(ColorScheme colorScheme) => ThemeData(
-      canvasColor: colorScheme.onSurface,
+      //   canvasColor: colorScheme.onSurface,
       scaffoldBackgroundColor: colorScheme.background,
       useMaterial3: false,
       colorScheme: colorScheme,

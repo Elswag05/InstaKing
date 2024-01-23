@@ -113,11 +113,12 @@ class _BillElectricityState extends ConsumerState<BillElectricity> {
                         headerText: "Disco Name",
                         hintText: discoName != '' ? discoName : "Select type",
                       ),
-                    ).afmPadding(
-                      EdgeInsets.only(
-                        bottom: 20.h,
-                      ),
                     ),
+                    // .afmPadding(
+                    //   EdgeInsets.only(
+                    //     bottom: 20.h,
+                    //   ),
+                    // ),
                     GestureDetector(
                       onTap: () {
                         showReusableBottomSheet(
@@ -137,11 +138,12 @@ class _BillElectricityState extends ConsumerState<BillElectricity> {
                         hintText:
                             meterType != '' ? meterType : "Select meter type",
                       ),
-                    ).afmPadding(
-                      EdgeInsets.only(
-                        bottom: 20.h,
-                      ),
                     ),
+                    // .afmPadding(
+                    //   EdgeInsets.only(
+                    //     bottom: 20.h,
+                    //   ),
+                    // ),
                     CollectPersonalDetailModel(
                       leadTitle: "Meter Number",
                       hintT: "XXXX-XXX-XXXX",
@@ -202,7 +204,7 @@ class _BillElectricityState extends ConsumerState<BillElectricity> {
                                 LocalNotification.showPurchaseNotification(
                                   title: 'Order Successful',
                                   body:
-                                      'Dear ${ref.read(instaProfileController.notifier).model.user?.fullname}.\nYour purchase of ${formatBalance(
+                                      'Dear ${ref.read(instaProfileController.notifier).model.user?.fullname},\nYour purchase of ${formatBalance(
                                     amountController.text,
                                   )} is successful.\nYour new balance is ₦${ref.read(instaProfileController.notifier).model.user?.balance}.}',
                                   payload: '',
@@ -229,7 +231,7 @@ class _BillElectricityState extends ConsumerState<BillElectricity> {
                       },
                     ).afmPadding(
                       EdgeInsets.only(
-                        top: 40.sp,
+                        top: 20.sp,
                       ),
                     ),
                   ],

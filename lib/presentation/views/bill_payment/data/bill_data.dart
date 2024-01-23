@@ -111,11 +111,12 @@ class _BillDataState extends ConsumerState<BillData> {
                         headerText: "Network",
                         hintText:
                             networkName != '' ? networkName : "Choose Network",
-                      ).afmPadding(
-                        EdgeInsets.only(
-                          bottom: 20.h,
-                        ),
                       ),
+                      // .afmPadding(
+                      //   EdgeInsets.only(
+                      //     bottom: 20.h,
+                      //   ),
+                      // ),
                     ),
                     userHasPickedNetwork
                         ? GestureDetector(
@@ -146,11 +147,12 @@ class _BillDataState extends ConsumerState<BillData> {
                                   ? dataName
                                   : "Choose Data Plan",
                             ),
-                          ).afmPadding(
-                            EdgeInsets.only(
-                              bottom: 20.h,
-                            ),
                           )
+                        // .afmPadding(
+                        //   EdgeInsets.only(
+                        //     bottom: 20.h,
+                        //   ),
+                        // )
                         : const SizedBox(),
                     CollectPersonalDetailModel(
                       leadTitle: "Phone Number",
@@ -180,7 +182,6 @@ class _BillDataState extends ConsumerState<BillData> {
                           (value) {
                             if (value == true) {
                               // Handle success
-
                               AwesomeDialog(
                                 context: context,
                                 animType: AnimType.scale,
@@ -195,7 +196,7 @@ class _BillDataState extends ConsumerState<BillData> {
                               LocalNotification.showPurchaseNotification(
                                 title: 'Order Successful',
                                 body:
-                                    'Dear ${ref.read(instaProfileController.notifier).model.user?.fullname}.\nYour purchase of ${formatBalance(
+                                    'Dear ${ref.read(instaProfileController.notifier).model.user?.fullname},\nYour purchase of ${formatBalance(
                                   amountController.text,
                                 )} is successful.\nYour new balance is ₦${ref.read(instaProfileController.notifier).model.user?.balance}.}',
                                 payload: '',
@@ -223,7 +224,7 @@ class _BillDataState extends ConsumerState<BillData> {
                       },
                     ).afmPadding(
                       EdgeInsets.only(
-                        top: 40.sp,
+                        top: 20.sp,
                       ),
                     ),
                   ],

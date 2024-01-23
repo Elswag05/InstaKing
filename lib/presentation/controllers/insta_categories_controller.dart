@@ -87,7 +87,6 @@ class CategoriesController extends BaseChangeNotifier {
     _selectedCategoryValue = newValue;
     _selectedCategoryName = name;
     _isCatSet = true;
-
     notifyListeners();
   }
 
@@ -213,9 +212,11 @@ class CategoriesController extends BaseChangeNotifier {
       try {
         //loadingState = LoadingState.loading;
         final res = await getAllServiceDetails.getAllServicesDetails();
+        //log(res.toString());
         if (res.statusCode == 200) {
           getAllServicesModel = GetAllServicesModel.fromJson(res.data);
           // If filteredData is not null, use it instead of getAllServicesModel.data
+          debugPrint('Service has been gotten !!!');
           servicesData =
               hasTappedStatus ? filteredData : getAllServicesModel.data;
           servicesModel = servicesData

@@ -36,11 +36,17 @@ mixin DioMixin {
           return handler.next(options);
         },
         onError: (DioError e, handler) {
-          log('Dio Error 00: ${e.response?.statusMessage}', error: e);
+          //log('Dio Error 00: ${e.response?.statusMessage}', error: e);
+          //print('Error message 010 $errorMessage');
           String errorMessage = _extractErrorMessage(e);
-          locator<ToastService>().showErrorToast(
-            errorMessage,
-          );
+          if (errorMessage == 'Unauthenticated') {
+            debugPrint('voila');
+          } else if (errorMessage == '') {
+          } else {
+            locator<ToastService>().showErrorToast(
+              errorMessage,
+            );
+          }
           return handler.next(e);
         },
       ),
@@ -53,13 +59,17 @@ mixin DioMixin {
       Future<Response<dynamic>> Function() request) async {
     try {
       final response = await request();
-      debugPrint('Info: work is at ${response.data}');
+      //debugPrint('Info: work is at ${response.data}');
       return response;
     } on DioError catch (e) {
       // Handle Dio errors (e.g., network issues, non-200 status codes)
       String message = e.message.toString();
       message = _extractErrorMessage(e);
-      if (message != '') {
+      if (message == '') {
+      } else if (message.toLowerCase() == 'unauthenticated') {
+        debugPrint('User is unauthenticated');
+      } else {
+        debugPrint('User is unauthenticated 002 ==> $message');
         locator<ToastService>().showErrorToast(
           message,
         );
