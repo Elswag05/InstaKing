@@ -19,7 +19,7 @@ import 'package:insta_king/presentation/views/profile/sub_profile_views.dart/mor
 import 'package:insta_king/presentation/views/profile/sub_profile_views.dart/profile_details/personal_details_view.dart';
 import 'package:insta_king/presentation/views/profile/sub_profile_views.dart/refer_and_earn/refer_and_earn.dart';
 import 'package:insta_king/utils/locator.dart';
-import 'package:oktoast/oktoast.dart';
+// import 'package:oktoast/oktoast.dart';
 
 class InstaProfile extends StatefulWidget {
   const InstaProfile({super.key});
