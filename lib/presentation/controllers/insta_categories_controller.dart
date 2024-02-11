@@ -206,7 +206,7 @@ class CategoriesController extends BaseChangeNotifier {
 
     hasTappedStatus = _hasTappedStatus();
     debugPrint('Has Any Button Been Tapped? => $hasTappedStatus');
-    debugPrint('This is current data => ${getAllServicesModel.data}');
+    // debugPrint('This is current data => ${getAllServicesModel.data}');
 
     if (getAllServicesModel.data == null || getAllServicesModel.data == []) {
       try {
@@ -305,7 +305,6 @@ class CategoriesController extends BaseChangeNotifier {
       final res = await getAllServiceDetails.getAllServicesDetails();
       if (res.statusCode == 200) {
         getAllServicesModel = GetAllServicesModel.fromJson(res.data);
-
         // Filter the data based on the specified id
         final filteredServiceData = getAllServicesModel.data
             ?.where((category) => category.categoryId == targetId)
@@ -327,9 +326,6 @@ class CategoriesController extends BaseChangeNotifier {
                     ))
                 .toList() ??
             [];
-
-        // loadingState = LoadingState.idle;
-        // notifyListeners();
         return allServicesModel;
       } else {
         // throw Error();

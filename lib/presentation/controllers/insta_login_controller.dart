@@ -159,17 +159,18 @@ class LoginController extends BaseChangeNotifier {
         throw Error();
       }
     } on DioException catch (e) {
-      loadingState = LoadingState.error;
+      loadingState = LoadingState.idle;
+
       ErrorService.handleErrors(e);
     } catch (e) {
-      loadingState = LoadingState.error;
+      loadingState = LoadingState.idle;
       ErrorService.handleErrors(e);
     }
     return false;
   }
 
   Future<bool> signOut() async {
-    //loadingState = LoadingState.loading;
+    loadingState = LoadingState.loading;
     try {
       final res = await logOutService.logOut();
       if (res.statusCode == 200) {
@@ -182,10 +183,10 @@ class LoginController extends BaseChangeNotifier {
         throw Error();
       }
     } on DioException catch (e) {
-      // loadingState = LoadingState.error;
+      loadingState = LoadingState.idle;
       ErrorService.handleErrors(e);
     } catch (e) {
-      //  loadingState = LoadingState.error;
+      loadingState = LoadingState.idle;
       ErrorService.handleErrors(e);
     }
     return false;

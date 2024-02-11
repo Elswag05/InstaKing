@@ -101,13 +101,13 @@ class OrderController extends BaseChangeNotifier {
         getAllOrderModel.data == null ||
         callReload) {
       try {
-        debugPrint('getting all order 001');
+        //  debugPrint('getting all order 001');
         // loadingState = LoadingState.loading;
         final res = await getOrder.getAllOrders();
 
-        debugPrint('getting all order 002');
+        // debugPrint('getting all order 002');
         if (res.statusCode == 200 || res.statusCode == 201) {
-          debugPrint('getting all order 003');
+          //   debugPrint('getting all order 003');
           debugPrint('${res.data.runtimeType}');
           getAllOrderModel = GetAllOrderModel.fromJson(res.data);
           debugPrint('All orders so far have been gotten');

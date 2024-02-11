@@ -6,6 +6,7 @@ import 'package:insta_king/core/constants/env_assets.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
 import 'package:insta_king/data/local/toast_service.dart';
 import 'package:insta_king/presentation/controllers/insta_profile_controller.dart';
+import 'package:insta_king/presentation/views/home/home_card_widgets.dart';
 import 'package:insta_king/presentation/views/shared_widgets/cta_button.dart';
 import 'package:insta_king/utils/locator.dart';
 
@@ -20,9 +21,7 @@ class _ReferralCopyCardState extends ConsumerState<ReferralCopyCard> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration.zero, () {
-      ref.read(instaProfileController).getReferralDetails();
-    });
+    ref.read(instaProfileController).getReferralDetails();
   }
 
   @override
@@ -46,6 +45,14 @@ class _ReferralCopyCardState extends ConsumerState<ReferralCopyCard> {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
+                      'Total referrals',
+                      style: TextStyle(
+                        fontFamily: 'Montesserat',
+                        fontSize: 13.sp,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    Text(
                       '${referInfo.total ?? 0}',
                       style: TextStyle(
                         fontFamily: 'Montesserat',
@@ -53,11 +60,18 @@ class _ReferralCopyCardState extends ConsumerState<ReferralCopyCard> {
                       ),
                     ),
                     Text(
-                      'Total referrals',
+                      'Affiliate balance',
                       style: TextStyle(
                         fontFamily: 'Montesserat',
                         fontSize: 13.sp,
                         fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    Text(
+                      formatBalance(refer.user?.bonus ?? '0'),
+                      style: TextStyle(
+                        fontFamily: 'Montesserat',
+                        fontSize: 18.sp,
                       ),
                     ),
                   ],

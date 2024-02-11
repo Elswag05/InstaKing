@@ -88,10 +88,12 @@ class _InstaLoginState extends ConsumerState<InstaLogin>
                         .signIn(
                             userEmailController.text, passwordController.text)
                         .then((value) {
-                      if (value) {
+                      if (value == true) {
                         Navigator.of(context).pushReplacement(MaterialPageRoute(
                           builder: (context) => const InstaDashboard(),
                         ));
+                      } else {
+                        setState(() {});
                       }
                       debugPrint(
                           'INFO: To login with email:${userEmailController.text} and password: ${passwordController.text}');

@@ -4,6 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insta_king/core/constants/env_colors.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
 import 'package:insta_king/data/local/secure_storage_service.dart';
+import 'package:insta_king/data/local/toast_service.dart';
+import 'package:insta_king/main.dart';
 import 'package:insta_king/presentation/controllers/insta_categories_controller.dart';
 import 'package:insta_king/presentation/controllers/insta_login_controller.dart';
 import 'package:insta_king/presentation/controllers/insta_order_controller.dart';
@@ -17,6 +19,7 @@ import 'package:insta_king/presentation/views/profile/sub_profile_views.dart/mor
 import 'package:insta_king/presentation/views/profile/sub_profile_views.dart/profile_details/personal_details_view.dart';
 import 'package:insta_king/presentation/views/profile/sub_profile_views.dart/refer_and_earn/refer_and_earn.dart';
 import 'package:insta_king/utils/locator.dart';
+import 'package:oktoast/oktoast.dart';
 
 class InstaProfile extends StatefulWidget {
   const InstaProfile({super.key});
@@ -43,7 +46,6 @@ class _InstaProfileState extends State<InstaProfile> {
           ref.read(instaCategoriesController).disposeCategries();
           ref.read(instaProfileController).disposeProf();
           ref.read(instaOrderController).disposeOrders();
-          super.dispose();
         }
 
         return Scaffold(
@@ -296,20 +298,22 @@ class _InstaProfileState extends State<InstaProfile> {
                     ref.read(instaLoginController.notifier).signOut().then(
                       (value) {
                         if (value == true) {
-                          // ref
-                          //     .read(dashBoardControllerProvider.notifier)
-                          //     .setPage(0);
-                          Navigator.of(context).pushReplacement(
+                          locator<SecureStorageService>().delete(key: 'token');
+                          locator<SecureStorageService>().delete(key: 'email');
+                          navigatorKey.currentState?.pushReplacement(
                             MaterialPageRoute(
                               builder: (context) => const InstaLogin(),
                             ),
                           );
-                          locator<SecureStorageService>().delete(key: 'token');
-                          locator<SecureStorageService>().delete(key: 'email');
-                          Future(
+                          Future.delayed(
+                            Duration.zero,
                             () => toDispose(),
                           );
-                        } else {}
+                        } else {
+                          locator<ToastService>().showSuccessToast(
+                            'Unable to sign you out, please try again later!',
+                          );
+                        }
                       },
                     );
                   },

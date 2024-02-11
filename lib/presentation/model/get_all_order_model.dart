@@ -24,8 +24,8 @@ class GetAllOrderModel {
         data: data ?? this.data,
       );
 
-  factory GetAllOrderModel.fromRawJson(String str) =>
-      GetAllOrderModel.fromJson(json.decode(str));
+  factory GetAllOrderModel.fromRawJson(Map<String, dynamic> json) =>
+      GetAllOrderModel.fromJson(json);
 
   String toRawJson() => json.encode(toJson());
 
@@ -193,7 +193,7 @@ class Datum {
         service: service ?? this.service,
       );
 
-  factory Datum.fromRawJson(String str) => Datum.fromJson(json.decode(str));
+  factory Datum.fromRawJson(Map<String, dynamic> json) => Datum.fromJson(json);
 
   String toRawJson() => json.encode(toJson());
 
@@ -347,7 +347,7 @@ class Service {
         refill: refill ?? this.refill,
       );
 
-  factory Service.fromJson(String str) => Service.fromMap(json.decode(str));
+  factory Service.fromJson(Map<String, dynamic> json) => Service.fromMap(json);
 
   String toJson() => json.encode(toMap());
 

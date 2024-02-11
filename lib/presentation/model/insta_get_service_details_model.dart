@@ -1,5 +1,3 @@
-// ignore_for_file: constant_identifier_names
-
 import 'dart:convert';
 
 class GetAllServicesModel {
@@ -24,26 +22,25 @@ class GetAllServicesModel {
         data: data ?? this.data,
       );
 
-  factory GetAllServicesModel.fromRawJson(String str) =>
-      GetAllServicesModel.fromJson(json.decode(str));
-
-  String toRawJson() => json.encode(toJson());
-
   factory GetAllServicesModel.fromJson(Map<String, dynamic> json) =>
+      GetAllServicesModel.fromMap(json);
+
+  String toJson() => json.encode(toMap());
+
+  factory GetAllServicesModel.fromMap(Map<String, dynamic> json) =>
       GetAllServicesModel(
         status: json["status"],
         message: json["message"],
         data: json["data"] == null
             ? []
-            : List<Datum>.from(json["data"]!.map((x) => Datum.fromJson(x))),
+            : List<Datum>.from(json["data"]!.map((x) => Datum.fromMap(x))),
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toMap() => {
         "status": status,
         "message": message,
-        "data": data == null
-            ? []
-            : List<dynamic>.from(data!.map((x) => x.toJson())),
+        "data":
+            data == null ? [] : List<dynamic>.from(data!.map((x) => x.toMap())),
       };
 }
 
@@ -58,6 +55,7 @@ class Datum {
   String? min;
   String? max;
   String? price;
+  SType? sType;
   String? status;
   Type? type;
   String? dripfeed;
@@ -74,6 +72,7 @@ class Datum {
     this.min,
     this.max,
     this.price,
+    this.sType,
     this.status,
     this.type,
     this.dripfeed,
@@ -91,6 +90,7 @@ class Datum {
     String? min,
     String? max,
     String? price,
+    SType? sType,
     String? status,
     Type? type,
     String? dripfeed,
@@ -107,17 +107,18 @@ class Datum {
         min: min ?? this.min,
         max: max ?? this.max,
         price: price ?? this.price,
+        sType: sType ?? this.sType,
         status: status ?? this.status,
         type: type ?? this.type,
         dripfeed: dripfeed ?? this.dripfeed,
         refill: refill ?? this.refill,
       );
 
-  factory Datum.fromRawJson(String str) => Datum.fromJson(json.decode(str));
+  factory Datum.fromJson(String str) => Datum.fromMap(json.decode(str));
 
-  String toRawJson() => json.encode(toJson());
+  String toJson() => json.encode(toMap());
 
-  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+  factory Datum.fromMap(Map<String, dynamic> json) => Datum(
         id: json["id"],
         categoryId: json["category_id"],
         apiProviderId: json["api_provider_id"],
@@ -128,13 +129,14 @@ class Datum {
         min: json["min"],
         max: json["max"],
         price: json["price"],
+        sType: sTypeValues.map[json["s_type"]],
         status: json["status"],
-        type: typeValues.map[json["type"]]!,
+        type: typeValues.map[json["type"]],
         dripfeed: json["dripfeed"],
         refill: json["refill"],
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toMap() => {
         "id": id,
         "category_id": categoryId,
         "api_provider_id": apiProviderId,
@@ -145,6 +147,7 @@ class Datum {
         "min": min,
         "max": max,
         "price": price,
+        "s_type": sTypeValues.reverse[sType],
         "status": status,
         "type": typeValues.reverse[type],
         "dripfeed": dripfeed,
@@ -152,22 +155,18 @@ class Datum {
       };
 }
 
-enum Type {
-  COMMENT_LIKES,
-  CUSTOM_COMMENTS,
-  DEFAULT,
-  PACKAGE,
-  SUBSCRIPTIONS,
-  TYPE_CUSTOM_COMMENTS
-}
+enum SType { NORMAL, SPECIAL }
+
+final sTypeValues =
+    EnumValues({"normal": SType.NORMAL, "special": SType.SPECIAL});
+
+enum Type { COMMENT_LIKES, CUSTOM_COMMENTS, DEFAULT, PACKAGE }
 
 final typeValues = EnumValues({
-  "comment likes": Type.COMMENT_LIKES,
+  "comment_likes": Type.COMMENT_LIKES,
   "custom_comments": Type.CUSTOM_COMMENTS,
   "default": Type.DEFAULT,
-  "package": Type.PACKAGE,
-  "subscriptions": Type.SUBSCRIPTIONS,
-  "custom comments": Type.TYPE_CUSTOM_COMMENTS
+  "package": Type.PACKAGE
 });
 
 class EnumValues<T> {
