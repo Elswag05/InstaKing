@@ -50,6 +50,7 @@ class _BillCableState extends ConsumerState<BillCable> {
       backgroundColor: Colors.transparent,
       builder: (BuildContext context) {
         return ReusableBottomSheet(
+          future:  ref.read(instaCableController).toGetCableDecoderPlans(),
             getLength: dataList?.length ?? 5,
             title: 'Choose Decoder Plan',
             status: 'initialStatus', // Set your initial status here

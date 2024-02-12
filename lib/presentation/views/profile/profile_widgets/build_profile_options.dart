@@ -1,5 +1,4 @@
-
-    import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
@@ -10,23 +9,48 @@ import '../profile_basic_functions.dart';
 import 'build_profile_header.dart';
 
 Widget buildProfileOptions(BuildContext context, WidgetRef ref) {
-    return Container(
-      color: Theme.of(context).cardColor,
-      child: Column(
-        children: [
-          buildProfileViewModel('Refer And Earn', () {
+  return Container(
+    color: Theme.of(context).cardColor,
+    child: Column(
+      children: [
+        buildProfileViewModel(
+          'Personal Information',
+          () {
+            navigateToPersonalDetails(context);
+          },
+          'user',
+        ).afmPadding(),
+        buildProfileViewModel(
+          'Refer to Earn',
+          () {
             navigateToReferAndEarn(context);
-          }).afmPadding(),
-          buildProfileViewModel('More Information', () {
-            navigateToMoreInformation(context);
-          }).afmPadding(),
-          buildProfileViewModel('Change Password', () {
+          },
+          'dollar',
+        ).afmPadding(),
+        // buildProfileViewModel('More Information', () {
+        //   navigateToMoreInformation(context);
+        // }).afmPadding(),
+        buildProfileViewModel(
+          'Change Password',
+          () {
             navigateToChangePassword(context);
-          }).afmPadding(),
-          const ProfileViewModel(modelText: 'Support').afmPadding(),
-          // buildBiometricLockSwitch(context, ref),
-          const BiometricLockSwitch(),
-        ],
-      ).afmPadding(EdgeInsets.all(10.sp)),
-    ).afmBorderRadius(BorderRadius.circular(10.r));
-  }
+          },
+          'outline',
+        ).afmPadding(),
+        const ProfileViewModel(
+          modelText: 'Support',
+          icon: 'support',
+        ).afmPadding(),
+        // buildBiometricLockSwitch(context, ref),
+        const BiometricLockSwitch(),
+        buildProfileViewModel(
+          'Sign Out',
+          () {
+            handleSignOut(context, ref);
+          },
+          'duotone',
+        ).afmPadding(),
+      ],
+    ).afmPadding(EdgeInsets.all(10.sp)),
+  ).afmBorderRadius(BorderRadius.circular(15.r));
+}

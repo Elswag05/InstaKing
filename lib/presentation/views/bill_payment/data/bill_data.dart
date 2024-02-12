@@ -56,6 +56,7 @@ class _BillDataState extends ConsumerState<BillData> {
       backgroundColor: Colors.transparent,
       builder: (BuildContext context) {
         return ReusableBottomSheet(
+          future:     ref.read(instaAirtimeController).toGetNetworks(),
           getLength:
               (ref.read(instaDataController).getDataPlanModel.data?.length ??
                   5),

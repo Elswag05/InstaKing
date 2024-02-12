@@ -30,7 +30,6 @@ class PurchaseAirtimeController extends BaseChangeNotifier {
 
   Future<void> toGetNetworks() async {
     if (getNetworkModel.data != null) return;
-
     try {
       debugPrint('To Get Airtime');
       final res = await getBills.getNetworks();

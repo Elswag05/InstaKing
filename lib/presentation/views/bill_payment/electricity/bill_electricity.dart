@@ -63,6 +63,7 @@ class _BillElectricityState extends ConsumerState<BillElectricity> {
       backgroundColor: Colors.transparent,
       builder: (BuildContext context) {
         return ReusableBottomSheet(
+          future:  ref.read(instaElectricityController).toGetPowerPlans(),
           getLength: dataList?.length ?? 5,
           title: 'Choose Disco Name',
           networkPr: dataList,

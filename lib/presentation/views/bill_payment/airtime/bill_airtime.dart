@@ -52,6 +52,7 @@ class _BillAirtimeState extends ConsumerState<BillAirtime> {
       backgroundColor: Colors.transparent,
       builder: (BuildContext context) {
         return ReusableBottomSheet(
+          future:  ref.read(instaAirtimeController).toGetNetworks(),
           getLength:
               ref.read(instaAirtimeController).getNetworkModel.data?.length ??
                   5,

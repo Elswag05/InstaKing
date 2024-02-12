@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:insta_king/presentation/controllers/insta_login_controller.dart';
-import 'package:insta_king/presentation/controllers/insta_profile_controller.dart';
-
 import 'profile_widgets/build_profile_content.dart';
 
 class InstaProfile extends StatefulWidget {
@@ -24,7 +21,33 @@ class _InstaProfileState extends State<InstaProfile> {
       builder: (context, ref, child) {
         return Scaffold(
           body: SafeArea(
-            child: buildProfileContent(context, ref),
+            child: Stack(
+              children: [
+                SizedBox(
+                  height: MediaQuery.of(context).size.height,
+                  width: MediaQuery.of(context).size.width,
+                  child: Column(
+                    children: [
+                      Flexible(
+                        flex: 3,
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          color: Theme.of(context).primaryColor,
+                        ),
+                      ),
+                      Expanded(
+                        flex: 4,
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          color: Theme.of(context).colorScheme.background,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                buildProfileContent(context, ref),
+              ],
+            ),
           ),
         );
       },
@@ -52,7 +75,6 @@ class _InstaProfileState extends State<InstaProfile> {
 //     }
 //   }
 }
-
 
 /*
 |||Normal Stuff 
