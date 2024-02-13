@@ -18,7 +18,9 @@ Widget buildProfileOptions(BuildContext context, WidgetRef ref) {
           () {
             navigateToPersonalDetails(context);
           },
-          'user',
+          'user1',
+          sp: 25,
+          padding: 0,
         ).afmPadding(),
         buildProfileViewModel(
           'Refer to Earn',
@@ -26,6 +28,8 @@ Widget buildProfileOptions(BuildContext context, WidgetRef ref) {
             navigateToReferAndEarn(context);
           },
           'dollar',
+          sp: 30,
+          padding: 5,
         ).afmPadding(),
         // buildProfileViewModel('More Information', () {
         //   navigateToMoreInformation(context);
@@ -36,10 +40,14 @@ Widget buildProfileOptions(BuildContext context, WidgetRef ref) {
             navigateToChangePassword(context);
           },
           'outline',
+          padding: 5,
+          sp: 20,
         ).afmPadding(),
         const ProfileViewModel(
           modelText: 'Support',
           icon: 'support',
+          iconDimension: 20,
+          padding: 4.5,
         ).afmPadding(),
         // buildBiometricLockSwitch(context, ref),
         const BiometricLockSwitch(),
@@ -49,6 +57,9 @@ Widget buildProfileOptions(BuildContext context, WidgetRef ref) {
             handleSignOut(context, ref);
           },
           'duotone',
+          sp: 25,
+          isError: true,
+          padding: 0,
         ).afmPadding(),
       ],
     ).afmPadding(EdgeInsets.all(10.sp)),

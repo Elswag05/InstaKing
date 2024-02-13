@@ -53,7 +53,7 @@ class _ReferralCopyCardState extends ConsumerState<ReferralCopyCard> {
                       ),
                     ),
                     Text(
-                      '${referInfo.total ?? 0}',
+                      '${referInfo.total ?? 'Loading...'}',
                       style: TextStyle(
                         fontFamily: 'Montesserat',
                         fontSize: 18.sp,

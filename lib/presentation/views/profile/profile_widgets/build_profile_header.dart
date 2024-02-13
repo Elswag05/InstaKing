@@ -14,11 +14,14 @@ Widget buildProfileHeader() {
   );
 }
 
-Widget buildProfileViewModel(
-    String modelText, Function() onTap, String icon) {
+Widget buildProfileViewModel(String modelText, Function() onTap, String icon,
+    {double sp = 20, bool isError = false, double padding = 0}) {
   return ProfileViewModel(
     icon: icon,
     modelText: modelText,
     onTap: onTap,
+    iconDimension: sp,
+    isError: isError,
+    padding: padding,
   );
 }

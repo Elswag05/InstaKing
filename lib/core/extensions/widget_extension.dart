@@ -32,7 +32,7 @@ extension WidgetExtension on Widget {
           if (snapshot.connectionState == ConnectionState.done) {
             return this;
           } else {
-            return const Center(child: TransparentLoadingScreen());
+            return const Center(child: CircularProgressIndicator());
           }
         },
       );

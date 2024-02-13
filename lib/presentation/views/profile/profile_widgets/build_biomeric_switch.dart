@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:insta_king/core/constants/constants.dart';
-import 'package:insta_king/core/constants/env_colors.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
 import 'package:insta_king/presentation/controllers/insta_login_controller.dart';
 
@@ -23,62 +23,65 @@ class _BiometricLockSwitchState extends State<BiometricLockSwitch> {
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (context, ref, child) {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            children: [
-              Image.asset(
-                EnvAssets.getSvgPath('fingerprint'),
-                width: 20.w,
-                height: 20.h,
-              ).afmPadding(
-                EdgeInsets.only(right: 6.h),
-              ),
-              Text(
-                'Login with Biometrics',
-                style: TextStyle(
-                  fontFamily: 'Montesserat',
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.bold,
+      return SizedBox(
+        height: 50.h,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                SvgPicture.asset(
+                  EnvAssets.getSvgPath('fingerprint'),
+                  width: 23.w,
+                  height: 23.h,
+                ).afmPadding(
+                  EdgeInsets.only(right: 10.h),
                 ),
-              ),
-            ],
-          ),
-          GestureDetector(
-            child: Switch(
-              activeColor: InstaColors.primaryColor,
-              activeTrackColor: InstaColors.mildLightColor,
-              inactiveThumbColor: InstaColors.mildGrey,
-              inactiveTrackColor: InstaColors.mildLightColor,
-              splashRadius: 70.0,
-              value: ref.read(instaLoginController).isBoxChecked,
-              onChanged: (value) {
-                // handleBiometricSwitchChange(context, ref, value);
-                debugPrint("$value is valueeeee!");
-                ref.read(instaLoginController).toCheckBox(value);
-                setState(() {
-                  value = !value;
-                });
-
-                if (ref.read(instaLoginController).isBoxChecked) {
-                  debugPrint('User Biometric is active');
-                  ref.read(instaLoginController).setUserToUSeBiometric(
-                        ref.read(instaProfileController).model.user?.email ??
-                            '',
-                      );
-                  setState(() {
-                    ref.read(instaLoginController).toCheckBox(true);
-                  });
-                } else {
-                  debugPrint('User Biometric is NOTactive');
-                  ref.read(instaLoginController).removeUserFromBiometric();
-                }
-              },
+                Text(
+                  'Login with Biometrics',
+                  style: TextStyle(
+                    fontFamily: 'Montesserat',
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
             ),
-          ),
-        ],
-      ).afmPadding(EdgeInsets.only(left: 15.w));
+            GestureDetector(
+              child: Switch(
+                activeColor: InstaColors.primaryColor,
+                activeTrackColor: InstaColors.mildLightColor,
+                inactiveThumbColor: InstaColors.mildGrey,
+                inactiveTrackColor: InstaColors.mildLightColor,
+                splashRadius: 70.0,
+                value: ref.read(instaLoginController).isBoxChecked,
+                onChanged: (value) {
+                  // handleBiometricSwitchChange(context, ref, value);
+                  debugPrint("$value is valueeeee!");
+                  ref.read(instaLoginController).toCheckBox(value);
+                  setState(() {
+                    value = !value;
+                  });
+
+                  if (ref.read(instaLoginController).isBoxChecked) {
+                    debugPrint('User Biometric is active');
+                    ref.read(instaLoginController).setUserToUSeBiometric(
+                          ref.read(instaProfileController).model.user?.email ??
+                              '',
+                        );
+                    setState(() {
+                      ref.read(instaLoginController).toCheckBox(true);
+                    });
+                  } else {
+                    debugPrint('User Biometric is NOTactive');
+                    ref.read(instaLoginController).removeUserFromBiometric();
+                  }
+                },
+              ),
+            ),
+          ],
+        ).afmPadding(EdgeInsets.only(left: 15.w)),
+      );
     });
   }
 }

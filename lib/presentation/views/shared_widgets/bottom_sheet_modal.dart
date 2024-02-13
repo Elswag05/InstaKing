@@ -59,7 +59,6 @@ class _ReusableBottomSheetState extends State<ReusableBottomSheet> {
                 builder: ((context, snapshot) {
                   switch (snapshot.connectionState) {
                     case ConnectionState.done:
-                      setState(() {});
                       return SizedBox(
                         height: (widget.networkPr?.length ?? 4) * 50.h,
                         child: ListView.builder(
@@ -96,10 +95,8 @@ class _ReusableBottomSheetState extends State<ReusableBottomSheet> {
                     // case ConnectionState.active:
                     //   return  const TransparentLoadingScreen();
                     case ConnectionState.waiting:
-                      setState(() {});
                       return const TransparentLoadingScreen();
                     default:
-                      setState(() {});
                       return const TransparentLoadingScreen();
                   }
                 }),
