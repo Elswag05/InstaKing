@@ -42,11 +42,13 @@ class _BillDataState extends ConsumerState<BillData> {
 
   @override
   void initState() {
+    super.initState();
     textValueNotifier = ref.read(textValueProvider);
     userHasPickedNetwork = false;
-    ref.read(instaAirtimeController).toGetNetworks();
     amountController = TextEditingController();
-    super.initState();
+    ref.read(instaAirtimeController).toGetNetworks().then((value) {
+      setState(() {});
+    });
   }
 
   void showReusableBottomSheet(
@@ -56,7 +58,10 @@ class _BillDataState extends ConsumerState<BillData> {
       backgroundColor: Colors.transparent,
       builder: (BuildContext context) {
         return ReusableBottomSheet(
-          future:     ref.read(instaAirtimeController).toGetNetworks(),
+          future:
+              ref.read(instaAirtimeController).toGetNetworks().then((value) {
+            setState(() {});
+          }),
           getLength:
               (ref.read(instaDataController).getDataPlanModel.data?.length ??
                   5),

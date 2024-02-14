@@ -22,7 +22,7 @@ class InstaColors {
   //   container.dispose();
   // }
 
-  static Color appBackgroundColor = const Color.fromARGB(255, 255, 237, 232);
+  static Color appBackgroundColor = const Color.fromARGB(255, 239, 239, 239);
   static List<Color> containerGradient = const [
     Color.fromARGB(100, 255, 153, 0),
     Color.fromARGB(120, 255, 172, 64),
@@ -58,7 +58,7 @@ class InstaColors {
     200: Color(0xFFFFCC80),
     300: Color(0xFFFFB74D),
     400: Color(0xFFFFA726),
-    500: Color(0x00efefef), // Your custom color: rgb(254, 85, 46)
+    500: Color(0x000ffeee), // Your custom color: rgb(254, 85, 46)
     600: Color(0xFFFB8C00),
     700: Color(0xFFF57C00),
     800: Color(0xFFEF6C00),

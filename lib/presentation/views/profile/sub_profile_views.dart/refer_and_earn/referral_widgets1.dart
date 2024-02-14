@@ -21,14 +21,15 @@ class _ReferralCopyCardState extends ConsumerState<ReferralCopyCard> {
   @override
   void initState() {
     super.initState();
-    ref.read(instaProfileController).getReferralDetails();
+    ref.read(instaProfileController).getReferralDetails().then((value) {
+      setState(() {});
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (context, ref, child) {
-      final refer = ref.read(instaProfileController.notifier).model;
-      final referInfo = ref.read(instaProfileController.notifier).refModel;
+      final refer = ref.read(instaProfileController).model;
       return Container(
         color: Theme.of(context).cardColor,
         child: Column(
@@ -53,11 +54,13 @@ class _ReferralCopyCardState extends ConsumerState<ReferralCopyCard> {
                       ),
                     ),
                     Text(
-                      '${referInfo.total ?? 'Loading...'}',
+                      '${ref.read(instaProfileController.notifier).refModel.total}',
                       style: TextStyle(
                         fontFamily: 'Montesserat',
                         fontSize: 18.sp,
                       ),
+                    ).afmGetFuture(
+                      ref.read(instaProfileController).getReferralDetails(),
                     ),
                     Text(
                       'Affiliate balance',

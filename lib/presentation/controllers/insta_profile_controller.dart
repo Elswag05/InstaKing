@@ -144,13 +144,14 @@ class ProfileController extends BaseChangeNotifier {
   }
 
   Future<ProfileModel> getReferralDetails() async {
-    if (refModel.data != null || refModel.data!.isNotEmpty) return model;
+    // if (refModel.data != null || refModel.data!.isNotEmpty) return model;
     try {
       //loadingState = LoadingState.loading;
       final res = await _getProfileService.getReferralDetails();
       if (res.statusCode == 200) {
         refModel = GetReferralsModel.fromMap(res.data);
         log(refModel.data.toString());
+        // notifyListeners();
         return model;
       } else {
         throw Error();

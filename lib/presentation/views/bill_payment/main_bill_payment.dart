@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insta_king/core/constants/constants.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
+import 'package:insta_king/presentation/controllers/purchase_airtime_controller.dart';
+import 'package:insta_king/presentation/controllers/purchase_electricity_controller.dart';
+import 'package:insta_king/presentation/controllers/subscribe_cable_controller.dart';
 
 import 'package:insta_king/presentation/views/bill_payment/airtime/bill_airtime.dart';
 import 'package:insta_king/presentation/views/bill_payment/cable/bill_cable.dart';
@@ -14,14 +18,14 @@ import 'package:insta_king/presentation/views/bill_payment/electricity/bill_elec
 /// but do not forget to give me the credits adding
 /// my app (Flutter Animation Gallery) where you are gonna use it.
 /// ---------------------------------->>>>>>>>>>>>>>>>>>>>>>>>
-class MainBillPayment extends StatefulWidget {
+class MainBillPayment extends ConsumerStatefulWidget {
   const MainBillPayment({super.key});
 
   @override
-  MainBillPaymentState createState() => MainBillPaymentState();
+  ConsumerState createState() => MainBillPaymentState();
 }
 
-class MainBillPaymentState extends State<MainBillPayment>
+class MainBillPaymentState extends ConsumerState<MainBillPayment>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
@@ -47,6 +51,16 @@ class MainBillPaymentState extends State<MainBillPayment>
 
     _controller.forward();
     _controller.forward();
+
+    ref.read(instaAirtimeController).toGetNetworks().then((value) {
+      setState(() {});
+    });
+    ref.read(instaCableController).toGetCableDecoderPlans().then((value) {
+      setState(() {});
+    });
+    ref.read(instaElectricityController).toGetPowerPlans().then((value) {
+      setState(() {});
+    });
   }
 
   @override
@@ -171,12 +185,12 @@ class MainBillPaymentState extends State<MainBillPayment>
             width: w / 2.4,
             decoration: BoxDecoration(
               color: Theme.of(context).cardColor,
-              boxShadow: [
-                BoxShadow(
-                  color: Theme.of(context).colorScheme.primary.withOpacity(.15),
-                  blurRadius: 7,
-                ),
-              ],
+              // boxShadow: [
+              //   BoxShadow(
+              //     color: Theme.of(context).colorScheme.primary.withOpacity(.15),
+              //     blurRadius: 7,
+              //   ),
+              // ],
               borderRadius: const BorderRadius.all(
                 Radius.circular(25),
               ),

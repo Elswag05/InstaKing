@@ -39,8 +39,10 @@ class _BillCableState extends ConsumerState<BillCable> {
 
   @override
   void initState() {
-    ref.read(instaCableController).toGetCableDecoderPlans();
     super.initState();
+    ref.read(instaCableController).toGetCableDecoderPlans().then((value) {
+      setState(() {});
+    });
   }
 
   void showReusableBottomSheet(
@@ -50,7 +52,12 @@ class _BillCableState extends ConsumerState<BillCable> {
       backgroundColor: Colors.transparent,
       builder: (BuildContext context) {
         return ReusableBottomSheet(
-          future:  ref.read(instaCableController).toGetCableDecoderPlans(),
+            future: ref
+                .read(instaCableController)
+                .toGetCableDecoderPlans()
+                .then((value) {
+              setState(() {});
+            }),
             getLength: dataList?.length ?? 5,
             title: 'Choose Decoder Plan',
             status: 'initialStatus', // Set your initial status here

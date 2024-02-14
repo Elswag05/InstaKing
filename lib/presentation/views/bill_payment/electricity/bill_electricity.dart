@@ -51,10 +51,12 @@ class _BillElectricityState extends ConsumerState<BillElectricity> {
   late bool userHasPickedDisco = false;
   @override
   void initState() {
-    ref.read(instaElectricityController).toGetPowerPlans();
+    super.initState();
     amountController = TextEditingController();
     meterNumberController = TextEditingController();
-    super.initState();
+    ref.read(instaElectricityController).toGetPowerPlans().then((value) {
+      setState(() {});
+    });
   }
 
   void showReusableBottomSheet(BuildContext context, dataList, func) {
@@ -63,7 +65,12 @@ class _BillElectricityState extends ConsumerState<BillElectricity> {
       backgroundColor: Colors.transparent,
       builder: (BuildContext context) {
         return ReusableBottomSheet(
-          future:  ref.read(instaElectricityController).toGetPowerPlans(),
+          future: ref
+              .read(instaElectricityController)
+              .toGetPowerPlans()
+              .then((value) {
+            setState(() {});
+          }),
           getLength: dataList?.length ?? 5,
           title: 'Choose Disco Name',
           networkPr: dataList,

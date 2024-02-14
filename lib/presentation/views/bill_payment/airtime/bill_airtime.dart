@@ -37,13 +37,15 @@ class _BillAirtimeState extends ConsumerState<BillAirtime> {
   late TextValueNotifier textValueNotifier;
   late String networkID = '';
   late String networkName = '';
-  late final networkPr = ref.read(instaAirtimeController).getNetworkModel.data;
+  // late final networkPr = ref.watch(instaAirtimeController).getNetworkModel.data;
   @override
   void initState() {
-    textValueNotifier = ref.read(textValueProvider);
-    ref.read(instaAirtimeController).toGetNetworks();
-    amountController = TextEditingController();
     super.initState();
+    textValueNotifier = ref.read(textValueProvider);
+    amountController = TextEditingController();
+    ref.read(instaAirtimeController).toGetNetworks().then((value) {
+      setState(() {});
+    });
   }
 
   void showReusableBottomSheet(BuildContext context) {
@@ -52,13 +54,18 @@ class _BillAirtimeState extends ConsumerState<BillAirtime> {
       backgroundColor: Colors.transparent,
       builder: (BuildContext context) {
         return ReusableBottomSheet(
-          future:  ref.read(instaAirtimeController).toGetNetworks(),
+          future: ref
+              .watch(instaAirtimeController.notifier)
+              .toGetNetworks()
+              .then((value) {
+            setState(() {});
+          }),
           getLength:
-              ref.read(instaAirtimeController).getNetworkModel.data?.length ??
+              ref.watch(instaAirtimeController).getNetworkModel.data?.length ??
                   5,
           title: 'Choose Network',
           status: 'initialStatus', // Set your initial status here
-          networkPr: ref.read(instaAirtimeController).getNetworkModel.data,
+          networkPr: ref.watch(instaAirtimeController).getNetworkModel.data,
           onStatusChanged: (newStatus, netName) {
             // Handle the status change here if needed
             setState(() {
@@ -93,6 +100,7 @@ class _BillAirtimeState extends ConsumerState<BillAirtime> {
                     GestureDetector(
                       onTap: () {
                         showReusableBottomSheet(context);
+                        // setState(() {});
                       },
                       child: ChooseContainerFromDropDown(
                         headerText: "Network",
