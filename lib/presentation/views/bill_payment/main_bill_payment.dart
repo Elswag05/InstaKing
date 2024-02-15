@@ -185,12 +185,7 @@ class MainBillPaymentState extends ConsumerState<MainBillPayment>
             width: w / 2.4,
             decoration: BoxDecoration(
               color: Theme.of(context).cardColor,
-              // boxShadow: [
-              //   BoxShadow(
-              //     color: Theme.of(context).colorScheme.primary.withOpacity(.15),
-              //     blurRadius: 7,
-              //   ),
-              // ],
+              //    
               borderRadius: const BorderRadius.all(
                 Radius.circular(25),
               ),
