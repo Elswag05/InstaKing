@@ -50,19 +50,18 @@ class SignUpController extends BaseChangeNotifier {
         password: passWord,
         referralID: referralCode,
       );
-      if (res.statusCode == 200) {
+      if (res.statusCode == 200 && data.status == 'success') {
         data = InstaSignUpModel.fromJson(res.data);
         await locator<SecureStorageService>().write(
           key: InstaStrings.token,
           value: data.token ?? '',
         );
-        if (data.status == 'success') {
-          locator<ToastService>().showSuccessToast(
-            'You are signed in',
-          );
-          return true;
-        }
+
+        locator<ToastService>().showSuccessToast(
+          'You are signed in',
+        );
         loadingState = LoadingState.idle;
+        return true;
       } else {
         loadingState = LoadingState.idle;
         throw Error();
@@ -74,7 +73,6 @@ class SignUpController extends BaseChangeNotifier {
       loadingState = LoadingState.idle;
       ErrorService.handleErrors(e);
     }
-    loadingState = LoadingState.idle;
     return false;
   }
 }

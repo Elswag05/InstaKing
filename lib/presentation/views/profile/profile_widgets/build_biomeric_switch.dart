@@ -34,6 +34,8 @@ class _BiometricLockSwitchState extends State<BiometricLockSwitch> {
                   EnvAssets.getSvgPath('fingerprint'),
                   width: 23.w,
                   height: 23.h,
+                  // ignore: deprecated_member_use
+                  color: Theme.of(context).colorScheme.onBackground,
                 ).afmPadding(
                   EdgeInsets.only(right: 10.h),
                 ),

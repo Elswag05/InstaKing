@@ -52,7 +52,7 @@ class ProfileViewModel extends StatelessWidget {
                     height: iconDimension.h,
                     // fit: BoxFit.none,
                     color: !isError
-                        ? InstaColors.darkColor
+                        ? Theme.of(context).colorScheme.onBackground
                         : InstaColors.errorColor,
                   ).afmPadding(
                     EdgeInsets.only(right: 10.h),

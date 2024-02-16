@@ -11,7 +11,6 @@ import 'package:insta_king/presentation/controllers/insta_login_controller.dart'
 import 'package:insta_king/presentation/controllers/insta_signin_controller.dart';
 import 'package:insta_king/presentation/views/dashboard/insta_dashboard.dart';
 import 'package:insta_king/presentation/views/shared_widgets/cta_button.dart';
-import 'package:text_3d/text_3d.dart';
 
 class PostSignUp extends StatefulWidget {
   const PostSignUp({super.key});
@@ -63,11 +62,9 @@ class _PostSignUpState extends State<PostSignUp> with TickerProviderStateMixin {
                 ),
                 Align(
                   alignment: Alignment.bottomCenter,
-                  //bottom: 20.h,
-                  child: ThreeDText(
-                    text: 'Registration Successful',
-                    depth: 5.h,
-                    textStyle: TextStyle(
+                  child: Text(
+                    'Registration Successful',
+                    style: TextStyle(
                       fontFamily: 'Monteserrat',
                       fontSize: 20.sp,
                       fontWeight: FontWeight.w600,

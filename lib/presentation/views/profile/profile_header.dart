@@ -21,7 +21,7 @@ class _ProfileHeaderState extends State<ProfileHeader> {
     return Consumer(
       builder: ((context, ref, child) {
         final profileController = ref.watch(instaProfileController.notifier);
-        final apiData = ref.watch(instaProfileController.notifier).model;
+        final apiData = ref.watch(instaProfileController).model;
         return SizedBox(
           height: MediaQuery.of(context).size.height / 3.8,
           child: Column(
@@ -126,7 +126,7 @@ class _ProfileHeaderState extends State<ProfileHeader> {
                 children: [
                   SizedBox(
                     child: AutoSizeText(
-                      '${apiData.user?.fname ?? 'loading...'} ${apiData.user?.lname ?? "loading..."}',
+                      '${apiData.user?.fname ?? 'Hi'} ${apiData.user?.lname ?? "User"}',
                       minFontSize: 10.sp,
                       stepGranularity: 2.sp,
                       style: TextStyle(
@@ -145,7 +145,7 @@ class _ProfileHeaderState extends State<ProfileHeader> {
                 ],
               ),
               AutoSizeText(
-                apiData.user?.email ?? 'loading...',
+                apiData.user?.email ?? '',
                 minFontSize: 10.sp,
                 stepGranularity: 2.sp,
                 style: TextStyle(

@@ -139,6 +139,7 @@ class LoginController extends BaseChangeNotifier {
           value: data.token ?? '',
         );
         writeLoggedIn();
+        loadingState = LoadingState.idle;
         if (_rememberMe) {
           doRememberMe(data.user?.email ?? '');
         }
@@ -146,12 +147,14 @@ class LoginController extends BaseChangeNotifier {
           locator<ToastService>().showSuccessToast(
             '${data.message}',
           );
+          loadingState = LoadingState.idle;
           return false;
         }
         if (data.status == 'success') {
           locator<ToastService>().showSuccessToast(
             'Successfully logged you in',
           );
+          loadingState = LoadingState.idle;
           return true;
         }
         loadingState = LoadingState.idle;

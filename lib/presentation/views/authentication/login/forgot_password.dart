@@ -43,7 +43,7 @@ class _ChangeInstaPasswordState extends State<ChangeInstaPassword> {
         return Stack(
           children: [
             BaseAuthView(
-              pageName: 'Forgot Password',
+              pageName: 'Forgot Password?',
               pageCTA: 'Reset Password',
               inversePageName: '',
               callToActionText: '',
@@ -78,7 +78,7 @@ class _ChangeInstaPasswordState extends State<ChangeInstaPassword> {
               },
               anyWidget: AuthTextField(
                 icon: Icons.person_2_outlined,
-                hintT: 'Enter Your email',
+                hintT: 'Enter Your email address',
                 hasSuffix: false,
                 controller: emailController,
                 isPassword: false,

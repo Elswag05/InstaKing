@@ -119,25 +119,17 @@ class ProfileController extends BaseChangeNotifier {
 
   Future<ProfileModel> getProfileDetails() async {
     try {
-      //loadingState = LoadingState.loading;
       final res = await _getProfileService.getProfileDetails();
       if (res.statusCode == 200) {
-        // locator<ToastService>().showSuccessToast(
-        //   'Gotten Profile Details',
-        // );
         model = ProfileModel.fromJson(res.data);
-        //log('model has been gotten ==> ${res.data}');
-        //log('model  == > ${res.data}');
-        //loadingState = LoadingState.idle;
+        notifyListeners();
         return model;
       } else {
         throw Error();
       }
     } on DioException catch (e) {
-      // loadingState = LoadingState.error;
       ErrorService.handleErrors(e);
     } catch (e) {
-      //  loadingState = LoadingState.error;
       ErrorService.handleErrors(e);
     }
     return model;
@@ -182,12 +174,11 @@ class ProfileController extends BaseChangeNotifier {
         phone: phone,
         country: country,
       );
-      debugPrint(res.data);
       if (res.statusCode == 200) {
-        loadingState = LoadingState.idle;
         locator<ToastService>().showSuccessToast(
           'Successful Operation',
         );
+        loadingState = LoadingState.idle;
         return true;
       } else {
         throw Error();

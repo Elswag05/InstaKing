@@ -25,7 +25,7 @@ class _SignUpState extends ConsumerState<SignUp> {
   late final TextEditingController phoneNumberController;
   late final TextEditingController passwordController;
   late final TextEditingController referralController;
-  late final instaSignInState = ref.watch(instaSignUpController);
+  late final instaSignInState = ref.read(instaSignUpController);
 
   @override
   void initState() {
@@ -53,7 +53,10 @@ class _SignUpState extends ConsumerState<SignUp> {
 
   @override
   Widget build(BuildContext context) {
-    final LoadingState loadingState = instaSignInState.loadingState;
+    final LoadingState loadingState =
+        ref.read(instaSignUpController).loadingState;
+    final bool isLoading = loadingState == LoadingState.loading;
+
     return Consumer(
       builder: (context, ref, child) {
         return Stack(
@@ -153,16 +156,19 @@ class _SignUpState extends ConsumerState<SignUp> {
                       ref
                           .read(instaProfileController.notifier)
                           .getProfileDetails();
-                      Navigator.of(context).pushReplacement(MaterialPageRoute(
-                        builder: (context) => const PostSignUp(),
-                      ));
+                      Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(
+                          builder: (context) => const PostSignUp(),
+                        ),
+                      );
+                    } else {
+                      setState(() {});
                     }
                   },
                 );
               },
             ),
-            if (loadingState == LoadingState.loading)
-              const TransparentLoadingScreen(),
+            if (isLoading) const TransparentLoadingScreen(),
           ],
         );
       },

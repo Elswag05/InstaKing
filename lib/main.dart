@@ -23,21 +23,20 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await setUpLocator();
   await LocalNotification.initLocalNotifications();
-  // FirebaseMessaging.onBackgroundMessage(backgroundHandler);
-  // await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  // await FirebaseApi().initNotifications();
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
       overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom]).then(
     (_) => runApp(
       ProviderScope(
-        child: MaterialApp(
-          title: 'InstaKing',
-          themeMode: ThemeMode.system,
-          theme: EnvThemeManager.lightTheme,
-          darkTheme: EnvThemeManager.darkTheme,
-          navigatorKey: navigatorKey,
-          debugShowCheckedModeBanner: false,
-          home: const InstaSplash(),
+        child: OKToast(
+          child: MaterialApp(
+            title: 'InstaKing',
+            themeMode: ThemeMode.system,
+            theme: EnvThemeManager.lightTheme,
+            darkTheme: EnvThemeManager.darkTheme,
+            navigatorKey: navigatorKey,
+            debugShowCheckedModeBanner: false,
+            home: const InstaSplash(),
+          ),
         ),
       ),
     ),
@@ -101,62 +100,58 @@ class _InstaKing extends ConsumerState<InstaKingGuide> {
 
   @override
   Widget build(BuildContext context) {
-    // ref.read(themeControllerProvider).brightnessOfDevice =
-    //     MediaQuery.of(context).platformBrightness;
-    return OKToast(
-      child: ScreenUtilInit(
-        designSize: ScreenUtil.defaultSize,
-        minTextAdapt: true,
-        splitScreenMode: true,
-        builder: (_, __) {
-          return MaterialApp(
-            title: 'InstaKing',
-            themeMode: ThemeMode.system,
-            // ThemeMode.values[ref.read(themeControllerProvider).themeValue],
-            theme: EnvThemeManager.lightTheme,
-            darkTheme: EnvThemeManager.darkTheme,
-            //   navigatorKey: navigatorKey,
-            debugShowCheckedModeBanner: false,
-            home: Scaffold(
-              body: SafeArea(
-                child: Stack(
-                  children: [
-                    FutureBuilder<String?>(
-                      future: getEmailFuture,
-                      builder: (context, snapshot) {
-                        String? email = snapshot.data;
-                        return FutureBuilder<bool>(
-                          future: isOnboardingComplete(),
-                          builder: (context, onboardingSnapshot) {
-                            if (snapshot.connectionState ==
-                                    ConnectionState.done &&
-                                onboardingSnapshot.connectionState ==
-                                    ConnectionState.done) {
-                              bool onboardingComplete =
-                                  onboardingSnapshot.data ?? false;
-                              if (!onboardingComplete) {
-                                debugPrint('Onboarding screen is active');
-                                return const InstaOnboarding(); // Show onboarding screen
-                              } else if (email == null || email.isEmpty) {
-                                return const InstaAuthNavigator();
-                              } else if (email.isNotEmpty) {
-                                ref.read(instaLoginController).toCheckBox(true);
-                                return const InstaLoginWithFingerprint();
-                              }
+    return ScreenUtilInit(
+      designSize: ScreenUtil.defaultSize,
+      minTextAdapt: true,
+      splitScreenMode: true,
+      builder: (_, __) {
+        return MaterialApp(
+          title: 'InstaKing',
+          themeMode: ThemeMode.system,
+          // ThemeMode.values[ref.read(themeControllerProvider).themeValue],
+          theme: EnvThemeManager.lightTheme,
+          darkTheme: EnvThemeManager.darkTheme,
+          //   navigatorKey: navigatorKey,
+          debugShowCheckedModeBanner: false,
+          home: Scaffold(
+            body: SafeArea(
+              child: Stack(
+                children: [
+                  FutureBuilder<String?>(
+                    future: getEmailFuture,
+                    builder: (context, snapshot) {
+                      String? email = snapshot.data;
+                      return FutureBuilder<bool>(
+                        future: isOnboardingComplete(),
+                        builder: (context, onboardingSnapshot) {
+                          if (snapshot.connectionState ==
+                                  ConnectionState.done &&
+                              onboardingSnapshot.connectionState ==
+                                  ConnectionState.done) {
+                            bool onboardingComplete =
+                                onboardingSnapshot.data ?? false;
+                            if (!onboardingComplete) {
+                              debugPrint('Onboarding screen is active');
+                              return const InstaOnboarding(); // Show onboarding screen
+                            } else if (email == null || email.isEmpty) {
+                              return const InstaAuthNavigator();
+                            } else if (email.isNotEmpty) {
+                              ref.read(instaLoginController).toCheckBox(true);
+                              return const InstaLoginWithFingerprint();
                             }
-                            return const TransparentLoadingScreen();
-                          },
-                        );
-                      },
-                    ),
-                    if (!yourBool) const NoInternet(),
-                  ],
-                ),
+                          }
+                          return const TransparentLoadingScreen();
+                        },
+                      );
+                    },
+                  ),
+                  if (!yourBool) const NoInternet(),
+                ],
               ),
             ),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 }
