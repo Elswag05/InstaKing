@@ -127,13 +127,27 @@ class _BaseAuthViewState extends State<BaseAuthView> {
                 ),
               )
             : const SizedBox(),
-        widget.anyWidget == null ? const SizedBox() : widget.anyWidget!,
-        widget.anyWidget1 == null ? const SizedBox() : widget.anyWidget1!,
-        widget.anyWidget2 == null ? const SizedBox() : widget.anyWidget2!,
-        widget.anyWidget3 == null ? const SizedBox() : widget.anyWidget3!,
-        widget.anyWidget4 == null ? const SizedBox() : widget.anyWidget4!,
-        widget.anyWidget5 == null ? const SizedBox() : widget.anyWidget5!,
-        widget.anyWidget6 == null ? const SizedBox() : widget.anyWidget6!,
+        widget.anyWidget == null
+            ? const SizedBox()
+            : widget.anyWidget!.afmCenter,
+        widget.anyWidget1 == null
+            ? const SizedBox()
+            : widget.anyWidget1!.afmCenter,
+        widget.anyWidget2 == null
+            ? const SizedBox()
+            : widget.anyWidget2!.afmCenter,
+        widget.anyWidget3 == null
+            ? const SizedBox()
+            : widget.anyWidget3!.afmCenter,
+        widget.anyWidget4 == null
+            ? const SizedBox()
+            : widget.anyWidget4!.afmCenter,
+        widget.anyWidget5 == null
+            ? const SizedBox()
+            : widget.anyWidget5!.afmCenter,
+        widget.anyWidget6 == null
+            ? const SizedBox()
+            : widget.anyWidget6!.afmCenter,
       ],
     );
   }
@@ -146,7 +160,7 @@ class _BaseAuthViewState extends State<BaseAuthView> {
         children: [
           Row(
             children: [
-              widget.isForgotPassword
+              (widget.isForgotPassword || widget.isLoginWithFingerPrint)
                   ? const SizedBox()
                   : Checkbox(
                       value: widget.checked,
@@ -186,17 +200,15 @@ class _BaseAuthViewState extends State<BaseAuthView> {
 
   Widget _buildAdditionalWidgets() {
     return widget.isLoginWithFingerPrint
-        ? GestureDetector(
-            child: Column(
-              children: [
-                Image.asset(
-                  EnvAssets.getImagePath('fingerprint-scan'),
-                  width: 40.w,
-                  height: 40.h,
-                  color: Theme.of(context).unselectedWidgetColor,
-                  semanticLabel: 'Use Fingerprint To Login',
-                ),
-              ],
+        ? Image.asset(
+            EnvAssets.getImagePath('fingerprint-scan'),
+            width: 40.w,
+            height: 40.h,
+            color: Theme.of(context).unselectedWidgetColor,
+            semanticLabel: 'Use Fingerprint To Login',
+          ).afmPadding(
+            EdgeInsets.only(
+              top: 50.h,
             ),
           )
         : const SizedBox();
@@ -208,7 +220,7 @@ class _BaseAuthViewState extends State<BaseAuthView> {
         SizedBox(
           height: widget.isForgotPassword
               ? (MediaQuery.of(context).size.height / 3)
-              : 20.h,
+              : (widget.isLoginWithFingerPrint ? 40.h : 20.h),
         ),
         CustomButton(
           pageCTA: widget.pageCTA,

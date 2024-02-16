@@ -13,12 +13,14 @@ class HomeCardBalance extends StatefulWidget {
   final String? balance;
   final void Function()? toHideBalance;
   final Future<Object?>? future;
+  final IconData hideBalanceIcon;
   const HomeCardBalance(
       {super.key,
       required this.balanceString,
       required this.balance,
       this.toHideBalance,
-      this.future});
+      this.future,
+      required this.hideBalanceIcon});
 
   @override
   State<HomeCardBalance> createState() => _HomeCardBalanceState();
@@ -30,14 +32,29 @@ class _HomeCardBalanceState extends State<HomeCardBalance> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          widget.balanceString,
-          style: TextStyle(
-            fontFamily: 'Montesserat',
-            fontSize: 12.sp,
-            fontWeight: FontWeight.w500,
-            color: Theme.of(context).colorScheme.onSurfaceVariant,
-          ),
+        Row(
+          children: [
+            Text(
+              widget.balanceString,
+              style: TextStyle(
+                fontFamily: 'Montesserat',
+                fontSize: 12.sp,
+                fontWeight: FontWeight.w500,
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+              ),
+            ),
+            GestureDetector(
+              onTap: widget.toHideBalance,
+              child: Icon(
+                widget.hideBalanceIcon,
+                size: 13.sp,
+              ),
+            ).afmPadding(
+              EdgeInsets.only(
+                left: 5 .w,
+              ),
+            ),
+          ],
         ),
         SizedBox(
           height: 5.h,
@@ -97,6 +114,9 @@ class HomeCardList extends StatefulWidget {
 }
 
 class _HomeCardListState extends State<HomeCardList> {
+  bool hideBalance = false;
+  bool hideAffiliateBalance = false;
+  final String hiddenBalance = '****';
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: ((context, ref, child) {
@@ -117,13 +137,31 @@ class _HomeCardListState extends State<HomeCardList> {
                         children: [
                           HomeCardBalance(
                             balanceString: 'Total Balance',
-                            balance: formatBalance(widget.totalBalance),
-                            toHideBalance: () {},
+                            hideBalanceIcon: hideBalance
+                                ? Icons.remove_red_eye_outlined
+                                : Icons.visibility_off_outlined,
+                            balance: hideBalance
+                                ? hiddenBalance
+                                : formatBalance(widget.totalBalance),
+                            toHideBalance: () {
+                              setState(() {
+                                hideBalance = !hideBalance;
+                              });
+                            },
                           ),
                           HomeCardBalance(
                             balanceString: 'Affiliate Balance',
-                            balance: formatBalance(widget.totalBonus),
-                            toHideBalance: () {},
+                            hideBalanceIcon: hideAffiliateBalance
+                                ? Icons.remove_red_eye_outlined
+                                : Icons.visibility_off_outlined,
+                            balance: hideAffiliateBalance
+                                ? hiddenBalance
+                                : formatBalance(widget.totalBonus),
+                            toHideBalance: () {
+                              setState(() {
+                                hideAffiliateBalance = !hideAffiliateBalance;
+                              });
+                            },
                           )
                         ],
                       ),

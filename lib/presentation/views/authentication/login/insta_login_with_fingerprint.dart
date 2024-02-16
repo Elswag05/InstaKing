@@ -85,7 +85,7 @@ class _InstaLoginWithFingerprintState
                       'Welcome back ${ref.read(instaProfileController).model.user?.username ?? ""}',
                   pageCTA: 'Login with fingerprint',
                   isLogin: true,
-                  isForgotPassword: true,
+                  isForgotPassword: false,
                   inversePageName: ' Use details instead',
                   isLoginWithFingerPrint: true,
                   toPerformAuthAction: () {
