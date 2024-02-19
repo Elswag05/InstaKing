@@ -37,7 +37,6 @@ class _BillAirtimeState extends ConsumerState<BillAirtime> {
   late TextValueNotifier textValueNotifier;
   late String networkID = '';
   late String networkName = '';
-  // late final networkPr = ref.watch(instaAirtimeController).getNetworkModel.data;
   @override
   void initState() {
     super.initState();
@@ -53,28 +52,41 @@ class _BillAirtimeState extends ConsumerState<BillAirtime> {
       context: context,
       backgroundColor: Colors.transparent,
       builder: (BuildContext context) {
-        return ReusableBottomSheet(
+        return FutureBuilder(
           future: ref
               .watch(instaAirtimeController.notifier)
               .toGetNetworks()
               .then((value) {
             setState(() {});
           }),
-          getLength:
-              ref.watch(instaAirtimeController).getNetworkModel.data?.length ??
+          builder: ((context, snapshot) {
+            return ReusableBottomSheet(
+              future: ref
+                  .watch(instaAirtimeController.notifier)
+                  .toGetNetworks()
+                  .then((value) {
+                setState(() {});
+              }),
+              getLength: ref
+                      .watch(instaAirtimeController)
+                      .getNetworkModel
+                      .data
+                      ?.length ??
                   5,
-          title: 'Choose Network',
-          status: 'initialStatus', // Set your initial status here
-          networkPr: ref.watch(instaAirtimeController).getNetworkModel.data,
-          onStatusChanged: (newStatus, netName) {
-            // Handle the status change here if needed
-            setState(() {
-              networkID = newStatus?[netName].id.toString() ?? '';
-              networkName = newStatus?[netName].name.toString() ?? '';
-            });
-            debugPrint(
-                'New Status: $newStatus and $networkID, Think Network name? $networkName');
-          },
+              title: 'Choose Network',
+              status: 'initialStatus', // Set your initial status here
+              networkPr: ref.watch(instaAirtimeController).getNetworkModel.data,
+              onStatusChanged: (newStatus, netName) {
+                // Handle the status change here if needed
+                setState(() {
+                  networkID = newStatus?[netName].id.toString() ?? '';
+                  networkName = newStatus?[netName].name.toString() ?? '';
+                });
+                debugPrint(
+                    'New Status: $newStatus and $networkID, Think Network name? $networkName');
+              },
+            );
+          }),
         );
       },
     );

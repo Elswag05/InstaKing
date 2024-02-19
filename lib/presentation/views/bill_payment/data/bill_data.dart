@@ -57,18 +57,31 @@ class _BillDataState extends ConsumerState<BillData> {
       context: context,
       backgroundColor: Colors.transparent,
       builder: (BuildContext context) {
-        return ReusableBottomSheet(
+        return FutureBuilder(
           future:
               ref.read(instaAirtimeController).toGetNetworks().then((value) {
             setState(() {});
           }),
-          getLength:
-              (ref.read(instaDataController).getDataPlanModel.data?.length ??
+          builder: (context, snapshot) {
+            return ReusableBottomSheet(
+              future: ref
+                  .read(instaAirtimeController)
+                  .toGetNetworks()
+                  .then((value) {
+                setState(() {});
+              }),
+              getLength: (ref
+                      .read(instaDataController)
+                      .getDataPlanModel
+                      .data
+                      ?.length ??
                   5),
-          title: 'Choose Network',
-          networkPr: dataList,
-          status: 'initialStatus', // Set your initial status here
-          onStatusChanged: onStatusChanged,
+              title: 'Choose Network',
+              networkPr: dataList,
+              status: 'initialStatus', // Set your initial status here
+              onStatusChanged: onStatusChanged,
+            );
+          },
         );
       },
     );

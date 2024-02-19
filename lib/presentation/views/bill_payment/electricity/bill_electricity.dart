@@ -64,18 +64,28 @@ class _BillElectricityState extends ConsumerState<BillElectricity> {
       context: context,
       backgroundColor: Colors.transparent,
       builder: (BuildContext context) {
-        return ReusableBottomSheet(
+        return FutureBuilder(
           future: ref
               .read(instaElectricityController)
               .toGetPowerPlans()
               .then((value) {
             setState(() {});
           }),
-          getLength: dataList?.length ?? 5,
-          title: 'Choose Disco Name',
-          networkPr: dataList,
-          status: 'initialStatus', // Set your initial status here
-          onStatusChanged: func,
+          builder: (context, snapshot) {
+            return ReusableBottomSheet(
+              future: ref
+                  .read(instaElectricityController)
+                  .toGetPowerPlans()
+                  .then((value) {
+                setState(() {});
+              }),
+              getLength: dataList?.length ?? 5,
+              title: 'Choose Disco Name',
+              networkPr: dataList,
+              status: 'initialStatus', // Set your initial status here
+              onStatusChanged: func,
+            );
+          },
         );
       },
     );

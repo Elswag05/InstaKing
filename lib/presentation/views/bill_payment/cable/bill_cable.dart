@@ -51,18 +51,29 @@ class _BillCableState extends ConsumerState<BillCable> {
       context: context,
       backgroundColor: Colors.transparent,
       builder: (BuildContext context) {
-        return ReusableBottomSheet(
-            future: ref
-                .read(instaCableController)
-                .toGetCableDecoderPlans()
-                .then((value) {
-              setState(() {});
-            }),
-            getLength: dataList?.length ?? 5,
-            title: 'Choose Decoder Plan',
-            status: 'initialStatus', // Set your initial status here
-            networkPr: dataList,
-            onStatusChanged: onStatusChanged);
+        return FutureBuilder(
+          future: ref
+              .read(instaCableController)
+              .toGetCableDecoderPlans()
+              .then((value) {
+            setState(() {});
+          }),
+          builder: (context, snapshot) {
+            return ReusableBottomSheet(
+              future: ref
+                  .read(instaCableController)
+                  .toGetCableDecoderPlans()
+                  .then((value) {
+                setState(() {});
+              }),
+              getLength: dataList?.length ?? 5,
+              title: 'Choose Decoder Plan',
+              status: 'initialStatus', // Set your initial status here
+              networkPr: dataList,
+              onStatusChanged: onStatusChanged,
+            );
+          },
+        );
       },
     );
   }

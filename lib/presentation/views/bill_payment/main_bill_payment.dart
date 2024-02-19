@@ -52,15 +52,9 @@ class MainBillPaymentState extends ConsumerState<MainBillPayment>
     _controller.forward();
     _controller.forward();
 
-    ref.read(instaAirtimeController).toGetNetworks().then((value) {
-      setState(() {});
-    });
-    ref.read(instaCableController).toGetCableDecoderPlans().then((value) {
-      setState(() {});
-    });
-    ref.read(instaElectricityController).toGetPowerPlans().then((value) {
-      setState(() {});
-    });
+    ref.read(instaAirtimeController).toGetNetworks();
+    ref.read(instaCableController).toGetCableDecoderPlans();
+    ref.read(instaElectricityController).toGetPowerPlans();
   }
 
   @override
@@ -185,7 +179,7 @@ class MainBillPaymentState extends ConsumerState<MainBillPayment>
             width: w / 2.4,
             decoration: BoxDecoration(
               color: Theme.of(context).cardColor,
-              //    
+              //
               borderRadius: const BorderRadius.all(
                 Radius.circular(25),
               ),

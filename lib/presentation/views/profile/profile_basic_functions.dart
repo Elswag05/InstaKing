@@ -67,6 +67,7 @@ void handleSignOut(BuildContext context, WidgetRef ref) {
         locator<ToastService>().showSuccessToast(
           'Unable to sign you out, please try again later!',
         );
+        // setState(() {});
       }
     },
   );
