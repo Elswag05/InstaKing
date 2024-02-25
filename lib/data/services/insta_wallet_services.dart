@@ -28,4 +28,25 @@ class GeneralAccountsServices with DioMixin {
     );
     return response;
   }
+
+  Future<Response<dynamic>> verifyKYC(
+    String bvn,
+    String bankCode,
+    String accountNumber,
+  ) async {
+    final customHeaders = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Connection': 'keep-alive',
+    };
+    final response = await connect(customHeaders: customHeaders).post(
+      '/user/verify-kyc',
+      data: {
+        "bvn": bvn, // user bvn
+        "bankCode": bankCode, // bank code from the previous call
+        "accountNumber": accountNumber,
+      },
+    );
+    return response;
+  }
 }

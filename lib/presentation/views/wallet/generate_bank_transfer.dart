@@ -199,14 +199,7 @@ class _WalletCard1State extends ConsumerState<WalletCard1>
                     ),
                     CustomButton(
                       pageCTA: 'Generate Accounts',
-                      buttonOnPressed: () async {
-                        await ref
-                            .read(instaWalletController)
-                            .generateAccountDetails()
-                            .then((value) {
-                          setState(() {});
-                        });
-                      },
+                      buttonOnPressed: () {},
                     ),
                   ],
                 ).afmPadding(

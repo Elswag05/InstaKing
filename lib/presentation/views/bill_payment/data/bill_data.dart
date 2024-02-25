@@ -57,31 +57,18 @@ class _BillDataState extends ConsumerState<BillData> {
       context: context,
       backgroundColor: Colors.transparent,
       builder: (BuildContext context) {
-        return FutureBuilder(
+        return ReusableBottomSheet(
           future:
               ref.read(instaAirtimeController).toGetNetworks().then((value) {
             setState(() {});
           }),
-          builder: (context, snapshot) {
-            return ReusableBottomSheet(
-              future: ref
-                  .read(instaAirtimeController)
-                  .toGetNetworks()
-                  .then((value) {
-                setState(() {});
-              }),
-              getLength: (ref
-                      .read(instaDataController)
-                      .getDataPlanModel
-                      .data
-                      ?.length ??
+          getLength:
+              (ref.read(instaDataController).getDataPlanModel.data?.length ??
                   5),
-              title: 'Choose Network',
-              networkPr: dataList,
-              status: 'initialStatus', // Set your initial status here
-              onStatusChanged: onStatusChanged,
-            );
-          },
+          title: 'Choose Network',
+          networkPr: dataList,
+          status: 'initialStatus', // Set your initial status here
+          onStatusChanged: onStatusChanged,
         );
       },
     );
@@ -115,8 +102,10 @@ class _BillDataState extends ConsumerState<BillData> {
                             setState(() {
                               networkID =
                                   newStatus?[netName].id.toString() ?? '';
+                              // debugPrint('${networkID} is your net ID');
                               networkName =
                                   newStatus?[netName].name.toString() ?? '';
+                              // debugPrint('${networkName} is your network name');
                               userHasPickedNetwork =
                                   newStatus == '' ? false : true;
                               ref

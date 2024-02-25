@@ -6,6 +6,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:insta_king/core/constants/constants.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
 import 'package:insta_king/presentation/controllers/insta_profile_controller.dart';
+import 'package:insta_king/presentation/controllers/insta_wallet_controller.dart';
 
 class ProfileCard extends StatefulWidget {
   final void Function()? onTap;
@@ -109,11 +110,18 @@ class _ProfileCardState extends State<ProfileCard> {
                                 ),
                               ),
                             ),
-                            Image.asset(
-                              EnvAssets.getIconPath('verified'),
-                              width: 16.w,
-                              height: 16.h,
-                            ),
+                            (ref
+                                        .read(instaWalletController)
+                                        .userHasGeneratedAccount ||
+                                    ref
+                                        .read(instaWalletController)
+                                        .accountIsGen)
+                                ? Image.asset(
+                                    EnvAssets.getIconPath('verified'),
+                                    width: 16.w,
+                                    height: 16.h,
+                                  )
+                                : const SizedBox(),
                           ],
                         ),
                         Text(

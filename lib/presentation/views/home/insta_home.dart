@@ -124,7 +124,7 @@ class _InstaHomeState extends ConsumerState<InstaHome>
                         'https:/www.instaking.ng/signup?ref=${ref.read(instaProfileController.notifier).model.user?.username ?? "waiting..."}',
                   ),
                   //show bvn input field
-                  (userHasBvn)
+                  (userHasBvn || toRemoveBvnInputCard)
                       ? const SizedBox()
                       : Badge(
                           offset: const Offset(-6, -1),
@@ -170,7 +170,7 @@ class _InstaHomeState extends ConsumerState<InstaHome>
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
                                         Text(
-                                          "Account Update Countdown",
+                                          "Virtual Account Update",
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                             fontFamily: 'Montesserat',
@@ -179,11 +179,11 @@ class _InstaHomeState extends ConsumerState<InstaHome>
                                           ),
                                         ),
                                         Text(
-                                          "Your account will be RESTRICTED on the 1st of April 2024 if you do not update your account details!",
+                                          "Your virtual account will be DISABLED on the 1st of April 2024 if you do not verify your information!",
                                           softWrap: true,
                                           overflow: TextOverflow.ellipsis,
                                           maxLines: 2,
-                                          textAlign: TextAlign.center,
+                                          textAlign: TextAlign.left,
                                           style: TextStyle(
                                             fontFamily: 'Montesserat',
                                             fontSize: 13.sp,

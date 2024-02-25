@@ -34,7 +34,7 @@ class _ReusableBottomSheetState extends State<ReusableBottomSheet> {
     return Column(
       children: [
         Container(
-          height: (widget.networkPr?.length ?? 5) * 50.h,
+          height: 300.h,
           padding: EdgeInsets.only(
             left: 20.sp,
             right: 20.sp,
@@ -60,12 +60,14 @@ class _ReusableBottomSheetState extends State<ReusableBottomSheet> {
               switch (snapshot.connectionState) {
                 case ConnectionState.done:
                   return SizedBox(
-                    height: (widget.networkPr?.length ?? 4) * 50.h,
+                    height: 200.h,
                     child: ListView.builder(
-                        itemCount: widget.networkPr?.length,
+                        itemCount: widget.networkPr?.length ?? 5,
+                        itemExtent: 60.sp,
                         padding: EdgeInsets.only(
                           bottom: 5.h,
                         ),
+                        shrinkWrap: (widget.getLength > 5),
                         itemBuilder: (context, index) {
                           return ListTile(
                             visualDensity: VisualDensity.standard,
@@ -73,6 +75,7 @@ class _ReusableBottomSheetState extends State<ReusableBottomSheet> {
                             title: Center(
                               child: Text(
                                 widget.networkPr?[index].name ?? 'Loading...',
+                                // textAlign: TextAlign.left,
                                 style: TextStyle(
                                   fontFamily: "Monteserrat",
                                   fontWeight: FontWeight.bold,

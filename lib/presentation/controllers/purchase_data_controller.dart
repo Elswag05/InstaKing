@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -29,15 +28,14 @@ class PurchaseDataController extends BaseChangeNotifier {
   }
 
   Future<void> toGetDataPlan(networkID) async {
-    if (getDataPlanModel.data != null) return;
-
     try {
       debugPrint('To Get Data');
       final res = await getBills.getDataPlans(1);
-      log(res.toString());
+      // log(res.toString());
       debugPrint('Got Data plans');
       if (res.statusCode == 200) {
-        debugPrint("INFO: Bearer ${res.data}");
+        // debugPrint("INFO: Bearer ${res.data}");
+        debugPrint("INFO: $networkID has data plans has been fetched");
         getDataPlanModel = GetDataPlanModel.fromMap(res.data);
       } else {
         debugPrint(res.toString());

@@ -16,6 +16,7 @@ class CollectPersonalDetailModel extends StatefulWidget {
   final TextEditingController? controller;
   final String? Function(String?)? validator;
   final Function(String)? onChanged;
+  final TextInputType? textInputType;
   const CollectPersonalDetailModel({
     super.key,
     required this.leadTitle,
@@ -26,6 +27,7 @@ class CollectPersonalDetailModel extends StatefulWidget {
     this.validator,
     this.onChanged,
     this.numberOfTexts,
+    this.textInputType = TextInputType.none,
   });
 
   @override
@@ -59,6 +61,7 @@ class _CollectPersonalDetailModelState
           inputFormatters: widget.isdigit,
           maxLength: widget.numberOfTexts,
           onChanged: widget.onChanged,
+          keyboardType: widget.textInputType,
           style: TextStyle(
             fontSize: 13.sp,
           ),
