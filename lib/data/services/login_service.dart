@@ -5,7 +5,7 @@ import 'dio_mixin.dart';
 
 class LoginService with DioMixin {
   Future<Response<dynamic>> signIn({
-    required String email,
+    required String credential,
     required String password,
   }) async {
     final customHeaders = {
@@ -17,7 +17,7 @@ class LoginService with DioMixin {
     final response = await connect(customHeaders: customHeaders).post(
       '/auth/login',
       data: {
-        'email': email,
+        'credential': credential,
         'password': password,
       },
     );

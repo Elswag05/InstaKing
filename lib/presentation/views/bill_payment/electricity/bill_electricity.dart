@@ -195,40 +195,176 @@ class _BillElectricityState extends ConsumerState<BillElectricity> {
                             )
                             .then((value) {
                           if (value == true) {
-                            ref
-                                .read(instaElectricityController)
-                                .toPurchaseElectricity(
-                                  discoId,
-                                  meterNumberController.text,
-                                  meterType.toLowerCase(),
-                                  int.tryParse(amountController.text) ?? 500,
-                                  ref.read(instaElectricityController).userName,
-                                )
-                                .then((value) {
-                              if (value == true) {
-                                // Handle success
+                            void showAlert(BuildContext context) {
+                              showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  title: Text(
+                                    "Pay Electricity Bills",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontFamily: 'Montesserat',
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  content: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Image.asset(
+                                        EnvAssets.getImagePath(
+                                          'checkmark',
+                                        ),
+                                        color: InstaColors.successColor,
+                                        width: 18.w,
+                                        height: 18.h,
+                                      ).afmPadding(
+                                        EdgeInsets.only(right: 5.w),
+                                      ),
+                                      Text(
+                                        ref
+                                            .read(instaElectricityController
+                                                .notifier)
+                                            .userName,
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontFamily: 'Montesserat',
+                                          fontSize: 16.sp,
+                                          fontWeight: FontWeight.w600,
+                                          color: InstaColors.successColor,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  actionsAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  actions: [
+                                    // TextButton(
+                                    //   onPressed: () {
+                                    //     // 'Cancel' button pressed
+                                    //     Navigator.pop(context);
+                                    //   },
+                                    //   child: Text(
+                                    //     "Cancel",
+                                    //     textAlign: TextAlign.center,
+                                    //     style: TextStyle(
+                                    //       fontFamily: 'Montesserat',
+                                    //       fontSize: 12.sp,
+                                    //       fontWeight: FontWeight.w500,
+                                    //     ),
+                                    //   ),
+                                    // ),
+                                    TextButton(
+                                      style: ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStateProperty.all<Color>(
+                                          InstaColors.primaryColor,
+                                        ),
+                                        foregroundColor:
+                                            MaterialStateProperty.all<Color>(
+                                                Colors.white),
+                                        padding: MaterialStateProperty.all<
+                                            EdgeInsetsGeometry>(
+                                          const EdgeInsets.all(
+                                            16.0,
+                                          ),
+                                        ),
+                                        minimumSize:
+                                            MaterialStateProperty.all<Size>(
+                                          Size(
+                                            250.w,
+                                            30.h,
+                                          ), // Set the minimum width and height
+                                        ),
+                                        textStyle: MaterialStateProperty.all<
+                                            TextStyle>(
+                                          const TextStyle(
+                                              fontSize: 18.0,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        shape: MaterialStateProperty.all<
+                                            OutlinedBorder>(
+                                          RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(8.0),
+                                          ),
+                                        ),
+                                      ),
+                                      onPressed: () {
+                                        // 'Proceed' button pressed - do nothing
+                                        Navigator.pop(context);
+                                        setState(() {});
+                                        ref
+                                            .read(instaElectricityController)
+                                            .toPurchaseElectricity(
+                                              discoId,
+                                              meterNumberController.text,
+                                              meterType.toLowerCase(),
+                                              int.tryParse(
+                                                      amountController.text) ??
+                                                  500,
+                                              ref
+                                                  .read(
+                                                      instaElectricityController)
+                                                  .userName,
+                                            )
+                                            .then((value) {
+                                          if (value == true) {
+                                            // Handle success
+                                            setState(() {});
+                                            AwesomeDialog(
+                                              context: context,
+                                              animType: AnimType.scale,
+                                              dialogType: DialogType.success,
+                                              title: 'Order Successful',
+                                              desc:
+                                                  'You have successfully purchased this Bill',
+                                              btnOkOnPress: () {
+                                                Navigator.pop(context);
+                                              },
+                                            ).show();
+                                            LocalNotification
+                                                .showPurchaseNotification(
+                                              title: 'Order Successful',
+                                              body:
+                                                  'Dear ${ref.read(instaProfileController.notifier).model.user?.fullname},\nYour purchase of ${formatBalance(
+                                                amountController.text,
+                                              )} is successful.\nYour new balance is ₦${ref.read(instaProfileController.notifier).model.user?.balance}.}',
+                                              payload: '',
+                                            );
+                                          } else {
+                                            setState(() {});
+                                            AwesomeDialog(
+                                              context: context,
+                                              animType: AnimType.scale,
+                                              dialogType: DialogType.error,
+                                              title: 'Order Failed',
+                                              desc:
+                                                  'Your order could not be placed',
+                                              btnOkOnPress: () {
+                                                Navigator.pop(context);
+                                              },
+                                            ).show();
+                                          }
+                                        });
+                                      },
+                                      child: Text(
+                                        "Proceed",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontFamily: 'Montesserat',
+                                          fontSize: 12.sp,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }
 
-                                AwesomeDialog(
-                                  context: context,
-                                  animType: AnimType.scale,
-                                  dialogType: DialogType.success,
-                                  title: 'Order Successful',
-                                  desc:
-                                      'You have successfully purchased this data',
-                                  btnOkOnPress: () {
-                                    Navigator.pop(context);
-                                  },
-                                ).show();
-                                LocalNotification.showPurchaseNotification(
-                                  title: 'Order Successful',
-                                  body:
-                                      'Dear ${ref.read(instaProfileController.notifier).model.user?.fullname},\nYour purchase of ${formatBalance(
-                                    amountController.text,
-                                  )} is successful.\nYour new balance is ₦${ref.read(instaProfileController.notifier).model.user?.balance}.}',
-                                  payload: '',
-                                );
-                              }
-                            });
+                            showAlert(context);
+                            setState(() {});
                           } else {
                             setState(() {
                               ref.read(instaDataController).loadingState ==

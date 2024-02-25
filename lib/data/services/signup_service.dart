@@ -15,7 +15,7 @@ class SignUpService with DioMixin {
     required String referralID,
   }) async {
     final response = await connect().post(
-      '/auth/signup', ////?ref=$referralID
+      '/auth/signup',
       data: {
         'first_name': firstName,
         'last_name': lastName,

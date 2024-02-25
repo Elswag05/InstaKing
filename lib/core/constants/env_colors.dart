@@ -33,6 +33,7 @@ class InstaColors {
   static Color darkBackgroundColor = const Color.fromARGB(255, 34, 34, 34);
   static Color darkColor = const Color.fromARGB(255, 0, 0, 0);
   static Color mildLightColor = const Color.fromARGB(255, 214, 214, 214);
+  static Color successColor = const Color.fromARGB(255, 24, 189, 38);
   static const MaterialColor errorColor = MaterialColor(
     _errorColorValue,
     <int, Color>{

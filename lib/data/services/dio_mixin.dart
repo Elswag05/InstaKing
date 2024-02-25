@@ -36,8 +36,7 @@ mixin DioMixin {
           return handler.next(options);
         },
         onError: (DioError e, handler) {
-          //log('Dio Error 00: ${e.response?.statusMessage}', error: e);
-          //print('Error message 010 $errorMessage');
+          debugPrint('DioError Type: $e');
           String errorMessage = _extractErrorMessage(e);
           if (errorMessage == 'Unauthenticated') {
             debugPrint('voila');
@@ -94,6 +93,8 @@ String _extractErrorMessage(DioError e) {
 
     if (responseData != null && responseData.containsKey('message')) {
       errorMessage = responseData['message'].toString();
+    } else {
+      debugPrint('Response Data Structure: $responseData');
     }
   } catch (error) {
     log('Error extracting error message: $error');

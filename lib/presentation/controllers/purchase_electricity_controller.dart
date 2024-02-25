@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,7 @@ import 'package:insta_king/data/services/error_service.dart';
 import 'package:insta_king/data/services/get_bill_services.dart';
 import 'package:insta_king/presentation/controllers/base_controller.dart';
 import 'package:insta_king/presentation/model/get_power_plan_model.dart';
+import 'package:oktoast/oktoast.dart';
 
 final instaElectricityController =
     ChangeNotifierProvider<ElectricityBillController>(
@@ -72,7 +74,7 @@ class ElectricityBillController extends BaseChangeNotifier {
         return true;
       } else {
         loadingState = LoadingState.idle;
-        debugPrint(res.toString());
+        debugPrint('${res.toString()} just getting started homie');
         throw Error();
       }
     } on DioException catch (e) {
@@ -103,16 +105,19 @@ class ElectricityBillController extends BaseChangeNotifier {
         amount,
         customerName,
       );
-      debugPrint("INFO: Bearer ${res.data} ");
+      // debugPrint("INFO: Bearer ${res.data} ");
       if (res.statusCode == 200 && res.statusMessage == "success") {
         debugPrint("INFO: Bearer ${res.data}");
         loadingState = LoadingState.idle;
         return true;
       } else {
         loadingState = LoadingState.idle;
-        debugPrint('${res.statusMessage}');
-        debugPrint('${res.statusCode}');
+        // debugPrint('${res.statusMessage}');
+        // debugPrint('${res.statusCode}');
         debugPrint(res.toString());
+        Map<String, dynamic> parsedData = jsonDecode(res.toString());
+        String message = parsedData['message'];
+        showToast(message);
         return false;
       }
     } on DioException catch (e) {

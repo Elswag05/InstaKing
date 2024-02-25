@@ -38,7 +38,9 @@ class ErrorService {
       //   e.toString(),
       // );
       debugPrint('${e.runtimeType} Things 001');
-      debugPrint('${e.toString()} ');
+      debugPrint('${e.toString()} This is the error o!');
+      debugPrint('${e.stackTrace} This is the error o!');
+      debugPrint('$e This is the error o!');
     } else if (e is Exception) {
       // Handle general exceptions
       message = errorService.defaultErrorMessage;

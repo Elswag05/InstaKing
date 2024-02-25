@@ -16,7 +16,7 @@ final instaSignUpController =
     ChangeNotifierProvider<SignUpController>((ref) => SignUpController());
 
 class SignUpController extends BaseChangeNotifier {
-  late InstaSignUpModel data;
+  InstaSignUpModel data = InstaSignUpModel();
   late bool checkedBox = false;
   bool get isBoxChecked => checkedBox;
 
@@ -50,7 +50,8 @@ class SignUpController extends BaseChangeNotifier {
         password: passWord,
         referralID: referralCode,
       );
-      if (res.statusCode == 200 && data.status == 'success') {
+      debugPrint('${res.data}');
+      if (res.statusCode == 200 && res.data['status'] == 'success') {
         data = InstaSignUpModel.fromJson(res.data);
         await locator<SecureStorageService>().write(
           key: InstaStrings.token,

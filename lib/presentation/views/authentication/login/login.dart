@@ -101,7 +101,7 @@ class _InstaLoginState extends ConsumerState<InstaLogin>
                   },
                   anyWidget: AuthTextField(
                     icon: Icons.person_2_outlined,
-                    hintT: 'Email',
+                    hintT: 'Email/Username',
                     hasSuffix: false,
                     controller: userEmailController,
                     validator: (value) {

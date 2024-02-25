@@ -128,11 +128,12 @@ class LoginController extends BaseChangeNotifier {
     );
   }
 
-  Future<bool> signIn(String email, password) async {
+  Future<bool> signIn(String credential, password) async {
     loadingState = LoadingState.loading;
     try {
-      final res = await loginService.signIn(email: email, password: password);
-      if (res.statusCode == 200) {
+      final res =
+          await loginService.signIn(credential: credential, password: password);
+      if (res.statusCode == 200 && res.data['status'] == 'success') {
         data = InstaLoginModel.fromJson(res.data);
         await locator<SecureStorageService>().write(
           key: InstaStrings.token,

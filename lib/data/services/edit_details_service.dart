@@ -1,4 +1,4 @@
-import 'package:dio/dio.dart' show FormData, Options, Response;
+import 'package:dio/dio.dart' show Response;
 
 import 'dio_mixin.dart';
 
