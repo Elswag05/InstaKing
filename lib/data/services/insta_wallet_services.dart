@@ -2,7 +2,7 @@ import 'package:dio/dio.dart' show Options, Response;
 
 import 'dio_mixin.dart';
 
-class GenerateAccountsService with DioMixin {
+class GeneralAccountsServices with DioMixin {
   Future<Response<dynamic>> generateAccountDetails() async {
     final customHeaders = {
       'Accept': 'application/json',
@@ -14,6 +14,18 @@ class GenerateAccountsService with DioMixin {
               method: 'GET',
             ));
     //debugPrint('Info: Service has ${response.data}');
+    return response;
+  }
+
+  Future<Response<dynamic>> getBanks() async {
+    final customHeaders = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Connection': 'keep-alive',
+    };
+    final response = await connect(customHeaders: customHeaders).get(
+      '/user/banks',
+    );
     return response;
   }
 }

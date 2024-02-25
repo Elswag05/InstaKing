@@ -51,7 +51,7 @@ class _HomeCardBalanceState extends State<HomeCardBalance> {
               ),
             ).afmPadding(
               EdgeInsets.only(
-                left: 5 .w,
+                left: 5.w,
               ),
             ),
           ],
@@ -191,7 +191,7 @@ class _HomeCardListState extends State<HomeCardList> {
                   ),
                 ),
               ).afmBorderRadius(BorderRadius.circular(24.r)))
-          .afmPadding(EdgeInsets.only(bottom: 25.h));
+          .afmPadding(EdgeInsets.only(bottom: 15.h));
     }));
   }
 }

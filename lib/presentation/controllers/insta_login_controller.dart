@@ -139,6 +139,7 @@ class LoginController extends BaseChangeNotifier {
           key: InstaStrings.token,
           value: data.token ?? '',
         );
+       
         writeLoggedIn();
         loadingState = LoadingState.idle;
         if (_rememberMe) {
