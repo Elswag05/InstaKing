@@ -7,6 +7,7 @@ import 'package:insta_king/core/constants/env_assets.dart';
 import 'package:insta_king/core/constants/env_colors.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
 import 'package:insta_king/presentation/controllers/insta_profile_controller.dart';
+import 'package:insta_king/presentation/controllers/insta_wallet_controller.dart';
 
 class ProfileHeader extends StatefulWidget {
   const ProfileHeader({super.key});
@@ -137,11 +138,14 @@ class _ProfileHeaderState extends State<ProfileHeader> {
                       ),
                     ),
                   ),
-                  Image.asset(
-                    EnvAssets.getIconPath('verified'),
-                    width: 16.w,
-                    height: 16.h,
-                  ),
+                  (ref.read(instaWalletController).userHasGeneratedAccount ||
+                          ref.read(instaWalletController).accountIsGen)
+                      ? Image.asset(
+                          EnvAssets.getIconPath('verified'),
+                          width: 16.w,
+                          height: 16.h,
+                        )
+                      : const SizedBox(),
                 ],
               ),
               AutoSizeText(
