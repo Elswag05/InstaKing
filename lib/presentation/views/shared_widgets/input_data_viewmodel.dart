@@ -27,7 +27,7 @@ class CollectPersonalDetailModel extends StatefulWidget {
     this.validator,
     this.onChanged,
     this.numberOfTexts,
-    this.textInputType = TextInputType.none,
+    this.textInputType = TextInputType.text,
   });
 
   @override
@@ -79,28 +79,21 @@ class _CollectPersonalDetailModelState
               borderRadius: BorderRadius.circular(10.r),
               borderSide: BorderSide(
                 width: 0.5.sp,
-                color: InstaColors.darkColor,
+                color: Theme.of(context).unselectedWidgetColor,
               ),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10.r),
               borderSide: BorderSide(
                 width: 0.5.sp,
-                color: InstaColors.darkColor,
+                color: Theme.of(context).unselectedWidgetColor,
               ),
             ),
             disabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10.r),
               borderSide: BorderSide(
                 width: 0.5.sp,
-                color: InstaColors.darkColor.withOpacity(0.5),
-              ),
-            ),
-            errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10.r),
-              borderSide: BorderSide(
-                width: 0.5.sp,
-                color: InstaColors.errorColor,
+                color: Theme.of(context).unselectedWidgetColor,
               ),
             ),
           ),
@@ -115,7 +108,6 @@ class _CollectPersonalDetailModelState
               textStyle: TextStyle(
                 fontFamily: 'Monteserrat',
                 fontSize: 13.sp,
-                color: Colors.white,
               ),
             );
           },

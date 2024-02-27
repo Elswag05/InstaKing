@@ -104,16 +104,16 @@ class _InstaLoginState extends ConsumerState<InstaLogin>
                     hintT: 'Email/Username',
                     hasSuffix: false,
                     controller: userEmailController,
-                    validator: (value) {
-                      if (value != null && value.isEmpty) {
-                        return MyStrings.enterYourEmail;
-                      } else if (!MyStrings.emailValidatorRegExp
-                          .hasMatch(value ?? '')) {
-                        return MyStrings.invalidEmailMsg;
-                      } else {
-                        return null;
-                      }
-                    },
+                    // validator: (value) {
+                    //   if (value != null && value.isEmpty) {
+                    //     return MyStrings.enterYourEmail;
+                    //   } else if (!MyStrings.emailValidatorRegExp
+                    //       .hasMatch(value ?? '')) {
+                    //     return MyStrings.invalidEmailMsg;
+                    //   } else {
+                    //     return null;
+                    //   }
+                    // },
                   ),
                   anyWidget1: AuthTextField(
                     isPassword: true,

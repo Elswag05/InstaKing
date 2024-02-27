@@ -49,4 +49,23 @@ class GeneralAccountsServices with DioMixin {
     );
     return response;
   }
+
+  Future<Response<dynamic>> depositMoney(
+    num amount,
+    String method,
+  ) async {
+    final customHeaders = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Connection': 'keep-alive',
+    };
+    final response = await connect(customHeaders: customHeaders).post(
+      '/user/deposit',
+      data: {
+        "amount": amount,
+        "method": method, //flutterwave,perfect, binance, coinbase
+      },
+    );
+    return response;
+  }
 }

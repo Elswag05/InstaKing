@@ -25,6 +25,14 @@ extension WidgetExtension on Widget {
         child: this,
       );
 
+  Widget afmGetPaymentImage(String myString) => Image.asset(
+        EnvAssets.getImagePath(
+          myString,
+        ),
+        width: 25.w,
+        height: 25.h,
+      );
+
   Widget afmGetFuture(Future<Object?>? future) => FutureBuilder(
         future: future,
         builder: (context, snapshot) {

@@ -22,6 +22,8 @@ class ElectricityBillController extends BaseChangeNotifier {
   final GetBills getBills = GetBills();
   final PayBills payBills = PayBills();
   late String userName = '';
+  String message = '';
+  String newToken = '';
   late GetPowerPlanModel getPowerPlanModel = GetPowerPlanModel();
 
   final SecureStorageService secureStorageService =
@@ -106,8 +108,27 @@ class ElectricityBillController extends BaseChangeNotifier {
         customerName,
       );
       // debugPrint("INFO: Bearer ${res.data} ");
-      if (res.statusCode == 200 && res.statusMessage == "success") {
+      if (res.statusCode == 200) {
         debugPrint("INFO: Bearer ${res.data}");
+        Map<String, dynamic> parsedData = jsonDecode(res.toString());
+        message = parsedData['message'];
+        // Find the index of "Token :"
+        int startIndex = message.indexOf("Token :");
+        notifyListeners();
+        // Check if "Token :" is found in the string
+        if (startIndex != -1) {
+          // Extract the token substring
+          String tokenSubstring = message.substring(startIndex);
+
+          // Split the substring by spaces and get the second part (the actual token)
+          List<String> tokenParts = tokenSubstring.split(' ');
+          String token = tokenParts.length > 1 ? tokenParts[1] : "";
+          newToken = "Token: $token";
+          debugPrint(newToken);
+        } else {
+          debugPrint("Token not found in the message.");
+        }
+
         loadingState = LoadingState.idle;
         return true;
       } else {
@@ -115,8 +136,8 @@ class ElectricityBillController extends BaseChangeNotifier {
         // debugPrint('${res.statusMessage}');
         // debugPrint('${res.statusCode}');
         debugPrint(res.toString());
-        Map<String, dynamic> parsedData = jsonDecode(res.toString());
-        String message = parsedData['message'];
+        Map<String, dynamic> errorParsedData = jsonDecode(res.toString());
+        message = errorParsedData['message'];
         showToast(message);
         return false;
       }

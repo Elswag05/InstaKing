@@ -24,7 +24,7 @@ Future<void> main() async {
   await setUpLocator();
   await LocalNotification.initLocalNotifications();
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
-      overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom]).then(
+      overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom]).then(  
     (_) => runApp(
       ProviderScope(
         child: OKToast(

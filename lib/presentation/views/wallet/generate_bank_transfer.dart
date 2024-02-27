@@ -9,6 +9,8 @@ import 'package:insta_king/presentation/controllers/insta_wallet_controller.dart
 import 'package:insta_king/presentation/views/shared_widgets/cta_button.dart';
 import 'package:insta_king/presentation/views/shared_widgets/shared_loading.dart';
 import 'package:insta_king/presentation/views/wallet/add_funds/account_details.dart';
+import 'package:insta_king/presentation/views/wallet/kyc.dart';
+import 'package:insta_king/presentation/views/wallet/select_payment_options.dart';
 
 class WalletCard1 extends ConsumerStatefulWidget {
   const WalletCard1({super.key});
@@ -54,100 +56,106 @@ class _WalletCard1State extends ConsumerState<WalletCard1>
           if (snapshot.connectionState == ConnectionState.done) {
             if (ref.read(instaWalletController).userHasGeneratedAccount ||
                 ref.read(instaWalletController).accountIsGen) {
-              return Container(
-                color: Theme.of(context).cardColor,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Bank Transfer',
-                      style: TextStyle(
-                        fontFamily: 'Montesserat',
-                        fontSize: 13.sp,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ).afmPadding(
-                      EdgeInsets.only(
-                        bottom: 20.sp,
-                      ),
-                    ),
-                    Column(
+              return Column(
+                children: [
+                  Container(
+                    color: Theme.of(context).cardColor,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Make transfer into the account number below to fund your wallet automatically',
+                          'Bank Transfer',
                           style: TextStyle(
                             fontFamily: 'Montesserat',
                             fontSize: 13.sp,
-                            fontWeight: FontWeight.w500,
+                            fontWeight: FontWeight.bold,
                           ),
                         ).afmPadding(
                           EdgeInsets.only(
-                            bottom: 10.sp,
+                            bottom: 20.sp,
                           ),
                         ),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width - 40.sp,
-                          height: calculateListViewHeight(
-                              ref
+                        Column(
+                          children: [
+                            Text(
+                              'Make transfer into the account number below to fund your wallet automatically',
+                              style: TextStyle(
+                                fontFamily: 'Montesserat',
+                                fontSize: 13.sp,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ).afmPadding(
+                              EdgeInsets.only(
+                                bottom: 10.sp,
+                              ),
+                            ),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width - 40.sp,
+                              height: calculateListViewHeight(
+                                  ref
+                                          .read(instaProfileController)
+                                          .model
+                                          .user
+                                          ?.virtualBanks
+                                          ?.length ??
+                                      2,
+                                  120.h),
+                              child: AnimationLimiter(
+                                child: ListView.builder(
+                                  itemCount: ref
                                       .read(instaProfileController)
                                       .model
                                       .user
                                       ?.virtualBanks
-                                      ?.length ??
-                                  2,
-                              120.h),
-                          child: AnimationLimiter(
-                            child: ListView.builder(
-                              itemCount: ref
-                                  .read(instaProfileController)
-                                  .model
-                                  .user
-                                  ?.virtualBanks
-                                  ?.length,
-                              physics: const BouncingScrollPhysics(
-                                parent: AlwaysScrollableScrollPhysics(),
+                                      ?.length,
+                                  physics: const BouncingScrollPhysics(
+                                    parent: AlwaysScrollableScrollPhysics(),
+                                  ),
+                                  itemBuilder: ((context, index) {
+                                    return AccountDetails(
+                                      accountName: ref
+                                              .read(instaProfileController)
+                                              .model
+                                              .user
+                                              ?.virtualBanks?[index]
+                                              .accountName ??
+                                          'Loading...',
+                                      bankName: ref
+                                              .read(instaProfileController)
+                                              .model
+                                              .user
+                                              ?.virtualBanks?[index]
+                                              .bankName ??
+                                          'Loading...',
+                                      accountNumber: ref
+                                              .read(instaProfileController)
+                                              .model
+                                              .user
+                                              ?.virtualBanks?[index]
+                                              .accountNumber ??
+                                          'Loading...',
+                                    );
+                                  }),
+                                ),
                               ),
-                              itemBuilder: ((context, index) {
-                                return AccountDetails(
-                                  accountName: ref
-                                          .read(instaProfileController)
-                                          .model
-                                          .user
-                                          ?.virtualBanks?[index]
-                                          .accountName ??
-                                      'Loading...',
-                                  bankName: ref
-                                          .read(instaProfileController)
-                                          .model
-                                          .user
-                                          ?.virtualBanks?[index]
-                                          .bankName ??
-                                      'Loading...',
-                                  accountNumber: ref
-                                          .read(instaProfileController)
-                                          .model
-                                          .user
-                                          ?.virtualBanks?[index]
-                                          .accountNumber ??
-                                      'Loading...',
-                                );
-                              }),
-                            ),
-                          ),
-                        )
+                            )
+                          ],
+                        ),
                       ],
+                    ).afmPadding(
+                      EdgeInsets.all(20.sp),
                     ),
-                  ],
-                ).afmPadding(
-                  EdgeInsets.all(20.sp),
-                ),
-              )
-                  .afmBorderRadius(
-                    BorderRadius.circular(10.r),
                   )
-                  .afmPadding(
-                    EdgeInsets.only(bottom: 20.sp, left: 20.sp, right: 20.sp),
-                  );
+                      .afmBorderRadius(
+                        BorderRadius.circular(10.r),
+                      )
+                      .afmPadding(
+                        EdgeInsets.only(
+                            bottom: 20.sp, left: 20.sp, right: 20.sp),
+                      ),
+                  const SelectPaymentOptions(),
+                ],
+              );
             } else {
               return Container(
                 color: Theme.of(context).cardColor,
@@ -199,7 +207,11 @@ class _WalletCard1State extends ConsumerState<WalletCard1>
                     ),
                     CustomButton(
                       pageCTA: 'Generate Accounts',
-                      buttonOnPressed: () {},
+                      buttonOnPressed: () {
+                           Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const KYCForBVN(),
+                    ));
+                      },
                     ),
                   ],
                 ).afmPadding(

@@ -65,7 +65,7 @@ dependencies:
   confetti: ^0.7.0
   text_3d: ^0.0.4
   flutter_staggered_animations: ^1.1.1
-  webview_flutter: ^4.4.4
+  webview_flutter: ^4.7.0
   custom_context_menu: ^0.1.2
 
 dev_dependencies:

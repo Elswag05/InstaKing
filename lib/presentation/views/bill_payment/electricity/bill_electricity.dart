@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insta_king/core/constants/constants.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
+import 'package:insta_king/data/local/toast_service.dart';
 import 'package:insta_king/data/services/notification.dart';
 import 'package:insta_king/presentation/controllers/insta_profile_controller.dart';
 import 'package:insta_king/presentation/controllers/purchase_data_controller.dart';
@@ -16,6 +17,7 @@ import 'package:insta_king/presentation/views/shared_widgets/cta_button.dart';
 import 'package:insta_king/presentation/views/shared_widgets/input_data_viewmodel.dart';
 import 'package:insta_king/presentation/views/shared_widgets/recurring_appbar.dart';
 import 'package:insta_king/presentation/views/shared_widgets/shared_loading.dart';
+import 'package:insta_king/utils/locator.dart';
 
 /// Feel free to use the code in your projects
 /// but do not forget to give me the credits adding
@@ -183,7 +185,7 @@ class _BillElectricityState extends ConsumerState<BillElectricity> {
                       },
                     ),
                     CustomButton(
-                      pageCTA: "Proceed",
+                      pageCTA: "Validate",
                       buttonOnPressed: () {
                         setState(() {});
                         ref
@@ -239,21 +241,6 @@ class _BillElectricityState extends ConsumerState<BillElectricity> {
                                   actionsAlignment:
                                       MainAxisAlignment.spaceEvenly,
                                   actions: [
-                                    // TextButton(
-                                    //   onPressed: () {
-                                    //     // 'Cancel' button pressed
-                                    //     Navigator.pop(context);
-                                    //   },
-                                    //   child: Text(
-                                    //     "Cancel",
-                                    //     textAlign: TextAlign.center,
-                                    //     style: TextStyle(
-                                    //       fontFamily: 'Montesserat',
-                                    //       fontSize: 12.sp,
-                                    //       fontWeight: FontWeight.w500,
-                                    //     ),
-                                    //   ),
-                                    // ),
                                     TextButton(
                                       style: ButtonStyle(
                                         backgroundColor:
@@ -313,16 +300,32 @@ class _BillElectricityState extends ConsumerState<BillElectricity> {
                                             // Handle success
                                             setState(() {});
                                             AwesomeDialog(
-                                              context: context,
-                                              animType: AnimType.scale,
-                                              dialogType: DialogType.success,
-                                              title: 'Order Successful',
-                                              desc:
-                                                  'You have successfully purchased this Bill',
-                                              btnOkOnPress: () {
-                                                Navigator.pop(context);
-                                              },
-                                            ).show();
+                                                context: context,
+                                                animType: AnimType.scale,
+                                                dialogType: DialogType.success,
+                                                title: 'Order Successful',
+                                                desc: ref
+                                                    .read(
+                                                        instaElectricityController)
+                                                    .message,
+                                                btnOkOnPress: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                btnCancelText: 'Copy Token',
+                                                btnCancelOnPress: () {
+                                                  Clipboard.setData(
+                                                    ClipboardData(
+                                                      text: ref
+                                                          .read(
+                                                              instaElectricityController)
+                                                          .newToken,
+                                                    ),
+                                                  );
+                                                  locator<ToastService>()
+                                                      .showSuccessToast(
+                                                    'You have copied your order ID',
+                                                  );
+                                                }).show();
                                             LocalNotification
                                                 .showPurchaseNotification(
                                               title: 'Order Successful',

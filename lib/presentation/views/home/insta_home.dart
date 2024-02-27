@@ -174,7 +174,7 @@ class _InstaHomeState extends ConsumerState<InstaHome>
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                             fontFamily: 'Montesserat',
-                                            fontSize: 15.sp,
+                                            fontSize: 13.sp,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
@@ -186,7 +186,7 @@ class _InstaHomeState extends ConsumerState<InstaHome>
                                           textAlign: TextAlign.left,
                                           style: TextStyle(
                                             fontFamily: 'Montesserat',
-                                            fontSize: 13.sp,
+                                            fontSize: 11.sp,
                                             fontWeight: FontWeight.w500,
                                           ),
                                         ),
