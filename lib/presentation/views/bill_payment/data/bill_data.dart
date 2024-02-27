@@ -52,16 +52,13 @@ class _BillDataState extends ConsumerState<BillData> {
   }
 
   void showReusableBottomSheet(
-      BuildContext context, dataList, onStatusChanged) {
+      BuildContext context, dataList, onStatusChanged, future) {
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
       builder: (BuildContext context) {
         return ReusableBottomSheet(
-          future:
-              ref.read(instaAirtimeController).toGetNetworks().then((value) {
-            setState(() {});
-          }),
+          future: future,
           getLength:
               (ref.read(instaDataController).getDataPlanModel.data?.length ??
                   5),
@@ -93,6 +90,7 @@ class _BillDataState extends ConsumerState<BillData> {
                   children: [
                     GestureDetector(
                       onTap: () {
+                        setState(() {});
                         showReusableBottomSheet(
                           context,
                           ref.read(instaAirtimeController).getNetworkModel.data,
@@ -108,11 +106,20 @@ class _BillDataState extends ConsumerState<BillData> {
                               // debugPrint('${networkName} is your network name');
                               userHasPickedNetwork =
                                   newStatus == '' ? false : true;
-                              ref
-                                  .read(instaDataController)
-                                  .toGetDataPlan(networkID);
+                              // ref
+                              //     .read(instaDataController)
+                              //     .toGetDataPlan(int.tryParse(networkID) ?? 0)
+                              //     .then(
+                              //       (value) => setState(() {}),
+                              //     );
                             });
                           },
+                          ref
+                              .read(instaAirtimeController)
+                              .toGetNetworks()
+                              .then((value) {
+                            setState(() {});
+                          }),
                         );
                       },
                       child: ChooseContainerFromDropDown(
@@ -120,34 +127,30 @@ class _BillDataState extends ConsumerState<BillData> {
                         hintText:
                             networkName != '' ? networkName : "Choose Network",
                       ),
-                      // .afmPadding(
-                      //   EdgeInsets.only(
-                      //     bottom: 20.h,
-                      //   ),
-                      // ),
                     ),
                     userHasPickedNetwork
                         ? GestureDetector(
                             onTap: () {
+                              setState(() {});
                               showReusableBottomSheet(
-                                context,
-                                ref
-                                    .read(instaDataController)
-                                    .getDataPlanModel
-                                    .data,
-                                (newStatus, index) {
-                                  // Handle the status change here if needed
-                                  debugPrint('New Status: $newStatus');
-                                  setState(() {
-                                    dataType =
-                                        newStatus?[index].type.toString() ?? '';
-                                    dataPlan =
-                                        newStatus?[index].id.toString() ?? '';
-                                    dataName =
-                                        newStatus?[index].name.toString() ?? '';
-                                  });
-                                },
-                              );
+                                  context,
+                                  ref
+                                      .watch(instaDataController)
+                                      .getDataPlanModel
+                                      .data, (newStatus, index) {
+                                // Handle the status change here if needed
+                                debugPrint('New Status: $newStatus');
+                                setState(() {
+                                  dataType =
+                                      newStatus?[index].type.toString() ?? '';
+                                  dataPlan =
+                                      newStatus?[index].id.toString() ?? '';
+                                  dataName =
+                                      newStatus?[index].name.toString() ?? '';
+                                });
+                              },
+                                  ref.read(instaDataController).toGetDataPlan(
+                                      int.tryParse(networkID) ?? 0));
                             },
                             child: ChooseContainerFromDropDown(
                               headerText: "Data Bundle",

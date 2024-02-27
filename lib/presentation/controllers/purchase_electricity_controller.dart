@@ -107,9 +107,10 @@ class ElectricityBillController extends BaseChangeNotifier {
         amount,
         customerName,
       );
-      // debugPrint("INFO: Bearer ${res.data} ");
-      if (res.statusCode == 200) {
+      debugPrint("INFO: Electricity 000");
+      if (res.statusCode == 200 && res.data['status'] == 'success') {
         debugPrint("INFO: Bearer ${res.data}");
+        debugPrint("INFO: Electricity 001");
         Map<String, dynamic> parsedData = jsonDecode(res.toString());
         message = parsedData['message'];
         // Find the index of "Token :"
@@ -117,16 +118,16 @@ class ElectricityBillController extends BaseChangeNotifier {
         notifyListeners();
         // Check if "Token :" is found in the string
         if (startIndex != -1) {
+          debugPrint("INFO: Electricity 002");
           // Extract the token substring
           String tokenSubstring = message.substring(startIndex);
-
           // Split the substring by spaces and get the second part (the actual token)
           List<String> tokenParts = tokenSubstring.split(' ');
           String token = tokenParts.length > 1 ? tokenParts[1] : "";
           newToken = "Token: $token";
           debugPrint(newToken);
         } else {
-          debugPrint("Token not found in the message.");
+          debugPrint("Some Error Occurred");
         }
 
         loadingState = LoadingState.idle;
@@ -135,6 +136,7 @@ class ElectricityBillController extends BaseChangeNotifier {
         loadingState = LoadingState.idle;
         // debugPrint('${res.statusMessage}');
         // debugPrint('${res.statusCode}');
+        debugPrint("INFO: Electricity 003");
         debugPrint(res.toString());
         Map<String, dynamic> errorParsedData = jsonDecode(res.toString());
         message = errorParsedData['message'];

@@ -25,18 +25,21 @@ class PurchaseDataController extends BaseChangeNotifier {
 
   void disposeData() {
     getDataPlanModel.data = [];
+    getDataPlanModel.data == null;
   }
 
-  Future<void> toGetDataPlan(networkID) async {
+  Future<void> toGetDataPlan(num networkID) async {
+    disposeData();
     try {
       debugPrint('To Get Data');
-      final res = await getBills.getDataPlans(1);
+      final res = await getBills.getDataPlans(networkID);
       // log(res.toString());
       debugPrint('Got Data plans');
       if (res.statusCode == 200) {
         // debugPrint("INFO: Bearer ${res.data}");
         debugPrint("INFO: $networkID has data plans has been fetched");
         getDataPlanModel = GetDataPlanModel.fromMap(res.data);
+        notifyListeners();
       } else {
         debugPrint(res.toString());
         throw Error();
@@ -64,7 +67,7 @@ class PurchaseDataController extends BaseChangeNotifier {
         plan,
       );
 
-      if (res.statusCode == 200) {
+      if (res.statusCode == 200 && res.data['status'] == 'success') {
         debugPrint("INFO: Bearer ${res.data}");
         loadingState = LoadingState.idle;
         return true;

@@ -61,7 +61,7 @@ class PurchaseAirtimeController extends BaseChangeNotifier {
         amount,
       );
 
-      if (res.statusCode == 200) {
+      if (res.statusCode == 200 && res.data['status'] == 'success') {
         debugPrint("INFO: Bearer ${res.data}");
         loadingState = LoadingState.idle;
         return true;

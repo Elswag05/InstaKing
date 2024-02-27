@@ -31,7 +31,7 @@ class CableController extends BaseChangeNotifier {
       debugPrint('To Get Cable Decoder Plans');
       final res = await getBills.getCableDecoders();
 
-      if (res.statusCode == 200) {
+      if (res.statusCode == 200 && res.data['status'] == 'success') {
         debugPrint("INFO: Bearer ${res.data}");
         getCableDecoderModel = GetCableDecoderModel.fromMap(res.data);
       } else {

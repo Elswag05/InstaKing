@@ -49,6 +49,7 @@ class _BillElectricityState extends ConsumerState<BillElectricity> {
   late num discoId = 0;
   late String meterType = '';
   late String customerName = '';
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   late bool userHasPickedDisco = false;
   @override
@@ -56,9 +57,7 @@ class _BillElectricityState extends ConsumerState<BillElectricity> {
     super.initState();
     amountController = TextEditingController();
     meterNumberController = TextEditingController();
-    ref.read(instaElectricityController).toGetPowerPlans().then((value) {
-      setState(() {});
-    });
+    ref.read(instaElectricityController).toGetPowerPlans();
   }
 
   void showReusableBottomSheet(BuildContext context, dataList, func) {
@@ -96,6 +95,7 @@ class _BillElectricityState extends ConsumerState<BillElectricity> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       body: SafeArea(
         child: Stack(
           children: [
@@ -170,6 +170,7 @@ class _BillElectricityState extends ConsumerState<BillElectricity> {
                       isPasswordT: false,
                       isdigit: [FilteringTextInputFormatter.digitsOnly],
                       controller: meterNumberController,
+                      textInputType: TextInputType.number,
                       onChanged: (value) {
                         setState(() {});
                       },
@@ -179,6 +180,7 @@ class _BillElectricityState extends ConsumerState<BillElectricity> {
                       hintT: "₦1 000",
                       isPasswordT: false,
                       isdigit: [FilteringTextInputFormatter.digitsOnly],
+                      textInputType: TextInputType.number,
                       controller: amountController,
                       onChanged: (value) {
                         setState(() {});
@@ -187,7 +189,7 @@ class _BillElectricityState extends ConsumerState<BillElectricity> {
                     CustomButton(
                       pageCTA: "Validate",
                       buttonOnPressed: () {
-                        setState(() {});
+                        // setState(() {});
                         ref
                             .read(instaElectricityController)
                             .tovalidateUserEligibiity(
@@ -197,6 +199,7 @@ class _BillElectricityState extends ConsumerState<BillElectricity> {
                             )
                             .then((value) {
                           if (value == true) {
+                            setState(() {});
                             void showAlert(BuildContext context) {
                               showDialog(
                                 context: context,
@@ -300,7 +303,9 @@ class _BillElectricityState extends ConsumerState<BillElectricity> {
                                             // Handle success
                                             setState(() {});
                                             AwesomeDialog(
-                                                context: context,
+                                                context: _scaffoldKey
+                                                        .currentContext ??
+                                                    context,
                                                 animType: AnimType.scale,
                                                 dialogType: DialogType.success,
                                                 title: 'Order Successful',
@@ -310,6 +315,11 @@ class _BillElectricityState extends ConsumerState<BillElectricity> {
                                                     .message,
                                                 btnOkOnPress: () {
                                                   Navigator.pop(context);
+                                                },
+                                                onDismissCallback: (type) {
+                                                  Navigator.of(_scaffoldKey
+                                                          .currentContext!)
+                                                      .pop();
                                                 },
                                                 btnCancelText: 'Copy Token',
                                                 btnCancelOnPress: () {
@@ -338,12 +348,19 @@ class _BillElectricityState extends ConsumerState<BillElectricity> {
                                           } else {
                                             setState(() {});
                                             AwesomeDialog(
-                                              context: context,
+                                              context:
+                                                  _scaffoldKey.currentContext ??
+                                                      context,
                                               animType: AnimType.scale,
                                               dialogType: DialogType.error,
                                               title: 'Order Failed',
                                               desc:
                                                   'Your order could not be placed',
+                                              onDismissCallback: (type) {
+                                                Navigator.of(_scaffoldKey
+                                                        .currentContext!)
+                                                    .pop();
+                                              },
                                               btnOkOnPress: () {
                                                 Navigator.pop(context);
                                               },
@@ -367,18 +384,21 @@ class _BillElectricityState extends ConsumerState<BillElectricity> {
                             }
 
                             showAlert(context);
-                            setState(() {});
                           } else {
                             setState(() {
                               ref.read(instaDataController).loadingState ==
                                   LoadingState.idle;
                             });
                             AwesomeDialog(
-                              context: context,
+                              context: _scaffoldKey.currentContext ?? context,
                               animType: AnimType.scale,
                               dialogType: DialogType.error,
                               title: 'Order Failed',
                               desc: 'Your order could not be placed',
+                              onDismissCallback: (type) {
+                                Navigator.of(_scaffoldKey.currentContext!)
+                                    .pop();
+                              },
                               btnOkOnPress: () {
                                 Navigator.pop(context);
                               },
