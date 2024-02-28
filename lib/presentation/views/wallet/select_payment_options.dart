@@ -36,7 +36,7 @@ class _SelectPaymentOptionsState extends State<SelectPaymentOptions> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Select Payment Option',
+                'Other Payment Options',
                 style: TextStyle(
                   fontFamily: 'Montesserat',
                   fontSize: 15.sp,
@@ -58,7 +58,7 @@ class _SelectPaymentOptionsState extends State<SelectPaymentOptions> {
               ),
               CollectPersonalDetailModel(
                 leadTitle: 'Amount(NGN)',
-                hintT: '500',
+                hintT: 'Minimum - 1000',
                 isdigit: [FilteringTextInputFormatter.digitsOnly],
                 controller: textEditingController,
                 textInputType: TextInputType.number,
@@ -85,15 +85,10 @@ class _SelectPaymentOptionsState extends State<SelectPaymentOptions> {
                         MaterialPageRoute(
                           builder: (context) => WebViewKit(
                             linkString: ref
-                                    .read(instaWalletController)
-                                    .depositMoneyModel
-                                    .link ??
-                                "https://www.instaking.ng",
-                            linkDesc: ref
-                                    .read(instaWalletController)
-                                    .depositMoneyModel
-                                    .message ??
-                                'Page Not Found!',
+                                .read(instaWalletController)
+                                .depositMoneyModel
+                                .link!,
+                            linkDesc: "Fund Instaking Wallet",
                           ),
                         ),
                       );

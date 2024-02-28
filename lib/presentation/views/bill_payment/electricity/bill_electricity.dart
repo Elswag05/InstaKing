@@ -189,7 +189,7 @@ class _BillElectricityState extends ConsumerState<BillElectricity> {
                     CustomButton(
                       pageCTA: "Validate",
                       buttonOnPressed: () {
-                        // setState(() {});
+                        setState(() {});
                         ref
                             .read(instaElectricityController)
                             .tovalidateUserEligibiity(
@@ -325,10 +325,8 @@ class _BillElectricityState extends ConsumerState<BillElectricity> {
                                                 btnCancelOnPress: () {
                                                   Clipboard.setData(
                                                     ClipboardData(
-                                                      text: ref
-                                                          .read(
-                                                              instaElectricityController)
-                                                          .newToken,
+                                                      text:
+                                                          "Token: ${ref.watch(instaElectricityController).newToken}",
                                                     ),
                                                   );
                                                   locator<ToastService>()

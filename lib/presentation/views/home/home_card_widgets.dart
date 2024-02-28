@@ -48,6 +48,7 @@ class _HomeCardBalanceState extends State<HomeCardBalance> {
               child: Icon(
                 widget.hideBalanceIcon,
                 size: 13.sp,
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
               ),
             ).afmPadding(
               EdgeInsets.only(

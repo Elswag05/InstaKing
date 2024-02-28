@@ -33,6 +33,17 @@ class ElectricityBillController extends BaseChangeNotifier {
     getPowerPlanModel.data = [];
   }
 
+  String extractToken(String inputString) {
+    RegExp tokenRegex = RegExp(r'Token: (\d+)');
+    Match? match = tokenRegex.firstMatch(inputString);
+
+    if (match != null && match.groupCount >= 1) {
+      return match.group(1) ?? '';
+    } else {
+      return 'Token not found';
+    }
+  }
+
   Future<void> toGetPowerPlans() async {
     if (getPowerPlanModel.data != null) return;
 
@@ -110,32 +121,14 @@ class ElectricityBillController extends BaseChangeNotifier {
       debugPrint("INFO: Electricity 000");
       if (res.statusCode == 200 && res.data['status'] == 'success') {
         debugPrint("INFO: Bearer ${res.data}");
-        debugPrint("INFO: Electricity 001");
         Map<String, dynamic> parsedData = jsonDecode(res.toString());
         message = parsedData['message'];
-        // Find the index of "Token :"
-        int startIndex = message.indexOf("Token :");
+        newToken = extractToken(message);
         notifyListeners();
-        // Check if "Token :" is found in the string
-        if (startIndex != -1) {
-          debugPrint("INFO: Electricity 002");
-          // Extract the token substring
-          String tokenSubstring = message.substring(startIndex);
-          // Split the substring by spaces and get the second part (the actual token)
-          List<String> tokenParts = tokenSubstring.split(' ');
-          String token = tokenParts.length > 1 ? tokenParts[1] : "";
-          newToken = "Token: $token";
-          debugPrint(newToken);
-        } else {
-          debugPrint("Some Error Occurred");
-        }
-
         loadingState = LoadingState.idle;
         return true;
       } else {
         loadingState = LoadingState.idle;
-        // debugPrint('${res.statusMessage}');
-        // debugPrint('${res.statusCode}');
         debugPrint("INFO: Electricity 003");
         debugPrint(res.toString());
         Map<String, dynamic> errorParsedData = jsonDecode(res.toString());

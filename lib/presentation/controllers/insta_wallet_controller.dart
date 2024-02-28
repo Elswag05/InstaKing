@@ -125,7 +125,6 @@ class InstaWalletController extends BaseChangeNotifier {
       );
       if (res.statusCode == 200 && res.data['status'] == 'success') {
         log("INFO: Bearer ${res.data}");
-        //TODO: To redirect to real deposit link
         locator<ToastService>().showSuccessToast(
           'Redirecting To Temp Deposit Link!',
         );

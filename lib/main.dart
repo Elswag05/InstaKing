@@ -2,6 +2,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insta_king/core/theme/env_theme_manager.dart';
@@ -14,17 +15,17 @@ import 'package:insta_king/presentation/views/authentication/auth_shared/navigat
 import 'package:insta_king/presentation/views/authentication/login/insta_login_with_fingerprint.dart';
 import 'package:insta_king/presentation/views/onboarding/insta_onboarding.dart';
 import 'package:insta_king/presentation/views/shared_widgets/shared_loading.dart';
-import 'package:insta_king/presentation/views/splash_screen/insta_splash.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:insta_king/utils/locator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await setUpLocator();
   await LocalNotification.initLocalNotifications();
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
-      overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom]).then(  
+      overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom]).then(
     (_) => runApp(
       ProviderScope(
         child: OKToast(
@@ -35,7 +36,7 @@ Future<void> main() async {
             darkTheme: EnvThemeManager.darkTheme,
             navigatorKey: navigatorKey,
             debugShowCheckedModeBanner: false,
-            home: const InstaSplash(),
+            home: const InstaKingGuide(),
           ),
         ),
       ),
@@ -71,6 +72,8 @@ class _InstaKing extends ConsumerState<InstaKingGuide> {
   late bool isConnected;
   @override
   void initState() {
+    // whenever your initialization is completed, remove the splash screen:
+    FlutterNativeSplash.remove();
     getEmailFuture = screenController.getEmail();
     networkConnectivity.initialise();
     networkConnectivity.myStream.listen((source) {

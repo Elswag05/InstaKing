@@ -4,7 +4,6 @@ import 'package:custom_context_menu/custom_context_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:insta_king/core/constants/env_colors.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
 
 class CollectPersonalDetailModel extends StatefulWidget {

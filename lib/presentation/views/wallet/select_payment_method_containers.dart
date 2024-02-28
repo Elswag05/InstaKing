@@ -19,14 +19,14 @@ class SelectPaymentContainerState
     extends ConsumerState<SelectPaymentContainer> {
   int activeIndex = -1;
   List<String> methodImages = <String>[
-    "assets/images/coinbase.jpg",
+    EnvAssets.getImagePath("coinbase"),
     EnvAssets.getImagePath("flutterwave"),
     // EnvAssets.getImagePath("paypal"),
     // EnvAssets.getImagePath("perfect_money"),
   ];
   List<String> methodNames = <String>[
-    "coinbase",
-    "flutterwave",
+    "Coinbase",
+    "Flutterwave",
     // "paypal",
     // "perfect_money",
   ];
@@ -44,31 +44,32 @@ class SelectPaymentContainerState
     bool isActive = index == activeIndex;
 
     return GestureDetector(
-        onTap: () {
-          setActiveIndex(index);
-        },
-        child: Container(
-          height: 50.h,
-          margin: EdgeInsets.all(5.w),
-          decoration: BoxDecoration(
-            color: isActive
-                ? Theme.of(context).canvasColor
-                : Theme.of(context).canvasColor,
-            border: isActive
-                ? Border.all(color: InstaColors.primaryColor, width: 2)
-                : Border.all(color: InstaColors.mildGrey),
-            borderRadius: BorderRadius.circular(7.r),
+      onTap: () {
+        setActiveIndex(index);
+      },
+      child: Container(
+        height: 50.h,
+        margin: EdgeInsets.all(5.w),
+        decoration: BoxDecoration(
+          color: isActive ? Colors.transparent : Colors.transparent,
+          border: isActive
+              ? Border.all(color: InstaColors.primaryColor, width: 2)
+              : Border.all(
+                  color: Colors.transparent,
+                ),
+          borderRadius: BorderRadius.circular(7.r),
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(7.r),
+          child: Image.asset(
+            methodImages[index],
+            fit: BoxFit.cover,
+            width: 80,
+            height: 80,
           ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(5.r),
-            child: Image.asset(
-              methodImages[index],
-              fit: BoxFit.cover,
-              width: 80,
-              height: 80,
-            ),
-          ),
-        ));
+        ),
+      ),
+    );
   }
 
   @override
