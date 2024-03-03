@@ -8,7 +8,6 @@ import 'package:insta_king/core/extensions/widget_extension.dart';
 import 'package:insta_king/data/local/toast_service.dart';
 import 'package:insta_king/data/services/notification.dart';
 import 'package:insta_king/data/controllers/insta_profile_controller.dart';
-import 'package:insta_king/data/controllers/purchase_data_controller.dart';
 import 'package:insta_king/data/controllers/purchase_electricity_controller.dart';
 import 'package:insta_king/presentation/views/home/home_card_widgets.dart';
 import 'package:insta_king/presentation/views/shared_widgets/bottom_sheet_modal.dart';
