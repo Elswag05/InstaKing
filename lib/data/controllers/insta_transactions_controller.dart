@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:insta_king/data/services/error_service.dart';
 import 'package:insta_king/data/services/insta_transactions_services.dart';
-import 'package:insta_king/presentation/controllers/base_controller.dart';
+import 'package:insta_king/data/controllers/base_controller.dart';
 import 'package:insta_king/presentation/model/insta_transactions_model.dart';
 
 final instaTransactionController =

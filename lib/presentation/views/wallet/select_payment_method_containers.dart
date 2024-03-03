@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:insta_king/core/constants/constants.dart';
-import 'package:insta_king/presentation/controllers/insta_wallet_controller.dart';
+import 'package:insta_king/data/controllers/insta_wallet_controller.dart';
 
 class SelectPaymentContainer extends ConsumerStatefulWidget {
   const SelectPaymentContainer({

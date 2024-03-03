@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insta_king/core/constants/constants.dart';
-import 'package:insta_king/presentation/controllers/insta_categories_controller.dart';
+import 'package:insta_king/data/controllers/insta_categories_controller.dart';
 import 'package:insta_king/presentation/views/shared_widgets/shared_loading.dart';
 
 class CategoryScreen extends ConsumerStatefulWidget {

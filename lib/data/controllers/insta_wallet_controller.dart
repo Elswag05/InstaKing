@@ -9,7 +9,7 @@ import 'package:insta_king/data/local/secure_storage_service.dart';
 import 'package:insta_king/data/local/toast_service.dart';
 import 'package:insta_king/data/services/error_service.dart';
 import 'package:insta_king/data/services/insta_wallet_services.dart';
-import 'package:insta_king/presentation/controllers/base_controller.dart';
+import 'package:insta_king/data/controllers/base_controller.dart';
 import 'package:insta_king/presentation/model/deposit_money_model.dart';
 import 'package:insta_king/presentation/model/get_banks_model.dart';
 import 'package:insta_king/presentation/model/insta_wallet_model.dart';

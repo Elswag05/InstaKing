@@ -5,8 +5,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:insta_king/core/constants/constants.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
-import 'package:insta_king/presentation/controllers/insta_profile_controller.dart';
-import 'package:insta_king/presentation/controllers/insta_wallet_controller.dart';
+import 'package:insta_king/data/controllers/insta_profile_controller.dart';
+import 'package:insta_king/data/controllers/insta_wallet_controller.dart';
 
 class ProfileCard extends StatefulWidget {
   final void Function()? onTap;

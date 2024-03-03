@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insta_king/core/constants/env_assets.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
 import 'package:insta_king/data/local/toast_service.dart';
-import 'package:insta_king/presentation/controllers/insta_profile_controller.dart';
+import 'package:insta_king/data/controllers/insta_profile_controller.dart';
 import 'package:insta_king/presentation/views/home/home_card_widgets.dart';
 import 'package:insta_king/presentation/views/shared_widgets/cta_button.dart';
 import 'package:insta_king/utils/locator.dart';

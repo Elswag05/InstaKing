@@ -7,8 +7,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insta_king/core/constants/env_assets.dart';
 import 'package:insta_king/core/constants/env_colors.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
-import 'package:insta_king/presentation/controllers/insta_login_controller.dart';
-import 'package:insta_king/presentation/controllers/insta_signin_controller.dart';
+import 'package:insta_king/data/controllers/insta_login_controller.dart';
+import 'package:insta_king/data/controllers/insta_signin_controller.dart';
 import 'package:insta_king/presentation/views/dashboard/insta_dashboard.dart';
 import 'package:insta_king/presentation/views/shared_widgets/cta_button.dart';
 

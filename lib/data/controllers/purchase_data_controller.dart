@@ -9,7 +9,7 @@ import 'package:insta_king/data/local/secure_storage_service.dart';
 import 'package:insta_king/data/services/bill_services.dart';
 import 'package:insta_king/data/services/error_service.dart';
 import 'package:insta_king/data/services/get_bill_services.dart';
-import 'package:insta_king/presentation/controllers/base_controller.dart';
+import 'package:insta_king/data/controllers/base_controller.dart';
 import 'package:insta_king/presentation/model/get_data_plan_model.dart';
 
 final instaDataController = ChangeNotifierProvider<PurchaseDataController>(

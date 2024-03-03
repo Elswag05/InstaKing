@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:insta_king/core/constants/enum.dart';
-import 'package:insta_king/presentation/controllers/insta_login_controller.dart';
+import 'package:insta_king/data/controllers/insta_login_controller.dart';
 import 'package:insta_king/presentation/views/shared_widgets/shared_loading.dart';
 import 'profile_widgets/build_profile_content.dart';
 

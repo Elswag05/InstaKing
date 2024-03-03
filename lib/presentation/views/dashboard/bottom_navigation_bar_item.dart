@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:insta_king/core/constants/env_assets.dart';
 import 'package:insta_king/core/constants/env_colors.dart';
-import 'package:insta_king/presentation/controllers/insta_dashboard_controller.dart';
+import 'package:insta_king/data/controllers/insta_dashboard_controller.dart';
 
 BottomNavigationBarItem buildBottomNavigationBarItem(
   WidgetRef ref,

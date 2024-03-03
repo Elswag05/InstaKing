@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
 import 'package:insta_king/core/utils/my_strings.dart';
-import 'package:insta_king/presentation/controllers/insta_login_controller.dart';
+import 'package:insta_king/data/controllers/insta_login_controller.dart';
 import 'package:insta_king/presentation/views/shared_widgets/cta_button.dart';
 import 'package:insta_king/presentation/views/shared_widgets/input_data_viewmodel.dart';
 import 'package:insta_king/presentation/views/shared_widgets/recurring_appbar.dart';

@@ -5,7 +5,7 @@ import 'package:insta_king/core/constants/enum.dart';
 import 'package:insta_king/data/services/bill_services.dart';
 import 'package:insta_king/data/services/error_service.dart';
 import 'package:insta_king/data/services/get_bill_services.dart';
-import 'package:insta_king/presentation/controllers/base_controller.dart';
+import 'package:insta_king/data/controllers/base_controller.dart';
 import 'package:insta_king/presentation/model/get_cable_decoder_model.dart';
 import 'package:insta_king/presentation/model/get_cable_plans.dart';
 

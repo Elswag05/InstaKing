@@ -4,9 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:insta_king/core/constants/constants.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
-import 'package:insta_king/presentation/controllers/insta_login_controller.dart';
+import 'package:insta_king/data/controllers/insta_login_controller.dart';
 
-import '../../../controllers/insta_profile_controller.dart';
+import '../../../../data/controllers/insta_profile_controller.dart';
 
 // Widget buildBiometricLockSwitch(BuildContext context, WidgetRef ref) {
 //     return

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:insta_king/presentation/controllers/insta_categories_controller.dart';
+import 'package:insta_king/data/controllers/insta_categories_controller.dart';
 import 'package:insta_king/presentation/views/services/service_widgets.dart';
 import 'package:insta_king/presentation/views/services/services_widget_model.dart';
 
