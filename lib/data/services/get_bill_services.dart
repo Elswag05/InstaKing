@@ -68,4 +68,16 @@ class GetBills with DioMixin {
     );
     return response;
   }
+
+  Future<Response<dynamic>> getBetPlans() async {
+    final customHeaders = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Connection': 'keep-alive',
+    };
+    final response = await connect(customHeaders: customHeaders).get(
+      '/bills/betplans',
+    );
+    return response;
+  }
 }

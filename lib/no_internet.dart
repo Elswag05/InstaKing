@@ -69,7 +69,7 @@ class _NoInternetState extends ConsumerState<NoInternet>
             Text(
               'Please check your internet connection\n',
               style: TextStyle(
-                fontFamily: 'Monteserrat',
+                fontFamily: 'Montesserat',
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w500,
                 color: Theme.of(context).colorScheme.onBackground,

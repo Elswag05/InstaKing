@@ -4,11 +4,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insta_king/core/constants/constants.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
+import 'package:insta_king/data/controllers/bet_data_controller.dart';
 import 'package:insta_king/data/controllers/purchase_airtime_controller.dart';
 import 'package:insta_king/data/controllers/purchase_electricity_controller.dart';
 import 'package:insta_king/data/controllers/subscribe_cable_controller.dart';
 
 import 'package:insta_king/presentation/views/bill_payment/airtime/bill_airtime.dart';
+import 'package:insta_king/presentation/views/bill_payment/bet/bet_bill.dart';
 import 'package:insta_king/presentation/views/bill_payment/cable/bill_cable.dart';
 import 'package:insta_king/presentation/views/bill_payment/common_widgets.dart';
 import 'package:insta_king/presentation/views/bill_payment/data/bill_data.dart';
@@ -55,6 +57,7 @@ class MainBillPaymentState extends ConsumerState<MainBillPayment>
     ref.read(instaAirtimeController).toGetNetworks();
     ref.read(instaCableController).toGetCableDecoderPlans();
     ref.read(instaElectricityController).toGetPowerPlans();
+    ref.read(instaBetController).toGetBetPlans();
   }
 
   @override
@@ -88,6 +91,7 @@ class MainBillPaymentState extends ConsumerState<MainBillPayment>
                         fontSize: 12,
                         color: Theme.of(context).colorScheme.onBackground,
                         fontWeight: FontWeight.w500,
+                        fontFamily: 'Montesserat',
                       ),
                       textAlign: TextAlign.start,
                     ),
@@ -116,11 +120,15 @@ class MainBillPaymentState extends ConsumerState<MainBillPayment>
                 'CableTv',
                 const BillCable(),
               ),
-              SizedBox(height: w / 20),
+              homePageCard(
+                const Color.fromARGB(255, 74, 195, 185),
+                'casino',
+                'Bet',
+                context,
+                const BetBills(),
+              ).afmPadding(EdgeInsets.symmetric(horizontal: 20.sp)),
             ],
           ),
-
-          /// SETTING ICON
 
           // Blur the Status bar
           blurTheStatusBar(context),
@@ -220,6 +228,7 @@ class MainBillPaymentState extends ConsumerState<MainBillPayment>
                     fontSize: 13,
                     color: Theme.of(context).colorScheme.onBackground,
                     fontWeight: FontWeight.w700,
+                    fontFamily: 'Montesserat',
                   ),
                   textAlign: TextAlign.center,
                 ),

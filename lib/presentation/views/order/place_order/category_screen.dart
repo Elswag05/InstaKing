@@ -52,7 +52,7 @@ class _MyWidgetState extends ConsumerState<CategoryScreen> {
               title: Text(
                 'Categories',
                 style: TextStyle(
-                  fontFamily: 'Monteserrat',
+                  fontFamily: 'Montesserat',
                   fontWeight: FontWeight.w600,
                   fontSize: 18.sp,
                   color: Theme.of(context).colorScheme.onSurface,
@@ -96,7 +96,7 @@ class _MyWidgetState extends ConsumerState<CategoryScreen> {
                         minFontSize: 12.sp,
                         stepGranularity: 2.sp,
                         style: TextStyle(
-                          fontFamily: 'Monteserrat',
+                          fontFamily: 'Montesserat',
                           fontWeight: FontWeight.w500,
                           fontSize: 13.sp,
                           color: Theme.of(context).colorScheme.scrim,

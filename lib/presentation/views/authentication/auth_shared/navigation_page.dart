@@ -39,7 +39,7 @@ class InstaAuthNavigator extends StatelessWidget {
                 "Africa's No.1 Social Media\n Marketing Service\n Provider.",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontFamily: 'Monteserrat',
+                  fontFamily: 'Montesserat',
                   fontSize: 20.sp,
                   fontWeight: FontWeight.w600,
                   color: Theme.of(context).colorScheme.onBackground,
@@ -95,7 +95,7 @@ class InstaAuthNavigator extends StatelessWidget {
                   text:
                       'By selecting one or the other, you are agreeing\n to our ',
                   style: TextStyle(
-                    fontFamily: 'Monteserrat',
+                    fontFamily: 'Montesserat',
                     fontSize: 12.sp,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).colorScheme.onBackground,
@@ -104,7 +104,7 @@ class InstaAuthNavigator extends StatelessWidget {
                     TextSpan(
                       text: 'Terms of Services & Privacy Policy',
                       style: TextStyle(
-                        fontFamily: 'Monteserrat',
+                        fontFamily: 'Montesserat',
                         fontSize: 12.sp,
                         fontWeight: FontWeight.w600,
                         color: Theme.of(context).colorScheme.onBackground,

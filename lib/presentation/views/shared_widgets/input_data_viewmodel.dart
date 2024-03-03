@@ -105,7 +105,7 @@ class _CollectPersonalDetailModelState
               borderRadius: 0,
               buttonPadding: 0,
               textStyle: TextStyle(
-                fontFamily: 'Monteserrat',
+                fontFamily: 'Montesserat',
                 fontSize: 13.sp,
               ),
             );

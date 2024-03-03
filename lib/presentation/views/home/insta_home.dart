@@ -240,6 +240,7 @@ class _InstaHomeState extends ConsumerState<InstaHome>
                                 style: TextStyle(
                                   fontSize: 13.sp,
                                   fontWeight: FontWeight.w600,
+                                  fontFamily: 'Montesserat',
                                 ),
                               ),
                             ),

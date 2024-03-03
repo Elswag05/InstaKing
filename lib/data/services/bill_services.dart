@@ -134,4 +134,46 @@ class PayBills with DioMixin {
     );
     return response;
   }
+
+  Future<Response<dynamic>> betAccountValidation(
+    num betPlatformId,
+    String userAccountNo,
+  ) async {
+    final customHeaders = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Connection': 'keep-alive',
+    };
+    final response = await connect(customHeaders: customHeaders).post(
+      '/bills/bet/validation',
+      data: {
+        "betsite": betPlatformId,
+        "accountId": userAccountNo,
+      },
+    );
+    return response;
+  }
+
+  Future<Response<dynamic>> buyBetMoney(
+    int betPlatformID,
+    String betAccountNumber,
+    num amount,
+    String customerName,
+  ) async {
+    final customHeaders = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Connection': 'keep-alive',
+    };
+    final response = await connect(customHeaders: customHeaders).post(
+      '/bills/bet',
+      data: {
+        "disco": betPlatformID,
+        "number": betAccountNumber,
+        "amount": amount,
+        "customer_name": customerName,
+      },
+    );
+    return response;
+  }
 }

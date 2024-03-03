@@ -1,15 +1,15 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:insta_king/core/constants/constants.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:insta_king/core/constants/enum.dart';
+import 'package:insta_king/core/constants/env_assets.dart';
+import 'package:insta_king/core/constants/env_colors.dart';
 import 'package:insta_king/core/extensions/widget_extension.dart';
-import 'package:insta_king/data/local/toast_service.dart';
-import 'package:insta_king/data/services/notification.dart';
+import 'package:insta_king/data/controllers/bet_data_controller.dart';
 import 'package:insta_king/data/controllers/insta_profile_controller.dart';
-import 'package:insta_king/data/controllers/purchase_data_controller.dart';
-import 'package:insta_king/data/controllers/purchase_electricity_controller.dart';
+import 'package:insta_king/data/services/notification.dart';
 import 'package:insta_king/presentation/views/home/home_card_widgets.dart';
 import 'package:insta_king/presentation/views/shared_widgets/bottom_sheet_modal.dart';
 import 'package:insta_king/presentation/views/shared_widgets/choose_container.dart';
@@ -17,47 +17,27 @@ import 'package:insta_king/presentation/views/shared_widgets/cta_button.dart';
 import 'package:insta_king/presentation/views/shared_widgets/input_data_viewmodel.dart';
 import 'package:insta_king/presentation/views/shared_widgets/recurring_appbar.dart';
 import 'package:insta_king/presentation/views/shared_widgets/shared_loading.dart';
-import 'package:insta_king/utils/locator.dart';
 
-/// Feel free to use the code in your projects
-/// but do not forget to give me the credits adding
-/// my app (Flutter Animation Gallery) where you are gonna use it.
-/// ---------------------------------->>>>>>>>>>>>>>>>>>>>>>>>
-///
-class Network {
-  String name;
-
-  Network(this.name);
-}
-
-List<dynamic> networkData = [
-  Network('Prepaid'),
-  Network('Postpaid'),
-];
-
-class BillElectricity extends ConsumerStatefulWidget {
-  const BillElectricity({super.key});
-
+class BetBills extends ConsumerStatefulWidget {
+  const BetBills({super.key});
   @override
-  ConsumerState<BillElectricity> createState() => _BillElectricityState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _BetBillsState();
 }
 
-class _BillElectricityState extends ConsumerState<BillElectricity> {
+class _BetBillsState extends ConsumerState<BetBills> {
+  String betPlatform = '';
+  int betPlatformId = 0;
   late final TextEditingController amountController;
-  late final TextEditingController meterNumberController;
-  late String discoName = '';
-  late num discoId = 0;
-  late String meterType = '';
-  late String customerName = '';
+  late final TextEditingController betAccountNumberController;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  late bool userHasPickedDisco = false;
+  late bool userHasPickedBetPlan = false;
   @override
   void initState() {
     super.initState();
     amountController = TextEditingController();
-    meterNumberController = TextEditingController();
-    ref.read(instaElectricityController).toGetPowerPlans();
+    betAccountNumberController = TextEditingController();
+    ref.read(instaBetController).toGetBetPlans();
   }
 
   void showReusableBottomSheet(BuildContext context, dataList, func) {
@@ -66,22 +46,17 @@ class _BillElectricityState extends ConsumerState<BillElectricity> {
       backgroundColor: Colors.transparent,
       builder: (BuildContext context) {
         return FutureBuilder(
-          future: ref
-              .read(instaElectricityController)
-              .toGetPowerPlans()
-              .then((value) {
+          future: ref.read(instaBetController).toGetBetPlans().then((value) {
             setState(() {});
           }),
           builder: (context, snapshot) {
             return ReusableBottomSheet(
-              future: ref
-                  .read(instaElectricityController)
-                  .toGetPowerPlans()
-                  .then((value) {
+              future:
+                  ref.read(instaBetController).toGetBetPlans().then((value) {
                 setState(() {});
               }),
               getLength: dataList?.length ?? 5,
-              title: 'Choose Disco Name',
+              title: 'Choose Bet Plan',
               networkPr: dataList,
               status: 'initialStatus', // Set your initial status here
               onStatusChanged: func,
@@ -102,7 +77,7 @@ class _BillElectricityState extends ConsumerState<BillElectricity> {
             Column(
               children: [
                 const RecurringAppBar(
-                  appBarTitle: "Pay Electricity Bills",
+                  appBarTitle: "Fund Your Bet Accounts",
                 ).afmPadding(
                   EdgeInsets.only(
                     bottom: 10.h,
@@ -114,52 +89,30 @@ class _BillElectricityState extends ConsumerState<BillElectricity> {
                       onTap: () {
                         showReusableBottomSheet(
                           context,
-                          ref
-                              .read(instaElectricityController)
-                              .getPowerPlanModel
-                              .data,
+                          ref.read(instaBetController).betPlansModel.data,
                           (newStatus, val) {
                             // Handle the status change here if needed
                             setState(() {
-                              meterType = '';
-                              discoName = newStatus?[val].name ?? '';
-                              discoId = newStatus?[val].id ?? 0;
+                              betPlatform = newStatus?[val].name ?? '';
+                              betPlatformId = newStatus?[val].id ?? 0;
                             });
-                            debugPrint('New Status: $discoId && $discoName');
+                            debugPrint(
+                                'New Bet Platform: $betPlatformId && $betPlatform');
                           },
                         );
                       },
                       child: ChooseContainerFromDropDown(
-                        headerText: "Disco Name",
-                        hintText: discoName != '' ? discoName : "Select type",
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        showReusableBottomSheet(
-                          context,
-                          networkData,
-                          (newStatus, val) {
-                            // Handle the status change here if needed
-                            setState(() {
-                              meterType = newStatus?[val].name ?? '';
-                            });
-                            debugPrint('New Meter Type: $meterType');
-                          },
-                        );
-                      },
-                      child: ChooseContainerFromDropDown(
-                        headerText: "Meter Type",
+                        headerText: "Bet Platform",
                         hintText:
-                            meterType != '' ? meterType : "Select meter type",
+                            betPlatform == '' ? "Select Platform" : betPlatform,
                       ),
                     ),
                     CollectPersonalDetailModel(
-                      leadTitle: "Meter Number",
-                      hintT: "XXXX-XXX-XXXX",
+                      leadTitle: "Account Number",
+                      hintT: "XXX-XXX-XXXX",
                       isPasswordT: false,
                       isdigit: [FilteringTextInputFormatter.digitsOnly],
-                      controller: meterNumberController,
+                      controller: betAccountNumberController,
                       textInputType: TextInputType.number,
                       onChanged: (value) {
                         setState(() {});
@@ -167,7 +120,7 @@ class _BillElectricityState extends ConsumerState<BillElectricity> {
                     ),
                     CollectPersonalDetailModel(
                       leadTitle: "Amount",
-                      hintT: "₦1 000",
+                      hintT: "₦500",
                       isPasswordT: false,
                       isdigit: [FilteringTextInputFormatter.digitsOnly],
                       textInputType: TextInputType.number,
@@ -177,15 +130,14 @@ class _BillElectricityState extends ConsumerState<BillElectricity> {
                       },
                     ),
                     CustomButton(
-                      pageCTA: "Validate",
+                      pageCTA: 'Validate',
                       buttonOnPressed: () {
                         setState(() {});
                         ref
-                            .read(instaElectricityController)
-                            .tovalidateUserEligibiity(
-                              discoId,
-                              meterType.toLowerCase(),
-                              meterNumberController.text,
+                            .read(instaBetController)
+                            .tovalidateBetData(
+                              betPlatformId,
+                              betAccountNumberController.text,
                             )
                             .then((value) {
                           if (value == true) {
@@ -195,7 +147,7 @@ class _BillElectricityState extends ConsumerState<BillElectricity> {
                                 context: context,
                                 builder: (context) => AlertDialog(
                                   title: Text(
-                                    "Pay Electricity Bills",
+                                    "Fund Your Bet Account",
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       fontFamily: 'Montesserat',
@@ -218,8 +170,7 @@ class _BillElectricityState extends ConsumerState<BillElectricity> {
                                       ),
                                       Text(
                                         ref
-                                            .read(instaElectricityController
-                                                .notifier)
+                                            .read(instaBetController.notifier)
                                             .userName,
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
@@ -275,17 +226,15 @@ class _BillElectricityState extends ConsumerState<BillElectricity> {
                                         Navigator.pop(context);
                                         setState(() {});
                                         ref
-                                            .read(instaElectricityController)
-                                            .toPurchaseElectricity(
-                                              discoId,
-                                              meterNumberController.text,
-                                              meterType.toLowerCase(),
+                                            .read(instaBetController)
+                                            .toBuyBetMoney(
+                                              betPlatformId,
+                                              betAccountNumberController.text,
                                               int.tryParse(
                                                       amountController.text) ??
-                                                  500,
+                                                  0,
                                               ref
-                                                  .read(
-                                                      instaElectricityController)
+                                                  .read(instaBetController)
                                                   .userName,
                                             )
                                             .then((value) {
@@ -293,37 +242,24 @@ class _BillElectricityState extends ConsumerState<BillElectricity> {
                                             // Handle success
                                             setState(() {});
                                             AwesomeDialog(
-                                                context: _scaffoldKey
-                                                        .currentContext ??
-                                                    context,
-                                                animType: AnimType.scale,
-                                                dialogType: DialogType.success,
-                                                title: 'Order Successful',
-                                                desc: ref
-                                                    .read(
-                                                        instaElectricityController)
-                                                    .message,
-                                                btnOkOnPress: () {
-                                                  Navigator.pop(context);
-                                                },
-                                                onDismissCallback: (type) {
-                                                  Navigator.of(_scaffoldKey
-                                                          .currentContext!)
-                                                      .pop();
-                                                },
-                                                btnCancelText: 'Copy Token',
-                                                btnCancelOnPress: () {
-                                                  Clipboard.setData(
-                                                    ClipboardData(
-                                                      text:
-                                                          "Token: ${ref.watch(instaElectricityController).newToken}",
-                                                    ),
-                                                  );
-                                                  locator<ToastService>()
-                                                      .showSuccessToast(
-                                                    'You have copied your order ID',
-                                                  );
-                                                }).show();
+                                              context:
+                                                  _scaffoldKey.currentContext ??
+                                                      context,
+                                              animType: AnimType.scale,
+                                              dialogType: DialogType.success,
+                                              title: 'Order Successful',
+                                              desc: ref
+                                                  .read(instaBetController)
+                                                  .message,
+                                              btnOkOnPress: () {
+                                                Navigator.pop(context);
+                                              },
+                                              onDismissCallback: (type) {
+                                                Navigator.of(_scaffoldKey
+                                                        .currentContext!)
+                                                    .pop();
+                                              },
+                                            ).show();
                                             LocalNotification
                                                 .showPurchaseNotification(
                                               title: 'Order Successful',
@@ -372,28 +308,24 @@ class _BillElectricityState extends ConsumerState<BillElectricity> {
                             }
 
                             showAlert(context);
-                          } else {
-                            setState(() {
-                              ref
-                                      .read(instaElectricityController)
-                                      .loadingState ==
-                                  LoadingState.idle;
-                            });
-                            AwesomeDialog(
-                              context: _scaffoldKey.currentContext ?? context,
-                              animType: AnimType.scale,
-                              dialogType: DialogType.error,
-                              title: 'Order Failed',
-                              desc: 'Your order could not be placed',
-                              onDismissCallback: (type) {
-                                Navigator.of(_scaffoldKey.currentContext!)
-                                    .pop();
-                              },
-                              btnOkOnPress: () {
-                                Navigator.pop(context);
-                              },
-                            ).show();
                           }
+                          setState(() {
+                            ref.read(instaBetController).loadingState ==
+                                LoadingState.idle;
+                          });
+                          AwesomeDialog(
+                            context: _scaffoldKey.currentContext ?? context,
+                            animType: AnimType.scale,
+                            dialogType: DialogType.error,
+                            title: 'Order Failed',
+                            desc: 'Your order could not be placed',
+                            onDismissCallback: (type) {
+                              Navigator.of(_scaffoldKey.currentContext!).pop();
+                            },
+                            btnOkOnPress: () {
+                              Navigator.pop(context);
+                            },
+                          ).show();
                         });
                       },
                     ).afmPadding(
@@ -408,20 +340,13 @@ class _BillElectricityState extends ConsumerState<BillElectricity> {
                   ),
                 ),
               ],
-            ).afmNeverScroll,
-            if (ref.read(instaElectricityController).loadingState ==
+            ),
+            if (ref.read(instaBetController).loadingState ==
                 LoadingState.loading)
               const TransparentLoadingScreen(),
           ],
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    meterNumberController.dispose();
-    amountController.dispose();
-    super.dispose();
   }
 }

@@ -39,6 +39,7 @@ class OrderChips extends StatelessWidget {
             label,
             textAlign: TextAlign.center,
             style: TextStyle(
+              fontFamily: 'Montesserat',
               fontSize: 11.sp,
               fontWeight: FontWeight.w400,
             ),

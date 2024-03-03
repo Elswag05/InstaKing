@@ -65,7 +65,7 @@ class _PostSignUpState extends State<PostSignUp> with TickerProviderStateMixin {
                   child: Text(
                     'Registration Successful',
                     style: TextStyle(
-                      fontFamily: 'Monteserrat',
+                      fontFamily: 'Montesserat',
                       fontSize: 20.sp,
                       fontWeight: FontWeight.w600,
                       color: Theme.of(context).colorScheme.onBackground,
@@ -94,7 +94,7 @@ class _PostSignUpState extends State<PostSignUp> with TickerProviderStateMixin {
                     text:
                         'To ensure easier access next time, would you\n like to ',
                     style: TextStyle(
-                      fontFamily: 'Monteserrat',
+                      fontFamily: 'Montesserat',
                       fontSize: 16.sp,
                       fontWeight: FontWeight.w500,
                       color: Theme.of(context).colorScheme.onBackground,
@@ -103,7 +103,7 @@ class _PostSignUpState extends State<PostSignUp> with TickerProviderStateMixin {
                       TextSpan(
                         text: 'Enable biometric authentication',
                         style: TextStyle(
-                          fontFamily: 'Monteserrat',
+                          fontFamily: 'Montesserat',
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w700,
                           color: Theme.of(context).colorScheme.onBackground,

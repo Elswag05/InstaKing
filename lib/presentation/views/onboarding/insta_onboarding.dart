@@ -105,7 +105,7 @@ class _InstaOnboardingState extends State<InstaOnboarding> {
                               contents[i].title,
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                fontFamily: "Monteserrat",
+                                fontFamily: 'Montesserat',
                                 fontWeight: FontWeight.w600,
                                 fontSize: (width <= 550) ? 30 : 35,
                                 color: Theme.of(context).colorScheme.scrim,
@@ -115,7 +115,7 @@ class _InstaOnboardingState extends State<InstaOnboarding> {
                             Text(
                               contents[i].desc,
                               style: TextStyle(
-                                fontFamily: "Monteserrat",
+                                fontFamily: 'Montesserat',
                                 fontWeight: FontWeight.w300,
                                 fontSize: (width <= 550) ? 17 : 25,
                                 color: Theme.of(context).colorScheme.scrim,
@@ -175,6 +175,7 @@ class _InstaOnboardingState extends State<InstaOnboarding> {
                             child: Text(
                               "GET STARTED",
                               style: TextStyle(
+                                fontFamily: 'Montesserat',
                                 color: Theme.of(context)
                                     .colorScheme
                                     .onInverseSurface,
@@ -200,7 +201,10 @@ class _InstaOnboardingState extends State<InstaOnboarding> {
                                 ),
                                 child: const Text(
                                   "SKIP",
-                                  style: TextStyle(color: Colors.black),
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontFamily: 'Montesserat',
+                                  ),
                                 ),
                               ),
                               ElevatedButton(
@@ -228,6 +232,7 @@ class _InstaOnboardingState extends State<InstaOnboarding> {
                                   "NEXT",
                                   style: TextStyle(
                                     color: InstaColors.lightColor,
+                                    fontFamily: 'Montesserat',
                                   ),
                                 ),
                               ),

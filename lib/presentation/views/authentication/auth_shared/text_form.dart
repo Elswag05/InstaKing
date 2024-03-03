@@ -124,7 +124,7 @@ class _AuthTextFieldState extends State<AuthTextField> {
                 borderRadius: 0,
                 buttonPadding: 0,
                 textStyle: TextStyle(
-                  fontFamily: 'Monteserrat',
+                  fontFamily: 'Montesserat',
                   fontSize: 13.sp,
                   color: Colors.white,
                 ),

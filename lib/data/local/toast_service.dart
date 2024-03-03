@@ -71,6 +71,7 @@ class ToastService {
               style: const TextStyle(
                 color: Colors.white,
                 fontSize: 14.0,
+                fontFamily: 'Montesserat',
               ),
             ),
           ),

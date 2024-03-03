@@ -68,7 +68,7 @@ class _MyWidgetState extends ConsumerState<ServiceScreen>
               title: Text(
                 'Services',
                 style: TextStyle(
-                  fontFamily: 'Monteserrat',
+                  fontFamily: 'Montesserat',
                   fontWeight: FontWeight.w600,
                   fontSize: 18.sp,
                   color: Theme.of(context).colorScheme.onSurface,
@@ -117,7 +117,7 @@ class _MyWidgetState extends ConsumerState<ServiceScreen>
                             minFontSize: 12.sp,
                             stepGranularity: 2.sp,
                             style: TextStyle(
-                              fontFamily: 'Monteserrat',
+                              fontFamily: 'Montesserat',
                               fontWeight: FontWeight.w500,
                               fontSize: 13.sp,
                               overflow: TextOverflow.ellipsis,
@@ -136,6 +136,7 @@ class _MyWidgetState extends ConsumerState<ServiceScreen>
                               style: TextStyle(
                                 fontSize: 9.sp,
                                 fontWeight: FontWeight.bold,
+                                fontFamily: 'Montesserat',
                               ),
                             ).afmPadding(EdgeInsets.symmetric(
                               vertical: 5.w,
@@ -149,6 +150,7 @@ class _MyWidgetState extends ConsumerState<ServiceScreen>
                               style: TextStyle(
                                 fontSize: 9.sp,
                                 fontWeight: FontWeight.bold,
+                                fontFamily: 'Montesserat',
                               ),
                             ).afmPadding(EdgeInsets.symmetric(
                               vertical: 5.w,

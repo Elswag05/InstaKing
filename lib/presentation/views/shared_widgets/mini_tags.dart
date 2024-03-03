@@ -36,6 +36,7 @@ class _MiniTagsState extends State<MiniTags> {
             fontSize: 12.sp,
             letterSpacing: 0.5.w,
             fontWeight: FontWeight.w500,
+            fontFamily: 'Montesserat',
           ),
         ),
       ),

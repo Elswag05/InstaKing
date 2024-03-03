@@ -80,7 +80,7 @@ class EnvThemeManager {
       useMaterial3: false,
       colorScheme: colorScheme,
       iconTheme: _iconTheme(colorScheme),
-      fontFamily: "Monteserrat",
+      fontFamily: "Montesserat",
       appBarTheme: _appBarTheme(colorScheme),
       disabledColor: colorScheme.inverseSurface,
       brightness: colorScheme.brightness,

@@ -77,7 +77,7 @@ class _ReusableBottomSheetState extends State<ReusableBottomSheet> {
                                 widget.networkPr?[index].name ?? 'Loading...',
                                 // textAlign: TextAlign.left,
                                 style: TextStyle(
-                                  fontFamily: "Monteserrat",
+                                  fontFamily: 'Montesserat',
                                   fontWeight: FontWeight.bold,
                                   fontSize: 14.sp,
                                   color:
