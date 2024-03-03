@@ -20,8 +20,12 @@ class CableController extends BaseChangeNotifier {
   late GetCablePlanModel getCablePlanModel = GetCablePlanModel();
 
   void disposeCable() {
-    // getCableDecoderModel.data = [];
     getCablePlanModel.data = [];
+  }
+
+  void disposeCableDecoderModel() {
+    getCableDecoderModel.data = [];
+    debugPrint('Cable Data has been cleared');
   }
 
   Future<void> toGetCableDecoderPlans() async {
@@ -49,7 +53,7 @@ class CableController extends BaseChangeNotifier {
 
   Future<void> toGetCablePlans(num cableID) async {
     //if (getCablePlanModel.data != null) return;
-
+    // disposeCableDecoderModel();
     try {
       debugPrint('To Get Cable Plans');
       final res = await getBills.getCablePlans(cableID);

@@ -46,26 +46,16 @@ class _BillCableState extends ConsumerState<BillCable> {
   }
 
   void showReusableBottomSheet(
-      BuildContext context, dataList, onStatusChanged) {
+      BuildContext context, future, dataList, onStatusChanged) {
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
       builder: (BuildContext context) {
         return FutureBuilder(
-          future: ref
-              .read(instaCableController)
-              .toGetCableDecoderPlans()
-              .then((value) {
-            setState(() {});
-          }),
+          future: future,
           builder: (context, snapshot) {
             return ReusableBottomSheet(
-              future: ref
-                  .read(instaCableController)
-                  .toGetCableDecoderPlans()
-                  .then((value) {
-                setState(() {});
-              }),
+              future: future,
               getLength: dataList?.length ?? 5,
               title: 'Choose Decoder Plan',
               status: 'initialStatus', // Set your initial status here
@@ -101,6 +91,12 @@ class _BillCableState extends ConsumerState<BillCable> {
                           context,
                           ref
                               .read(instaCableController)
+                              .toGetCableDecoderPlans()
+                              .then((value) {
+                            setState(() {});
+                          }),
+                          ref
+                              .read(instaCableController)
                               .getCableDecoderModel
                               .data,
                           (newStatus, netName) {
@@ -128,17 +124,17 @@ class _BillCableState extends ConsumerState<BillCable> {
                             : "Choose Decoder Type",
                       ),
                     ),
-                    // .afmPadding(
-                    //   EdgeInsets.only(
-                    //     bottom: 20.h,
-                    //   ),
-                    // ),
                     decoderName == ''
                         ? const SizedBox()
                         : GestureDetector(
                             onTap: () {
+                              ref
+                                  .read(instaCableController)
+                                  .disposeCableDecoderModel;
                               showReusableBottomSheet(
                                 context,
+                                ref.watch(instaCableController).toGetCablePlans(
+                                    num.tryParse(decoderType)!),
                                 ref
                                     .watch(instaCableController)
                                     .getCablePlanModel

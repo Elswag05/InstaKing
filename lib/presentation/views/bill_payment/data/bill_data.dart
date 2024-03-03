@@ -57,16 +57,23 @@ class _BillDataState extends ConsumerState<BillData> {
       context: context,
       backgroundColor: Colors.transparent,
       builder: (BuildContext context) {
-        return ReusableBottomSheet(
-          future: future,
-          getLength:
-              (ref.read(instaDataController).getDataPlanModel.data?.length ??
-                  5),
-          title: 'Choose Network',
-          networkPr: dataList,
-          status: 'initialStatus', // Set your initial status here
-          onStatusChanged: onStatusChanged,
-        );
+        return FutureBuilder(
+            future: future,
+            builder: (context, snapshot) {
+              return ReusableBottomSheet(
+                future: future,
+                getLength: (ref
+                        .read(instaDataController)
+                        .getDataPlanModel
+                        .data
+                        ?.length ??
+                    5),
+                title: 'Choose Network',
+                networkPr: dataList,
+                status: 'initialStatus', // Set your initial status here
+                onStatusChanged: onStatusChanged,
+              );
+            });
       },
     );
   }
@@ -106,12 +113,12 @@ class _BillDataState extends ConsumerState<BillData> {
                               // debugPrint('${networkName} is your network name');
                               userHasPickedNetwork =
                                   newStatus == '' ? false : true;
-                              // ref
-                              //     .read(instaDataController)
-                              //     .toGetDataPlan(int.tryParse(networkID) ?? 0)
-                              //     .then(
-                              //       (value) => setState(() {}),
-                              //     );
+                              ref
+                                  .read(instaDataController)
+                                  .toGetDataPlan(int.tryParse(networkID) ?? 0)
+                                  .then(
+                                    (value) => setState(() {}),
+                                  );
                             });
                           },
                           ref
@@ -133,24 +140,30 @@ class _BillDataState extends ConsumerState<BillData> {
                             onTap: () {
                               setState(() {});
                               showReusableBottomSheet(
-                                  context,
-                                  ref
-                                      .watch(instaDataController)
-                                      .getDataPlanModel
-                                      .data, (newStatus, index) {
-                                // Handle the status change here if needed
-                                debugPrint('New Status: $newStatus');
-                                setState(() {
-                                  dataType =
-                                      newStatus?[index].type.toString() ?? '';
-                                  dataPlan =
-                                      newStatus?[index].id.toString() ?? '';
-                                  dataName =
-                                      newStatus?[index].name.toString() ?? '';
-                                });
-                              },
-                                  ref.read(instaDataController).toGetDataPlan(
-                                      int.tryParse(networkID) ?? 0));
+                                context,
+                                ref
+                                    .watch(instaDataController)
+                                    .getDataPlanModel
+                                    .data,
+                                (newStatus, index) {
+                                  // Handle the status change here if needed
+                                  debugPrint('New Status: $newStatus');
+                                  setState(() {
+                                    dataType =
+                                        newStatus?[index].type.toString() ?? '';
+                                    dataPlan =
+                                        newStatus?[index].id.toString() ?? '';
+                                    dataName =
+                                        newStatus?[index].name.toString() ?? '';
+                                  });
+                                },
+                                ref
+                                    .read(instaDataController)
+                                    .toGetDataPlan(int.tryParse(networkID) ?? 0)
+                                    .then(
+                                      (value) => setState(() {}),
+                                    ),
+                              );
                             },
                             child: ChooseContainerFromDropDown(
                               headerText: "Data Bundle",

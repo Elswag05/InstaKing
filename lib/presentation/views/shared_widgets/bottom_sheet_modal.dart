@@ -74,7 +74,7 @@ class _ReusableBottomSheetState extends State<ReusableBottomSheet> {
                             titleAlignment: ListTileTitleAlignment.center,
                             title: Center(
                               child: Text(
-                                widget.networkPr?[index].name ?? 'Loading...',
+                                widget.networkPr?[index].name,
                                 // textAlign: TextAlign.left,
                                 style: TextStyle(
                                   fontFamily: 'Montesserat',
