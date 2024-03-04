@@ -16,10 +16,7 @@ import 'package:insta_king/presentation/views/bill_payment/common_widgets.dart';
 import 'package:insta_king/presentation/views/bill_payment/data/bill_data.dart';
 import 'package:insta_king/presentation/views/bill_payment/electricity/bill_electricity.dart';
 
-/// Feel free to use the code in your projects
-/// but do not forget to give me the credits adding
-/// my app (Flutter Animation Gallery) where you are gonna use it.
-/// ---------------------------------->>>>>>>>>>>>>>>>>>>>>>>>
+
 class MainBillPayment extends ConsumerStatefulWidget {
   const MainBillPayment({super.key});
 
