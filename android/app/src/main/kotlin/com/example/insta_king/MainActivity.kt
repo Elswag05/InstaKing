@@ -1,4 +1,4 @@
-package com.example.insta_king
+package ng.instaking
 
 import io.flutter.embedding.android.FlutterFragmentActivity
 
