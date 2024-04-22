@@ -9,6 +9,7 @@ import 'package:insta_king/core/extensions/widget_extension.dart';
 import 'package:insta_king/data/controllers/insta_categories_controller.dart';
 import 'package:insta_king/data/controllers/insta_dashboard_controller.dart';
 import 'package:insta_king/data/controllers/insta_transactions_controller.dart';
+import 'package:insta_king/data/local/toast_service.dart';
 import 'package:insta_king/presentation/views/bill_payment/main_bill_payment.dart';
 import 'package:insta_king/presentation/views/order/place_order/place_order.dart';
 import 'package:insta_king/presentation/views/profile/sub_profile_views.dart/refer_and_earn/refer_and_earn.dart';
@@ -16,6 +17,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:insta_king/presentation/views/services/insta_services.dart';
 import 'package:insta_king/presentation/views/transactions/insta_transactions.dart';
 import 'package:insta_king/presentation/views/wallet/insta_wallet.dart';
+import 'package:insta_king/utils/locator.dart';
 
 class HomeColumn extends StatelessWidget {
   final String shortcutIcon;
@@ -93,23 +95,26 @@ class ShortcutsTheWidget extends ConsumerWidget {
               mainAxisSize: MainAxisSize.max,
               children: [
                 //Todo: To uncomment this line
-                // HomeColumn(
-                //   shortcutIcon: 'Place Order',
-                //   shortcutText: 'Place Order',
-                //   onTap: () {
-                //     Future.delayed(Duration.zero, () async {
-                //       ref
-                //           .read(instaCategoriesController.notifier)
-                //           .toGetAllCategories;
-                //     });
-                //     ref.read(instaCategoriesController).toGetAllCategories();
-                //     Navigator.of(context).push(
-                //       MaterialPageRoute(
-                //         builder: (context) => const PlaceOrder(),
-                //       ),
-                //     );
-                //   },
-                // ),
+                HomeColumn(
+                  shortcutIcon: 'Place Order',
+                  shortcutText: 'Place Order',
+                  onTap: () {
+                    // Future.delayed(Duration.zero, () async {
+                    //   ref
+                    //       .read(instaCategoriesController.notifier)
+                    //       .toGetAllCategories;
+                    // });
+                    // ref.read(instaCategoriesController).toGetAllCategories();
+                    // Navigator.of(context).push(
+                    //   MaterialPageRoute(
+                    //     builder: (context) => const PlaceOrder(),
+                    //   ),
+                    // );
+                    locator<ToastService>().showSuccessToast(
+                      'Coming soon...',
+                    );
+                  },
+                ),
                 HomeColumn(
                   shortcutIcon: 'wallet',
                   shortcutText: 'Fund Wallet',
@@ -175,23 +180,26 @@ class ShortcutsTheWidget extends ConsumerWidget {
                 ),
 
                 //Todo: To Uncomment this part
-                // HomeColumn(
-                //   shortcutIcon: 'Services',
-                //   shortcutText: 'Services',
-                //   services: true,
-                //   onTap: () {
-                //     Future.delayed(Duration.zero, () async {
-                //       await ref
-                //           .read(instaCategoriesController)
-                //           .toGetAllServiceDetail();
-                //     });
-                //     Navigator.of(context).push(
-                //       MaterialPageRoute(
-                //         builder: (context) => const InstaServices(),
-                //       ),
-                //     );
-                //   },
-                // ).afmPadding(EdgeInsets.only(left: 20.sp)),
+                HomeColumn(
+                  shortcutIcon: 'Services',
+                  shortcutText: 'Services',
+                  services: true,
+                  onTap: () {
+                    locator<ToastService>().showSuccessToast(
+                      'Coming soon...',
+                    );
+                    // Future.delayed(Duration.zero, () async {
+                    //   await ref
+                    //       .read(instaCategoriesController)
+                    //       .toGetAllServiceDetail();
+                    // });
+                    // Navigator.of(context).push(
+                    //   MaterialPageRoute(
+                    //     builder: (context) => const InstaServices(),
+                    //   ),
+                    // );
+                  },
+                ).afmPadding(EdgeInsets.only(left: 20.sp)),
               ],
             ).afmPadding(EdgeInsets.only(top: 20.sp, right: 35.sp)),
           ],

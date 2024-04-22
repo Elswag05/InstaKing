@@ -17,6 +17,8 @@ import 'package:insta_king/presentation/views/home/home_container_widget.dart';
 import 'package:insta_king/presentation/views/home/home_head.dart';
 import 'package:insta_king/presentation/views/home/home_shortcut_widgets.dart';
 
+//Todo: release the changes i.e The locks on the shortcut icon on click, and the dashboard icon then the number arrangement
+
 class InstaHome extends ConsumerStatefulWidget {
   const InstaHome({
     super.key,
