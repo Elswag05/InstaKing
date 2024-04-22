@@ -179,7 +179,7 @@ class _InstaHomeState extends ConsumerState<InstaHome>
                                           ),
                                         ),
                                         Text(
-                                          "Your virtual account will be DISABLED on the 1st of April 2024 if you do not verify your information!",
+                                          "Your virtual account will be DISABLED on the 1st of July 2024 if you do not verify your information!",
                                           softWrap: true,
                                           overflow: TextOverflow.ellipsis,
                                           maxLines: 2,

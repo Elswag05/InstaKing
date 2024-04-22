@@ -92,23 +92,24 @@ class ShortcutsTheWidget extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               mainAxisSize: MainAxisSize.max,
               children: [
-                HomeColumn(
-                  shortcutIcon: 'Place Order',
-                  shortcutText: 'Place Order',
-                  onTap: () {
-                    Future.delayed(Duration.zero, () async {
-                      ref
-                          .read(instaCategoriesController.notifier)
-                          .toGetAllCategories;
-                    });
-                    ref.read(instaCategoriesController).toGetAllCategories();
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => const PlaceOrder(),
-                      ),
-                    );
-                  },
-                ),
+                //Todo: To uncomment this line
+                // HomeColumn(
+                //   shortcutIcon: 'Place Order',
+                //   shortcutText: 'Place Order',
+                //   onTap: () {
+                //     Future.delayed(Duration.zero, () async {
+                //       ref
+                //           .read(instaCategoriesController.notifier)
+                //           .toGetAllCategories;
+                //     });
+                //     ref.read(instaCategoriesController).toGetAllCategories();
+                //     Navigator.of(context).push(
+                //       MaterialPageRoute(
+                //         builder: (context) => const PlaceOrder(),
+                //       ),
+                //     );
+                //   },
+                // ),
                 HomeColumn(
                   shortcutIcon: 'wallet',
                   shortcutText: 'Fund Wallet',
@@ -160,6 +161,7 @@ class ShortcutsTheWidget extends ConsumerWidget {
                         });
                   },
                 ),
+
                 HomeColumn(
                   shortcutIcon: 'Refer&Earn',
                   shortcutText: 'Refer & Earn',
@@ -171,23 +173,25 @@ class ShortcutsTheWidget extends ConsumerWidget {
                     );
                   },
                 ),
-                HomeColumn(
-                  shortcutIcon: 'Services',
-                  shortcutText: 'Services',
-                  services: true,
-                  onTap: () {
-                    Future.delayed(Duration.zero, () async {
-                      await ref
-                          .read(instaCategoriesController)
-                          .toGetAllServiceDetail();
-                    });
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => const InstaServices(),
-                      ),
-                    );
-                  },
-                ).afmPadding(EdgeInsets.only(left: 20.sp)),
+
+                //Todo: To Uncomment this part
+                // HomeColumn(
+                //   shortcutIcon: 'Services',
+                //   shortcutText: 'Services',
+                //   services: true,
+                //   onTap: () {
+                //     Future.delayed(Duration.zero, () async {
+                //       await ref
+                //           .read(instaCategoriesController)
+                //           .toGetAllServiceDetail();
+                //     });
+                //     Navigator.of(context).push(
+                //       MaterialPageRoute(
+                //         builder: (context) => const InstaServices(),
+                //       ),
+                //     );
+                //   },
+                // ).afmPadding(EdgeInsets.only(left: 20.sp)),
               ],
             ).afmPadding(EdgeInsets.only(top: 20.sp, right: 35.sp)),
           ],

@@ -7,7 +7,8 @@ import 'package:insta_king/presentation/views/bill_payment/main_bill_payment.dar
 import 'package:insta_king/presentation/views/wallet/insta_wallet.dart';
 import 'package:insta_king/presentation/views/dashboard/bottom_navigation_bar_item.dart';
 import 'package:insta_king/presentation/views/home/insta_home.dart';
-import 'package:insta_king/presentation/views/order/insta_order.dart';
+//Todo: Uncomment this line
+// import 'package:insta_king/presentation/views/order/insta_order.dart';
 import 'package:insta_king/presentation/views/profile/insta_profile.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -18,8 +19,9 @@ class InstaDashboard extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final GlobalKey<NavigatorState> homeNavigatorKey =
         GlobalKey<NavigatorState>();
-    final GlobalKey<NavigatorState> myOrderNavigatorKey =
-        GlobalKey<NavigatorState>();
+    //Todo: uncomment this line
+    // final GlobalKey<NavigatorState> myOrderNavigatorKey =
+    //     GlobalKey<NavigatorState>();
     final GlobalKey<NavigatorState> billsNavigatorKey =
         GlobalKey<NavigatorState>();
     final GlobalKey<NavigatorState> walletNavigatorKey =
@@ -47,33 +49,34 @@ class InstaDashboard extends HookConsumerWidget {
             label: 'Home',
             index: 0,
           ),
-          buildBottomNavigationBarItem(
-            ref,
-            context,
-            iconPath: 'Order-History',
-            label: 'My Orders',
-            index: 1,
-          ),
+          //Todo: uncomment this line
+          // buildBottomNavigationBarItem(
+          //   ref,
+          //   context,
+          //   iconPath: 'Order-History',
+          //   label: 'My Orders',
+          //   index: 1,
+          // ),
           buildBottomNavigationBarItem(
             ref,
             context,
             iconPath: 'wifi',
             label: 'Pay Bills',
-            index: 2,
+            index: 1,
           ),
           buildBottomNavigationBarItem(
             ref,
             context,
             iconPath: 'Wallet (1)',
             label: 'Wallet',
-            index: 3,
+            index: 2,
           ),
           buildBottomNavigationBarItem(
             ref,
             context,
             iconPath: 'Profile',
             label: 'Profile',
-            index: 4,
+            index: 3,
           ),
         ],
       ),
@@ -91,17 +94,18 @@ class InstaDashboard extends HookConsumerWidget {
                 );
               },
             );
+          //Todo: uncomment this line
+          // case 1:
+          //   myOrderNavigatorKey.currentState
+          //       ?.popUntil((route) => route.isFirst);
+          //   return CupertinoTabView(
+          //     builder: (context) {
+          //       return const CupertinoPageScaffold(
+          //         child: InstaOrderHistory(),
+          //       );
+          //     },
+          //   );
           case 1:
-            myOrderNavigatorKey.currentState
-                ?.popUntil((route) => route.isFirst);
-            return CupertinoTabView(
-              builder: (context) {
-                return const CupertinoPageScaffold(
-                  child: InstaOrderHistory(),
-                );
-              },
-            );
-          case 2:
             billsNavigatorKey.currentState?.popUntil((route) => route.isFirst);
             return CupertinoTabView(
               builder: (context) {
@@ -110,7 +114,7 @@ class InstaDashboard extends HookConsumerWidget {
                 );
               },
             );
-          case 3:
+          case 2:
             walletNavigatorKey.currentState?.popUntil((route) => route.isFirst);
             return CupertinoTabView(
               key: walletNavigatorKey,
@@ -120,7 +124,7 @@ class InstaDashboard extends HookConsumerWidget {
                 );
               },
             );
-          case 4:
+          case 3:
             profileNavigatorKey.currentState
                 ?.popUntil((route) => route.isFirst);
             return CupertinoTabView(
