@@ -72,7 +72,7 @@ class _InstaOnboardingState extends State<InstaOnboarding> {
         child: Column(
           children: [
             Expanded(
-              flex: 4,
+              flex: 5,
               child: PageView.builder(
                 physics: const BouncingScrollPhysics(),
                 controller: _controller,
@@ -107,17 +107,17 @@ class _InstaOnboardingState extends State<InstaOnboarding> {
                               style: TextStyle(
                                 fontFamily: 'Montesserat',
                                 fontWeight: FontWeight.w600,
-                                fontSize: (width <= 550) ? 30 : 35,
+                                fontSize: (width <= 550) ? 25.sp : 30.sp,
                                 color: Theme.of(context).colorScheme.scrim,
                               ),
                             ),
-                            const SizedBox(height: 15),
+                            SizedBox(height: 15.h),
                             Text(
                               contents[i].desc,
                               style: TextStyle(
                                 fontFamily: 'Montesserat',
                                 fontWeight: FontWeight.w300,
-                                fontSize: (width <= 550) ? 17 : 25,
+                                fontSize:   15.sp,
                                 color: Theme.of(context).colorScheme.scrim,
                               ),
                               textAlign: TextAlign.center,
